@@ -1,1 +1,1 @@
-web: waitress-serve --port=10000 config.wsgi:application
+web: python serve.py
