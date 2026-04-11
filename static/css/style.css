@@ -1,0 +1,291 @@
+:root {
+    --primary: #4a7c59;
+    --secondary: #8fbc8f;
+    --accent: #f4a460;
+    --light: #f5f5f0;
+    --dark: #2c3e50;
+    --text: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--light);
+}
+
+header {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 0.8;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 80vh;
+}
+
+.hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    color: var(--primary);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.blog-list {
+    display: grid;
+    gap: 2rem;
+}
+
+.post-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.post-card:hover img {
+    transform: scale(1.03);
+    transition: transform 0.3s ease;
+}
+
+.post-content {
+    padding: 1.5rem;
+}
+
+.post-content h2 {
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.post-content a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.post-detail {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.post-detail header {
+    background: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.post-body {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.tool-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tool-container h1 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.tool-description {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.calculator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.btn-calculate {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-calculate:hover {
+    background: var(--secondary);
+}
+
+.result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #e8f5e9;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.result h2 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.result-box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.highlight {
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.disclaimer {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+footer {
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.related-tool {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    border-left: 4px solid var(--primary);
+}
+
+.related-tool h3 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.related-tool a {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+}

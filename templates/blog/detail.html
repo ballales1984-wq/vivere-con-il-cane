@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+    <header>
+        <h1>{{ post.title }}</h1>
+        <p class="post-meta">{{ post.created_at|date:"d M Y" }} {% if post.category %}- {{ post.category.name }}{% endif %}</p>
+    </header>
+    
+    {% if post.image %}
+    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+    {% else %}
+        {% if 'abbaia' in post.slug %}
+        <img src="{% static 'images/dog-barking.jpg' %}" alt="{{ post.title }}" class="post-image">
+        {% elif 'mangia' in post.slug or 'cibo' in post.slug %}
+        <img src="{% static 'images/dog-food.jpg' %}" alt="{{ post.title }}" class="post-image">
+        {% else %}
+        <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
+    {% endif %}
+    
+    <div class="post-body">
+        {{ post.content|linebreaks }}
+    </div>
+    
+    <div class="related-tool">
+        <h3>🎯 Tool Correlato</h3>
+        <p>Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro <a href="{% url 'food_calculator' %}">calcolatore alimentare</a>!</p>
+    </div>
+    
+    <a href="{% url 'blog_list' %}" class="back-link">← Torna al blog</a>
+</article>
+{% endblock %}

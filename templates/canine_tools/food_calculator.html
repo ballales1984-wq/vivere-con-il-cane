@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Calcolatore Cibo Cane - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="tool-container">
+    <h1>🍖 Quanto deve mangiare il tuo cane?</h1>
+    <p class="tool-description">Inserisci i dati del tuo cane per calcolare la razione giornaliera approssimativa</p>
+    
+    <form method="post" class="calculator-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="weight">Peso del cane (kg)</label>
+            <input type="number" id="weight" name="weight" step="0.1" min="0.5" required placeholder="Es: 15">
+        </div>
+        
+        <div class="form-group">
+            <label for="age">Età</label>
+            <select id="age" name="age">
+                <option value="puppy">Cucciolo (0-12 mesi)</option>
+                <option value="adult" selected>Adulto (1-7 anni)</option>
+                <option value="senior">Anziano (7+ anni)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="activity">Livello di attività</label>
+            <select id="activity" name="activity">
+                <option value="low">Basso (poco movimento)</option>
+                <option value="normal" selected>Normale</option>
+                <option value="high">Alto (molto attivo)</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn-calculate">Calcola</button>
+    </form>
+    
+    {% if result %}
+    <div class="result">
+        <h2>Risultato</h2>
+        <div class="result-box">
+            <p><strong>Giornaliero:</strong> <span class="highlight">{{ result.grams }}g</span> di crocchette</p>
+            <p><strong>Equivalente in tazze:</strong> {{ result.cups }} tazze (350g/tazza)</p>
+        </div>
+        <p class="disclaimer">⚠️ Valore indicativo. Consulta il veterinario per una dieta personalizzata.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
