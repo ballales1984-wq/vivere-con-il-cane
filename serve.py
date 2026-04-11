@@ -35,7 +35,9 @@ try:
 
     from waitress import serve
 
-    serve(application, host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    print(f"Starting on port {port}", flush=True)
+    serve(application, host="0.0.0.0", port=port)
 
 except Exception as e:
     print(f"ERROR: {e}", flush=True)
