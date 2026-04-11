@@ -1,1 +1,1 @@
-web: python test_deploy.py
+web: bash start.sh
