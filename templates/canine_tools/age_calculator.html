@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Età del Cane - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="tool-container">
+    <h1>🎂 Quanti anni ha il tuo cane in anni umani?</h1>
+    <p class="tool-description">Inserisci l'età del tuo cane per vedere a quale fase della vita corrisponde</p>
+    
+    <form method="post" class="calculator-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="dog_age">Età del cane (anni)</label>
+            <input type="number" id="dog_age" name="dog_age" step="0.5" min="0.5" max="20" required placeholder="Es: 5">
+        </div>
+        
+        <div class="form-group">
+            <label for="size">Taglia del cane</label>
+            <select id="size" name="size">
+                <option value="small">Piccola (fino a 10kg)</option>
+                <option value="medium" selected>Media (10-25kg)</option>
+                <option value="large">Grande (oltre 25kg)</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn-calculate">Calcola</button>
+    </form>
+    
+    {% if result %}
+    <div class="result">
+        <h2>Risultato</h2>
+        <div class="result-box">
+            <p class="highlight-large">{{ result.human_age }} anni umani</p>
+            <p class="life-stage">{{ result.life_stage }}</p>
+            <p class="advice">{{ result.advice }}</p>
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

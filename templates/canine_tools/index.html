@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Strumenti - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>🛠️ Strumenti per il tuo Cane</h1>
+    <p>Calcolatori, quiz e工具 per conoscere meglio il tuo amico a quattro zampe</p>
+</section>
+
+<section class="tools-grid">
+    {% for tool in tools %}
+    <a href="{% url tool.url %}" class="tool-card">
+        <span class="tool-icon">{{ tool.icon }}</span>
+        <h3>{{ tool.name }}</h3>
+        <p>{{ tool.desc }}</p>
+    </a>
+    {% endfor %}
+</section>
+{% endblock %}

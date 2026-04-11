@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quiz Linguaggio Canino - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="tool-container">
+    <h1>🧠 Quiz: Conosci il tuo cane?</h1>
+    <p class="tool-description">Rispondi a queste domande per testare la tua conoscenza del linguaggio canino</p>
+    
+    <form method="post" class="calculator-form">
+        {% csrf_token %}
+        
+        <div class="form-group quiz-question">
+            <label>1. Cosa significa quando il cane lecca il muso a un altro cane o persona?</label>
+            <select name="q1" required>
+                <option value="">Scegli una risposta</option>
+                <option value="a">Segnale calmante - Vuole calmare la situazione</option>
+                <option value="b">Ha fame</option>
+                <option value="c">Vuole giocare</option>
+            </select>
+        </div>
+        
+        <div class="form-group quiz-question">
+            <label>2. Un cane con le orecchie indietro e la coda bassa sta:</label>
+            <select name="q2" required>
+                <option value="">Scegli una risposta</option>
+                <option value="a">Mostrando dominanza</option>
+                <option value="b">Essendo aggressivo</option>
+                <option value="c">Mostrando paura o sottomissione</option>
+            </select>
+        </div>
+        
+        <div class="form-group quiz-question">
+            <label>3. Cosa NON è un segnale calmante?</label>
+            <select name="q3" required>
+                <option value="">Scegli una risposta</option>
+                <option value="a">Sbadigliare</option>
+                <option value="b">Saltare eccitato</option>
+                <option value="c">Distogliere lo sguardo</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn-calculate">Invia</button>
+    </form>
+    
+    {% if result %}
+    <div class="result">
+        <h2>Il tuo punteggio</h2>
+        <div class="result-box">
+            <p class="highlight-large">{{ result }}</p>
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

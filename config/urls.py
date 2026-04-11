@@ -9,7 +9,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", blog_views.blog_list, name="home"),
     path("blog/", include("blog.urls")),
+    path("tool/", tools_views.tools_index, name="tools_index"),
     path("tool/cibo/", tools_views.food_calculator, name="food_calculator"),
+    path("tool/eta/", tools_views.age_calculator, name="age_calculator"),
+    path("tool/quiz/", tools_views.dog_quiz, name="dog_quiz"),
 ]
 
 if settings.DEBUG:
