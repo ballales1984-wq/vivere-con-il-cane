@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile.dog_name }} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>{{ profile.dog_name }}</h1>
+    <p>{{ profile.breed|default:"Razza non specificata" }}</p>
+</section>
+
+<div class="tool-container">
+    <h2>Scheda del Cane</h2>
+    
+    {% if profile.birth_date %}
+    <p><strong>Età:</strong> {{ profile.birth_date }}</p>
+    {% endif %}
+    
+    {% if profile.weight %}
+    <p><strong>Peso:</strong> {{ profile.weight }} kg</p>
+    {% endif %}
+    
+    {% if profile.gender %}
+    <p><strong>Genere:</strong> {{ profile.get_gender_display }}</p>
+    {% endif %}
+    
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn-calculate">Aggiungi Evento Salute</a>
+        <a href="{% url 'profile_add_log' profile.id %}" class="btn-calculate">Registra Giornata</a>
+    </div>
+</div>
+
+<section class="blog-list" style="margin-top: 2rem;">
+    <h2>Eventi di Salute</h2>
+    {% for event in events %}
+    <article class="post-card">
+        <div class="post-content">
+            <h3>{{ event.title }}</h3>
+            <p class="post-meta">{{ event.date }}</p>
+            <p>{{ event.get_event_type_display }}</p>
+        </div>
+    </article>
+    {% empty %}
+    <p>Nessun evento registrato.</p>
+    {% endfor %}
+</section>
+
+<section class="blog-list" style="margin-top: 2rem;">
+    <h2>Registro Giornaliero</h2>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Sonno</th>
+            <th>Gioco</th>
+            <th>Passeggiata</th>
+            <th>Cibo</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.date }}</td>
+            <td>{{ log.sleep_hours }}h</td>
+            <td>{{ log.play_minutes }}min</td>
+            <td>{{ log.walk_minutes }}min</td>
+            <td>{{ log.food_grams }}g</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">Nessun registro.</td></tr>
+        {% endfor %}
+    </table>
+</section>
+{% endblock %}

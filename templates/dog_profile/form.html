@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Nuovo Cane - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Aggiungi il tuo Cane</h1>
+</section>
+
+<section class="tool-container">
+    <form method="post" class="calculator-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label>Il tuo nome</label>
+            <input type="text" name="name" required placeholder="Mario Rossi">
+        </div>
+        
+        <div class="form-group">
+            <label>Nome del cane</label>
+            <input type="text" name="dog_name" required placeholder="Luna">
+        </div>
+        
+        <div class="form-group">
+            <label>Razza</label>
+            <input type="text" name="breed" placeholder="Labrador, Meticcio, ecc.">
+        </div>
+        
+        <div class="form-group">
+            <label>Data di nascita</label>
+            <input type="date" name="birth_date">
+        </div>
+        
+        <div class="form-group">
+            <label>Peso (kg)</label>
+            <input type="number" name="weight" step="0.1" placeholder="25.5">
+        </div>
+        
+        <div class="form-group">
+            <label>Genere</label>
+            <select name="gender">
+                <option value="">Seleziona...</option>
+                <option value="male">Maschio</option>
+                <option value="female">Femmina</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn-calculate">Salva Profilo</button>
+    </form>
+</section>
+{% endblock %}

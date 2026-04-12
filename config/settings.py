@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog",
     "canine_tools",
+    "dog_profile",
 ]
 
 MIDDLEWARE = [
