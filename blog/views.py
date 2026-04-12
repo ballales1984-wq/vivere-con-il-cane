@@ -13,10 +13,11 @@ def health(request):
 
 
 def blog_list(request):
+    posts = []
     try:
-        posts = BlogPost.objects.filter(published=True).order_by("-created_at")
-    except Exception:
-        posts = []
+        posts = list(BlogPost.objects.filter(published=True).order_by("-created_at"))
+    except Exception as e:
+        print(f"DB Error: {e}")
     return render(request, "blog/list.html", {"posts": posts})
 
 
