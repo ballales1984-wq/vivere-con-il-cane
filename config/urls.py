@@ -9,7 +9,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("ping/", blog_views.ping, name="ping"),
     path("health/", blog_views.health, name="health"),
-    path("", blog_views.blog_list, name="home"),
+    path("", blog_views.home_page, name="home"),
     path("blog/", include("blog.urls")),
     path("tool/", tools_views.tools_index, name="tools_index"),
     path("tool/cibo/", tools_views.food_calculator, name="food_calculator"),

@@ -21,6 +21,18 @@ def blog_list(request):
     return render(request, "blog/list.html", {"posts": posts})
 
 
+def home_page(request):
+    """New homepage with dashboard approach."""
+    posts = []
+    try:
+        posts = list(
+            BlogPost.objects.filter(published=True).order_by("-created_at")[:3]
+        )
+    except Exception as e:
+        print(f"DB Error: {e}")
+    return render(request, "home.html", {"recent_posts": posts})
+
+
 def blog_detail(request, slug):
     try:
         post = get_object_or_404(BlogPost, slug=slug, published=True)
