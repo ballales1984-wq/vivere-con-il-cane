@@ -29,6 +29,25 @@ class BlogPost(models.Model):
         ("archived", "Archiviato"),
     ]
 
+    IMPORTANCE_CHOICES = [
+        ("high", "Alta"),
+        ("medium", "Media"),
+        ("low", "Basica"),
+    ]
+
+    LENGTH_CHOICES = [
+        ("short", "Breve"),
+        ("medium", "Medio"),
+        ("long", "Lungo"),
+    ]
+
+    SOURCE_CHOICES = [
+        ("ai", "AI Generato"),
+        ("manual", "Manuale"),
+        ("news", "Notizia"),
+        ("translated", "Tradotto"),
+    ]
+
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
@@ -36,6 +55,11 @@ class BlogPost(models.Model):
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default="published"
     )
+    importance = models.CharField(
+        max_length=10, choices=IMPORTANCE_CHOICES, default="medium"
+    )
+    length = models.CharField(max_length=10, choices=LENGTH_CHOICES, default="medium")
+    source = models.CharField(max_length=20, choices=SOURCE_CHOICES, default="manual")
     publish_date = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
