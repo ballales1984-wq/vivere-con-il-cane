@@ -1,1 +1,1 @@
-web: python config/run.py
+web: python config/serve.py
