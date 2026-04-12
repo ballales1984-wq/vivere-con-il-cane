@@ -1,1 +1,1 @@
-web: python config/serve.py
+web: python manage.py check && python manage.py runserver 0.0.0.0:$PORT
