@@ -1,1 +1,1 @@
-web: /opt/render/.venv/bin/python -c "import sys; sys.stderr.write('Python works\\n')"
+web: python simple_server.py
