@@ -2,13 +2,18 @@ services:
   - type: web
     name: vivere-con-il-cane
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python start.py
     envVars:
       - key: PYTHON_VERSION
         value: "3.11"
+      - key: DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
       - key: DATABASE_URL
         fromSecret: DATABASE_URL
-    healthCheckPath: /health
+    healthCheckPath: /
     healthCheckTimeout: 30
     healthCheckInterval: 10
