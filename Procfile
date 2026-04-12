@@ -1,1 +1,1 @@
-web: python -c "print('Hello from Python'); import os; print('PORT=' + os.environ.get('PORT', 'missing'))"
+web: uvicorn config.asgi:application --host 0.0.0.0 --port $PORT
