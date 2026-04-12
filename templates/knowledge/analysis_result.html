@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Risultato Analisi - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Risultato dell'Analisi</h1>
+    <p>{% if dog %}Per {{ dog.dog_name }}{% else %}Per il tuo cane{% endif %}</p>
+</section>
+
+<section class="tool-container">
+    <div class="analysis-result">
+        {{ analysis.ai_response|linebreaks }}
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+        <p>Ha funzionato questa soluzione?</p>
+        <form method="post" action="{% url 'update_analysis_result' analysis.id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" name="result" value="improved" class="btn-calculate" style="background: #4a7c59;">Migliorato</button>
+            <button type="submit" name="result" value="no_change" class="btn-calculate" style="background: #f4a460;">Nessun cambiamento</button>
+            <button type="submit" name="result" value="worse" class="btn-calculate" style="background: #e74c3c;">Peggio</button>
+        </form>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'analyze_problem' %}" class="read-more">Fai una nuova analisi</a>
+    </div>
+</section>
+
+<style>
+.analysis-result {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    line-height: 1.8;
+}
+.analysis-result h2, .analysis-result h3 {
+    color: var(--primary);
+    margin-top: 1.5rem;
+}
+.analysis-result ul {
+    margin-left: 1.5rem;
+}
+.analysis-result li {
+    margin-bottom: 0.5rem;
+}
+</style>
+{% endblock %}

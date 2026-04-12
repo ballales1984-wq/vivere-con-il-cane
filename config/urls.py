@@ -19,6 +19,7 @@ urlpatterns = [
     path("terms/", tools_views.terms_of_service, name="terms_of_service"),
     path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
     path("cane/", include("dog_profile.urls")),
+    path("knowledge/", include("knowledge.urls")),
 ]
 
 if settings.DEBUG:

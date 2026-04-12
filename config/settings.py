@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "blog",
     "canine_tools",
     "dog_profile",
+    "knowledge",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Problemi Comuni - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Problemi Comuni</h1>
+    <p>Scopri cause e soluzioni per i problemi più frequenti</p>
+</section>
+
+<section class="tools-grid">
+    {% for problem in problems %}
+    <a href="{% url 'problem_detail' problem.slug %}" class="tool-card">
+        <h3>{{ problem.title }}</h3>
+        <p>{{ problem.description|truncatewords:15 }}</p>
+        <span class="category-tag">{{ problem.get_category_display }}</span>
+    </a>
+    {% empty %}
+    <p>Nessun problema registrato.</p>
+    {% endfor %}
+</section>
+
+<style>
+.category-tag {
+    display: inline-block;
+    background: #e8f5e9;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+</style>
+{% endblock %}

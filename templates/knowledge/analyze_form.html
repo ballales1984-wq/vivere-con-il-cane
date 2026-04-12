@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Analizza il problema del tuo cane - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Analisi Intelligente</h1>
+    <p>Descrivi il problema del tuo cane e ricevi una risposta personalizzata basata su razza, età e comportamento</p>
+</section>
+
+<section class="tool-container">
+    <form method="post" class="calculator-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label>Seleziona il tuo cane (opzionale)</label>
+            <select name="dog_id">
+                <option value="">-- Nessuno --</option>
+                {% for dog in dogs %}
+                <option value="{{ dog.id }}">{{ dog.dog_name }}{% if dog.breed %} - {{ dog.breed }}{% endif %}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Seleziona un problema comune (opzionale)</label>
+            <select name="problem_id">
+                <option value="">-- Descrizione libera --</option>
+                {% for problem in problems %}
+                <option value="{{ problem.id }}">{{ problem.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Descrivi il problema</label>
+            <textarea name="description" rows="5" required placeholder="Es: Il mio cane abbaia ogni volta che Esco di casa, anche solo per pochi minuti. Si dispera e graffia la porta."></textarea>
+        </div>
+        
+        <button type="submit" class="btn-calculate">Analizza con AI</button>
+    </form>
+</section>
+
+<section style="padding: 2rem; text-align: center; background: #f9f9f9; margin-top: 2rem;">
+    <h3>Come funziona</h3>
+    <p>L'AI analizza il problema tenendo conto delle caratteristiche specifiche del tuo cane</p>
+</section>
+{% endblock %}

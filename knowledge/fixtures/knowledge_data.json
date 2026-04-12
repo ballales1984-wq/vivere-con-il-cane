@@ -1,0 +1,123 @@
+[
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 1,
+    "fields": {
+      "breed": "Labrador",
+      "slug": "labrador",
+      "energy_level": "very_high",
+      "social_level": "very_high",
+      "common_problems": "ansia da separazione, obesita, displasia",
+      "traits": "Affettuoso, giocherellone, buon appetite, ama l'acqua",
+      "care_tips": "Molto esercizio, controllare il cibo, spazzolare regolarmente"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight", 
+    "pk": 2,
+    "fields": {
+      "breed": "Golden Retriever",
+      "slug": "golden-retriever",
+      "energy_level": "high",
+      "social_level": "very_high",
+      "common_problems": "ansia, cancro, displasia anca",
+      "traits": "Dolce, paziente, intelligente, ottimo con bambini",
+      "care_tips": "Spazzolare spesso, esercizio quotidiano, controllo peso"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 3,
+    "fields": {
+      "breed": "Pastore Tedesco",
+      "slug": "pastore-tedesco",
+      "energy_level": "high",
+      "social_level": "medium",
+      "common_problems": "displasia, ansia, dominanza",
+      "traits": "Leale, coraggioso, territoriale, facile da addestrare",
+      "care_tips": "Esercizio mentale e fisico, socializzazione precoce"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 1,
+    "fields": {
+      "title": "Cane che abbaia troppo",
+      "slug": "abbaia-troppo",
+      "category": "behavior",
+      "description": "Il cane abbaia in modo eccessivo senza motivo apparente",
+      "severity": "medium",
+      "common_breeds": "Chihuahua, Yorkshire Terrier, Pastore Tedesco"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 2,
+    "fields": {
+      "title": "Tira al guinzaglio",
+      "slug": "tira-guinzaglio",
+      "category": "training",
+      "description": "Il cane tira durante le passeggiate rendendo le uscite difficili",
+      "severity": "low",
+      "common_breeds": "Tutte le razze, specialmente quelle grandi"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 3,
+    "fields": {
+      "title": "Ansia da separazione",
+      "slug": "ansia-separazione",
+      "category": "behavior",
+      "description": "Il cane si agita, abbaia o distrugge quando resta solo",
+      "severity": "high",
+      "common_breeds": "Labrador, Golden Retriever, Border Collie"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 1,
+    "fields": {
+      "problem": 1,
+      "description": "Noia - il cane non ha abbastanza stimoli",
+      "probability": "very_common"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 2,
+    "fields": {
+      "problem": 1,
+      "description": "Attenzione - il cane ha imparato che abbaiare porta attenzione",
+      "probability": "common"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 1,
+    "fields": {
+      "problem": 1,
+      "solution_type": "training",
+      "title": "Ignora l'abbaio",
+      "description": "Non dare attenzione quando abbaia. Solo quando si calma premialo. Cosi impara che stare calmi porta risultati.",
+      "difficulty": "medium",
+      "time_needed": "2-4 settimane",
+      "success_rate": "high",
+      "warnings": "Non urlare mai contro il cane - peggiora il problema"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 2,
+    "fields": {
+      "problem": 1,
+      "solution_type": "environment",
+      "title": "Aumenta esercizio",
+      "description": "Un cane stanco abbaia meno. Aggiungi passeggiate piu lunghe e giochi interattivi.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "high",
+      "warnings": "Aumenta gradualmente per evitare problemi articolari"
+    }
+  }
+]
