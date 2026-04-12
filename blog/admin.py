@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, BlogPost
+from .models import Category, BlogPost, PostVote
 
 
 @admin.register(Category)
@@ -11,7 +11,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ["title", "category", "created_at", "published"]
+    list_display = ["title", "category", "created_at", "published", "votes_count"]
     list_filter = ["category", "created_at", "published"]
     search_fields = ["title", "content"]
     prepopulated_fields = {"slug": ("title",)}
@@ -22,3 +22,10 @@ class BlogPostAdmin(admin.ModelAdmin):
         ),
         ("Immagine", {"fields": ("image",)}),
     )
+
+
+@admin.register(PostVote)
+class PostVoteAdmin(admin.ModelAdmin):
+    list_display = ["post", "ip_address", "created_at"]
+    list_filter = ["created_at"]
+    search_fields = ["post__title"]

@@ -23,11 +23,49 @@
             <h2><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h2>
             <p class="post-meta">{{ post.created_at|date:"d M Y" }} {% if post.category %}- {{ post.category.name }}{% endif %}</p>
             <p>{{ post.content|truncatewords:30 }}</p>
-            <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto →</a>
+            <div class="post-actions">
+                <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto →</a>
+                <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }})">
+                    ♥ <span class="vote-count">{{ post.votes_count }}</span>
+                </button>
+            </div>
         </div>
     </article>
     {% empty %}
     <p> Nessun articolo disponibile. <a href="/admin">Aggiungine uno!</a></p>
     {% endfor %}
 </section>
+
+<script>
+function votePost(postId) {
+    fetch('/blog/vote/' + postId + '/')
+        .then(r => r.json())
+        .then(data => {
+            if (data.voted) {
+                document.querySelector('.vote-btn[data-post-id="' + postId + '"] .vote-count').textContent = data.votes;
+            }
+        });
+}
+</script>
+
+<style>
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+.vote-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.vote-btn:hover {
+    background: #ff4757;
+}
+</style>
 {% endblock %}
