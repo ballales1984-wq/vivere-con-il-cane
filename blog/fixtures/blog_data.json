@@ -3,8 +3,10 @@
     "model": "blog.category",
     "pk": 1,
     "fields": {
-      "name": "Educazione",
-      "slug": "educazione"
+      "name": "Educazione di Base",
+      "slug": "educazione-di-base",
+      "description": "Fondamenti dell'educazione cinofila gentile con rinforzo positivo. Comandi base, guinzaglio e buone abitudini quotidiane.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
@@ -12,7 +14,9 @@
     "pk": 2,
     "fields": {
       "name": "Cuccioli",
-      "slug": "cuccioli"
+      "slug": "cuccioli",
+      "description": "Tutto per i primi mesi di vita: socializzazione, dentizione, bisogni all'aperto e primi esercizi.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
@@ -20,31 +24,39 @@
     "pk": 3,
     "fields": {
       "name": "Problemi Comportamentali",
-      "slug": "problemi-comportamentali"
+      "slug": "problemi-comportamentali",
+      "description": "Soluzioni gentili e pratiche per tiro al guinzaglio, ansia da separazione, abbaio eccessivo e altri problemi comuni.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
     "model": "blog.category",
     "pk": 4,
     "fields": {
-      "name": "Attivazione Mentale",
-      "slug": "attivazione-mentale"
+      "name": "Attivazione Mentale e Giochi",
+      "slug": "attivazione-mentale",
+      "description": "Giochi fai-da-te e attività per stimolare la mente del cane e ridurre noia e stress.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
     "model": "blog.category",
     "pk": 5,
     "fields": {
-      "name": "Salute",
-      "slug": "salute"
+      "name": "Salute e Precauzioni",
+      "slug": "salute-e-precauzioni",
+      "description": "Attenzioni sanitarie base, sterilizzazione, antiparassitari, vaccinazioni e prevenzione.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
     "model": "blog.category",
     "pk": 6,
     "fields": {
-      "name": "Linguaggio",
-      "slug": "linguaggio"
+      "name": "Linguaggio del Cane",
+      "slug": "linguaggio-del-cane",
+      "description": "Segnali calmanti, linguaggio corporeo e come migliorare la comunicazione con il tuo cane.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
@@ -52,15 +64,19 @@
     "pk": 7,
     "fields": {
       "name": "Vita Quotidiana",
-      "slug": "vita-quotidiana"
+      "slug": "vita-quotidiana",
+      "description": "Routine, passeggiate di qualità, convivenza in casa e benessere giornaliero.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {
     "model": "blog.category",
     "pk": 8,
     "fields": {
-      "name": "Relazioni",
-      "slug": "relazioni"
+      "name": "Relazioni e Convivenza",
+      "slug": "relazioni-e-convivenza",
+      "description": "Convivenza con bambini, gatti, altri cani e vita in famiglia.",
+      "created_at": "2026-04-12T10:00:00Z"
     }
   },
   {

@@ -4,8 +4,9 @@ from .models import Category, BlogPost
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["name", "slug"]
+    list_display = ["name", "slug", "created_at"]
     prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["name"]
 
 
 @admin.register(BlogPost)

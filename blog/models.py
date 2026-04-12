@@ -3,8 +3,10 @@ from django.utils.text import slugify
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True, blank=True)
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -13,6 +15,11 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorie"
+        ordering = ["name"]
 
 
 class BlogPost(models.Model):
@@ -34,3 +41,6 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ["-created_at"]
