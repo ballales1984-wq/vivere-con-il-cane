@@ -1,5 +1,11 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from datetime import datetime
 from .models import BlogPost
+
+
+def ping(request):
+    return HttpResponse(f"pong {datetime.now().isoformat()}", content_type="text/plain")
 
 
 def blog_list(request):

@@ -7,6 +7,7 @@ from canine_tools import views as tools_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("ping/", blog_views.ping, name="ping"),
     path("", blog_views.blog_list, name="home"),
     path("blog/", include("blog.urls")),
     path("tool/", tools_views.tools_index, name="tools_index"),
