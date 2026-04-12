@@ -3,13 +3,13 @@ services:
     name: vivere-con-il-cane
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py migrate --run-syncdb && python manage.py collectstatic --noinput
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
     startCommand: sh run.sh
     envVars:
       - key: PYTHON_VERSION
         value: "3.11"
       - key: DEBUG
-        value: "true"
+        value: "false"
       - key: SECRET_KEY
         generateValue: true
     healthCheckPath: /
