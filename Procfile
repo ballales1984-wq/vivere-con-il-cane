@@ -1,1 +1,1 @@
-web: python simple_server.py
+web: /bin/bash -c "exec python simple_server.py"
