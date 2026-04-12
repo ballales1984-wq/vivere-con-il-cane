@@ -13,7 +13,10 @@ def health(request):
 
 
 def blog_list(request):
-    posts = BlogPost.objects.filter(published=True).order_by("-created_at")
+    try:
+        posts = BlogPost.objects.filter(published=True).order_by("-created_at")
+    except Exception:
+        posts = []
     return render(request, "blog/list.html", {"posts": posts})
 
 
