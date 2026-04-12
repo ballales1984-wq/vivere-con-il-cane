@@ -30,6 +30,8 @@ DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = ["vivere-con-il-cane.onrender.com", "localhost", "127.0.0.1", "*"]
 
+CSRF_TRUSTED_ORIGINS = ["https://vivere-con-il-cane.onrender.com"]
+
 
 # Application definition
 
