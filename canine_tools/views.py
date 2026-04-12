@@ -140,3 +140,15 @@ def tools_index(request):
         },
     ]
     return render(request, "canine_tools/index.html", {"tools": tools})
+
+
+def privacy_policy(request):
+    return render(request, "canine_tools/privacy_policy.html")
+
+
+def terms_of_service(request):
+    return render(request, "canine_tools/terms_of_service.html")
+
+
+def cookie_policy(request):
+    return render(request, "canine_tools/cookie_policy.html")

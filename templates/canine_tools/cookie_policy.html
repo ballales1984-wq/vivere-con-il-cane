@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Cookie Policy - Vivere con il Cane{% endblock %}
+{% block content %}
+<style>
+.legal-content { max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.8; }
+.legal-content h1 { color: #2c5e1a; margin-bottom: 1.5rem; }
+.legal-content h2 { color: #3d7a2a; margin-top: 2rem; margin-bottom: 1rem; }
+.legal-content p { margin-bottom: 1rem; }
+.legal-content ul { margin-bottom: 1rem; padding-left: 1.5rem; }
+.legal-content li { margin-bottom: 0.5rem; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ddd; padding: 0.75rem; text-align: left; }
+th { background-color: #f5f5f5; }
+</style>
+<div class="legal-content">
+    <h1>Cookie Policy</h1>
+    <p><strong>Ultimo aggiornamento:</strong> 12 Aprile 2026</p>
+
+    <h2>1. Cosa sono i Cookie</h2>
+    <p>I cookie sono piccoli file di testo memorizzati sul tuo dispositivo quando visiti un sito web. Servono a memorizzare preferenze e informazioni sulla visita.</p>
+
+    <h2>2. Tipologie di Cookie Utilizzati</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Nome</th>
+                <th>Finalità</th>
+                <th>Durata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tecnico</td>
+                <td>csrftoken</td>
+                <td>Protezione da attacchi CSRF</td>
+                <td>Sessione</td>
+            </tr>
+            <tr>
+                <td>Tecnico</td>
+                <td>sessionid</td>
+                <td>Identificativo di sessione</td>
+                <td>Sessione</td>
+            </tr>
+            <tr>
+                <td>Analitico</td>
+                <td>_ga</td>
+                <td>Google Analytics (statistiche)</td>
+                <td>2 anni</td>
+            </tr>
+            <tr>
+                <td>Analitico</td>
+                <td>_gid</td>
+                <td>Google Analytics (statistiche)</td>
+                <td>24 ore</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Cookie di Terze Parti</h2>
+    <p><strong>Google Analytics:</strong></p>
+    <p>Il sito utilizza Google Analytics per analizzare le visite. Google Analytics usa cookie per raccogliere informazioni anonime sul traffico del sito.</p>
+    <p>Maggiori informazioni: <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy Google</a></p>
+
+    <h2>4. Gestione dei Cookie</h2>
+    <p>Puoi gestire i cookie attraverso le impostazioni del tuo browser:</p>
+    <ul>
+        <li><strong>Chrome:</strong> Impostazioni > Privacy > Impostazioni contenuti</li>
+        <li><strong>Firefox:</strong> Opzioni > Privacy</li>
+        <li><strong>Safari:</strong> Preferenze > Privacy</li>
+        <li><strong>Edge:</strong> Impostazioni > Privacy</li>
+    </ul>
+    <p>Disattivando i cookie, alcune funzionalità del sito potrebbero non funzionare correttamente.</p>
+
+    <h2>5. Opt-out Google Analytics</h2>
+    <p>Puoi disattivare Google Analytics installando il <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">componente aggiuntivo di opt-out</a>.</p>
+
+    <h2>6. Consenso</h2>
+    <p>Utilizzando il sito, acconsenti all'uso dei cookie come descritto in questa policy.</p>
+</div>
+{% endblock %}

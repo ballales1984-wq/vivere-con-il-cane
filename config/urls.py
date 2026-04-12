@@ -15,6 +15,9 @@ urlpatterns = [
     path("tool/cibo/", tools_views.food_calculator, name="food_calculator"),
     path("tool/eta/", tools_views.age_calculator, name="age_calculator"),
     path("tool/quiz/", tools_views.dog_quiz, name="dog_quiz"),
+    path("privacy/", tools_views.privacy_policy, name="privacy_policy"),
+    path("terms/", tools_views.terms_of_service, name="terms_of_service"),
+    path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
 ]
 
 if settings.DEBUG:

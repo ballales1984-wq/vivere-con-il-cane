@@ -255,6 +255,20 @@ footer {
     margin-top: 3rem;
 }
 
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: var(--secondary);
+}
+
+.footer-links {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
 .back-link {
     display: inline-block;
     margin-top: 2rem;
