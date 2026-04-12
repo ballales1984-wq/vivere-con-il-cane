@@ -1,1 +1,1 @@
-web: python manage.py check && python manage.py runserver 0.0.0.0:$PORT
+web: python -c "print('Hello from Python'); import os; print('PORT=' + os.environ.get('PORT', 'missing'))"
