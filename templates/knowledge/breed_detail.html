@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ breed.breed }} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'knowledge:breed_list' %}">Razze</a></li>
+            <li class="breadcrumb-item active">{{ breed.breed }}</li>
+        </ol>
+    </nav>
+    
+    <h1>{{ breed.breed }}</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Caratteristiche</h3>
+            <ul>
+                <li><strong>Livello Energia:</strong> {{ breed.get_energy_level_display }}</li>
+                <li><strong>Socialità:</strong> {{ breed.get_social_level_display }}</li>
+            </ul>
+            
+            {% if breed.traits %}
+            <h3>Tratti Tipici</h3>
+            <p>{{ breed.traits }}</p>
+            {% endif %}
+            
+            {% if breed.care_tips %}
+            <h3>Consigli di Cura</h3>
+            <p>{{ breed.care_tips }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-6">
+            {% if breed.common_problems %}
+            <h3>Problemi Comuni</h3>
+            <p>{{ breed.common_problems }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

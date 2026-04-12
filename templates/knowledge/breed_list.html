@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Razze - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Razze di Cani</h1>
+    <p class="lead">Scopri le caratteristiche delle razze più comuni.</p>
+    
+    {% if breeds %}
+    <div class="row">
+        {% for breed in breeds %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ breed.breed }}</h5>
+                    <p class="card-text">
+                        <strong>Energia:</strong> {{ breed.get_energy_level_display }}<br>
+                        <strong>Socialità:</strong> {{ breed.get_social_level_display }}
+                    </p>
+                    <a href="{% url 'knowledge:breed_detail' breed.slug %}" class="btn btn-primary">Dettagli</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>Nessuna razza disponibile.</p>
+    {% endif %}
+</div>
+{% endblock %}
