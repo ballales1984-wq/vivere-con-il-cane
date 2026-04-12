@@ -74,7 +74,8 @@ TEMPLATES = [
 ]
 
 # Database
-if os.environ.get("DATABASE_URL"):
+RENDER_DATABASE_URL = os.environ.get("DATABASE_URL", "")
+if RENDER_DATABASE_URL and RENDER_DATABASE_URL.startswith("postgres"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",

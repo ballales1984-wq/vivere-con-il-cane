@@ -9,11 +9,9 @@ services:
       - key: PYTHON_VERSION
         value: "3.11"
       - key: DEBUG
-        value: "false"
+        value: "true"
       - key: SECRET_KEY
         generateValue: true
-      - key: DATABASE_URL
-        fromSecret: DATABASE_URL
     healthCheckPath: /
     healthCheckTimeout: 30
     healthCheckInterval: 10
