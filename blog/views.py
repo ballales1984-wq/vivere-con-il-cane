@@ -21,5 +21,10 @@ def blog_list(request):
 
 
 def blog_detail(request, slug):
-    post = get_object_or_404(BlogPost, slug=slug, published=True)
+    try:
+        post = get_object_or_404(BlogPost, slug=slug, published=True)
+    except Exception:
+        from django.http import Http404
+
+        raise Http404("Post not found")
     return render(request, "blog/detail.html", {"post": post})
