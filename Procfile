@@ -1,1 +1,1 @@
-web: python debug_start.py
+web: /opt/render/.venv/bin/python -c "import sys; sys.stderr.write('Python works\\n')"
