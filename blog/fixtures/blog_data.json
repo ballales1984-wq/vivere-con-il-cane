@@ -1,0 +1,82 @@
+[
+  {
+    "model": "blog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Cura",
+      "slug": "cura"
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Addestramento",
+      "slug": "addestramento"
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Alimentazione",
+      "slug": "alimentazione"
+    }
+  },
+  {
+    "model": "blog.blogpost",
+    "pk": 1,
+    "fields": {
+      "title": "Come prendersi cura del tuo cucciolo",
+      "slug": "come-prendersi-cura-del-tuo-cucciolo",
+      "content": "Accogliere un cucciolo in casa è una grande responsabilità. Ecco alcuni consigli per iniziare nel migliore dei modi:\n\n1. **Vaccinazioni**: Porta il cucciolo dal veterinario per le vaccinazioni essenziali.\n\n2. **Socializzazione**: Esponilo a diversi ambienti, persone e animali.\n\n3. **Alimentazione**: Scegli un cibo di qualità adatto alla sua età.\n\n4. **Educazione di base**: Inizia subito con i comandi base come seduto e vieni.\n\n5. **Routine**: I cuccioli hanno bisogno di orari regolari per mangiare e fare i bisogni.",
+      "image": "",
+      "created_at": "2026-04-12T10:00:00Z",
+      "updated_at": "2026-04-12T10:00:00Z",
+      "category": 1,
+      "published": true
+    }
+  },
+  {
+    "model": "blog.blogpost",
+    "pk": 2,
+    "fields": {
+      "title": "I 5 comandi base per il tuo cane",
+      "slug": "i-5-comandi-base-per-il-tuo-cane",
+      "content": "Insegnare al tuo cane i comandi base è fondamentale per una convivenza serena. Ecco i 5 comandi essenziali:\n\n1. **Seduto**: Il comando più importante. Tiene il cane fermo e focalizzato su di te.\n\n2. **Vieni**: Per richiamarlo quando è libero.\n\n3. **Fermo**: Per fermarlo in qualsiasi situazione.\n\n4. **A terra**: Per farlo sdraiare.\n\n5. **Lascia**: Per rilasciare oggetti o ignorare stimoli.\n\nConsigli pratici:\n- Usa ricompense piccole e gustose\n--sessioni brevi (5-10 minuti)\n- Si costante e paziente\n- Non punire mai l'errore",
+      "image": "",
+      "created_at": "2026-04-12T11:00:00Z",
+      "updated_at": "2026-04-12T11:00:00Z",
+      "category": 2,
+      "published": true
+    }
+  },
+  {
+    "model": "blog.blogpost",
+    "pk": 3,
+    "fields": {
+      "title": "Quanta crocchette dare al tuo cane",
+      "slug": "quanta-crocchette-dare-al-tuo-cane",
+      "content": "Una corretta alimentazione è fondamentale per la salute del tuo cane. Ecco come calcolare le porzioni giuste.\n\n**Fattori da considerare:**\n- Peso del cane\n- Attività fisica\n- Età (cucciolo, adulto, anziano)\n- Stato di salute\n\n**Formula approssimativa:**\nCane adulto: 30g di crocchette per kg di peso corporeo al giorno.\n\n**Attenzioni speciali:**\n- Non sovralimentare può causare obesità\n- L'acqua fresca deve essere sempre disponibile\n- Evita cibi tossici: cioccolato, cipolla, uva\n\nUsa il nostro calcolatore per avere una stima personalizzata!",
+      "image": "",
+      "created_at": "2026-04-12T12:00:00Z",
+      "updated_at": "2026-04-12T12:00:00Z",
+      "category": 3,
+      "published": true
+    }
+  },
+  {
+    "model": "blog.blogpost",
+    "pk": 4,
+    "fields": {
+      "title": "Segnali di malessere nel cane",
+      "slug": "segnali-di-malessere-nel-cane",
+      "content": "I cani non possono parlare, ma comunicano attraverso il loro comportamento. Ecco i segnali di malessere da non sottovalutare:\n\n**Segnali fisici:**\n- Vomito o dissenteria\n- Perdita di appetito\n- Letargia\n- Difficoltà a respirare\n\n**Segnali comportamentali:**\n- Nascondersi più del solito\n- Aggressività improvvisa\n- Leccarsi eccessivamente una zona\n- Riluttanza a muoversi\n\n**Cosa fare:**\nSe noti uno o più segnali, consulta il veterinario. Meglio una visita in più che una in meno!",
+      "image": "",
+      "created_at": "2026-04-12T13:00:00Z",
+      "updated_at": "2026-04-12T13:00:00Z",
+      "category": 1,
+      "published": true
+    }
+  }
+]
