@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %}Il mio Cane - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Il mio Cane</h1>
+    <p>Centro di gestione e conoscenza per il tuo amico a quattro zampe</p>
+</section>
+
+{% if profiles %}
+{% for profile in profiles %}
+<section class="tool-container" style="max-width: 800px; margin: 0 auto;">
+    <div class="profile-header">
+        <h2>{{ profile.dog_name }}</h2>
+        {% if profile.breed %}<span class="breed">{{ profile.breed }}</span>{% endif %}
+    </div>
+    
+    <div class="profile-stats">
+        <div class="stat">
+            <span class="stat-value">{{ profile.get_age }}</span>
+            <span class="stat-label">anni</span>
+        </div>
+        {% if profile.weight %}
+        <div class="stat">
+            <span class="stat-value">{{ profile.weight }}</span>
+            <span class="stat-label">kg</span>
+        </div>
+        {% endif %}
+        <div class="stat">
+            <span class="stat-value">{{ profile.events_count }}</span>
+            <span class="stat-label">eventi</span>
+        </div>
+    </div>
+    
+    <div class="profile-actions">
+        <a href="{% url 'profile_detail' profile.id %}" class="btn-primary">Scheda Completa</a>
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn-secondary">+ Evento Salute</a>
+        <a href="{% url 'profile_add_log' profile.id %}" class="btn-secondary">+ Giornata</a>
+    </div>
+</section>
+
+<section class="tools-grid">
+    <h3>Tool per {{ profile.dog_name }}</h3>
+    
+    <a href="{% url 'food_calculator' %}" class="tool-card">
+        <span class="tool-icon">🍖</span>
+        <h3>Calcolatore Cibo</h3>
+        <p>Portata giornaliera in base a peso ed età</p>
+    </a>
+    
+    <a href="{% url 'age_calculator' %}" class="tool-card">
+        <span class="tool-icon">🎂</span>
+        <h3>Età Umana</h3>
+        <p>Converter età del cane in anni umani</p>
+    </a>
+    
+    <a href="{% url 'dog_quiz' %}" class="tool-card">
+        <span class="tool-icon">🧠</span>
+        <h3>Quiz Comportamento</h3>
+        <p>Testa la conoscenza del tuo cane</p>
+    </a>
+    
+    <a href="{% url 'blog_list' %}" class="tool-card">
+        <span class="tool-icon">📖</span>
+        <h3>Guide Consigliate</h3>
+        <p>Articoli utili per {{ profile.dog_name }}</p>
+    </a>
+</section>
+
+<section class="profile-section">
+    <h3>Attività Recenti</h3>
+    {% if profile.events.exists %}
+    <ul class="activity-list">
+        {% for event in profile.events.all|slice:":3" %}
+        <li>
+            <span class="activity-date">{{ event.date }}</span>
+            <span class="activity-title">{{ event.title }}</span>
+            <span class="activity-type">{{ event.get_event_type_display }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nessuna attività registrata. <a href="{% url 'profile_add_event' profile.id %}">Aggiungi il primo evento!</a></p>
+    {% endif %}
+</section>
+{% endfor %}
+
+{% else %}
+<section class="tool-container" style="text-align: center;">
+    <h2>Non hai ancora aggiunto il tuo cane</h2>
+    <p>Inizia aggiungendo il tuo amico a quattro zampe per accedere a tool personalizzati e suggerimenti</p>
+    <a href="{% url 'profile_new' %}" class="btn-calculate">Aggiungi il tuo Cane</a>
+</section>
+{% endif %}
+
+<style>
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.profile-header h2 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+.breed {
+    background: var(--secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem 0;
+}
+.stat {
+    text-align: center;
+}
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+.stat-label {
+    font-size: 0.85rem;
+    color: #666;
+}
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+.btn-secondary {
+    background: #f0f0f0;
+    color: var(--dark);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
+.activity-list {
+    list-style: none;
+}
+.activity-list li {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+.activity-date {
+    color: #666;
+    min-width: 80px;
+}
+.activity-title {
+    flex: 1;
+}
+.activity-type {
+    background: #e8f5e9;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+</style>
+{% endblock %}

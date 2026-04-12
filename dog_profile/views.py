@@ -91,3 +91,9 @@ def my_dog(request):
     if not profile:
         return redirect("profile_new")
     return redirect("profile_detail", profile_id=profile.id)
+
+
+def dashboard(request):
+    """Main dashboard - unified view for all dog's data."""
+    profiles = list(DogProfile.objects.all())
+    return render(request, "dog_profile/dashboard.html", {"profiles": profiles})

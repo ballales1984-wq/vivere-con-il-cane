@@ -20,6 +20,23 @@ class DogProfile(models.Model):
     def __str__(self):
         return f"{self.dog_name} ({self.name})"
 
+    def get_age(self):
+        if not self.birth_date:
+            return "?"
+        from datetime import date
+
+        today = date.today()
+        age = today.year - self.birth_date.year
+        if today.month < self.birth_date.month or (
+            today.month == self.birth_date.month and today.day < self.birth_date.day
+        ):
+            age -= 1
+        return str(age)
+
+    @property
+    def events_count(self):
+        return self.events.count()
+
     class Meta:
         verbose_name = "Profilo Cane"
         verbose_name_plural = "Profili Cani"
