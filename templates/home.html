@@ -1,93 +1,99 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Vivere con il Cane - Il sistema intelligente per gestire il tuo cane{% endblock %}
+{% block title %}Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane{% endblock %}
+{% block meta_description %}Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani.{% endblock %}
 
 {% block content %}
-<section class="hero" style="text-align: center; padding: 4rem 2rem;">
-    <div style="font-size: 4rem; margin-bottom: 1rem;">🐕</div>
-    <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);">
-        Gestisci il tuo cane in modo intelligente
-    </h1>
-    <p style="font-size: 1.2rem; color: var(--text-light); max-width: 600px; margin: 0 auto 2rem;">
-        Profilo personale + AI + tool pratici per risolvere i problemi quotidiani del tuo amico a quattro zampe
-    </p>
+
+<!-- HERO: AI Input Centrale -->
+<section class="hero-ai">
+    <h1>Capisci e risolvi il comportamento del tuo cane</h1>
+    <p class="hero-subtitle">Descrivi il problema e ottieni una soluzione personalizzata con l'AI</p>
     
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
-        <a href="{% url 'profile_new' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
-            🐶 Crea il profilo del tuo cane
+    <form action="{% url 'analyze_problem' %}" method="get" class="ai-form">
+        <div class="ai-input-wrapper">
+            <textarea name="q" placeholder="Es: il mio cane abbaia sempre quando resto solo..." rows="2" required></textarea>
+            <button type="submit" class="btn btn-primary btn-lg">Analizza con AI</button>
+        </div>
+    </form>
+</section>
+
+<!-- Problemi Rapidi -->
+{% if problems %}
+<section class="section-problems">
+    <h2 class="section-heading">Problemi piu comuni</h2>
+    <div class="problems-grid">
+        {% for problem in problems %}
+        <a href="{% url 'problem_detail' problem.slug %}" class="problem-card">
+            <span class="problem-icon">
+                {% if problem.slug == 'abbaia-troppo' %}🔊
+                {% elif problem.slug == 'tira-guinzaglio' %}🐕‍🦺
+                {% elif problem.slug == 'ansia-separazione' %}😟
+                {% elif problem.slug == 'cane-morde' %}🦷
+                {% elif problem.slug == 'non-mangia' %}🍽️
+                {% elif problem.slug == 'paura-rumori' %}⚡
+                {% else %}🐾
+                {% endif %}
+            </span>
+            <strong>{{ problem.title }}</strong>
+            <span class="problem-severity severity-{{ problem.severity }}">{{ problem.get_severity_display }}</span>
         </a>
-        <a href="{% url 'analyze_problem' %}" class="btn" style="background: var(--white); color: var(--primary); border: 2px solid var(--primary); font-size: 1.1rem; padding: 1rem 2rem;">
-            🤖 AI Analisi Comportamento
-        </a>
+        {% endfor %}
+    </div>
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="{% url 'problem_list' %}" class="btn btn-secondary">Vedi tutti i problemi &rarr;</a>
+    </div>
+</section>
+{% endif %}
+
+<!-- Come Funziona -->
+<section class="section-how">
+    <h2 class="section-heading">Come funziona</h2>
+    <div class="steps-grid">
+        <div class="step-card">
+            <span class="step-number">1</span>
+            <h3>Descrivi il problema</h3>
+            <p>Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia...</p>
+        </div>
+        <div class="step-card">
+            <span class="step-number">2</span>
+            <h3>L'AI analizza</h3>
+            <p>Il sistema identifica le cause probabili in base al tuo cane</p>
+        </div>
+        <div class="step-card">
+            <span class="step-number">3</span>
+            <h3>Ricevi soluzioni</h3>
+            <p>Consigli pratici personalizzati per razza, eta e situazione</p>
+        </div>
     </div>
 </section>
 
-<section class="tools-grid" style="max-width: 900px; margin: 0 auto;">
-    <div class="tool-card" style="text-align: center;">
-        <span class="tool-icon">1️⃣</span>
-        <h3 style="color: var(--primary);">Inserisci il tuo cane</h3>
-        <p>Crea il profilo con nome, razza, età e peso del tuo amico</p>
-    </div>
-    
-    <div class="tool-card" style="text-align: center;">
-        <span class="tool-icon">2️⃣</span>
-        <h3 style="color: var(--primary);">Usa i tool o l'AI</h3>
-        <p>Calcolatori, analisi comportamentale e guide personalizzate</p>
-    </div>
-    
-    <div class="tool-card" style="text-align: center;">
-        <span class="tool-icon">3️⃣</span>
-        <h3 style="color: var(--primary);">Ricevi soluzioni</h3>
-        <p>Consigli pratici e suggerimenti basati sul tuo cane</p>
-    </div>
-</section>
-
-<section style="padding: 3rem 2rem; max-width: 1000px; margin: 0 auto;">
-    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary);">
-        Perché scegliere Vivere con il Cane
-    </h2>
-    
+<!-- Tool -->
+<section class="section-tools">
+    <h2 class="section-heading">Strumenti gratuiti</h2>
     <div class="tools-grid">
-        <div class="tool-card">
-            <span class="tool-icon">🎯</span>
-            <h3>Strumenti Pratici</h3>
-            <p>Calcolatore cibo, età umana, quiz e molto altro. Tutto gratuito e immediato.</p>
-        </div>
-        
-        <div class="tool-card">
+        <a href="{% url 'food_calculator' %}" class="tool-card">
+            <span class="tool-icon">🍖</span>
+            <h3>Calcolatore Cibo</h3>
+            <p>Quanto deve mangiare il tuo cane? Calcola la porzione giusta.</p>
+        </a>
+        <a href="{% url 'age_calculator' %}" class="tool-card">
+            <span class="tool-icon">🎂</span>
+            <h3>Eta in Anni Umani</h3>
+            <p>Scopri quanti anni ha il tuo cane in anni umani.</p>
+        </a>
+        <a href="{% url 'dog_quiz' %}" class="tool-card">
             <span class="tool-icon">🧠</span>
-            <h3>Supporto AI</h3>
-            <p>Descrivi un problema e ricevi analisi personalizzate per il tuo cane.</p>
-        </div>
-        
-        <div class="tool-card">
-            <span class="tool-icon">📊</span>
-            <h3>Profilo Completo</h3>
-            <p>Tieni traccia di salute, eventi e abitudini del tuo cane in un unico posto.</p>
-        </div>
-        
-        <div class="tool-card">
-            <span class="tool-icon">📚</span>
-            <h3>Guide Utili</h3>
-            <p>Articoli scritti da esperti per aiutarti nella convivenza quotidiana.</p>
-        </div>
+            <h3>Quiz Linguaggio</h3>
+            <p>Quanto conosci il linguaggio del tuo cane? Mettiti alla prova.</p>
+        </a>
     </div>
 </section>
 
-<section style="text-align: center; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 3rem 2rem; border-radius: var(--radius-lg); max-width: 800px; margin: 2rem auto;">
-    <h2 style="margin-bottom: 1rem;">Inizia ora - è gratuito</h2>
-    <p style="margin-bottom: 1.5rem; opacity: 0.9;">Non serve registrazione per usare i tool</p>
-    <a href="{% url 'profile_new' %}" style="background: white; color: var(--primary); padding: 1rem 2rem; border-radius: var(--radius-sm); text-decoration: none; font-weight: bold; display: inline-block;">
-        Crea il profilo del tuo cane
-    </a>
-</section>
-
-<section style="padding: 3rem 2rem; max-width: 900px; margin: 0 auto;">
-    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary);">
-        📝 Articoli più popolari
-    </h2>
-    
+<!-- Articoli Recenti -->
+<section class="section-articles">
+    <h2 class="section-heading">Guide e articoli</h2>
     <div class="blog-list">
     {% for post in recent_posts %}
     <article class="post-card">
@@ -105,15 +111,21 @@
                 {% endif %}
             </p>
             <p>{{ post.content|truncatewords:25 }}</p>
-            <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto →</a>
+            <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto &rarr;</a>
         </div>
     </article>
     {% endfor %}
     </div>
-    
     <div style="text-align: center; margin-top: 2rem;">
-        <a href="{% url 'blog_list' %}" class="btn btn-secondary">Vedi tutti gli articoli →</a>
+        <a href="{% url 'blog_list' %}" class="btn btn-secondary">Vedi tutti gli articoli &rarr;</a>
     </div>
+</section>
+
+<!-- CTA Finale -->
+<section class="cta-final">
+    <h2>Inizia ora - e gratuito</h2>
+    <p>Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una soluzione.</p>
+    <a href="{% url 'analyze_problem' %}" class="btn btn-white btn-lg">Analizza il comportamento del tuo cane</a>
 </section>
 
 <script>
@@ -125,7 +137,9 @@ const images = [
     'dog-vet.jpg',
     'dog-sleeping.jpg',
     'dog-food.jpg',
-    'dog-cat.jpg'
+    'dog-cat.jpg',
+    'dog-barking.jpg',
+    'dog-training-2.jpg'
 ];
 
 document.querySelectorAll('.post-img').forEach(img => {

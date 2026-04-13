@@ -7,22 +7,22 @@
       "slug": "labrador",
       "energy_level": "very_high",
       "social_level": "very_high",
-      "common_problems": "ansia da separazione, obesita, displasia",
-      "traits": "Affettuoso, giocherellone, buon appetite, ama l'acqua",
-      "care_tips": "Molto esercizio, controllare il cibo, spazzolare regolarmente"
+      "common_problems": "ansia da separazione, obesita, displasia, iperattivita",
+      "traits": "Affettuoso, giocherellone, buon appetito, ama l'acqua, molto socievole",
+      "care_tips": "Molto esercizio fisico e mentale, controllare il cibo, spazzolare regolarmente"
     }
   },
   {
-    "model": "knowledge.breedinsight", 
+    "model": "knowledge.breedinsight",
     "pk": 2,
     "fields": {
       "breed": "Golden Retriever",
       "slug": "golden-retriever",
       "energy_level": "high",
       "social_level": "very_high",
-      "common_problems": "ansia, cancro, displasia anca",
-      "traits": "Dolce, paziente, intelligente, ottimo con bambini",
-      "care_tips": "Spazzolare spesso, esercizio quotidiano, controllo peso"
+      "common_problems": "ansia, cancro, displasia anca, sovrappeso",
+      "traits": "Dolce, paziente, intelligente, ottimo con bambini, ama riportare oggetti",
+      "care_tips": "Spazzolare spesso, esercizio quotidiano, controllo peso, stimolazione mentale"
     }
   },
   {
@@ -33,11 +33,103 @@
       "slug": "pastore-tedesco",
       "energy_level": "high",
       "social_level": "medium",
-      "common_problems": "displasia, ansia, dominanza",
-      "traits": "Leale, coraggioso, territoriale, facile da addestrare",
-      "care_tips": "Esercizio mentale e fisico, socializzazione precoce"
+      "common_problems": "displasia, ansia, territorialita, reattivita al guinzaglio",
+      "traits": "Leale, coraggioso, territoriale, facile da addestrare, protettivo",
+      "care_tips": "Esercizio mentale e fisico quotidiano, socializzazione precoce, educazione coerente"
     }
   },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 4,
+    "fields": {
+      "breed": "Chihuahua",
+      "slug": "chihuahua",
+      "energy_level": "medium",
+      "social_level": "low",
+      "common_problems": "abbaio eccessivo, ansia, aggressivita da paura, problemi dentali",
+      "traits": "Vivace, coraggioso per la sua taglia, molto legato al proprietario, diffidente con estranei",
+      "care_tips": "Socializzazione importante, non viziare troppo, proteggere dal freddo, cure dentali"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 5,
+    "fields": {
+      "breed": "Bulldog Francese",
+      "slug": "bulldog-francese",
+      "energy_level": "low",
+      "social_level": "high",
+      "common_problems": "problemi respiratori, allergie cutanee, sovrappeso, colpo di calore",
+      "traits": "Giocoso, affettuoso, adatto all'appartamento, socievole, un po' testardo",
+      "care_tips": "Evitare caldo eccessivo, porzioni controllate, pulizia pieghe cutanee, passeggiate brevi"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 6,
+    "fields": {
+      "breed": "Border Collie",
+      "slug": "border-collie",
+      "energy_level": "very_high",
+      "social_level": "medium",
+      "common_problems": "distruzione da noia, comportamenti compulsivi, ansia, reattivita",
+      "traits": "Estremamente intelligente, instinto al lavoro, atletico, sensibile, rapido nell'apprendimento",
+      "care_tips": "Moltissimo esercizio fisico e mentale, attivita di problem-solving, non lasciare solo a lungo"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 7,
+    "fields": {
+      "breed": "Beagle",
+      "slug": "beagle",
+      "energy_level": "high",
+      "social_level": "high",
+      "common_problems": "abbaio e ululato, fuga seguendo odori, sovrappeso, testardaggine",
+      "traits": "Segugio, naso eccezionale, allegro, socievole, ama esplorare",
+      "care_tips": "Passeggiate olfattive, guinzaglio sicuro, controllare alimentazione, attivita di fiuto"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 8,
+    "fields": {
+      "breed": "Jack Russell Terrier",
+      "slug": "jack-russell-terrier",
+      "energy_level": "very_high",
+      "social_level": "medium",
+      "common_problems": "eccitazione eccessiva, scavo, abbaio, distruzione, inseguimento piccoli animali",
+      "traits": "Energetico, coraggioso, intelligente, testardo, instinto da caccia forte",
+      "care_tips": "Molto esercizio e gioco, educazione ferma e coerente, attivita di scavo controllate"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 9,
+    "fields": {
+      "breed": "Rottweiler",
+      "slug": "rottweiler",
+      "energy_level": "high",
+      "social_level": "medium",
+      "common_problems": "territorialita, tira al guinzaglio, reattivita verso altri cani, displasia",
+      "traits": "Forte, leale, protettivo, sicuro di se, buon guardiano, affettuoso con la famiglia",
+      "care_tips": "Socializzazione precoce fondamentale, educazione coerente, esercizio regolare"
+    }
+  },
+  {
+    "model": "knowledge.breedinsight",
+    "pk": 10,
+    "fields": {
+      "breed": "Cocker Spaniel",
+      "slug": "cocker-spaniel",
+      "energy_level": "medium",
+      "social_level": "high",
+      "common_problems": "ansia da separazione, otiti, sovrappeso, possessivita sul cibo",
+      "traits": "Affettuoso, allegro, adattabile, buono con bambini, sensibile",
+      "care_tips": "Pulizia orecchie regolare, esercizio moderato, non viziare col cibo, compagnia"
+    }
+  },
+
   {
     "model": "knowledge.problem",
     "pk": 1,
@@ -45,9 +137,9 @@
       "title": "Cane che abbaia troppo",
       "slug": "abbaia-troppo",
       "category": "behavior",
-      "description": "Il cane abbaia in modo eccessivo senza motivo apparente",
+      "description": "Il cane abbaia in modo eccessivo: di notte, quando resta solo, ai passanti o senza motivo apparente. L'abbaio e un comportamento normale ma diventa problematico quando e continuo e incontrollabile.",
       "severity": "medium",
-      "common_breeds": "Chihuahua, Yorkshire Terrier, Pastore Tedesco"
+      "common_breeds": "Chihuahua, Yorkshire Terrier, Pastore Tedesco, Beagle, Jack Russell"
     }
   },
   {
@@ -57,9 +149,9 @@
       "title": "Tira al guinzaglio",
       "slug": "tira-guinzaglio",
       "category": "training",
-      "description": "Il cane tira durante le passeggiate rendendo le uscite difficili",
-      "severity": "low",
-      "common_breeds": "Tutte le razze, specialmente quelle grandi"
+      "description": "Il cane tira costantemente durante le passeggiate, rendendo le uscite stressanti e faticose. E un problema molto comune che peggiora se non affrontato correttamente.",
+      "severity": "medium",
+      "common_breeds": "Tutte le razze, specialmente Labrador, Husky, Pastore Tedesco, Rottweiler"
     }
   },
   {
@@ -69,18 +161,104 @@
       "title": "Ansia da separazione",
       "slug": "ansia-separazione",
       "category": "behavior",
-      "description": "Il cane si agita, abbaia o distrugge quando resta solo",
+      "description": "Il cane si agita, abbaia, piange o distrugge quando resta solo. Puo anche fare i bisogni in casa. Non e dispetto ma vera ansia e sofferenza.",
       "severity": "high",
-      "common_breeds": "Labrador, Golden Retriever, Border Collie"
+      "common_breeds": "Labrador, Golden Retriever, Border Collie, Cocker Spaniel, Chihuahua"
     }
   },
+  {
+    "model": "knowledge.problem",
+    "pk": 4,
+    "fields": {
+      "title": "Cane che morde",
+      "slug": "cane-morde",
+      "category": "behavior",
+      "description": "Il cane morde mani, piedi, oggetti o persone. Nei cuccioli e spesso gioco o dentizione, negli adulti puo indicare paura, stress o mancanza di educazione.",
+      "severity": "high",
+      "common_breeds": "Cuccioli di tutte le razze, Jack Russell, Pastore Tedesco, Border Collie"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 5,
+    "fields": {
+      "title": "Cane che non mangia",
+      "slug": "non-mangia",
+      "category": "health",
+      "description": "Il cane rifiuta il cibo o mangia molto meno del solito. Le cause possono essere fisiche (malattia, dolore) o comportamentali (stress, cambio ambiente, cibo non gradito).",
+      "severity": "medium",
+      "common_breeds": "Tutte le razze, comune nei cani piccoli e nei cuccioli durante il cambio alimentazione"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 6,
+    "fields": {
+      "title": "Paura dei rumori e temporali",
+      "slug": "paura-rumori",
+      "category": "behavior",
+      "description": "Il cane ha paura intensa di rumori forti: temporali, fuochi d'artificio, petardi, aspirapolvere. Reagisce con tremore, fuga, nascondendosi o cercando il proprietario.",
+      "severity": "medium",
+      "common_breeds": "Border Collie, Pastore Tedesco, Labrador, Cocker Spaniel, meticci"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 7,
+    "fields": {
+      "title": "Cane che salta addosso",
+      "slug": "salta-addosso",
+      "category": "behavior",
+      "description": "Il cane salta addosso alle persone quando le incontra, sia in casa che fuori. E un comportamento di eccitazione e saluto, ma puo essere pericoloso con bambini e anziani.",
+      "severity": "low",
+      "common_breeds": "Labrador, Golden Retriever, Boxer, Jack Russell, Beagle"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 8,
+    "fields": {
+      "title": "Non risponde al richiamo",
+      "slug": "non-richiamo",
+      "category": "training",
+      "description": "Il cane ignora il richiamo quando e libero, specialmente in presenza di distrazioni. Questo rende pericoloso liberarlo e limita la sua qualita di vita.",
+      "severity": "medium",
+      "common_breeds": "Beagle, Husky, Jack Russell, razze da caccia, meticci"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 9,
+    "fields": {
+      "title": "Distrugge casa e oggetti",
+      "slug": "distrugge-casa",
+      "category": "behavior",
+      "description": "Il cane mastica e distrugge mobili, scarpe, cuscini o altri oggetti. Puo succedere quando e solo o anche in presenza del proprietario. Le cause vanno dalla noia all'ansia.",
+      "severity": "medium",
+      "common_breeds": "Border Collie, Labrador, Jack Russell, Husky, cuccioli di tutte le razze"
+    }
+  },
+  {
+    "model": "knowledge.problem",
+    "pk": 10,
+    "fields": {
+      "title": "Eccitazione eccessiva",
+      "slug": "eccitazione-eccessiva",
+      "category": "behavior",
+      "description": "Il cane si eccita troppo facilmente: durante il gioco, all'arrivo di persone, alla vista di altri cani. L'eccitazione eccessiva porta a perdita di controllo, morsi da gioco e tiro al guinzaglio.",
+      "severity": "low",
+      "common_breeds": "Jack Russell, Labrador, Border Collie, Beagle, cuccioli in generale"
+    }
+  },
+
   {
     "model": "knowledge.cause",
     "pk": 1,
     "fields": {
       "problem": 1,
-      "description": "Noia - il cane non ha abbastanza stimoli",
-      "probability": "very_common"
+      "description": "Noia - il cane non ha abbastanza stimoli fisici e mentali",
+      "probability": "very_common",
+      "notes": "Razze attive come Border Collie, Labrador e Jack Russell sono piu soggette"
     }
   },
   {
@@ -88,22 +266,323 @@
     "pk": 2,
     "fields": {
       "problem": 1,
-      "description": "Attenzione - il cane ha imparato che abbaiare porta attenzione",
-      "probability": "common"
+      "description": "Richiesta di attenzione - il cane ha imparato che abbaiare porta attenzione",
+      "probability": "common",
+      "notes": "Anche sgridare e attenzione per il cane"
     }
   },
+  {
+    "model": "knowledge.cause",
+    "pk": 3,
+    "fields": {
+      "problem": 1,
+      "description": "Territorialita - il cane protegge il suo spazio da rumori e passanti",
+      "probability": "common",
+      "notes": "Piu frequente in razze da guardia e terrier"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 4,
+    "fields": {
+      "problem": 1,
+      "description": "Ansia - abbaio come sfogo dello stress, soprattutto se lasciato solo",
+      "probability": "common",
+      "notes": "Spesso collegato ad ansia da separazione"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 5,
+    "fields": {
+      "problem": 2,
+      "description": "Eccitazione - il cane e sovrastimolato dall'ambiente esterno",
+      "probability": "very_common",
+      "notes": "Soprattutto nei primi minuti della passeggiata"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 6,
+    "fields": {
+      "problem": 2,
+      "description": "Abitudine rinforzata - tirando il cane arriva dove vuole, quindi impara a tirare",
+      "probability": "very_common",
+      "notes": "Il proprietario che segue il cane che tira rinforza il comportamento"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 7,
+    "fields": {
+      "problem": 2,
+      "description": "Mancanza di educazione al guinzaglio - il cane non ha mai imparato a camminare senza tirare",
+      "probability": "common",
+      "notes": "Fondamentale iniziare l'educazione da cucciolo"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 8,
+    "fields": {
+      "problem": 3,
+      "description": "Iperattaccamento al proprietario - il cane dipende emotivamente da una persona",
+      "probability": "very_common",
+      "notes": "Spesso causato da eccessiva attenzione o mancanza di indipendenza"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 9,
+    "fields": {
+      "problem": 3,
+      "description": "Cambiamento di routine - trasloco, nuovo lavoro, cambio orari",
+      "probability": "common",
+      "notes": "I cani soffrono molto i cambiamenti improvvisi"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 10,
+    "fields": {
+      "problem": 3,
+      "description": "Esperienze traumatiche - abbandono precedente o ricovero in canile",
+      "probability": "common",
+      "notes": "Cani adottati sono piu soggetti"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 11,
+    "fields": {
+      "problem": 4,
+      "description": "Gioco - il cucciolo esplora il mondo con la bocca e non sa ancora controllare la forza",
+      "probability": "very_common",
+      "notes": "Normalissimo nei cuccioli sotto i 6 mesi"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 12,
+    "fields": {
+      "problem": 4,
+      "description": "Dentizione - cambio denti (3-6 mesi) causa fastidio che il cucciolo allevia mordendo",
+      "probability": "very_common",
+      "notes": "Fornire giochi da masticare appropriati"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 13,
+    "fields": {
+      "problem": 4,
+      "description": "Paura o difesa - il cane morde per proteggere se stesso quando si sente minacciato",
+      "probability": "possible",
+      "notes": "Attenzione: questo tipo di morso richiede un professionista"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 14,
+    "fields": {
+      "problem": 4,
+      "description": "Eccitazione durante il gioco - il cane perde il controllo quando e troppo eccitato",
+      "probability": "common",
+      "notes": "Frequente nei giovani adulti non educati alla calma"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 15,
+    "fields": {
+      "problem": 5,
+      "description": "Problemi di salute - dolore, nausea, infezione o malattia in corso",
+      "probability": "common",
+      "notes": "Se il rifiuto dura piu di 24-48 ore, consultare il veterinario"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 16,
+    "fields": {
+      "problem": 5,
+      "description": "Stress o ansia - cambiamenti nell'ambiente, nuovo animale in casa, trasloco",
+      "probability": "common",
+      "notes": "Il cane puo perdere appetito temporaneamente"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 17,
+    "fields": {
+      "problem": 5,
+      "description": "Cibo non gradito - cambio di marca, cibo scadente, ciotola sporca",
+      "probability": "possible",
+      "notes": "Provare a cambiare tipo o marca di cibo gradualmente"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 18,
+    "fields": {
+      "problem": 5,
+      "description": "Troppi snack - il cane e gia sazio per i troppi premi ricevuti durante il giorno",
+      "probability": "common",
+      "notes": "Ridurre snack e contarli nel fabbisogno giornaliero"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 19,
+    "fields": {
+      "problem": 6,
+      "description": "Sensibilita genetica - alcune razze sono naturalmente piu sensibili ai rumori",
+      "probability": "common",
+      "notes": "Border Collie e Pastori Tedeschi sono tra le razze piu colpite"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 20,
+    "fields": {
+      "problem": 6,
+      "description": "Mancata socializzazione - il cucciolo non e stato esposto a rumori diversi nel periodo critico",
+      "probability": "very_common",
+      "notes": "Periodo critico: 3-14 settimane di vita"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 21,
+    "fields": {
+      "problem": 6,
+      "description": "Esperienza negativa associata - un evento spaventoso collegato a un rumore forte",
+      "probability": "common",
+      "notes": "Un solo episodio puo creare una fobia duratura"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 22,
+    "fields": {
+      "problem": 7,
+      "description": "Eccitazione per il saluto - il cane e felice di vedere le persone e non sa gestire l'emozione",
+      "probability": "very_common",
+      "notes": "Comportamento naturale che va reindirizzato, non punito"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 23,
+    "fields": {
+      "problem": 7,
+      "description": "Comportamento rinforzato - il proprietario o gli ospiti premiano il salto con attenzione e carezze",
+      "probability": "very_common",
+      "notes": "Anche toccare il cane per spingerlo giu e attenzione"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 24,
+    "fields": {
+      "problem": 8,
+      "description": "Distrazioni piu interessanti - odori, altri cani, animali selvatici vincono sul richiamo",
+      "probability": "very_common",
+      "notes": "Specialmente in razze da caccia e segugi"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 25,
+    "fields": {
+      "problem": 8,
+      "description": "Richiamo associato a esperienze negative - il cane e stato sgridato o messo al guinzaglio dopo il richiamo",
+      "probability": "common",
+      "notes": "Mai punire il cane quando finalmente viene al richiamo"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 26,
+    "fields": {
+      "problem": 8,
+      "description": "Addestramento insufficiente - il richiamo non e stato allenato in modo progressivo con distrazioni crescenti",
+      "probability": "very_common",
+      "notes": "Serve allenamento graduale: casa > giardino > parco vuoto > parco affollato"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 27,
+    "fields": {
+      "problem": 9,
+      "description": "Noia e mancanza di stimoli - il cane non ha niente da fare e sfoga l'energia sugli oggetti",
+      "probability": "very_common",
+      "notes": "Razze da lavoro come Border Collie e Labrador sono piu soggette"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 28,
+    "fields": {
+      "problem": 9,
+      "description": "Ansia da separazione - il cane distrugge quando e solo per sfogare lo stress",
+      "probability": "common",
+      "notes": "Spesso la distruzione avviene nei primi 30 minuti dall'uscita del proprietario"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 29,
+    "fields": {
+      "problem": 9,
+      "description": "Dentizione nei cuccioli - bisogno naturale di masticare durante il cambio denti",
+      "probability": "common",
+      "notes": "Fornire alternative appropriate: kong, ossi, giochi da masticare"
+    }
+  },
+
+  {
+    "model": "knowledge.cause",
+    "pk": 30,
+    "fields": {
+      "problem": 10,
+      "description": "Energia accumulata - il cane non fa abbastanza esercizio fisico e mentale",
+      "probability": "very_common",
+      "notes": "Il cane sfoga l'energia in eccesso diventando incontrollabile"
+    }
+  },
+  {
+    "model": "knowledge.cause",
+    "pk": 31,
+    "fields": {
+      "problem": 10,
+      "description": "Mancanza di autocontrollo - il cane non ha mai imparato a calmarsi da solo",
+      "probability": "common",
+      "notes": "Si puo insegnare con esercizi di calma e protocollo di rilassamento"
+    }
+  },
+
   {
     "model": "knowledge.solution",
     "pk": 1,
     "fields": {
       "problem": 1,
       "solution_type": "training",
-      "title": "Ignora l'abbaio",
-      "description": "Non dare attenzione quando abbaia. Solo quando si calma premialo. Cosi impara che stare calmi porta risultati.",
+      "title": "Ignora l'abbaio strategico",
+      "description": "Quando il cane abbaia per attenzione, non guardarlo, non parlargli, non toccarlo. Appena smette, anche per un secondo, premialo con calma. Cosi impara che il silenzio porta risultati.",
       "difficulty": "medium",
       "time_needed": "2-4 settimane",
       "success_rate": "high",
-      "warnings": "Non urlare mai contro il cane - peggiora il problema"
+      "warnings": "Non urlare mai contro il cane - per lui e come se abbaiassi insieme a lui"
     }
   },
   {
@@ -112,12 +591,371 @@
     "fields": {
       "problem": 1,
       "solution_type": "environment",
-      "title": "Aumenta esercizio",
-      "description": "Un cane stanco abbaia meno. Aggiungi passeggiate piu lunghe e giochi interattivi.",
+      "title": "Aumenta esercizio fisico e mentale",
+      "description": "Un cane stanco abbaia meno. Aggiungi passeggiate piu lunghe, giochi olfattivi e attivazione mentale. 30 minuti di attivita mentale stancano come 1 ora di corsa.",
+      "difficulty": "easy",
+      "time_needed": "Effetto immediato",
+      "success_rate": "high",
+      "warnings": "Aumenta gradualmente per evitare problemi articolari nei cuccioli"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 3,
+    "fields": {
+      "problem": 1,
+      "solution_type": "environment",
+      "title": "Riduci stimoli esterni",
+      "description": "Se il cane abbaia ai passanti dalla finestra: chiudi tende, sposta il cane in un'altra stanza, usa musica di sottofondo per coprire i rumori esterni.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "medium",
+      "warnings": "Questa e una soluzione temporanea, va combinata con l'addestramento"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 4,
+    "fields": {
+      "problem": 2,
+      "solution_type": "training",
+      "title": "Fermati quando tira",
+      "description": "Quando il guinzaglio si tende, fermati completamente. Non tirare indietro. Aspetta che il cane allenti la tensione, poi riparti. Il cane capisce che tirare NON funziona.",
+      "difficulty": "medium",
+      "time_needed": "2-4 settimane",
+      "success_rate": "high",
+      "warnings": "Serve molta pazienza. Le prime passeggiate saranno molto lente"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 5,
+    "fields": {
+      "problem": 2,
+      "solution_type": "training",
+      "title": "Premia la camminata corretta",
+      "description": "Ogni volta che il cane cammina vicino a te con il guinzaglio lento, premialo con cibo o lode. Premiare il comportamento giusto e molto piu efficace che punire quello sbagliato.",
+      "difficulty": "easy",
+      "time_needed": "1-3 settimane",
+      "success_rate": "high",
+      "warnings": "Usa premi di alto valore (formaggio, wurstel) soprattutto all'inizio"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 6,
+    "fields": {
+      "problem": 2,
+      "solution_type": "training",
+      "title": "Cambio di direzione improvviso",
+      "description": "Quando il cane tira, cambia direzione senza preavviso. Il cane impara a seguirti e a prestare attenzione ai tuoi movimenti invece di correre avanti.",
+      "difficulty": "easy",
+      "time_needed": "1-2 settimane",
+      "success_rate": "medium",
+      "warnings": "Non strattonare il guinzaglio: gira con calma e il cane seguira"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 7,
+    "fields": {
+      "problem": 3,
+      "solution_type": "training",
+      "title": "Desensibilizzazione graduale alle uscite",
+      "description": "Pratica finte uscite: prendi le chiavi, metti le scarpe, tocca la porta, ma non uscire. Poi esci per 10 secondi, poi 30, poi 1 minuto. Aumenta molto gradualmente il tempo di assenza.",
+      "difficulty": "hard",
+      "time_needed": "4-8 settimane",
+      "success_rate": "high",
+      "warnings": "Non fare passi troppo grandi: se il cane si agita, torna indietro allo step precedente"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 8,
+    "fields": {
+      "problem": 3,
+      "solution_type": "behavior",
+      "title": "Insegna l'indipendenza in casa",
+      "description": "Abitualo a stare in un'altra stanza anche quando sei a casa. Usa un Kong riempito per rendere positivo il momento da solo. Non premiare il cane per seguirti ovunque.",
+      "difficulty": "medium",
+      "time_needed": "2-4 settimane",
+      "success_rate": "high",
+      "warnings": "Non chiudere mai il cane in una stanza come punizione"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 9,
+    "fields": {
+      "problem": 3,
+      "solution_type": "environment",
+      "title": "Crea una routine di uscita calma",
+      "description": "Non fare scene drammatiche quando esci o torni. Ignora il cane per 5 minuti prima di uscire e dopo il rientro. Le uscite devono essere normali, non eventi traumatici.",
+      "difficulty": "easy",
+      "time_needed": "1-2 settimane",
+      "success_rate": "medium",
+      "warnings": "Questo richiede coerenza da parte di tutti i familiari"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 10,
+    "fields": {
+      "problem": 4,
+      "solution_type": "training",
+      "title": "Interrompi il gioco quando morde",
+      "description": "Appena il cane morde durante il gioco, fermati immediatamente, togli le mani e ignora il cane per 10-15 secondi. Poi riprendi. Il cane impara che mordere = fine del divertimento.",
+      "difficulty": "easy",
+      "time_needed": "1-3 settimane",
+      "success_rate": "high",
+      "warnings": "Tutti in famiglia devono seguire la stessa regola. Non giocare mai con le mani"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 11,
+    "fields": {
+      "problem": 4,
+      "solution_type": "environment",
+      "title": "Fornisci alternative da masticare",
+      "description": "Offri giochi da mordere, Kong, ossi naturali e corde. Il cane ha bisogno di masticare, deve solo imparare su COSA farlo. Ogni volta che morde un gioco, premialo.",
       "difficulty": "easy",
       "time_needed": "Immediato",
       "success_rate": "high",
-      "warnings": "Aumenta gradualmente per evitare problemi articolari"
+      "warnings": "Scegli giochi adatti alla taglia del cane. Evita oggetti troppo piccoli"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 12,
+    "fields": {
+      "problem": 4,
+      "solution_type": "behavior",
+      "title": "Gestisci l'eccitazione prima che arrivi al morso",
+      "description": "Quando vedi che il cane si eccita troppo durante il gioco (occhi grandi, respiro veloce, movimenti frenetici), fermati PRIMA che morda. Aiutalo a calmarsi, poi riprendi.",
+      "difficulty": "medium",
+      "time_needed": "2-4 settimane",
+      "success_rate": "medium",
+      "warnings": "Non punire mai il morso da gioco con la forza. Peggiora la situazione"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 13,
+    "fields": {
+      "problem": 5,
+      "solution_type": "health",
+      "title": "Visita veterinaria",
+      "description": "Se il rifiuto del cibo dura piu di 24-48 ore o e accompagnato da altri sintomi (letargia, vomito, diarrea), consulta il veterinario. Potrebbe esserci un problema di salute.",
+      "difficulty": "easy",
+      "time_needed": "1-2 giorni",
+      "success_rate": "high",
+      "warnings": "Non aspettare troppo: nei cuccioli il digiuno prolungato e piu pericoloso"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 14,
+    "fields": {
+      "problem": 5,
+      "solution_type": "nutrition",
+      "title": "Regola orari e quantita",
+      "description": "Offri il cibo 2 volte al giorno per 15-20 minuti. Se non mangia, togli la ciotola. Non lasciare cibo disponibile tutto il giorno. Il cane impara che ci sono orari precisi per mangiare.",
+      "difficulty": "easy",
+      "time_needed": "3-5 giorni",
+      "success_rate": "high",
+      "warnings": "Assicurati che non sia un problema di salute prima di usare questo metodo"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 15,
+    "fields": {
+      "problem": 5,
+      "solution_type": "nutrition",
+      "title": "Riduci snack e premi fuori pasto",
+      "description": "Conta i premi nel fabbisogno giornaliero. Se il cane riceve troppi snack durante il giorno, non avra fame all'ora del pasto. Limita i premi o scalali dalla porzione.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "medium",
+      "warnings": "Non eliminare i premi completamente, servono per l'educazione"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 16,
+    "fields": {
+      "problem": 6,
+      "solution_type": "behavior",
+      "title": "Crea un rifugio sicuro",
+      "description": "Prepara un luogo tranquillo dove il cane puo nascondersi: cuccia coperta, stanza interna, kennel aperto con coperte. Non forzarlo a uscire. Lascia che trovi la sua zona sicura.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "medium",
+      "warnings": "Non trascinare mai il cane fuori dal suo rifugio durante un episodio di paura"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 17,
+    "fields": {
+      "problem": 6,
+      "solution_type": "training",
+      "title": "Desensibilizzazione con suoni registrati",
+      "description": "Riproduci suoni di temporali o fuochi a volume bassissimo mentre il cane mangia o gioca. Aumenta il volume molto gradualmente in settimane. Il cane associa il suono a cose positive.",
+      "difficulty": "hard",
+      "time_needed": "4-8 settimane",
+      "success_rate": "high",
+      "warnings": "Se il cane mostra paura, abbassa subito il volume. Non forzare mai"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 18,
+    "fields": {
+      "problem": 6,
+      "solution_type": "environment",
+      "title": "Gestione durante l'evento",
+      "description": "Durante temporali: chiudi finestre e tapparelle, metti musica calma, resta tranquillo (se ti agiti anche tu, il cane lo percepisce). Non sgridarlo e non consolarlo in modo eccessivo.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "medium",
+      "warnings": "Consolare troppo puo rinforzare la paura. Comportati normalmente"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 19,
+    "fields": {
+      "problem": 7,
+      "solution_type": "training",
+      "title": "Ignora finche non ha 4 zampe a terra",
+      "description": "Quando il cane salta: voltati, incrocia le braccia, non guardarlo, non toccarlo. Appena mette tutte e 4 le zampe a terra, accarezzalo e premialo. Tutti gli ospiti devono fare lo stesso.",
+      "difficulty": "easy",
+      "time_needed": "1-3 settimane",
+      "success_rate": "high",
+      "warnings": "La coerenza e fondamentale: se anche una sola persona lo premia per il salto, non funziona"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 20,
+    "fields": {
+      "problem": 7,
+      "solution_type": "training",
+      "title": "Insegna il comando 'seduto' come alternativa",
+      "description": "Allena il cane a sedersi quando arrivano persone. Chiedigli 'seduto' prima che salti, e premia se lo fa. Il cane impara che sedersi porta attenzione e carezze, saltare no.",
+      "difficulty": "medium",
+      "time_needed": "2-4 settimane",
+      "success_rate": "high",
+      "warnings": "Il cane deve gia conoscere il comando 'seduto' in contesti calmi prima di usarlo qui"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 21,
+    "fields": {
+      "problem": 8,
+      "solution_type": "training",
+      "title": "Addestramento progressivo del richiamo",
+      "description": "Inizia in casa senza distrazioni. Chiama il nome e 'vieni', quando arriva premia con cibo di altissimo valore. Poi in giardino, poi in parco vuoto, poi con poche distrazioni. Ogni step deve essere solido prima di passare al successivo.",
+      "difficulty": "medium",
+      "time_needed": "4-8 settimane",
+      "success_rate": "high",
+      "warnings": "Non chiamare mai il cane per sgridarlo o mettere al guinzaglio e andare a casa"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 22,
+    "fields": {
+      "problem": 8,
+      "solution_type": "training",
+      "title": "Usa la longhina come sicurezza",
+      "description": "Usa una longhina di 5-10 metri. Il cane si sente libero ma tu mantieni controllo. Quando viene al richiamo, premia tantissimo. Se non viene, puoi guidarlo senza rincorrerlo.",
+      "difficulty": "easy",
+      "time_needed": "2-4 settimane",
+      "success_rate": "high",
+      "warnings": "Non tirare mai la longhina con forza. Usala solo come sicurezza"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 23,
+    "fields": {
+      "problem": 9,
+      "solution_type": "environment",
+      "title": "Fornisci alternative da masticare e giochi interattivi",
+      "description": "Kong riempiti con cibo, giochi olfattivi, tappetini da fiuto. Il cane ha bisogno di masticare e di stimoli. Se ha alternative interessanti, non distruggera mobili.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "high",
+      "warnings": "Ruota i giochi ogni pochi giorni per mantenere l'interesse"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 24,
+    "fields": {
+      "problem": 9,
+      "solution_type": "training",
+      "title": "Aumenta esercizio prima di restare solo",
+      "description": "Fai una passeggiata lunga o sessione di gioco prima di lasciare il cane solo. Un cane fisicamente e mentalmente stanco e molto meno propenso a distruggere.",
+      "difficulty": "easy",
+      "time_needed": "Effetto immediato",
+      "success_rate": "high",
+      "warnings": "Non sostituire la passeggiata con il giardino: il cane ha bisogno di stimoli nuovi"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 25,
+    "fields": {
+      "problem": 9,
+      "solution_type": "environment",
+      "title": "Limita l'accesso quando solo",
+      "description": "Usa cancelletti o tieni il cane in una zona sicura della casa quando e solo. Rimuovi oggetti pericolosi o di valore. Non come punizione, ma come gestione dell'ambiente.",
+      "difficulty": "easy",
+      "time_needed": "Immediato",
+      "success_rate": "medium",
+      "warnings": "Non chiudere il cane in spazi troppo piccoli, provoca ansia"
+    }
+  },
+
+  {
+    "model": "knowledge.solution",
+    "pk": 26,
+    "fields": {
+      "problem": 10,
+      "solution_type": "training",
+      "title": "Esercizi di autocontrollo e calma",
+      "description": "Insegna 'aspetta' prima del cibo, prima di uscire, prima di giocare. Premia il cane quando e calmo, non quando e eccitato. Protocollo di rilassamento su tappetino: il cane impara a restare fermo per rilassarsi.",
+      "difficulty": "medium",
+      "time_needed": "2-6 settimane",
+      "success_rate": "high",
+      "warnings": "Non punire l'eccitazione, reindirizzala. Punire aumenta frustrazione e eccitazione"
+    }
+  },
+  {
+    "model": "knowledge.solution",
+    "pk": 27,
+    "fields": {
+      "problem": 10,
+      "solution_type": "behavior",
+      "title": "Gestisci i trigger di eccitazione",
+      "description": "Identifica cosa eccita il cane (guinzaglio, ospiti, altri cani) e lavora su quei specifici trigger. Per esempio: se si eccita alla vista del guinzaglio, inizia a prenderlo e posarlo finche non diventa noioso.",
+      "difficulty": "medium",
+      "time_needed": "2-4 settimane",
+      "success_rate": "medium",
+      "warnings": "Non eliminare le fonti di gioia del cane. L'obiettivo e gestire, non sopprimere"
     }
   }
 ]

@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-2145959534306055">
+    <meta name="description" content="{% block meta_description %}Vivere con il Cane - Educazione cinofila, analisi AI del comportamento e strumenti pratici per il tuo cane{% endblock %}">
     <title>{% block title %}Vivere con il Cane{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWZ5F6N4DJ"></script>
     <script>
@@ -19,6 +22,7 @@
     <!-- AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055"
      crossorigin="anonymous"></script>
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <header>
@@ -28,6 +32,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                <li><a href="{% url 'problem_list' %}">Problemi</a></li>
                 <li><a href="{% url 'tools_index' %}">Tool</a></li>
                 <li><a href="{% url 'dashboard' %}">Il mio Cane</a></li>
             </ul>

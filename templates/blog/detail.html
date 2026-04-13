@@ -3,6 +3,30 @@
 
 {% block title %}{{ post.title }} - Vivere con il Cane{% endblock %}
 
+{% block meta_description %}{{ post.content|truncatewords:25|striptags }}{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ post.title }}",
+    "datePublished": "{{ post.publish_date|date:'c' }}",
+    "dateModified": "{{ post.updated_at|date:'c' }}",
+    "author": {
+        "@type": "Organization",
+        "name": "Vivere con il Cane"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Vivere con il Cane",
+        "url": "https://vivere-con-il-cane.onrender.com"
+    },
+    "description": "{{ post.content|truncatewords:25|striptags }}"
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <article class="post-detail">
     <header>
@@ -20,16 +44,38 @@
     <div class="post-body">
         {{ post.content|linebreaks }}
     </div>
+
+    <!-- CTA: Analizza il tuo caso -->
+    <div class="cta-analyze">
+        <h3>Ogni cane e diverso</h3>
+        <p>Descrivi il problema del tuo cane e ottieni una soluzione personalizzata con la nostra AI.</p>
+        <a href="{% url 'analyze_problem' %}" class="btn btn-primary btn-lg">Analizza il tuo caso</a>
+    </div>
+
+    <!-- Articoli correlati -->
+    {% if related_posts %}
+    <div class="related-articles">
+        <h3>Articoli correlati</h3>
+        <div class="related-grid">
+            {% for related in related_posts %}
+            <a href="{% url 'blog_detail' related.slug %}" class="related-card">
+                <strong>{{ related.title }}</strong>
+                <span>{{ related.content|truncatewords:12 }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
     
     <div class="post-actions" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--light-dark);">
-        <a href="{% url 'blog_list' %}" class="back-link">← Torna al blog</a>
+        <a href="{% url 'blog_list' %}" class="back-link">&larr; Torna al blog</a>
         <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }})">
-            ♥ Mi piace <span class="vote-count">{{ post.votes_count }}</span>
+            &#9829; Mi piace <span class="vote-count">{{ post.votes_count }}</span>
         </button>
     </div>
     
     <div class="related-tool">
-        <h3>🎯 Tool Correlato</h3>
+        <h3>Tool Correlato</h3>
         <p>Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro <a href="{% url 'food_calculator' %}">calcolatore alimentare</a>!</p>
     </div>
 </article>
@@ -43,7 +89,9 @@ const images = [
     'dog-vet.jpg',
     'dog-sleeping.jpg',
     'dog-food.jpg',
-    'dog-cat.jpg'
+    'dog-cat.jpg',
+    'dog-barking.jpg',
+    'dog-training-2.jpg'
 ];
 const postId = {{ post.id }};
 document.getElementById('post-image').src = '/static/images/' + images[(postId - 1) % images.length];

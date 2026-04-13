@@ -9,10 +9,24 @@
 </section>
 
 <section class="tool-container">
+    {% if problem %}
+    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light); border-radius: var(--radius-sm); border-left: 4px solid var(--primary);">
+        <strong>Problema identificato:</strong> {{ problem.title }}
+        {% if problem.severity == 'high' %}
+        <span class="problem-severity severity-high" style="margin-left: 0.5rem;">{{ problem.get_severity_display }}</span>
+        {% endif %}
+    </div>
+    {% endif %}
+
     <div class="analysis-result">
-        {{ analysis.ai_response|linebreaks }}
+        {% if analysis %}
+            {{ analysis.ai_response|linebreaks }}
+        {% else %}
+            {{ ai_response|linebreaks }}
+        {% endif %}
     </div>
     
+    {% if analysis %}
     <div style="margin-top: 2rem; text-align: center;">
         <p>Ha funzionato questa soluzione?</p>
         <form method="post" action="{% url 'update_analysis_result' analysis.id %}" style="display: inline;">
@@ -22,9 +36,17 @@
             <button type="submit" name="result" value="worse" class="btn-calculate" style="background: #e74c3c;">Peggio</button>
         </form>
     </div>
+    {% elif not dog %}
+    <div class="cta-analyze" style="margin-top: 2rem;">
+        <h3>Vuoi risultati migliori?</h3>
+        <p>Crea il profilo del tuo cane per ottenere risposte personalizzate per razza, eta e peso.</p>
+        <a href="{% url 'profile_new' %}" class="btn btn-primary">Crea profilo cane</a>
+    </div>
+    {% endif %}
     
-    <div style="margin-top: 2rem;">
-        <a href="{% url 'analyze_problem' %}" class="read-more">Fai una nuova analisi</a>
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="{% url 'analyze_problem' %}" class="btn btn-secondary">Nuova analisi</a>
+        <a href="{% url 'problem_list' %}" class="btn btn-secondary">Vedi tutti i problemi</a>
     </div>
 </section>
 

@@ -9,6 +9,12 @@
 </section>
 
 <section class="tool-container">
+    {% if error %}
+    <div style="background: #fce4ec; color: #c62828; padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
+        {{ error }}
+    </div>
+    {% endif %}
+
     <form method="post" class="calculator-form">
         {% csrf_token %}
         
@@ -34,7 +40,7 @@
         
         <div class="form-group">
             <label>Descrivi il problema</label>
-            <textarea name="description" rows="5" required placeholder="Es: Il mio cane abbaia ogni volta che Esco di casa, anche solo per pochi minuti. Si dispera e graffia la porta."></textarea>
+            <textarea name="description" rows="5" required placeholder="Es: Il mio cane abbaia ogni volta che esco di casa, anche solo per pochi minuti. Si dispera e graffia la porta.">{{ prefill }}</textarea>
         </div>
         
         <button type="submit" class="btn-calculate">Analizza con AI</button>

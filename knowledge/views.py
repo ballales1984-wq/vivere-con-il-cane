@@ -44,7 +44,21 @@ def analyze_problem(request):
     if request.method == "POST":
         dog_id = request.POST.get("dog_id")
         problem_id = request.POST.get("problem_id")
-        description = request.POST.get("description")
+        description = request.POST.get("description", "").strip()
+
+        if not description:
+            # Redirect back to form if no description
+            dogs = DogProfile.objects.all()
+            problems = Problem.objects.all()
+            return render(
+                request,
+                "knowledge/analyze_form.html",
+                {
+                    "dogs": dogs,
+                    "problems": problems,
+                    "error": "Descrivi il problema del tuo cane.",
+                },
+            )
 
         dog = None
         problem = None
@@ -54,6 +68,10 @@ def analyze_problem(request):
         if problem_id:
             problem = Problem.objects.filter(id=problem_id).first()
 
+        # Auto-detect problem from description if not selected
+        if not problem and description:
+            problem = auto_detect_problem(description)
+
         # Get breed insights if available
         breed_info = None
         if dog and dog.breed:
@@ -62,13 +80,15 @@ def analyze_problem(request):
         # Generate AI response
         ai_response = generate_ai_response(problem, description, dog, breed_info)
 
-        # Save analysis
-        analysis = DogAnalysis.objects.create(
-            dog=dog,
-            problem=problem,
-            user_description=description,
-            ai_response=ai_response,
-        )
+        # Save analysis only if dog is available
+        analysis = None
+        if dog:
+            analysis = DogAnalysis.objects.create(
+                dog=dog,
+                problem=problem,
+                user_description=description,
+                ai_response=ai_response,
+            )
 
         return render(
             request,
@@ -76,20 +96,64 @@ def analyze_problem(request):
             {
                 "analysis": analysis,
                 "dog": dog,
+                "ai_response": ai_response,
+                "problem": problem,
+                "description": description,
             },
         )
 
-    # GET - show form
+    # GET - show form, pre-fill description from homepage if provided
     dogs = DogProfile.objects.all()
     problems = Problem.objects.all()
+    prefill = request.GET.get("q", "")
     return render(
         request,
         "knowledge/analyze_form.html",
         {
             "dogs": dogs,
             "problems": problems,
+            "prefill": prefill,
         },
     )
+
+
+def auto_detect_problem(text):
+    """Auto-detect problem from user description text."""
+    text_lower = text.lower()
+    keyword_map = {
+        "abbaia": "abbaia-troppo",
+        "abbaio": "abbaia-troppo",
+        "tira": "tira-guinzaglio",
+        "guinzaglio": "tira-guinzaglio",
+        "ansia": "ansia-separazione",
+        "separazione": "ansia-separazione",
+        "solo": "ansia-separazione",
+        "morde": "cane-morde",
+        "morso": "cane-morde",
+        "mordere": "cane-morde",
+        "mangia": "non-mangia",
+        "appetito": "non-mangia",
+        "cibo": "non-mangia",
+        "paura": "paura-rumori",
+        "temporale": "paura-rumori",
+        "tuono": "paura-rumori",
+        "petardi": "paura-rumori",
+        "salta": "salta-addosso",
+        "addosso": "salta-addosso",
+        "richiamo": "non-richiamo",
+        "viene": "non-richiamo",
+        "distrugge": "distrugge-casa",
+        "mastica": "distrugge-casa",
+        "eccitato": "eccitazione-eccessiva",
+        "eccitazione": "eccitazione-eccessiva",
+    }
+
+    for keyword, slug in keyword_map.items():
+        if keyword in text_lower:
+            problem = Problem.objects.filter(slug=slug).first()
+            if problem:
+                return problem
+    return None
 
 
 def generate_ai_response(problem, description, dog, breed_info):

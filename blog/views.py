@@ -22,15 +22,28 @@ def blog_list(request):
 
 
 def home_page(request):
-    """New homepage with dashboard approach."""
+    """Homepage: AI-first with problems and recent posts."""
     posts = []
+    problems = []
     try:
         posts = list(
             BlogPost.objects.filter(published=True).order_by("-created_at")[:3]
         )
     except Exception as e:
         print(f"DB Error: {e}")
-    return render(request, "home.html", {"recent_posts": posts})
+
+    try:
+        from knowledge.models import Problem
+
+        problems = list(Problem.objects.all().order_by("pk")[:6])
+    except Exception as e:
+        print(f"Knowledge DB Error: {e}")
+
+    return render(
+        request,
+        "home.html",
+        {"recent_posts": posts, "problems": problems},
+    )
 
 
 def blog_detail(request, slug):
@@ -40,7 +53,21 @@ def blog_detail(request, slug):
         from django.http import Http404
 
         raise Http404("Post not found")
-    return render(request, "blog/detail.html", {"post": post})
+
+    # Articoli correlati: stessa categoria, escludi l'attuale
+    related_posts = []
+    if post.category:
+        related_posts = list(
+            BlogPost.objects.filter(published=True, category=post.category)
+            .exclude(id=post.id)
+            .order_by("-created_at")[:3]
+        )
+
+    return render(
+        request,
+        "blog/detail.html",
+        {"post": post, "related_posts": related_posts},
+    )
 
 
 def vote_post(request, post_id):
