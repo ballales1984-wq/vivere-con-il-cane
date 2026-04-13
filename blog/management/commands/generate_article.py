@@ -102,13 +102,13 @@ Struttura:
 
         try:
             response = requests.post(
-                "https://api.x.ai/v1/chat/completions",
+                "https://api.groq.com/openai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {GROK_API_KEY}",
                 },
                 json={
-                    "model": "grok-2-1212",
+                    "model": "llama-3.3-70b-versatile",
                     "messages": [
                         {
                             "role": "system",
