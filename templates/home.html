@@ -93,11 +93,7 @@
     <article class="post-card">
         <a href="{% url 'blog_detail' post.slug %}">
             <div class="post-image-container">
-                {% if post.image %}
-                <img src="{{ post.image.url }}" alt="{{ post.title }}">
-                {% else %}
                 <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}">
-                {% endif %}
             </div>
         </a>
         <div class="post-content">

@@ -15,17 +15,7 @@
         </p>
     </header>
     
-    {% if post.image %}
-    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
-    {% else %}
-        {% if 'abbaia' in post.slug %}
-        <img src="{% static 'images/dog-barking.jpg' %}" alt="{{ post.title }}" class="post-image">
-        {% elif 'mangia' in post.slug or 'cibo' in post.slug %}
-        <img src="{% static 'images/dog-food.jpg' %}" alt="{{ post.title }}" class="post-image">
-        {% else %}
-        <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
-        {% endif %}
-    {% endif %}
+    <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
     
     <div class="post-body">
         {{ post.content|linebreaks }}
