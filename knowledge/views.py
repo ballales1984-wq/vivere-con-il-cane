@@ -262,10 +262,12 @@ Fornisci:
 Rispondi in italiano in modo chiaro e pratico."""
 
     # Try Grok first
-    print(f"GROK_KEY: {grok_key[:10]}...")  # Debug
+    print(
+        f">>> GROK_KEY present: {bool(grok_key)}, length: {len(grok_key) if grok_key else 0}"
+    )
     if grok_key and len(grok_key) > 20:
         try:
-            print("Trying Grok API...")  # Debug
+            print(">>> Trying Grok API...")
             response = requests.post(
                 "https://api.x.ai/v1/chat/completions",
                 headers={
@@ -284,12 +286,13 @@ Rispondi in italiano in modo chiaro e pratico."""
                 },
                 timeout=30,
             )
-            print(f"Grok response status: {response.status_code}")  # Debug
+            print(f">>> Grok response status: {response.status_code}")
             if response.status_code == 200:
                 return response.json()["choices"][0]["message"]["content"]
-        except Exception as e:
-            print(f"Grok error: {e}")  # Debug
-            pass
+            else:
+                print(f">>> Grok error response: {response.text[:200]}")
+        except Exception as err:
+            print(f">>> Grok exception: {err}")
 
     # Fallback to OpenAI
     if openai_key and len(openai_key) > 20:
