@@ -1,43 +1,89 @@
 {% extends "base.html" %}
 
 {% block title %}{{ breed.breed }} - Vivere con il Cane{% endblock %}
+{% block meta_description %}{{ breed.breed }}: caratteristiche, {{ breed.traits|truncatewords:15 }}. Problemi comuni: {{ breed.common_problems }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'knowledge:breed_list' %}">Razze</a></li>
-            <li class="breadcrumb-item active">{{ breed.breed }}</li>
-        </ol>
-    </nav>
-    
+<section class="hero">
     <h1>{{ breed.breed }}</h1>
-    
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Caratteristiche</h3>
-            <ul>
-                <li><strong>Livello Energia:</strong> {{ breed.get_energy_level_display }}</li>
-                <li><strong>Socialità:</strong> {{ breed.get_social_level_display }}</li>
-            </ul>
-            
-            {% if breed.traits %}
-            <h3>Tratti Tipici</h3>
-            <p>{{ breed.traits }}</p>
-            {% endif %}
-            
-            {% if breed.care_tips %}
-            <h3>Consigli di Cura</h3>
-            <p>{{ breed.care_tips }}</p>
-            {% endif %}
+    <p>Caratteristiche, problemi comuni e consigli per questa razza</p>
+</section>
+
+<section class="tool-container">
+    <!-- Caratteristiche Principali -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="stat-card">
+            <h3>Livello Energia</h3>
+            <span class="value" style="font-size: 1.5rem;">
+                {% if breed.energy_level == 'very_high' %}⬆⬆⬆ Molto Alto
+                {% elif breed.energy_level == 'high' %}⬆⬆ Alto
+                {% elif breed.energy_level == 'medium' %}➡ Medio
+                {% else %}⬇ Basso
+                {% endif %}
+            </span>
         </div>
-        
-        <div class="col-md-6">
-            {% if breed.common_problems %}
-            <h3>Problemi Comuni</h3>
-            <p>{{ breed.common_problems }}</p>
-            {% endif %}
+        <div class="stat-card">
+            <h3>Socialità</h3>
+            <span class="value" style="font-size: 1.5rem;">
+                {% if breed.social_level == 'very_high' %}⬆⬆⬆ Molto Alta
+                {% elif breed.social_level == 'high' %}⬆⬆ Alta
+                {% elif breed.social_level == 'medium' %}➡ Media
+                {% else %}⬇ Bassa
+                {% endif %}
+            </span>
         </div>
     </div>
-</div>
+
+    <!-- Tratti Tipici -->
+    {% if breed.traits %}
+    <div style="margin-bottom: 2rem;">
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">Tratti Tipici</h2>
+        <p style="font-size: 1.05rem; line-height: 1.8;">{{ breed.traits }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Problemi Comuni -->
+    {% if breed.common_problems %}
+    <div style="margin-bottom: 2rem;">
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">Problemi Comuni</h2>
+        <div style="background: #fff3e0; padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
+            <p style="font-size: 1rem; line-height: 1.6;">{{ breed.common_problems }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Consigli di Cura -->
+    {% if breed.care_tips %}
+    <div style="margin-bottom: 2rem;">
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">Consigli di Cura</h2>
+        <p style="font-size: 1rem; line-height: 1.8;">{{ breed.care_tips }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Problemi della razza come link cliccabili -->
+    {% if related_problems %}
+    <div style="margin-bottom: 2rem;">
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">Problemi tipici di questa razza</h2>
+        <div class="problems-grid">
+            {% for problem in related_problems %}
+            <a href="{% url 'problem_detail' problem.slug %}" class="problem-card">
+                <span class="problem-icon">🐾</span>
+                <strong>{{ problem.title }}</strong>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- CTA: Analizza il tuo cane di questa razza -->
+    <div class="cta-analyze">
+        <h3>Il tuo {{ breed.breed }} ha un problema?</h3>
+        <p>Descrivi il comportamento del tuo cane e ricevi una soluzione personalizzata per la razza {{ breed.breed }}.</p>
+        <a href="{% url 'analyze_problem' %}?q={{ breed.breed }}" class="btn btn-primary btn-lg">Analizza il tuo {{ breed.breed }}</a>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'breed_list' %}" class="back-link">&larr; Torna a tutte le razze</a>
+    </div>
+</section>
 {% endblock %}

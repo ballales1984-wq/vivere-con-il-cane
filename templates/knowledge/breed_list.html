@@ -1,31 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Razze - Vivere con il Cane{% endblock %}
+{% block title %}Razze di Cani - Vivere con il Cane{% endblock %}
+{% block meta_description %}Scopri le caratteristiche delle razze piu comuni: Labrador, Golden Retriever, Pastore Tedesco e altre.{% endblock %}
 
 {% block content %}
-<div class="container">
+<section class="hero">
     <h1>Razze di Cani</h1>
-    <p class="lead">Scopri le caratteristiche delle razze più comuni.</p>
-    
-    {% if breeds %}
-    <div class="row">
-        {% for breed in breeds %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ breed.breed }}</h5>
-                    <p class="card-text">
-                        <strong>Energia:</strong> {{ breed.get_energy_level_display }}<br>
-                        <strong>Socialità:</strong> {{ breed.get_social_level_display }}
-                    </p>
-                    <a href="{% url 'knowledge:breed_detail' breed.slug %}" class="btn btn-primary">Dettagli</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    {% else %}
+    <p>Scopri le caratteristiche delle razze piu comuni e i loro problemi tipici</p>
+</section>
+
+<section class="tools-grid">
+    {% for breed in breeds %}
+    <a href="{% url 'breed_detail' breed.slug %}" class="tool-card" style="text-decoration: none;">
+        <span class="tool-icon">🐕</span>
+        <h3>{{ breed.breed }}</h3>
+        <p>
+            <strong>Energia:</strong> {{ breed.get_energy_level_display }}<br>
+            <strong>Socialita:</strong> {{ breed.get_social_level_display }}
+        </p>
+        {% if breed.common_problems %}
+        <span style="font-size: 0.8rem; color: var(--accent);">{{ breed.common_problems|truncatewords:8 }}</span>
+        {% endif %}
+    </a>
+    {% empty %}
     <p>Nessuna razza disponibile.</p>
-    {% endif %}
-</div>
+    {% endfor %}
+</section>
+
+<section class="cta-final" style="margin-top: 2rem;">
+    <h2>Non sai che razza ha il tuo cane?</h2>
+    <p>Descrivi il tuo cane e l'AI ti aiutera a capire la razza e le sue caratteristiche.</p>
+    <a href="{% url 'analyze_problem' %}" class="btn btn-white">Analizza il tuo cane</a>
+</section>
 {% endblock %}

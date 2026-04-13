@@ -56,9 +56,32 @@ def breed_list(request):
 
 
 def breed_detail(request, slug):
-    """Show breed details."""
+    """Show breed details with related problems."""
     breed = get_object_or_404(BreedInsight, slug=slug)
-    return render(request, "knowledge/breed_detail.html", {"breed": breed})
+
+    # Find related problems based on breed common_problems keywords
+    related_problems = []
+    common = breed.common_problems.lower() if breed.common_problems else ""
+
+    if "abbaio" in common or "ansia" in common:
+        related_problems.extend(Problem.objects.filter(slug="abbaia-troppo"))
+    if "tir" in common or "guinzaglio" in common:
+        related_problems.extend(Problem.objects.filter(slug="tira-guinzaglio"))
+    if "separazione" in common or "ansia" in common:
+        related_problems.extend(Problem.objects.filter(slug="ansia-separazione"))
+    if "distruzione" in common or "noia" in common:
+        related_problems.extend(Problem.objects.filter(slug="distrugge-casa"))
+    if "eccitazione" in common:
+        related_problems.extend(Problem.objects.filter(slug="eccitazione-eccessiva"))
+
+    # Remove duplicates and limit to 4
+    related_problems = list(dict.fromkeys(related_problems))[:4]
+
+    return render(
+        request,
+        "knowledge/breed_detail.html",
+        {"breed": breed, "related_problems": related_problems},
+    )
 
 
 def analyze_problem(request):
