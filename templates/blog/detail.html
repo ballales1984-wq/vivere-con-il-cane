@@ -15,7 +15,7 @@
         </p>
     </header>
     
-    <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
+    <img id="post-image" src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
     
     <div class="post-body">
         {{ post.content|linebreaks }}
@@ -33,6 +33,21 @@
         <p>Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro <a href="{% url 'food_calculator' %}">calcolatore alimentare</a>!</p>
     </div>
 </article>
+
+<script>
+const images = [
+    'dog-training.jpg',
+    'puppy-play.jpg',
+    'dog-walking.jpg',
+    'dog-happy.jpg',
+    'dog-vet.jpg',
+    'dog-sleeping.jpg',
+    'dog-food.jpg',
+    'dog-cat.jpg'
+];
+const postId = {{ post.id }};
+document.getElementById('post-image').src = '/static/images/' + images[(postId - 1) % images.length];
+</script>
 
 <script>
 function votePost(postId) {
