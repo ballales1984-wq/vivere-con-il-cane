@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from .models import Problem, Solution, BreedInsight, DogAnalysis
 from dog_profile.models import DogProfile
+from blog.models import BlogPost
 import requests
 import os
 
@@ -14,8 +15,28 @@ def problem_list(request):
 
 
 def problem_detail(request, slug):
-    """Show problem with causes and solutions."""
+    """Show problem with causes and solutions and related articles."""
     problem = get_object_or_404(Problem, slug=slug)
+
+    # Find related articles based on problem keywords
+    related_articles = []
+    if problem.slug == "abbaia-troppo":
+        related_articles = BlogPost.objects.filter(
+            published=True, slug__icontains="abbaia"
+        )[:3]
+    elif problem.slug == "tira-guinzaglio":
+        related_articles = BlogPost.objects.filter(
+            published=True, slug__icontains="tira"
+        )[:3]
+    elif problem.slug == "ansia-separazione":
+        related_articles = BlogPost.objects.filter(
+            published=True, slug__icontains="ansia"
+        )[:3]
+    elif problem.slug == "cane-morde":
+        related_articles = BlogPost.objects.filter(
+            published=True, slug__icontains="morde"
+        )[:3]
+
     return render(
         request,
         "knowledge/problem_detail.html",
@@ -23,6 +44,7 @@ def problem_detail(request, slug):
             "problem": problem,
             "causes": problem.causes.all(),
             "solutions": problem.solutions.all(),
+            "related_articles": related_articles,
         },
     )
 

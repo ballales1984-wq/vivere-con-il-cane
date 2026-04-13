@@ -1,0 +1,13 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow: /admin/
+Disallow: /cane/
+Disallow: /account/
+Disallow: /password/
+
+Allow: /
+Allow: /blog/
+Allow: /tool/
+Allow: /knowledge/
+
+Sitemap: https://vivere-con-il-cane.onrender.com/sitemap.xml

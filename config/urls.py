@@ -4,11 +4,31 @@ from django.conf import settings
 from django.conf.urls.static import static
 from blog import views as blog_views
 from canine_tools import views as tools_views
+from blog.sitemap import (
+    BlogPostSitemap,
+    ProblemSitemap,
+    BreedSitemap,
+    StaticViewSitemap,
+)
+from django.contrib.sitemaps.views import sitemap
+
+sitemaps = {
+    "blog": BlogPostSitemap(),
+    "problemi": ProblemSitemap(),
+    "razze": BreedSitemap(),
+    "static": StaticViewSitemap(),
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("ping/", blog_views.ping, name="ping"),
     path("health/", blog_views.health, name="health"),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
     path("", blog_views.home_page, name="home"),
     path("blog/", include("blog.urls")),
     path("tool/", tools_views.tools_index, name="tools_index"),
