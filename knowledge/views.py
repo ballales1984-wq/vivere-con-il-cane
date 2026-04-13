@@ -262,7 +262,7 @@ Fornisci:
 Rispondi in italiano in modo chiaro e pratico."""
 
     # Try Grok first
-    if grok_key and grok_key != "your_grok_key_here":
+    if grok_key and len(grok_key) > 20:
         try:
             response = requests.post(
                 "https://api.x.ai/v1/chat/completions",
@@ -288,7 +288,7 @@ Rispondi in italiano in modo chiaro e pratico."""
             pass
 
     # Fallback to OpenAI
-    if openai_key and openai_key != "your_openai_key_here":
+    if openai_key and len(openai_key) > 20:
         try:
             response = requests.post(
                 "https://api.openai.com/v1/chat/completions",
