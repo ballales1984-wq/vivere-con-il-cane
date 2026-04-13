@@ -5,7 +5,7 @@
 
 {% block content %}
 <section class="hero">
-    <h1>Vivere con il Cane</h1>
+    <h1>📝 Il Blog</h1>
     <p>Consigli, guide e strumenti per la vita con il tuo amico a quattro zampe</p>
 </section>
 
@@ -13,15 +13,22 @@
     {% for post in posts %}
     <article class="post-card">
         <a href="{% url 'blog_detail' post.slug %}">
-        {% if post.image %}
-        <img src="{{ post.image.url }}" alt="{{ post.title }}">
-        {% else %}
-        <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}">
-        {% endif %}
+            <div class="post-image-container">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% else %}
+                <img src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}">
+                {% endif %}
+            </div>
         </a>
         <div class="post-content">
             <h2><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h2>
-            <p class="post-meta">{{ post.created_at|date:"d M Y" }} {% if post.category %}- {{ post.category.name }}{% endif %}</p>
+            <p class="post-meta">
+                {{ post.created_at|date:"d M Y" }}
+                {% if post.category %}
+                <span class="category">{{ post.category.name }}</span>
+                {% endif %}
+            </p>
             <p>{{ post.content|truncatewords:30 }}</p>
             <div class="post-actions">
                 <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto →</a>
@@ -32,7 +39,10 @@
         </div>
     </article>
     {% empty %}
-    <p> Nessun articolo disponibile. <a href="/admin">Aggiungine uno!</a></p>
+    <div style="text-align: center; grid-column: 1/-1; padding: 3rem;">
+        <p style="font-size: 1.1rem; color: var(--text-light);">Nessun articolo disponibile.</p>
+        <a href="/admin" class="btn btn-primary" style="margin-top: 1rem;">Aggiungi un articolo</a>
+    </div>
     {% endfor %}
 </section>
 
@@ -47,25 +57,4 @@ function votePost(postId) {
         });
 }
 </script>
-
-<style>
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-}
-.vote-btn {
-    background: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-.vote-btn:hover {
-    background: #ff4757;
-}
-</style>
 {% endblock %}

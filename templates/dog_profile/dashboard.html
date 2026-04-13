@@ -4,171 +4,110 @@
 
 {% block content %}
 <section class="hero">
-    <h1>Il mio Cane</h1>
+    <h1>🐕 Il mio Cane</h1>
     <p>Centro di gestione e conoscenza per il tuo amico a quattro zampe</p>
 </section>
 
 {% if profiles %}
 {% for profile in profiles %}
-<section class="tool-container" style="max-width: 800px; margin: 0 auto;">
-    <div class="profile-header">
-        <h2>{{ profile.dog_name }}</h2>
-        {% if profile.breed %}<span class="breed">{{ profile.breed }}</span>{% endif %}
+<section class="post-detail" style="max-width: 800px; margin: 0 auto 2rem;">
+    <div class="dashboard-header">
+        <div class="dog-avatar">🐶</div>
+        <div class="dog-info">
+            <h1>{{ profile.dog_name }}</h1>
+            {% if profile.breed %}<span class="breed">{{ profile.breed }}</span>{% endif %}
+        </div>
     </div>
     
-    <div class="profile-stats">
-        <div class="stat">
-            <span class="stat-value">{{ profile.get_age }}</span>
-            <span class="stat-label">anni</span>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Età</h3>
+            <div class="value">{{ profile.get_age }}</div>
         </div>
         {% if profile.weight %}
-        <div class="stat">
-            <span class="stat-value">{{ profile.weight }}</span>
-            <span class="stat-label">kg</span>
+        <div class="stat-card">
+            <h3>Peso</h3>
+            <div class="value">{{ profile.weight }} kg</div>
         </div>
         {% endif %}
-        <div class="stat">
-            <span class="stat-value">{{ profile.events_count }}</span>
-            <span class="stat-label">eventi</span>
+        <div class="stat-card">
+            <h3>Eventi</h3>
+            <div class="value">{{ profile.events_count }}</div>
         </div>
     </div>
     
-    <div class="profile-actions">
-        <a href="{% url 'profile_detail' profile.id %}" class="btn-primary">Scheda Completa</a>
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn-secondary">+ Evento Salute</a>
-        <a href="{% url 'profile_add_log' profile.id %}" class="btn-secondary">+ Giornata</a>
+    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="{% url 'profile_detail' profile.id %}" class="btn btn-primary">Scheda Completa</a>
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary">+ Evento Salute</a>
+        <a href="{% url 'profile_add_log' profile.id %}" class="btn btn-secondary">+ Giornata</a>
     </div>
 </section>
 
-<section class="tools-grid">
-    <h3>Tool per {{ profile.dog_name }}</h3>
+<section style="max-width: 900px; margin: 0 auto;">
+    <h2 class="section-title">🔧 Tool per {{ profile.dog_name }}</h2>
     
-    <a href="{% url 'food_calculator' %}" class="tool-card">
-        <span class="tool-icon">🍖</span>
-        <h3>Calcolatore Cibo</h3>
-        <p>Portata giornaliera in base a peso ed età</p>
-    </a>
-    
-    <a href="{% url 'age_calculator' %}" class="tool-card">
-        <span class="tool-icon">🎂</span>
-        <h3>Età Umana</h3>
-        <p>Converter età del cane in anni umani</p>
-    </a>
-    
-    <a href="{% url 'dog_quiz' %}" class="tool-card">
-        <span class="tool-icon">🧠</span>
-        <h3>Quiz Comportamento</h3>
-        <p>Testa la conoscenza del tuo cane</p>
-    </a>
-    
-    <a href="{% url 'blog_list' %}" class="tool-card">
-        <span class="tool-icon">📖</span>
-        <h3>Guide Consigliate</h3>
-        <p>Articoli utili per {{ profile.dog_name }}</p>
-    </a>
+    <div class="tools-grid">
+        <a href="{% url 'food_calculator' %}" class="tool-card">
+            <span class="tool-icon">🍖</span>
+            <h3>Calcolatore Cibo</h3>
+            <p>Portata giornaliera in base a peso ed età</p>
+        </a>
+        
+        <a href="{% url 'age_calculator' %}" class="tool-card">
+            <span class="tool-icon">🎂</span>
+            <h3>Età Umana</h3>
+            <p>Converti età del cane in anni umani</p>
+        </a>
+        
+        <a href="{% url 'dog_quiz' %}" class="tool-card">
+            <span class="tool-icon">🧠</span>
+            <h3>Quiz Comportamento</h3>
+            <p>Testa la tua conoscenza</p>
+        </a>
+        
+        <a href="{% url 'blog_list' %}" class="tool-card">
+            <span class="tool-icon">📖</span>
+            <h3>Guide Consigliate</h3>
+            <p>Articoli utili per {{ profile.dog_name }}</p>
+        </a>
+    </div>
 </section>
 
-<section class="profile-section">
-    <h3>Attività Recenti</h3>
+<section style="max-width: 800px; margin: 2rem auto;">
+    <h2 class="section-title">📋 Attività Recenti</h2>
+    
     {% if profile.events.exists %}
-    <ul class="activity-list">
-        {% for event in profile.events.all|slice:":3" %}
-        <li>
-            <span class="activity-date">{{ event.date }}</span>
-            <span class="activity-title">{{ event.title }}</span>
-            <span class="activity-type">{{ event.get_event_type_display }}</span>
-        </li>
+    <div class="post-detail" style="padding: 1.5rem;">
+        {% for event in profile.events.all|slice:":5" %}
+        <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--light-dark);">
+            <span style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">
+                {{ event.get_event_type_display }}
+            </span>
+            <span style="flex: 1; font-weight: 500;">{{ event.title }}</span>
+            <span style="color: var(--text-light); font-size: 0.9rem;">{{ event.date|date:"d M Y" }}</span>
+        </div>
         {% endfor %}
-    </ul>
+        {% if profile.events.count > 5 %}
+        <p style="text-align: center; margin-top: 1rem;"><a href="{% url 'profile_detail' profile.id %}" class="read-more">Vedi tutte le attività →</a></p>
+        {% endif %}
+    </div>
     {% else %}
-    <p>Nessuna attività registrata. <a href="{% url 'profile_add_event' profile.id %}">Aggiungi il primo evento!</a></p>
+    <div class="tool-container" style="text-align: center;">
+        <p style="color: var(--text-light); margin-bottom: 1rem;">Nessuna attività registrata.</p>
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-primary">Aggiungi il primo evento</a>
+    </div>
     {% endif %}
 </section>
 {% endfor %}
 
 {% else %}
 <section class="tool-container" style="text-align: center;">
-    <h2>Non hai ancora aggiunto il tuo cane</h2>
-    <p>Inizia aggiungendo il tuo amico a quattro zampe per accedere a tool personalizzati e suggerimenti</p>
-    <a href="{% url 'profile_new' %}" class="btn-calculate">Aggiungi il tuo Cane</a>
+    <div style="font-size: 4rem; margin-bottom: 1rem;">🐕</div>
+    <h2 style="color: var(--primary); margin-bottom: 1rem;">Non hai ancora aggiunto il tuo cane</h2>
+    <p style="color: var(--text-light); margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+        Inizia aggiungendo il tuo amico a quattro zampe per accedere a tool personalizzati e suggerimenti
+    </p>
+    <a href="{% url 'profile_new' %}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Aggiungi il tuo Cane</a>
 </section>
 {% endif %}
-
-<style>
-.profile-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-.profile-header h2 {
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-}
-.breed {
-    background: var(--secondary);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
-.profile-stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 1.5rem 0;
-}
-.stat {
-    text-align: center;
-}
-.stat-value {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--primary);
-}
-.stat-label {
-    font-size: 0.85rem;
-    color: #666;
-}
-.profile-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-.btn-primary {
-    background: var(--primary);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-}
-.btn-secondary {
-    background: #f0f0f0;
-    color: var(--dark);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-}
-.activity-list {
-    list-style: none;
-}
-.activity-list li {
-    display: flex;
-    gap: 1rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #eee;
-}
-.activity-date {
-    color: #666;
-    min-width: 80px;
-}
-.activity-title {
-    flex: 1;
-}
-.activity-type {
-    background: #e8f5e9;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-}
-</style>
 {% endblock %}

@@ -5,7 +5,7 @@
 
 {% block content %}
 <section class="hero">
-    <h1>Strumenti per il tuo Cane</h1>
+    <h1>🛠️ Strumenti per il tuo Cane</h1>
     <p>Calcolatori, quiz e guide per conoscere meglio il tuo amico a quattro zampe</p>
 </section>
 
@@ -17,5 +17,13 @@
         <p>{{ tool.desc }}</p>
     </a>
     {% endfor %}
+</section>
+
+<section style="max-width: 600px; margin: 3rem auto; text-align: center;">
+    <div class="related-tool">
+        <h3>🤖 Supporto AI</h3>
+        <p>Descrivi un problema del tuo cane e ricevi un'analisi personalizzata.</p>
+        <a href="{% url 'analyze_problem' %}" class="btn btn-primary" style="margin-top: 1rem;">Prova l'Analisi AI</a>
+    </div>
 </section>
 {% endblock %}

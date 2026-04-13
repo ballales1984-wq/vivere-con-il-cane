@@ -7,6 +7,7 @@
     <meta name="google-adsense-account" content="ca-pub-2145959534306055">
     <title>{% block title %}Vivere con il Cane{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWZ5F6N4DJ"></script>
     <script>
@@ -22,8 +23,9 @@
 <body>
     <header>
         <nav>
-            <div class="logo">🐕 Vivere con il Cane</div>
-            <ul class="nav-links">
+            <a href="/" class="logo">🐕 Vivere con il Cane</a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'blog_list' %}">Blog</a></li>
                 <li><a href="{% url 'tools_index' %}">Tool</a></li>
@@ -39,10 +41,18 @@
     <footer>
         <p>&copy; 2026 Vivere con il Cane. Tutti i diritti riservati.</p>
         <p class="footer-links">
-            <a href="{% url 'privacy_policy' %}">Privacy Policy</a> |
-            <a href="{% url 'terms_of_service' %}">Termini di Servizio</a> |
+            <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+            <span>|</span>
+            <a href="{% url 'terms_of_service' %}">Termini di Servizio</a>
+            <span>|</span>
             <a href="{% url 'cookie_policy' %}">Cookie Policy</a>
         </p>
     </footer>
+
+    <script>
+    function toggleMenu() {
+        document.getElementById('navLinks').classList.toggle('active');
+    }
+    </script>
 </body>
 </html>

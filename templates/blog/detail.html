@@ -7,7 +7,12 @@
 <article class="post-detail">
     <header>
         <h1>{{ post.title }}</h1>
-        <p class="post-meta">{{ post.created_at|date:"d M Y" }} {% if post.category %}- {{ post.category.name }}{% endif %}</p>
+        <p class="post-meta">
+            {{ post.created_at|date:"d M Y" }}
+            {% if post.category %}
+            <span class="category">{{ post.category.name }}</span>
+            {% endif %}
+        </p>
     </header>
     
     {% if post.image %}
@@ -26,11 +31,28 @@
         {{ post.content|linebreaks }}
     </div>
     
+    <div class="post-actions" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--light-dark);">
+        <a href="{% url 'blog_list' %}" class="back-link">← Torna al blog</a>
+        <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }})">
+            ♥ Mi piace <span class="vote-count">{{ post.votes_count }}</span>
+        </button>
+    </div>
+    
     <div class="related-tool">
         <h3>🎯 Tool Correlato</h3>
         <p>Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro <a href="{% url 'food_calculator' %}">calcolatore alimentare</a>!</p>
     </div>
-    
-    <a href="{% url 'blog_list' %}" class="back-link">← Torna al blog</a>
 </article>
+
+<script>
+function votePost(postId) {
+    fetch('/blog/vote/' + postId + '/')
+        .then(r => r.json())
+        .then(data => {
+            if (data.voted) {
+                document.querySelector('.vote-btn[data-post-id="' + postId + '"] .vote-count').textContent = data.votes;
+            }
+        });
+}
+</script>
 {% endblock %}
