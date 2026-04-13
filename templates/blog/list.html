@@ -14,7 +14,7 @@
     <article class="post-card">
         <a href="{% url 'blog_detail' post.slug %}">
             <div class="post-image-container">
-                <img src="{% static 'images/dog-training.jpg'|add:post.id|get_image_by_index %}" alt="{{ post.title }}">
+                <img src="" alt="{{ post.title }}" class="post-img" data-index="{{ forloop.counter0 }}">
             </div>
         </a>
         <div class="post-content">
@@ -54,11 +54,9 @@ const images = [
     'dog-cat.jpg'
 ];
 
-document.querySelectorAll('.post-card').forEach((card, index) => {
-    const img = card.querySelector('.post-image-container img');
-    if (img && index < images.length) {
-        img.src = '/static/images/' + images[index % images.length];
-    }
+document.querySelectorAll('.post-img').forEach(img => {
+    const index = parseInt(img.dataset.index) || 0;
+    img.src = '/static/images/' + images[index % images.length];
 });
 </script>
 
