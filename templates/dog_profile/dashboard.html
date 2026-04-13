@@ -98,6 +98,36 @@
     </div>
     {% endif %}
 </section>
+
+<!-- Storico Analisi AI -->
+{% if profile.recent_analyses %}
+<section style="max-width: 800px; margin: 2rem auto;">
+    <h2 class="section-title">🧠 Analisi Comportamento</h2>
+    
+    <div class="post-detail" style="padding: 1.5rem;">
+        {% for analysis in profile.recent_analyses %}
+        <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--light-dark);">
+            <span style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">
+                {% if analysis.problem %}{{ analysis.problem.title }}{% else %}Generale{% endif %}
+            </span>
+            <div style="flex: 1;">
+                <p style="margin: 0; font-size: 0.95rem; color: var(--text);">{{ analysis.user_description|truncatewords:20 }}</p>
+                <p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--text-light);">{{ analysis.created_at|date:"d M Y" }}</p>
+            </div>
+            <span class="problem-severity severity-{{ analysis.result }}">
+                {% if analysis.result == 'pending' %}Da provare
+                {% elif analysis.result == 'improved' %}Migliorato
+                {% elif analysis.result == 'no_change' %}Nessun cambio
+                {% elif analysis.result == 'worse' %}Peggio{% endif %}
+            </span>
+        </div>
+        {% endfor %}
+        <p style="text-align: center; margin-top: 1rem;">
+            <a href="{% url 'analyze_problem' %}" class="btn btn-primary">Nuova Analisi</a>
+        </p>
+    </div>
+</section>
+{% endif %}
 {% endfor %}
 
 {% else %}

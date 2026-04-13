@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import DogProfile, HealthEvent, DailyLog
+from knowledge.models import DogAnalysis
 from datetime import date
 
 
@@ -96,4 +97,9 @@ def my_dog(request):
 def dashboard(request):
     """Main dashboard - unified view for all dog's data."""
     profiles = list(DogProfile.objects.all())
+
+    # Attach analyses to each profile
+    for profile in profiles:
+        profile.recent_analyses = list(profile.analyses.all()[:5])
+
     return render(request, "dog_profile/dashboard.html", {"profiles": profiles})

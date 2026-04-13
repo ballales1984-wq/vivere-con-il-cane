@@ -224,6 +224,20 @@ def generate_ai_response(problem, description, dog, breed_info):
         context += f"Razza {dog.breed} - caratteristiche: {breed_info.traits}\n"
         context += f"Problemi comuni: {breed_info.common_problems}\n"
 
+    # Add previous analyses context if dog is available
+    if dog:
+        previous_analyses = DogAnalysis.objects.filter(dog=dog).order_by("-created_at")[
+            :3
+        ]
+        if previous_analyses:
+            context += "\nStorico analisi precedenti per questo cane:\n"
+            for i, prev in enumerate(previous_analyses, 1):
+                context += f"{i}. {prev.created_at.strftime('%d/%m/%Y')}: {prev.user_description[:80]}..."
+                if prev.result and prev.result != "pending":
+                    context += f" - Esito: {prev.result}\n"
+                else:
+                    context += "\n"
+
     if problem:
         context += f"Problema noto: {problem.title}\n"
         causes = [c.description for c in problem.causes.all()]
