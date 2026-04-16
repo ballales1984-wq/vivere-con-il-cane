@@ -103,3 +103,55 @@ def dashboard(request):
         profile.recent_analyses = list(profile.analyses.all()[:5])
 
     return render(request, "dog_profile/dashboard.html", {"profiles": profiles})
+
+
+def profile_dossier(request, profile_id):
+    """Generates a complete clinical history dossier for export/printing and WhatsApp sharing."""
+    profile = get_object_or_404(DogProfile, id=profile_id)
+    
+    events = list(profile.events.all())
+    analyses = list(profile.analyses.all())
+    
+    # Normalize sorting dates and assign types
+    for e in events:
+        e.sort_date = e.date
+        e.item_type = 'event'
+    for a in analyses:
+        e_date = getattr(a, 'created_at', None)
+        a.sort_date = e_date.date() if e_date else date.today()
+        a.item_type = 'analysis'
+        
+    timeline = events + analyses
+    timeline.sort(key=lambda x: x.sort_date, reverse=True)
+    
+    # Pre-generate text format for clipboard/WhatsApp
+    whatsapp_text = f"🐾 *Dossier Medico: {profile.dog_name}* 🐾\n"
+    whatsapp_text += f"Razza: {profile.breed or 'N/A'} | Età: {profile.get_age()} anni | Peso: {profile.weight or 'N/A'} kg\n\n"
+    
+    for item in timeline:
+        if item.item_type == 'event':
+            whatsapp_text += f"📅 {item.sort_date.strftime('%d/%m/%Y')} - [Evento] {item.title}\n"
+            if item.description:
+                whatsapp_text += f"   Dettagli: {item.description}\n"
+        elif item.item_type == 'analysis':
+            problem_title = item.problem.title if hasattr(item, 'problem') and item.problem else 'Analisi Generale'
+            whatsapp_text += f"📅 {item.sort_date.strftime('%d/%m/%Y')} - [Analisi IA] {problem_title}\n"
+            whatsapp_text += f"   Sintomi: {item.user_description}\n"
+            if hasattr(item, 'get_result_display') and item.result and item.result != 'pending':
+                whatsapp_text += f"   Esito: {item.get_result_display()}\n"
+    
+    whatsapp_text += "\n*Generato via Vivere con il Cane*"
+
+    import urllib.parse
+    whatsapp_url = "https://wa.me/?text=" + urllib.parse.quote(whatsapp_text)
+
+    return render(
+        request,
+        "dog_profile/dossier.html",
+        {
+            "profile": profile,
+            "timeline": timeline,
+            "whatsapp_text": whatsapp_text,
+            "whatsapp_url": whatsapp_url,
+        },
+    )
