@@ -3,6 +3,25 @@
 {% block title %}{{ problem.title }} - Vivere con il Cane{% endblock %}
 {% block meta_description %}{{ problem.description|truncatewords:25 }}{% endblock %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "{{ problem.title }}",
+    "description": "{{ problem.description }}",
+    "mainEntity": {
+        "@type": "MedicalCondition",
+        "name": "{{ problem.title }}",
+        "associatedAnatomy": {
+            "@type": "AnatomicalStructure",
+            "name": "Cane"
+        }
+    }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <section class="hero">
     <h1>{{ problem.title }}</h1>
@@ -63,10 +82,10 @@
     </div>
 
     <!-- CTA: Analizza il tuo caso specifico -->
-    <div class="cta-analyze">
+    <div class="cta-analyze-box" style="background: var(--accent-light); border-left: 5px solid var(--accent); padding: 2rem; border-radius: var(--radius-md); margin: 2rem 0;">
         <h3>Vuoi una soluzione personalizzata?</h3>
-        <p>Descrivi la situazione specifica del tuo cane e l'AI ti dara consigli su misura.</p>
-        <a href="{% url 'analyze_problem' %}?q={{ problem.title }}" class="btn btn-primary">Analizza il tuo cane</a>
+        <p style="font-size: 1.1rem;">Ogni cane &egrave; un individuo. Descrivi il comportamento specifico del tuo cane e ricevi consigli su misura generati dalla nostra AI.</p>
+        <a href="{% url 'analyze_problem' %}?q={{ problem.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Analizza il tuo cane ora &rarr;</a>
     </div>
 
     <!-- Link a articoli correlati -->

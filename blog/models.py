@@ -58,6 +58,11 @@ class BlogPost(models.Model):
     importance = models.CharField(
         max_length=10, choices=IMPORTANCE_CHOICES, default="medium"
     )
+    meta_description = models.CharField(
+        max_length=160,
+        blank=True,
+        help_text="Descrizione ottimizzata per i motori di ricerca (max 160 caratteri).",
+    )
     length = models.CharField(max_length=10, choices=LENGTH_CHOICES, default="medium")
     source = models.CharField(max_length=20, choices=SOURCE_CHOICES, default="manual")
     publish_date = models.DateTimeField(blank=True, null=True)

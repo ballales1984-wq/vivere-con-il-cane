@@ -3,6 +3,22 @@
 {% block title %}{{ breed.breed }} - Vivere con il Cane{% endblock %}
 {% block meta_description %}{{ breed.breed }}: caratteristiche, {{ breed.traits|truncatewords:15 }}. Problemi comuni: {{ breed.common_problems }}{% endblock %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ breed.breed }} - Scheda Razza",
+    "description": "{{ breed.traits|truncatewords:25|striptags }}",
+    "mainEntity": {
+        "@type": "Thing",
+        "name": "{{ breed.breed }}",
+        "description": "Caratteristiche e problemi comuni della razza {{ breed.breed }}"
+    }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <section class="hero">
     <h1>{{ breed.breed }}</h1>
@@ -76,10 +92,10 @@
     {% endif %}
 
     <!-- CTA: Analizza il tuo cane di questa razza -->
-    <div class="cta-analyze">
-        <h3>Il tuo {{ breed.breed }} ha un problema?</h3>
-        <p>Descrivi il comportamento del tuo cane e ricevi una soluzione personalizzata per la razza {{ breed.breed }}.</p>
-        <a href="{% url 'analyze_problem' %}?q={{ breed.breed }}" class="btn btn-primary btn-lg">Analizza il tuo {{ breed.breed }}</a>
+    <div class="cta-analyze-box" style="background: var(--primary-light); border-left: 5px solid var(--primary); padding: 2rem; border-radius: var(--radius-md); margin: 2rem 0;">
+        <h3 style="color: var(--primary-dark); margin-top: 0;">Il tuo {{ breed.breed }} ha un comportamento particolare?</h3>
+        <p style="font-size: 1.1rem;">Ottieni una consulenza personalizzata basata sulle caratteristiche tipiche del <strong>{{ breed.breed }}</strong>.</p>
+        <a href="{% url 'analyze_problem' %}?q={{ breed.breed }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Analizza il tuo {{ breed.breed }} &rarr;</a>
     </div>
 
     <div style="margin-top: 2rem;">

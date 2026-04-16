@@ -19,23 +19,16 @@ def problem_detail(request, slug):
     problem = get_object_or_404(Problem, slug=slug)
 
     # Find related articles based on problem keywords
-    related_articles = []
-    if problem.slug == "abbaia-troppo":
-        related_articles = BlogPost.objects.filter(
-            published=True, slug__icontains="abbaia"
-        )[:3]
-    elif problem.slug == "tira-guinzaglio":
-        related_articles = BlogPost.objects.filter(
-            published=True, slug__icontains="tira"
-        )[:3]
-    elif problem.slug == "ansia-separazione":
-        related_articles = BlogPost.objects.filter(
-            published=True, slug__icontains="ansia"
-        )[:3]
-    elif problem.slug == "cane-morde":
-        related_articles = BlogPost.objects.filter(
-            published=True, slug__icontains="morde"
-        )[:3]
+    keywords = problem.slug.split("-")
+    # Filter out common short words
+    keywords = [k for k in keywords if len(k) > 2]
+    
+    from django.db.models import Q
+    query = Q()
+    for kw in keywords:
+        query |= Q(slug__icontains=kw) | Q(title__icontains=kw)
+    
+    related_articles = BlogPost.objects.filter(query, published=True).exclude(content="").distinct()[:3]
 
     return render(
         request,

@@ -3,7 +3,7 @@
 
 {% block title %}{{ post.title }} - Vivere con il Cane{% endblock %}
 
-{% block meta_description %}{{ post.content|truncatewords:25|striptags }}{% endblock %}
+{% block meta_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{ post.content|truncatewords:25|striptags }}{% endif %}{% endblock %}
 
 {% block extra_head %}
 <script type="application/ld+json">
@@ -51,10 +51,10 @@
     </div>
 
     <!-- CTA: Analizza il tuo caso -->
-    <div class="cta-analyze">
-        <h3>Ogni cane e diverso</h3>
-        <p>Descrivi il problema del tuo cane e ottieni una soluzione personalizzata con la nostra AI.</p>
-        <a href="{% url 'analyze_problem' %}" class="btn btn-primary btn-lg">Analizza il tuo caso</a>
+    <div class="cta-analyze-box" style="background: var(--primary-light); border-left: 5px solid var(--primary); padding: 2rem; border-radius: var(--radius-md); margin: 2.5rem 0;">
+        <h3 style="color: var(--primary-dark); margin-top: 0;">Ogni cane &egrave; unico</h3>
+        <p style="font-size: 1.1rem; color: var(--text);">Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed et&agrave;.</p>
+        <a href="{% url 'analyze_problem' %}?description={{ post.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Analizza il tuo caso con l'AI &rarr;</a>
     </div>
 
     <!-- Articoli correlati -->
