@@ -43,9 +43,70 @@
             <textarea name="description" rows="5" required placeholder="Es: Il mio cane abbaia ogni volta che esco di casa, anche solo per pochi minuti. Si dispera e graffia la porta.">{{ prefill }}</textarea>
         </div>
         
-        <button type="submit" class="btn-calculate">Analizza con AI</button>
+        <button type="submit" class="btn-calculate" id="submitBtn" style="position: relative; overflow: hidden;">
+            <span class="btn-text">Analizza con AI &rarr;</span>
+        </button>
     </form>
+
+    <!-- Loading Overlay invisibile all'inizio -->
+    <div id="aiLoadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        
+        <!-- Spinner animato custom -->
+        <div style="width: 80px; height: 80px; border: 8px solid var(--primary-light); border-top: 8px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 2rem;"></div>
+        
+        <h2 id="aiLoadingTitle" style="color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 1rem; font-weight: 800; text-align: center;">Inizializzazione Motore IA...</h2>
+        <p id="aiLoadingText" style="font-size: 1.2rem; color: var(--text); max-width: 600px; text-align: center; line-height: 1.6; padding: 0 1rem;" class="pulse">Analisi della richiesta in corso.</p>
+        
+    </div>
 </section>
+
+<style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+</style>
+
+<script>
+    document.querySelector('.calculator-form').addEventListener('submit', function(e) {
+        // Mostra l'overlay
+        const overlay = document.getElementById('aiLoadingOverlay');
+        overlay.style.display = 'flex';
+        
+        // Messaggi dinamici per aumentare il valore percepito
+        const title = document.getElementById('aiLoadingTitle');
+        const text = document.getElementById('aiLoadingText');
+        
+        const lang = document.cookie.includes('app_lang=en') ? 'en' : 'it';
+        
+        const steps = lang === 'en' ? [
+            { t: "Checking Dog Profile...", d: "Loading longitudinal medical history and traits...", ms: 1000 },
+            { t: "RAG Context Search...", d: "Querying internal veterinary knowledge base...", ms: 3000 },
+            { t: "OpenFDA DB Search...", d: "Cross-referencing real world clinical cases from the USA government database...", ms: 5000 },
+            { t: "AI Diagnostics...", d: "Llama-3 generating custom diagnostic response...", ms: 7500 }
+        ] : [
+            { t: "Recupero Profilo...", d: "Lettura della storia clinica longitudinale del cane...", ms: 1000 },
+            { t: "Ricerca Base Veterinaria...", d: "Interrogazione del database veterinario interno (RAG)...", ms: 3000 },
+            { t: "Ricerca Casi OpenFDA...", d: "Incrocio dei dati con casi clinici reali nel database del governo USA...", ms: 5000 },
+            { t: "Generazione IA...", d: "Il motore Llama-3 sta formulando la risposta personalizzata...", ms: 7500 }
+        ];
+        
+        steps.forEach(step => {
+            setTimeout(() => {
+                title.innerText = step.t;
+                text.innerText = step.d;
+            }, step.ms);
+        });
+    });
+</script>
 
 <section style="padding: 2rem; text-align: center; background: #f9f9f9; margin-top: 2rem;">
     <h3>Come funziona</h3>
