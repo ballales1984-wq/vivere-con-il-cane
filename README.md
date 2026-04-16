@@ -18,7 +18,11 @@ Unlike standard chatbots, our AI engine (powered by Llama-3 70B via Groq) has **
 - It remembers your dog's profile (breed, age, weight, previous conditions).
 - It cross-references current symptoms (e.g., limping) with past history (e.g., incontinence, age) to provide nuanced, accurate, and safe medical/behavioral suggestions.
 
-### 📚 2. Relational Knowledge Base
+### 📋 2. Clinical History & Vet Sharing
+- Generates a **Medical Dossier** combining past AI consultations and explicitly logged health events.
+- Seamless, 1-click sharing via **WhatsApp format**, plain-text clipboard, or clean, navbar-free **PDF Print** designed specifically for veterinarians.
+
+### 📚 3. Relational Knowledge Base
 A highly structured database of canine knowledge:
 - **Breeds**: Detailed insights on traits, energy levels, and common breed-specific problems.
 - **Problems & Solutions**: A vast matrix of behaviors and health issues mapped directly to their root causes and actionable, step-by-step solutions.
@@ -28,6 +32,12 @@ A premium educational portal complete with:
 - Long-form, high-quality articles.
 - **Schema.org JSON-LD** structured data injection for superior search engine visibility.
 - Modern glassmorphism UI with gradient aesthetics and dynamic Call-to-Actions (CTAs).
+
+### 📋 4. WhatsApp Dossier (Clinical History Export)
+Generate and share your dog's complete medical history via WhatsApp:
+- Exports all health events and AI analyses in chronological order.
+- One-click share to WhatsApp for easy sharing with veterinarians or family.
+- Available directly from the dog's profile page.
 
 ---
 

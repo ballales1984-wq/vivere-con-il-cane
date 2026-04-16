@@ -30,6 +30,12 @@ Un hub educativo premium progettato per convertire e informare:
 - Dati strutturati semantici **Schema.org JSON-LD** per dominare i motori di ricerca.
 - Interfaccia Utente (UI) Premium in stile Glassmorphism con Call-to-Action (CTA) mirate all'interazione con l'Intelligenza Artificiale.
 
+### 📋 4. Dossier WhatsApp (Esportazione Cartella Clinica)
+Genera e condividi la storia clinica completa del tuo cane via WhatsApp:
+- Esporta tutti gli eventi di salute e le analisi AI in ordine cronologico.
+- Condivisione con un click su WhatsApp per condividere facilmente con veterinari o familiari.
+- Disponibile direttamente dalla pagina del profilo del cane.
+
 ---
 
 ## 🏗️ Architettura del Sistema
