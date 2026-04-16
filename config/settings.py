@@ -28,9 +28,9 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = ["vivere-con-il-cane.onrender.com", "localhost", "127.0.0.1", "*"]
+ALLOWED_HOSTS = ["vivere-con-il-cane.onrender.com", "localhost", "127.0.0.1", "*", "vivere-con-il-cane-9107.d.kiloapps.io"]
 
-CSRF_TRUSTED_ORIGINS = ["https://vivere-con-il-cane.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://vivere-con-il-cane.onrender.com", "https://vivere-con-il-cane-9107.d.kiloapps.io"]
 
 
 # Application definition
