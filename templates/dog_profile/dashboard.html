@@ -131,13 +131,75 @@
 {% endfor %}
 
 {% else %}
-<section class="tool-container" style="text-align: center;">
-    <div style="font-size: 4rem; margin-bottom: 1rem;">🐕</div>
-    <h2 style="color: var(--primary); margin-bottom: 1rem;">Non hai ancora aggiunto il tuo cane</h2>
-    <p style="color: var(--text-light); margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;">
-        Inizia aggiungendo il tuo amico a quattro zampe per accedere a tool personalizzati e suggerimenti
-    </p>
-    <a href="{% url 'profile_new' %}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Aggiungi il tuo Cane</a>
+<!-- ONBOARDING WIZARD -->
+<section style="max-width: 800px; margin: 0 auto 3rem; padding: 0 1rem;">
+    <div style="background: white; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+        
+        <!-- Header Gradient -->
+        <div style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem; animation: bounce 2s infinite;">🐕</div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2;">Benvenuto nel tuo Assistente Veterinario IA</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 500px; margin: 0 auto;">Per sbloccare il vero potenziale dell'Intelligenza Artificiale, abbiamo bisogno di conoscere il tuo compagno di avventure.</p>
+        </div>
+        
+        <!-- Features Grid -->
+        <div style="padding: 3rem 2rem; background: #fafafa;">
+            <h3 style="text-align: center; color: var(--text); margin-bottom: 2rem; font-size: 1.3rem;">Creando il profilo sbloccherai:</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <!-- Feature 1 -->
+                <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="background: #e0f2fe; color: #0284c7; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">🧠</div>
+                    <div>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Diagnosi IA su Misura</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">L'IA analizzerà i sintomi incrociandoli con l'età, il peso e la genetica della sua razza.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="background: #fce7f3; color: #be185d; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">📋</div>
+                    <div>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Dossier Clinico Condivisibile</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">Una cartella clinica completa con la sua storia medica, pronta da inviare via WhatsApp al veterinario.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="background: #dcfce7; color: #059669; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">📊</div>
+                    <div>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Memoria Longitudinale</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">L'app ricorderà ogni singolo evento di salute o comportamento strano per analisi future.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
+                    <div style="background: #fef9c3; color: #db2777; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">🍖</div>
+                    <div>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Tool Personalizzati</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">Calcolatore cibo, età biologica e suggerimenti mirati che si adattano al tuo cane man mano che cresce.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div style="text-align: center;">
+                <a href="{% url 'profile_new' %}" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.3rem; font-weight: 800; border-radius: 50px; background: var(--accent); border: none; box-shadow: 0 10px 20px rgba(230, 126, 34, 0.3); transition: transform 0.2s;">
+                    Crea Profilo del Cane &rarr;
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Ci vogliono meno di 2 minuti. Gratuito per sempre.</p>
+            </div>
+        </div>
+    </div>
 </section>
+
+<style>
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
 {% endif %}
 {% endblock %}
