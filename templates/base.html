@@ -35,6 +35,10 @@
                 <li><a href="{% url 'problem_list' %}">Problemi</a></li>
                 <li><a href="{% url 'tools_index' %}">Tool</a></li>
                 <li><a href="{% url 'dashboard' %}">Il mio Cane</a></li>
+                <li class="lang-selector">
+                    <a href="#" onclick="changeLanguage('it'); return false;">🇮🇹</a>
+                    <a href="#" onclick="changeLanguage('en'); return false;">🇬🇧</a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -53,6 +57,36 @@
             <a href="{% url 'cookie_policy' %}">Cookie Policy</a>
         </p>
     </footer>
+
+    <!-- Script per Traduzione e Cookie Lingua -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'it', includedLanguages: 'it,en', autoDisplay: false}, 'google_translate_element');
+        }
+        function changeLanguage(lang) {
+            // Set cookie for backend AI
+            document.cookie = "app_lang=" + lang + "; path=/; max-age=31536000";
+            
+            // Trigger Google Translate
+            var select = document.querySelector('.goog-te-combo');
+            if(select) {
+                var langMap = {'it': 'it', 'en': 'en'};
+                select.value = langMap[lang];
+                select.dispatchEvent(new Event('change'));
+            }
+            // Reload if switching back to Italian to clear translate UI
+            if(lang === 'it' && window.location.href.indexOf('translate') === -1) {
+                window.location.reload();
+            }
+        }
+        
+        // Hide Google Translate Top Bar
+        const style = document.createElement('style');
+        style.innerHTML = '.goog-te-banner-frame { display: none !important; } body { top: 0px !important; }';
+        document.head.appendChild(style);
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
     function toggleMenu() {

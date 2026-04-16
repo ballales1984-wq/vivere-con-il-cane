@@ -201,3 +201,20 @@ class DogAnalysis(models.Model):
         verbose_name = "Analisi"
         verbose_name_plural = "Analisi"
         ordering = ["-created_at"]
+
+
+class VeterinaryDocument(models.Model):
+    """Internal veterinary knowledge base documents for AI RAG context."""
+
+    title = models.CharField(max_length=200, help_text="Titolo o Argomento Medico")
+    content = models.TextField(help_text="Contenuto integrale del documento, linee guida o posologia.")
+    keywords = models.CharField(max_length=255, help_text="Parole chiave separate da virgole (es: cioccolato, teobromina)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"[VetDB] {self.title}"
+
+    class Meta:
+        verbose_name = "Documento Veterinario"
+        verbose_name_plural = "Documenti Veterinari"

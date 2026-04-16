@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.conf import settings
-from .models import Problem, Solution, BreedInsight, DogAnalysis
+from .models import Problem, Solution, BreedInsight, DogAnalysis, VeterinaryDocument
 from dog_profile.models import DogProfile
 from blog.models import BlogPost
 import requests
@@ -22,13 +22,18 @@ def problem_detail(request, slug):
     keywords = problem.slug.split("-")
     # Filter out common short words
     keywords = [k for k in keywords if len(k) > 2]
-    
+
     from django.db.models import Q
+
     query = Q()
     for kw in keywords:
         query |= Q(slug__icontains=kw) | Q(title__icontains=kw)
-    
-    related_articles = BlogPost.objects.filter(query, published=True).exclude(content="").distinct()[:3]
+
+    related_articles = (
+        BlogPost.objects.filter(query, published=True)
+        .exclude(content="")
+        .distinct()[:3]
+    )
 
     return render(
         request,
@@ -115,8 +120,11 @@ def analyze_problem(request):
         if dog and dog.breed:
             breed_info = BreedInsight.objects.filter(breed__icontains=dog.breed).first()
 
+        # Check language preference
+        lang = request.COOKIES.get("app_lang", "it")
+
         # Generate AI response
-        ai_response = generate_ai_response(problem, description, dog, breed_info)
+        ai_response = generate_ai_response(problem, description, dog, breed_info, lang)
 
         # Save analysis only if dog is available
         analysis = None
@@ -194,14 +202,33 @@ def auto_detect_problem(text):
     return None
 
 
-def generate_ai_response(problem, description, dog, breed_info):
-    """Generate AI response using Grok or OpenAI."""
+def generate_ai_response(problem, description, dog, breed_info, lang="it"):
+    """Generate AI response using Grok or OpenAI, in the specified language."""
 
     grok_key = os.environ.get("GROK_API_KEY", "")
     openai_key = os.environ.get("OPENAI_API_KEY", "")
 
+    # Retrieve internal veterinary knowledge base for context
+    vet_docs = VeterinaryDocument.objects.filter(is_active=True)
+    vet_context = ""
+    if vet_docs.exists():
+        # A simple keyword match or just include all if small (simplified RAG)
+        desc_lower = description.lower()
+        matched_docs = []
+        for doc in vet_docs:
+            if any(k.strip().lower() in desc_lower for k in doc.keywords.split(",")):
+                matched_docs.append(doc)
+
+        if matched_docs:
+            vet_context = "\n[DATABASE VETERINARIO INTERNO]\n"
+            for doc in matched_docs:
+                vet_context += f"Documento: {doc.title}\n{doc.content}\n"
+            vet_context += "[/DATABASE VETERINARIO INTERNO]\n\n"
+
     # Build context
     context = f"Problema descritto: {description}\n"
+    if vet_context:
+        context = vet_context + context
 
     if dog:
         context += f"Cane: {dog.dog_name}"
@@ -242,7 +269,22 @@ def generate_ai_response(problem, description, dog, breed_info):
             for title, desc in solutions:
                 context += f"- {title}: {desc[:100]}...\n"
 
-    prompt = f"""Sei un esperto di comportamento e benessere canino. Analizza questo problema e fornisci una risposta pratica e personalizzata.
+    system_msg = "Sei un esperto di cani gentile e pratico."
+    if lang == "en":
+        prompt = f"""You are an expert in canine behavior and wellness. Analyze this problem and provide a practical and personalized response based on the context.
+
+{context}
+
+Provide:
+1. most likely cause
+2. 2-3 practical solutions
+3. a specific tip for this dog
+4. when to consult a veterinarian
+
+Answer in English clearly and practically."""
+        system_msg = "You are a kind and practical dog expert."
+    else:
+        prompt = f"""Sei un esperto di comportamento e benessere canino. Analizza questo problema e fornisci una risposta pratica e personalizzata.
 
 {context}
 
@@ -268,7 +310,7 @@ Rispondi in italiano in modo chiaro e pratico."""
                     "messages": [
                         {
                             "role": "system",
-                            "content": "Sei un esperto di cani gentile e pratico.",
+                            "content": system_msg,
                         },
                         {"role": "user", "content": prompt},
                     ],
@@ -279,9 +321,13 @@ Rispondi in italiano in modo chiaro e pratico."""
                 return response.json()["choices"][0]["message"]["content"]
             else:
                 import logging
-                logging.warning(f"[AI] Groq API error {response.status_code}: {response.text[:200]}")
+
+                logging.warning(
+                    f"[AI] Groq API error {response.status_code}: {response.text[:200]}"
+                )
         except Exception as err:
             import logging
+
             logging.warning(f"[AI] Groq exception: {err}")
 
     # Fallback to OpenAI
@@ -296,7 +342,7 @@ Rispondi in italiano in modo chiaro e pratico."""
                 json={
                     "model": "gpt-4o-mini",
                     "messages": [
-                        {"role": "system", "content": "Esperto di cani."},
+                        {"role": "system", "content": system_msg},
                         {"role": "user", "content": prompt},
                     ],
                 },
@@ -308,7 +354,21 @@ Rispondi in italiano in modo chiaro e pratico."""
             pass
 
     # No API key - return generic response
-    return f"""Basandomi sulle informazioni fornite:
+    if lang == "en":
+        return f"""Based on the information provided:
+
+1. **Most likely cause**: Without further details, behavioral problems are often linked to lack of exercise, inconsistent routine, or a need for attention.
+
+2. **Suggested solutions**:
+   - Establish a consistent daily routine
+   - Increase physical and mental exercise
+   - Reward desired behaviors
+
+3. **Tip**: Observe the dog in different situations to identify specific triggers.
+
+4. **When to see a professional**: If the problem persists beyond 2-3 weeks despite training, consult a dog trainer or a veterinary behaviorist."""
+    else:
+        return f"""Basandomi sulle informazioni fornite:
 
 1. **Causa più probabile**: Senza ulteriori dettagli, i problemi comportamentali sono spesso legati a mancanza di esercizio, routine inconsistente o bisogno di attenzione.
 
