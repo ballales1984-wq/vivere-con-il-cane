@@ -34,6 +34,27 @@
     </div>
 </section>
 
+<!-- Chi Sono / Breve intro -->
+<section style="max-width: 1000px; margin: 0 auto 4rem; padding: 0 1rem;">
+    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 2.5rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; border-left: 5px solid var(--accent);">
+        <div style="flex: 1; min-width: 300px;">
+            <h2 style="color: var(--primary-dark); font-size: 2rem; margin-bottom: 1rem;">Esperienza reale, non teoria.</h2>
+            <p style="font-size: 1.1rem; color: var(--text); line-height: 1.6; margin-bottom: 1.5rem;">
+                Mi chiamo <strong>[Il tuo nome]</strong>. Vivo con due cani da oltre 10 anni e ho fatto il dog sitter per centinaia di cani diversi. Non tifo ciecamente per nessuna fazione: cerco solo di raccontare le cose con testa, unendo l'esperienza quotidiana alle visite veterinarie e alle migliori pratiche di educazione.
+            </p>
+            <p style="font-size: 1.1rem; color: var(--text); line-height: 1.6; margin-bottom: 1.5rem;">
+                Perché i cani non sono tutti uguali, e ogni binomio cane-proprietario ha bisogno di soluzioni su misura.
+            </p>
+            <a href="{% url 'about' %}" class="btn" style="color: var(--primary); font-weight: 700; padding: 0; text-decoration: underline;">Leggi la mia storia completa &rarr;</a>
+        </div>
+        <div style="flex: 0 0 auto; text-align: center; background: #f0fdf4; padding: 1.5rem; border-radius: 16px; border: 1px dashed #bbf7d0;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🐕‍🦺</div>
+            <div style="font-weight: 800; color: #166534; font-size: 1.5rem;">+10 Anni</div>
+            <div style="color: #15803d; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Di Esperienza</div>
+        </div>
+    </div>
+</section>
+
 <!-- Problemi Rapidi -->
 {% if problems %}
 <section class="section-problems">

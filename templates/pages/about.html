@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chi sono - Vivere con il Cane{% endblock %}
+{% block meta_description %}Mi chiamo {{ author_name|default:"[Il tuo nome]" }} e convivo con due cani da più di 10 anni. Per 3 anni ho fatto il dog sitter e ho visto centinaia di dinamiche tra cani.{% endblock %}
+
+{% block content %}
+<section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; padding: 4rem 1rem; text-align: center; border-radius: 0 0 50px 50px; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800;">Chi sono</h1>
+    <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">Esperienze reali e consigli con testa da chi convive con i cani tutti i giorni.</p>
+</section>
+
+<div class="container max-w-4xl mx-auto px-4 pb-12">
+    <div class="box bg-white shadow-xl rounded-2xl p-8" style="border-top: 5px solid var(--accent); line-height: 1.8; font-size: 1.15rem; color: var(--text);">
+        
+        <p style="margin-bottom: 1.5rem;">
+            Mi chiamo <strong>[Il tuo nome]</strong> e convivo con due cani da più di 10 anni.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Per tre anni ho fatto il dog sitter, occupandomi di centinaia di cani: maschi e femmine, cuccioli e anziani, di tutte le razze, forme, dimensioni e caratteri.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            In questi anni ho visto di tutto: dinamiche tra cani buoni, litigi improvvisi, amicizie nate in pochi minuti, paure, gioie, problemi di convivenza, gelosie, giochi e tensioni. Ho osservato centinaia di interazioni tra cani di taglia grande e piccola, maschi e femmine, sterilizzati e non.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Sono stato da diversi veterinari, ho ascoltato tantissime storie di proprietari, ho provato metodi diversi e ho confrontato quello che leggevo con la realtà che vedevo ogni giorno.
+        </p>
+        
+        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">Per questo sul mio blog non prendo posizioni estreme.</h2>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Non tifo per nessuno in modo acritico: né per i veterinari, né contro di loro; né per gli educatori cinofili, né per chi fa tutto da solo.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Non credo che esista un solo metodo giusto per tutti i cani. <strong>I cani non sono tutti uguali</strong>: ognuno ha bisogno di un proprietario che lo ascolti e lo guidi nel percorso di convivenza umana. Proprio per questa loro unicità, gli approcci e le metodologie devono essere messe in atto valutando attentamente le caratteristiche del singolo soggetto e della coppia umano-cane.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Ho visto con i miei occhi che il rinforzo positivo funziona benissimo nella maggior parte dei casi, ma ho visto anche situazioni in cui serviva chiarezza, fermezza e buon senso.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Rispetto la medicina veterinaria e ci vado senza esitazione quando serve un problema di salute. Ma so per esperienza che tanti disagi nascono dalla gestione quotidiana, dalla routine, dalla convivenza in casa e da come comunichiamo con il nostro cane.
+        </p>
+        
+        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">Quello che scrivo qui...</h2>
+        
+        <p style="margin-bottom: 1.5rem;">
+            ...nasce da quello che ho vissuto direttamente con i miei due cani e da tutto quello che ho osservato in questi anni di dog sitting: dinamiche reali tra cani di ogni tipo, errori che ho fatto, cose che hanno funzionato e altre che invece hanno complicato la situazione.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Non ho la pretesa di avere sempre ragione. Cerco solo di raccontare le cose con testa, senza fanatismi e senza seguire le mode del momento.
+        </p>
+        
+        <div style="background: var(--primary-light); color: white; padding: 2rem; border-radius: 16px; margin-top: 3rem; text-align: center;">
+            <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem;">
+                Se cerchi consigli pratici, onesti e basati sull’esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto.
+            </p>
+            <p style="margin-bottom: 0;">
+                Se invece cerchi “la verità assoluta” o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te.
+            </p>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

@@ -30,6 +30,7 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path("", blog_views.home_page, name="home"),
+    path("chi-sono/", blog_views.about_page, name="about"),
     path("blog/", include("blog.urls")),
     path("tool/", tools_views.tools_index, name="tools_index"),
     path("tool/cibo/", tools_views.food_calculator, name="food_calculator"),

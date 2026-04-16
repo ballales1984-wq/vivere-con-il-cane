@@ -46,6 +46,11 @@ def home_page(request):
     )
 
 
+def about_page(request):
+    """About / Chi Sono page."""
+    return render(request, "pages/about.html")
+
+
 def blog_detail(request, slug):
     try:
         post = get_object_or_404(BlogPost, slug=slug, published=True)
