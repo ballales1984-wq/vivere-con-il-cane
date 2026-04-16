@@ -11,35 +11,27 @@
 
 ---
 
-## 🌟 Key Features
+## 🌟 Unique Value Proposition (UVP)
 
-### 🧠 1. Context-Aware AI Veterinary Assistant
-Unlike standard chatbots, our AI engine (powered by Llama-3 70B via Groq) has **Longitudinal Memory**. 
-- It remembers your dog's profile (breed, age, weight, previous conditions).
-- It cross-references current symptoms (e.g., limping) with past history (e.g., incontinence, age) to provide nuanced, accurate, and safe medical/behavioral suggestions.
+### 🧠 1. Longitudinal Memory & Dynamic Prompt Routing
+Unlike standard LLM wrappers, our AI engine (powered by Llama-3 70B via Groq) features **contextual routing**. 
+- It maintains a **Longitudinal Memory** of your dog's profile (exact age, weight, and past conditions).
+- Before pinging the LLM, the backend dynamically constructs a "Super-Prompt" injecting the active dog's medical history. 
+- *Result:* When you type "limping", the AI knows it's treating a *10-year-old overweight dog with previous arthritis history*, yielding 10x more accurate and safe vet-like responses.
 
-### 📋 2. Clinical History & Vet Sharing
-- Generates a **Medical Dossier** combining past AI consultations and explicitly logged health events.
-- Seamless, 1-click sharing via **WhatsApp format**, plain-text clipboard, or clean, navbar-free **PDF Print** designed specifically for veterinarians.
+### 📋 2. Comprehensive Medical Dossier (Vet-Ready)
+- Generates a unified **Clinical History Timeline** that merges physical health events (vaccines, checkups) with past AI behavioral/diagnostic consultations.
+- Designed for immediate real-world use: features a 1-click **WhatsApp export**, plain-text clipboard copying, and a distraction-free **Print to PDF** view optimized for sending to veterinarians.
 
-### 📚 3. Relational Knowledge Base
-A highly structured database of canine knowledge:
-- **Breeds**: Detailed insights on traits, energy levels, and common breed-specific problems.
-- **Problems & Solutions**: A vast matrix of behaviors and health issues mapped directly to their root causes and actionable, step-by-step solutions.
+### 📚 3. Relational Symptoms-to-Causes Matrix
+This isn't a traditional flat database or a simple blog. The Knowledge Base is a relational matrix:
+- **Behaviors/Symptoms**, **Root Causes**, and **Actionable Solutions** are tightly coupled in the backend. 
+- Allows the AI logic to surgically pinpoint *why* a problem is happening based on the dog's stored breed matrix (energy levels, hereditary traits) and suggest difficulty-rated solutions.
 
-### 📈 3. SEO-Optimized Content Hub
-A premium educational portal complete with:
-- Long-form, high-quality articles.
-- **Schema.org JSON-LD** structured data injection for superior search engine visibility.
-- Modern glassmorphism UI with gradient aesthetics and dynamic Call-to-Actions (CTAs).
+### 📈 4. SEO-Optimized HealthTech Hub
+- Beyond the AI application, the platform functions as an educational portal fully injected with **Schema.org JSON-LD** structured data.
+- Glassmorphism UI, gradient aesthetics, and premium dynamic CTAs designed to convert regular readers into active users of the AI diagnosis tool.
 
-### 📋 4. WhatsApp Dossier (Clinical History Export)
-Generate and share your dog's complete medical history via WhatsApp:
-- Exports all health events and AI analyses in chronological order.
-- One-click share to WhatsApp for easy sharing with veterinarians or family.
-- Available directly from the dog's profile page.
-
----
 
 ## 🏗️ Architecture
 

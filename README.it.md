@@ -11,36 +11,27 @@
 
 ---
 
-## 🌟 Funzionalità Principali
+## 🌟 Unique Value Proposition (Il Nostro Vantaggio Competitivo)
 
-### 🧠 1. Motore IA Contestuale e Memoria Longitudinale
-A differenza dei chatbot generici, il nostro motore IA (alimentato da Llama-3 70b via Groq) possiede una **Memoria Longitudinale**.
-- Ricorda i dati fisici del tuo cane (razza, età, peso).
-- Ricorda gli eventi passati.
-- Incrocia i sintomi attuali (es. "il cane zoppica") con la storia clinica pregressa (es. problemi di incontinenza legati all'età) per generare analisi o consigli estremamente precisi e profilati.
+### 🧠 1. Motore IA a Memoria Longitudinale (Dynamic Routing)
+A differenza dei normali "wrapper" di ChatGPT, il nostro motore IA (alimentato da Llama-3 via Groq) usa il routing contestuale.
+- Gestisce un **Profilo Medico Persistente** per ogni cane (età, peso, genetica).
+- Prima di interrogare l'LLM, il backend Django genera algoritmicamente un "Super-Prompt" che inietta l'intera storia clinica passata dell'animale.
+- *Risultato:* Se l'utente scrive "zoppica", l'IA sa automaticamente che sta analizzando un *meticcio di 10 anni in sovrappeso con storico di artrite*, fornendo risposte 10 volte più accurate e sicure.
 
-### 📋 2. Cartella Clinica & Condivisione Veterinaria
-- Genera un **Dossier Medico** completo che unisce le precedenti analisi dell'IA con gli eventi sanitari registrati dall'utente (vaccini, visite, log).
-- Condivisione istantanea con 1 click in formato **WhatsApp**, testo semplice per appunti, o una stampa in **PDF netta e senza distrazioni visive**, ottimizzata per l'invio via web-mail al medico curante.
+### 📋 2. Cartella Clinica Medica Unificata (Pronta per il Veterinario)
+- Il sistema unisce le tradizionali "viste mediche" (vaccini, infortuni) con lo **storico delle analisi comportamentali dell'IA** in un'unica Timeline Cronologica.
+- Pensata per l'uso nel mondo reale: la cartella clinica offre l'esportazione testo istantanea in stile **WhatsApp** o la generazione di un **PDF pulito senza elementi grafici inutili**, perfetto da allegare in un'email al medico curante.
 
-### 📚 3. Knowledge Base Relazionale (Database di Conoscenza)
-Un database informativo nativo e interconnesso:
-- **Razze**: Dettagli su livelli di energia, problemi comuni e consigli di cura.
-- **Problemi & Soluzioni**: Una matrice complessa che collega comportamenti problematici e criticità di salute alle rispettive origini (cause) e ad azioni pratiche risolutive e misurabili.
+### 📚 3. Matrice Relazionale (Sintomi-Cause-Soluzioni)
+Il cuore del sistema non è un banale blog di testo. La nostra *Knowledge Base* è una matrice strutturata nel database:
+- **Sintomi**, **Cause Scatenanti** e **Rimedi Pratici** sono entità distinte connesse tra loro nel backend.
+- L'IA non "indovina": utilizza questa matrice incrociandola con il profilo della razza (livelli di energia, predisposizioni) per mappare in tempo reale il problema alla causa più statisticamente probabile.
 
-### 📈 3. Portale Contenuti Ottimizzato SEO
-Un hub educativo premium progettato per convertire e informare:
-- Articoli long-form di altissima qualità redatti con cura editoriale.
-- Dati strutturati semantici **Schema.org JSON-LD** per dominare i motori di ricerca.
-- Interfaccia Utente (UI) Premium in stile Glassmorphism con Call-to-Action (CTA) mirate all'interazione con l'Intelligenza Artificiale.
+### 📈 4. Piattaforma HealthTech Orientata alla Conversione
+- Più di una semplice App Web, l'interfaccia si presenta come un Hub Premium con **Design in Glassmorphism** e gradienti accattivanti.
+- Completa adozione delle direttive SEO con **Schema.org JSON-LD** iniettato dinamicamente per trasformare i lettori casuali dei motori di ricerca in utenti abituali della piattaforma diagnostica.
 
-### 📋 4. Dossier WhatsApp (Esportazione Cartella Clinica)
-Genera e condividi la storia clinica completa del tuo cane via WhatsApp:
-- Esporta tutti gli eventi di salute e le analisi AI in ordine cronologico.
-- Condivisione con un click su WhatsApp per condividere facilmente con veterinari o familiari.
-- Disponibile direttamente dalla pagina del profilo del cane.
-
----
 
 ## 🏗️ Architettura del Sistema
 
