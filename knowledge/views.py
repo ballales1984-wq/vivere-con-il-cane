@@ -278,9 +278,11 @@ Rispondi in italiano in modo chiaro e pratico."""
             if response.status_code == 200:
                 return response.json()["choices"][0]["message"]["content"]
             else:
-                pass
+                import logging
+                logging.warning(f"[AI] Groq API error {response.status_code}: {response.text[:200]}")
         except Exception as err:
-            pass
+            import logging
+            logging.warning(f"[AI] Groq exception: {err}")
 
     # Fallback to OpenAI
     if openai_key and len(openai_key) > 20:
