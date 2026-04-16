@@ -55,7 +55,7 @@
     <div class="container max-w-4xl mx-auto">
         
         <!-- Intestazione Dossier -->
-        <div class="box bg-white shadow-xl border-t-4 border-blue-500 mb-8 p-8 timeline-card">
+        <div class="box bg-white shadow-xl border-t-4 border-blue-500 mb-6 p-6 timeline-card">
             <div class="flex justify-between items-start border-b pb-4 mb-4">
                 <div>
                     <h1 class="text-3xl font-bold text-gray-800">Dossier Medico e Storico</h1>
@@ -68,15 +68,15 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p class="text-sm text-gray-500 uppercase tracking-wide">Razza</p>
                     <p class="text-lg font-semibold">{{ profile.breed|default:"Meticcio/Non specificato" }}</p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p class="text-sm text-gray-500 uppercase tracking-wide">Età</p>
                     <p class="text-lg font-semibold">{{ profile.get_age }} anni</p>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="p-3 bg-gray-50 rounded-lg">
                     <p class="text-sm text-gray-500 uppercase tracking-wide">Peso</p>
                     <p class="text-lg font-semibold">{{ profile.weight|default:"-" }} kg</p>
                 </div>
@@ -84,7 +84,7 @@
         </div>
 
         <!-- Azioni (Nascoste in stampa) -->
-        <div class="no-print bg-blue-50 p-6 rounded-xl border border-blue-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-10 shadow-sm">
+        <div class="no-print bg-blue-50 p-5 rounded-xl border border-blue-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-8 shadow-sm">
             <div>
                 <h3 class="font-bold text-blue-800">Condividi con il Veterinario</h3>
                 <p class="text-sm text-blue-600">Esporta o condividi questo storico in modo semplice</p>
@@ -107,9 +107,9 @@
         </div>
 
         <!-- Cronologia -->
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Cronologia Eventi</h2>
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Cronologia Eventi</h2>
         
-        <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+        <div class="bg-white p-5 md:p-6 rounded-xl shadow-lg">
             {% if timeline %}
                 <div class="mt-4">
                     {% for item in timeline %}
