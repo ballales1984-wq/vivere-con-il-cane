@@ -1,0 +1,10 @@
+{
+  "build": {
+    "command": "pip install -r requirements.txt",
+    "output": "dist"
+  },
+  "run": {
+    "command": "python start.py",
+    "env": {}
+  }
+}
