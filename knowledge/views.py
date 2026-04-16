@@ -202,6 +202,71 @@ def auto_detect_problem(text):
     return None
 
 
+import urllib.parse
+
+
+def query_external_vet_db(description, breed=None):
+    """
+    Interroga il database pubblico OpenFDA (Veterinary Adverse Events)
+    cercando corrispondenze con i sintomi descritti per ottenere contesto medico aggiuntivo.
+    """
+    try:
+        # Estrai parole lunghe dalla descrizione come possibili sintomi (escludi stop words)
+        words = [w for w in description.split() if len(w) > 4]
+        if not words:
+            return ""
+
+        # Usa la prima parola lunga come termine di ricerca sintomo (es. "vomito", "zoppica")
+        # In un'app reale useremmo NLP, qui facciamo una semplice ricerca testuale
+        symptom = words[0]
+
+        # Costruisci la query per cani
+        query = 'animal.species:"Dog"'
+        if breed:
+            # Pulisci il nome della razza
+            safe_breed = breed.split()[0]
+            query += f' AND animal.breed.breed_name:"{safe_breed}"'
+
+        # Aggiungi il sintomo
+        query += f' AND (reaction.reaction_pt:"{symptom}" OR health_assessment_prior_to_exposure.condition:"{symptom}")'
+
+        url = f"https://api.fda.gov/animalandveterinary/event.json?search={urllib.parse.quote(query)}&limit=2"
+
+        response = requests.get(url, timeout=3)
+        if response.status_code == 200:
+            data = response.json()
+            if "results" in data:
+                ext_context = (
+                    "\n[DATI OPEN-FDA: REAZIONI AVVERSE E CASI CLINICI SIMILI]\n"
+                )
+                for idx, result in enumerate(data["results"]):
+                    animal = result.get("animal", {})
+                    drugs = result.get("drug", [])
+                    reactions = result.get("reaction", [])
+
+                    drug_names = [
+                        d.get("active_ingredients", [{"name": "Sconosciuto"}])[0].get(
+                            "name", "Sconosciuto"
+                        )
+                        for d in drugs
+                    ]
+                    reaction_names = [r.get("reaction_pt", "") for r in reactions]
+
+                    ext_context += f"- Caso #{idx + 1}: Cane ({animal.get('breed', {}).get('breed_name', 'Meticcio')}), "
+                    ext_context += f"Farmaci assunti: {', '.join(drug_names)}. "
+                    ext_context += (
+                        f"Reazioni documentate: {', '.join(reaction_names)}.\n"
+                    )
+                ext_context += "[/DATI OPEN-FDA]\n\n"
+                return ext_context
+    except Exception as e:
+        import logging
+
+        logging.warning(f"Errore ricerca OpenFDA: {e}")
+        return ""
+    return ""
+
+
 def generate_ai_response(problem, description, dog, breed_info, lang="it"):
     """Generate AI response using Grok or OpenAI, in the specified language."""
 
@@ -229,6 +294,12 @@ def generate_ai_response(problem, description, dog, breed_info, lang="it"):
     context = f"Problema descritto: {description}\n"
     if vet_context:
         context = vet_context + context
+
+    # 3. Interroga database esterno OpenFDA per ampliare contesto clinico
+    breed_name = dog.breed if dog and dog.breed else None
+    fda_context = query_external_vet_db(description, breed_name)
+    if fda_context:
+        context += fda_context
 
     if dog:
         context += f"Cane: {dog.dog_name}"
