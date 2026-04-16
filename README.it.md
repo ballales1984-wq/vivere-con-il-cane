@@ -19,7 +19,11 @@ A differenza dei chatbot generici, il nostro motore IA (alimentato da Llama-3 70
 - Ricorda gli eventi passati.
 - Incrocia i sintomi attuali (es. "il cane zoppica") con la storia clinica pregressa (es. problemi di incontinenza legati all'età) per generare analisi o consigli estremamente precisi e profilati.
 
-### 📚 2. Knowledge Base Relazionale (Database di Conoscenza)
+### 📋 2. Cartella Clinica & Condivisione Veterinaria
+- Genera un **Dossier Medico** completo che unisce le precedenti analisi dell'IA con gli eventi sanitari registrati dall'utente (vaccini, visite, log).
+- Condivisione istantanea con 1 click in formato **WhatsApp**, testo semplice per appunti, o una stampa in **PDF netta e senza distrazioni visive**, ottimizzata per l'invio via web-mail al medico curante.
+
+### 📚 3. Knowledge Base Relazionale (Database di Conoscenza)
 Un database informativo nativo e interconnesso:
 - **Razze**: Dettagli su livelli di energia, problemi comuni e consigli di cura.
 - **Problemi & Soluzioni**: Una matrice complessa che collega comportamenti problematici e criticità di salute alle rispettive origini (cause) e ad azioni pratiche risolutive e misurabili.
