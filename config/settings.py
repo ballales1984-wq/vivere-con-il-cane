@@ -40,11 +40,13 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "*",
     "vivere-con-il-cane-9107.d.kiloapps.io",
+    "tonita-deposable-manneristically.ngrok-free.dev",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://vivere-con-il-cane.onrender.com",
     "https://vivere-con-il-cane-9107.d.kiloapps.io",
+    "https://tonita-deposable-manneristically.ngrok-free.dev",
 ]
 
 
