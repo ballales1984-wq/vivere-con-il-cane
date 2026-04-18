@@ -157,3 +157,4 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Auth Redirects
 LOGIN_REDIRECT_URL = "dashboard"
 LOGOUT_REDIRECT_URL = "home"
+# Trigger reload after i18n consolidation
