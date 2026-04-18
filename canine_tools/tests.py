@@ -1,11 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
-from django.test import Client
-
+from django.utils import translation
 
 class FoodCalculatorTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
 
     def test_get_request_returns_200(self):
         response = self.client.get(reverse("canine_tools:food_calculator"))
@@ -41,6 +41,7 @@ class FoodCalculatorTest(TestCase):
 class AgeCalculatorTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
 
     def test_get_request_returns_200(self):
         response = self.client.get(reverse("canine_tools:age_calculator"))
@@ -67,7 +68,7 @@ class AgeCalculatorTest(TestCase):
         self.assertEqual(result["life_stage"], "Cucciolo")
 
     def test_life_stage_senior(self):
-        response = self.client.post("/tool/eta/", {"dog_age": 10, "size": "medium"})
+        response = self.client.post(reverse("canine_tools:age_calculator"), {"dog_age": 10, "size": "medium"})
         result = response.context["result"]
         self.assertEqual(result["life_stage"], "Anziano")
 
@@ -75,18 +76,19 @@ class AgeCalculatorTest(TestCase):
 class DogQuizTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
 
     def test_get_request_returns_200(self):
-        response = self.client.get("/tool/quiz/")
+        response = self.client.get(reverse("canine_tools:dog_quiz"))
         self.assertEqual(response.status_code, 200)
 
     def test_quiz_correct_answers(self):
-        response = self.client.post("/tool/quiz/", {"q1": "a", "q2": "c", "q3": "b"})
+        response = self.client.post(reverse("canine_tools:dog_quiz"), {"q1": "a", "q2": "c", "q3": "b"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("Esperto", response.context["result"])
 
     def test_quiz_wrong_answers(self):
-        response = self.client.post("/tool/quiz/", {"q1": "b", "q2": "a", "q3": "c"})
+        response = self.client.post(reverse("canine_tools:dog_quiz"), {"q1": "b", "q2": "a", "q3": "c"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("Principiante", response.context["result"])
 
@@ -94,28 +96,30 @@ class DogQuizTest(TestCase):
 class ToolsIndexTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
 
     def test_index_returns_200(self):
-        response = self.client.get("/tool/")
+        response = self.client.get(reverse("canine_tools:tools_index"))
         self.assertEqual(response.status_code, 200)
 
     def test_index_contains_tools(self):
-        response = self.client.get("/tool/")
+        response = self.client.get(reverse("canine_tools:tools_index"))
         self.assertIn("Calcolatore Cibo", response.content.decode())
 
 
 class LegalPagesTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
 
     def test_privacy_policy(self):
-        response = self.client.get("/privacy/")
+        response = self.client.get(reverse("privacy_policy"))
         self.assertEqual(response.status_code, 200)
 
     def test_terms_of_service(self):
-        response = self.client.get("/terms/")
+        response = self.client.get(reverse("terms_of_service"))
         self.assertEqual(response.status_code, 200)
 
     def test_cookie_policy(self):
-        response = self.client.get("/cookie/")
+        response = self.client.get(reverse("cookie_policy"))
         self.assertEqual(response.status_code, 200)

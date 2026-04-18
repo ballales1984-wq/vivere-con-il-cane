@@ -1,6 +1,7 @@
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, Client
+from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils import translation
 from knowledge.models import BreedInsight, Problem, Cause, Solution, DogAnalysis
 from dog_profile.models import DogProfile
 
@@ -85,6 +86,7 @@ class DogAnalysisModelTest(TestCase):
 class KnowledgeViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
 
     def test_problem_list_view(self):
         response = self.client.get(reverse("problem_list"))

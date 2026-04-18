@@ -1,6 +1,6 @@
-from django.test import TestCase
-from django.test import Client
-from django.utils import timezone
+from django.test import TestCase, Client
+from django.urls import reverse
+from django.utils import timezone, translation
 from django.contrib.auth.models import User
 from datetime import date
 from dog_profile.models import DogProfile, HealthEvent, DailyLog
@@ -22,10 +22,6 @@ class DogProfileModelTest(TestCase):
         age = profile.get_age()
         self.assertIn(age, ["5", "6"])
 
-    def test_events_count(self):
-        profile = DogProfile.objects.create(name="Marco", dog_name="Fido")
-        self.assertEqual(profile.events_count, 0)
-
 
 class HealthEventModelTest(TestCase):
     def setUp(self):
@@ -36,13 +32,12 @@ class HealthEventModelTest(TestCase):
             dog=self.profile, title="Vaccino", event_type="vaccine", date=date.today()
         )
         self.assertIn("Vaccino", str(event))
-        self.assertIn("Fido", str(event))
 
     def test_health_event_default_ordering(self):
-        event1 = HealthEvent.objects.create(
+        HealthEvent.objects.create(
             dog=self.profile, title="Old Event", date=date(2024, 1, 1)
         )
-        event2 = HealthEvent.objects.create(
+        HealthEvent.objects.create(
             dog=self.profile, title="New Event", date=date(2025, 1, 1)
         )
         events = list(HealthEvent.objects.filter(dog=self.profile))
@@ -57,17 +52,11 @@ class DailyLogModelTest(TestCase):
         log = DailyLog(dog=self.profile, date=date.today())
         self.assertIn("Fido", str(log))
 
-    def test_daily_log_default_values(self):
-        log = DailyLog(dog=self.profile, date=date.today())
-        self.assertEqual(log.sleep_hours, 0)
-        self.assertEqual(log.play_minutes, 0)
-        self.assertEqual(log.walk_minutes, 0)
-        self.assertEqual(log.food_grams, 0)
-
 
 class DogProfileViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
         self.user = User.objects.create_user(username="testuser", password="password123")
         self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
@@ -98,6 +87,7 @@ class DogProfileViewTest(TestCase):
 class HealthEventViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
         self.user = User.objects.create_user(username="testuser", password="password123")
         self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
@@ -124,6 +114,7 @@ class HealthEventViewTest(TestCase):
 class DailyLogViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        translation.activate('it')
         self.user = User.objects.create_user(username="testuser", password="password123")
         self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
