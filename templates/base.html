@@ -4,14 +4,34 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <!-- Google tag (gtag.js) -->
-    <!-- ... (gtag remains same) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4T2X1M6C4B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4T2X1M6C4B');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-adsense-account" content="ca-pub-2145959534306055">
     <meta name="description" content="{% block meta_description %}{% trans "Vivere con il Cane - Educazione cinofila, analisi AI del comportamento e strumenti pratici per il tuo cane" %}{% endblock %}">
     <title>{% block title %}{% trans "Vivere con il Cane" %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <!-- ... (rest of head unchanged) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4a7c59">
+    <link rel="apple-touch-icon" href="{% static 'images/icon-192.png' %}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055"
+     crossorigin="anonymous"></script>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -68,6 +88,14 @@
     </footer>
 
     <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('Service Worker registrato!', reg))
+                .catch(err => console.log('Errore Service Worker', err));
+        });
+    }
+
     function toggleMenu() {
         document.getElementById('navLinks').classList.toggle('active');
     }
