@@ -136,19 +136,19 @@ def tools_index(request):
     tools = [
         {
             "name": "Calcolatore Cibo",
-            "url": "food_calculator",
+            "url": "canine_tools:food_calculator",
             "icon": "🍖",
             "desc": "Calcola le porzioni giornaliere",
         },
         {
             "name": "Età Umana",
-            "url": "age_calculator",
+            "url": "canine_tools:age_calculator",
             "icon": "🎂",
             "desc": "Conosci l'età del cane in anni umani",
         },
         {
             "name": "Quiz Linguaggio",
-            "url": "dog_quiz",
+            "url": "canine_tools:dog_quiz",
             "icon": "🧠",
             "desc": "Testa la tua conoscenza",
         },

@@ -37,12 +37,7 @@ urlpatterns += i18n_patterns(
     path("", blog_views.home_page, name="home"),
     path("chi-sono/", blog_views.about_page, name="about"),
     path("blog/", include("blog.urls")),
-    path("tool/", include(([
-        path("", tools_views.tools_index, name="tools_index"),
-        path("cibo/", tools_views.food_calculator, name="food_calculator"),
-        path("eta/", tools_views.age_calculator, name="age_calculator"),
-        path("quiz/", tools_views.dog_quiz, name="dog_quiz"),
-    ], 'canine_tools'))),
+    path("tool/", include("canine_tools.urls", namespace="canine_tools")),
     path("privacy/", tools_views.privacy_policy, name="privacy_policy"),
     path("terms/", tools_views.terms_of_service, name="terms_of_service"),
     path("cookie/", tools_views.cookie_policy, name="cookie_policy"),

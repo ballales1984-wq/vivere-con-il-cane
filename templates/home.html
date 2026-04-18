@@ -109,17 +109,17 @@
 <section class="section-tools">
     <h2 class="section-heading">{% trans "Strumenti gratuiti" %}</h2>
     <div class="tools-grid">
-        <a href="{% url 'food_calculator' %}" class="tool-card">
+        <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card">
             <span class="tool-icon">🍖</span>
             <h3>{% trans "Calcolatore Cibo" %}</h3>
             <p>{% trans "Quanto deve mangiare il tuo cane? Calcola la porzione giusta." %}</p>
         </a>
-        <a href="{% url 'age_calculator' %}" class="tool-card">
+        <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
             <span class="tool-icon">🎂</span>
             <h3>{% trans "Età in Anni Umani" %}</h3>
             <p>{% trans "Scopri quanti anni ha il tuo cane in anni umani." %}</p>
         </a>
-        <a href="{% url 'dog_quiz' %}" class="tool-card">
+        <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
             <span class="tool-icon">🧠</span>
             <h3>{% trans "Quiz Linguaggio" %}</h3>
             <p>{% trans "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova." %}</p>
