@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane{% endblock %}
-{% block meta_description %}Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani.{% endblock %}
+{% block title %}{% trans "Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane" %}{% endblock %}
+{% block meta_description %}{% trans "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani." %}{% endblock %}
 
 {% block content %}
 
@@ -11,24 +11,24 @@
     <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 3rem;">
         
         <div style="flex: 1; min-width: 300px; z-index: 2;">
-            <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800; line-height: 1.2;">Capisci e risolvi il comportamento del tuo cane</h1>
-            <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; margin-bottom: 2.5rem;">Descrivi cosa succede e ottieni subito una soluzione personalizzata con la nostra Intelligenza Artificiale.</p>
+            <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800; line-height: 1.2;">{% trans "Capisci e risolvi il comportamento del tuo cane" %}</h1>
+            <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; margin-bottom: 2.5rem;">{% trans "Descrivi cosa succede e ottieni subito una soluzione personalizzata con la nostra Intelligenza Artificiale." %}</p>
             
             <form action="{% url 'analyze_problem' %}" method="get" class="ai-form" style="background: white; padding: 10px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 10px;">
                 <div class="ai-input-wrapper" style="display: flex; flex-direction: column; width: 100%;">
-                    <textarea name="q" placeholder="Es: Il mio cane abbaia sempre quando resta solo a casa..." rows="3" required style="border: none; padding: 1rem; font-size: 1.1rem; border-radius: 12px; resize: none; width: 100%; color: var(--text);"></textarea>
+                    <textarea name="q" placeholder="{% trans 'Es: Il mio cane abbaia sempre quando resta solo a casa...' %}" rows="3" required style="border: none; padding: 1rem; font-size: 1.1rem; border-radius: 12px; resize: none; width: 100%; color: var(--text);"></textarea>
                     <div style="display: flex; justify-content: flex-end; padding: 0.5rem;">
-                        <button type="submit" class="btn btn-primary btn-lg" style="padding: 1rem 2rem; font-weight: 700; border-radius: 12px; background: var(--accent); border-color: var(--accent);">Analizza ora con l'AI &rarr;</button>
+                        <button type="submit" class="btn btn-primary btn-lg" style="padding: 1rem 2rem; font-weight: 700; border-radius: 12px; background: var(--accent); border-color: var(--accent);">{% trans "Analizza ora con l'AI" %} &rarr;</button>
                     </div>
                 </div>
             </form>
-            <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">✨ Più di 1.000 proprietari aiutati questo mese</p>
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">✨ {% trans "Più di 1.000 proprietari aiutati questo mese" %}</p>
         </div>
         
         <!-- Immagine Lifestyle Generata -->
         <div style="flex: 1; min-width: 300px; display: flex; justify-content: center; position: relative; z-index: 1;">
             <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%); top: 0; left: 0; z-index: -1;"></div>
-            <img src="{% static 'images/hero_dog.png' %}" alt="Cane felice all'aperto" style="width: 100%; max-width: 480px; max-height: 480px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 4px solid rgba(255,255,255,0.15); object-fit: cover;">
+            <img src="{% static 'images/hero_dog.png' %}" alt="{% trans 'Cane felice all'aperto' %}" style="width: 100%; max-width: 480px; max-height: 480px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 4px solid rgba(255,255,255,0.15); object-fit: cover;">
         </div>
 
     </div>
@@ -38,19 +38,19 @@
 <section style="max-width: 1000px; margin: 0 auto 4rem; padding: 0 1rem;">
     <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 2.5rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; border-left: 5px solid var(--accent);">
         <div style="flex: 1; min-width: 300px;">
-            <h2 style="color: var(--primary-dark); font-size: 2rem; margin-bottom: 1rem;">Esperienza reale, non teoria.</h2>
+            <h2 style="color: var(--primary-dark); font-size: 2rem; margin-bottom: 1rem;">{% trans "Esperienza reale, non teoria." %}</h2>
             <p style="font-size: 1.1rem; color: var(--text); line-height: 1.6; margin-bottom: 1.5rem;">
-                Mi chiamo <strong>Alessio</strong>. Vivo con due cani da oltre 10 anni e ho fatto il dog sitter per centinaia di cani diversi. Non tifo ciecamente per nessuna fazione: cerco solo di raccontare le cose con testa, unendo l'esperienza quotidiana alle visite veterinarie e alle migliori pratiche di educazione.
+                {% blocktrans %}Mi chiamo <strong>Alessio</strong>. Vivo con due cani da oltre 10 anni e ho fatto il dog sitter per centinaia di cani diversi. Non tifo ciecamente per nessuna fazione: cerco solo di raccontare le cose con testa, unendo l'esperienza quotidiana alle visite veterinarie e alle migliori pratiche di educazione.{% endblocktrans %}
             </p>
             <p style="font-size: 1.1rem; color: var(--text); line-height: 1.6; margin-bottom: 1.5rem;">
-                Perché i cani non sono tutti uguali, e ogni binomio cane-proprietario ha bisogno di soluzioni su misura.
+                {% trans "Perché i cani non sono tutti uguali, e ogni binomio cane-proprietario ha bisogno di soluzioni su misura." %}
             </p>
-            <a href="{% url 'about' %}" class="btn" style="color: var(--primary); font-weight: 700; padding: 0; text-decoration: underline;">Leggi la mia storia completa &rarr;</a>
+            <a href="{% url 'about' %}" class="btn" style="color: var(--primary); font-weight: 700; padding: 0; text-decoration: underline;">{% trans "Leggi la mia storia completa" %} &rarr;</a>
         </div>
         <div style="flex: 0 0 auto; text-align: center; background: #f0fdf4; padding: 1.5rem; border-radius: 16px; border: 1px dashed #bbf7d0;">
             <div style="font-size: 3rem; margin-bottom: 0.5rem;">🐕‍🦺</div>
-            <div style="font-weight: 800; color: #166534; font-size: 1.5rem;">+10 Anni</div>
-            <div style="color: #15803d; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Di Esperienza</div>
+            <div style="font-weight: 800; color: #166534; font-size: 1.5rem;">+10 {% trans "Anni" %}</div>
+            <div style="color: #15803d; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">{% trans "Di Esperienza" %}</div>
         </div>
     </div>
 </section>
@@ -58,7 +58,7 @@
 <!-- Problemi Rapidi -->
 {% if problems %}
 <section class="section-problems">
-    <h2 class="section-heading">Problemi piu comuni</h2>
+    <h2 class="section-heading">{% trans "Problemi più comuni" %}</h2>
     <div class="problems-grid">
         {% for problem in problems %}
         <a href="{% url 'problem_detail' problem.slug %}" class="problem-card">
@@ -78,58 +78,58 @@
         {% endfor %}
     </div>
     <div style="text-align: center; margin-top: 1.5rem;">
-        <a href="{% url 'problem_list' %}" class="btn btn-secondary">Vedi tutti i problemi &rarr;</a>
+        <a href="{% url 'problem_list' %}" class="btn btn-secondary">{% trans "Vedi tutti i problemi" %} &rarr;</a>
     </div>
 </section>
 {% endif %}
 
 <!-- Come Funziona -->
 <section class="section-how">
-    <h2 class="section-heading">Come funziona</h2>
+    <h2 class="section-heading">{% trans "Come funziona" %}</h2>
     <div class="steps-grid">
         <div class="step-card">
             <span class="step-number">1</span>
-            <h3>Descrivi il problema</h3>
-            <p>Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia...</p>
+            <h3>{% trans "Descrivi il problema" %}</h3>
+            <p>{% trans "Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia..." %}</p>
         </div>
         <div class="step-card">
             <span class="step-number">2</span>
-            <h3>L'AI analizza</h3>
-            <p>Il sistema identifica le cause probabili in base al tuo cane</p>
+            <h3>{% trans "L'AI analizza" %}</h3>
+            <p>{% trans "Il sistema identifica le cause probabili in base al tuo cane" %}</p>
         </div>
         <div class="step-card">
             <span class="step-number">3</span>
-            <h3>Ricevi soluzioni</h3>
-            <p>Consigli pratici personalizzati per razza, eta e situazione</p>
+            <h3>{% trans "Ricevi soluzioni" %}</h3>
+            <p>{% trans "Consigli pratici personalizzati per razza, età e situazione" %}</p>
         </div>
     </div>
 </section>
 
 <!-- Tool -->
 <section class="section-tools">
-    <h2 class="section-heading">Strumenti gratuiti</h2>
+    <h2 class="section-heading">{% trans "Strumenti gratuiti" %}</h2>
     <div class="tools-grid">
         <a href="{% url 'food_calculator' %}" class="tool-card">
             <span class="tool-icon">🍖</span>
-            <h3>Calcolatore Cibo</h3>
-            <p>Quanto deve mangiare il tuo cane? Calcola la porzione giusta.</p>
+            <h3>{% trans "Calcolatore Cibo" %}</h3>
+            <p>{% trans "Quanto deve mangiare il tuo cane? Calcola la porzione giusta." %}</p>
         </a>
         <a href="{% url 'age_calculator' %}" class="tool-card">
             <span class="tool-icon">🎂</span>
-            <h3>Eta in Anni Umani</h3>
-            <p>Scopri quanti anni ha il tuo cane in anni umani.</p>
+            <h3>{% trans "Età in Anni Umani" %}</h3>
+            <p>{% trans "Scopri quanti anni ha il tuo cane in anni umani." %}</p>
         </a>
         <a href="{% url 'dog_quiz' %}" class="tool-card">
             <span class="tool-icon">🧠</span>
-            <h3>Quiz Linguaggio</h3>
-            <p>Quanto conosci il linguaggio del tuo cane? Mettiti alla prova.</p>
+            <h3>{% trans "Quiz Linguaggio" %}</h3>
+            <p>{% trans "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova." %}</p>
         </a>
     </div>
 </section>
 
 <!-- Articoli Recenti -->
 <section class="section-articles">
-    <h2 class="section-heading">Guide e articoli</h2>
+    <h2 class="section-heading">{% trans "Guide e articoli" %}</h2>
     <div class="blog-list">
     {% for post in recent_posts %}
     <article class="post-card">
@@ -147,21 +147,21 @@
                 {% endif %}
             </p>
             <p>{{ post.content|truncatewords:25 }}</p>
-            <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto &rarr;</a>
+            <a href="{% url 'blog_detail' post.slug %}" class="read-more">{% trans "Leggi tutto" %} &rarr;</a>
         </div>
     </article>
     {% endfor %}
     </div>
     <div style="text-align: center; margin-top: 2rem;">
-        <a href="{% url 'blog_list' %}" class="btn btn-secondary">Vedi tutti gli articoli &rarr;</a>
+        <a href="{% url 'blog_list' %}" class="btn btn-secondary">{% trans "Vedi tutti gli articoli" %} &rarr;</a>
     </div>
 </section>
 
 <!-- CTA Finale -->
 <section class="cta-final">
-    <h2>Inizia ora - e gratuito</h2>
-    <p>Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una soluzione.</p>
-    <a href="{% url 'analyze_problem' %}" class="btn btn-white btn-lg">Analizza il comportamento del tuo cane</a>
+    <h2>{% trans "Inizia ora - è gratuito" %}</h2>
+    <p>{% trans "Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una soluzione." %}</p>
+    <a href="{% url 'analyze_problem' %}" class="btn btn-white btn-lg">{% trans "Analizza il comportamento del tuo cane" %}</a>
 </section>
 
 <!-- AdSense Footer Ad -->

@@ -73,6 +73,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -120,6 +121,15 @@ LANGUAGE_CODE = "it"
 TIME_ZONE = "Europe/Rome"
 USE_I18N = True
 USE_TZ = True
+
+LANGUAGES = [
+    ("it", "Italiano"),
+    ("en", "English"),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
 
 LOGGING = {
     "version": 1,
