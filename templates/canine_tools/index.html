@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Strumenti - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Strumenti - Vivere con il Cane" %}{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>🛠️ Strumenti per il tuo Cane</h1>
-    <p>Calcolatori, quiz e guide per conoscere meglio il tuo amico a quattro zampe</p>
+    <h1>🛠️ {% trans "Strumenti per il tuo Cane" %}</h1>
+    <p>{% trans "Calcolatori, quiz e guide per conoscere meglio il tuo amico a quattro zampe" %}</p>
 </section>
 
 <section class="tools-grid">
     {% for tool in tools %}
     <a href="{% url tool.url %}" class="tool-card">
         <span class="tool-icon">{{ tool.icon }}</span>
-        <h3>{{ tool.name }}</h3>
-        <p>{{ tool.desc }}</p>
+        <h3>{% trans tool.name %}</h3>
+        <p>{% trans tool.desc %}</p>
     </a>
     {% endfor %}
 </section>
 
 <section style="max-width: 600px; margin: 3rem auto; text-align: center;">
-    <div class="related-tool">
-        <h3>🤖 Supporto AI</h3>
-        <p>Descrivi un problema del tuo cane e ricevi un'analisi personalizzata.</p>
-        <a href="{% url 'analyze_problem' %}" class="btn btn-primary" style="margin-top: 1rem;">Prova l'Analisi AI</a>
+    <div class="related-tool" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow-md);">
+        <h3>🤖 {% trans "Supporto AI" %}</h3>
+        <p>{% trans "Descrivi un problema del tuo cane e ricevi un'analisi personalizzata." %}</p>
+        <a href="{% url 'analyze_problem' %}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Prova l'Analisi AI" %}</a>
     </div>
 </section>
 {% endblock %}

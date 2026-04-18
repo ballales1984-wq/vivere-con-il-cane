@@ -2,7 +2,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
-# ... (rest of imports unchanged)
+from django.conf.urls.static import static
+from blog import views as blog_views
+from canine_tools import views as tools_views
+from blog.sitemap import (
+    BlogPostSitemap,
+    ProblemSitemap,
+    BreedSitemap,
+    StaticViewSitemap,
+)
 from django.contrib.sitemaps.views import sitemap
 
 sitemaps = {
