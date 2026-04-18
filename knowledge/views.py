@@ -126,6 +126,9 @@ def analyze_problem(request):
         # Generate AI response
         ai_response = generate_ai_response(problem, description, dog, breed_info, lang)
 
+        # Find suggested articles based on description and detected problem
+        suggested_articles = get_related_articles(description, problem)
+
         # Save analysis only if dog is available
         analysis = None
         if dog:
@@ -145,6 +148,7 @@ def analyze_problem(request):
                 "ai_response": ai_response,
                 "problem": problem,
                 "description": description,
+                "suggested_articles": suggested_articles,
             },
         )
 
@@ -200,6 +204,36 @@ def auto_detect_problem(text):
             if problem:
                 return problem
     return None
+
+
+def get_related_articles(text, problem=None):
+    """Find related blog posts based on problem keywords or description."""
+    from django.db.models import Q
+
+    keywords = []
+    if problem:
+        # Use problem slug keywords
+        keywords.extend(problem.slug.split("-"))
+    
+    # Extract some long words from description as potential keywords
+    desc_words = [w.lower() for w in text.split() if len(w) > 4]
+    keywords.extend(desc_words[:3])  # Take a few
+
+    # Filter keywords (exclude common ones)
+    keywords = [k for k in set(keywords) if len(k) > 3]
+
+    if not keywords:
+        return BlogPost.objects.filter(published=True).order_by("-created_at")[:2]
+
+    query = Q()
+    for kw in keywords:
+        query |= Q(title__icontains=kw) | Q(slug__icontains=kw) | Q(content__icontains=kw)
+
+    return (
+        BlogPost.objects.filter(query, published=True)
+        .distinct()
+        .order_by("-importance", "-created_at")[:2]
+    )
 
 
 import urllib.parse
