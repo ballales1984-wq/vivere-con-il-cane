@@ -227,4 +227,238 @@ msgid "Leggi articolo"
 msgstr "Read article"
 
 msgid "Cane felice all'aperto"
- msgstr "Happy dog outdoors"
+msgstr "Happy dog outdoors"
+
+msgid "Tool Correlato"
+msgstr "Related Tool"
+
+msgid "Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro calcolatore alimentare!"
+msgstr "Want to know how much your dog should eat? Try our food calculator!"
+
+msgid "Risultato dell'Analisi"
+msgstr "Analysis Result"
+
+msgid "Problema identificato:"
+msgstr "Problem identified:"
+
+msgid "Ha funzionato questa soluzione?"
+msgstr "Did this solution work?"
+
+msgid "Migliorato"
+msgstr "Improved"
+
+msgid "Nessun cambiamento"
+msgstr "No change"
+
+msgid "Peggio"
+msgstr "Worse"
+
+msgid "Vuoi risultati migliori?"
+msgstr "Want better results?"
+
+msgid "Crea il profilo del tuo cane per ottenere risposte personalizzate per razza, eta e peso."
+msgstr "Create your dog's profile to get personalized answers based on breed, age and weight."
+
+msgid "Crea profilo cane"
+msgstr "Create dog profile"
+
+msgid "Nuova analisi"
+msgstr "New analysis"
+
+msgid "Vedi storico analisi"
+msgstr "View analysis history"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+msgid "Cookie Policy"
+msgstr "Cookie Policy"
+
+msgid "Centro di gestione e conoscenza per il tuo amico a quattro zampe"
+msgstr "Management and knowledge center for your four-legged friend"
+
+msgid "Età"
+msgstr "Age"
+
+msgid "Peso"
+msgstr "Weight"
+
+msgid "Eventi"
+msgstr "Events"
+
+msgid "Scheda Completa"
+msgstr "Full Card"
+
+msgid "Portata giornaliera in base a peso ed età"
+msgstr "Daily portion based on weight and age"
+
+msgid "Converti età del cane in anni umani"
+msgstr "Convert dog's age to human years"
+
+msgid "Testa la tua conoscenza"
+msgstr "Test your knowledge"
+
+msgid "Articoli utili"
+msgstr "Useful articles"
+
+msgid "Vedi tutte le attività"
+msgstr "View all activities"
+
+msgid "Nessuna attività registrata."
+msgstr "No activity recorded."
+
+msgid "aggiungi il primo evento"
+msgstr "Add first event"
+
+msgid "Unisciti a noi"
+msgstr "Join us"
+
+msgid "Crea un account gratuito per gestire i dati del tuo cane in totale privacy"
+msgstr "Create a free account to manage your dog's data in total privacy"
+
+msgid "Crea Account"
+msgstr "Create Account"
+
+msgid "Hai già un account? Accedi qui"
+msgstr "Already have an account? Login here"
+
+msgid "Bentornato"
+msgstr "Welcome back"
+
+msgid "Accedi per gestire i profili dei tuoi cani"
+msgstr "Login to manage your dogs' profiles"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Accedi"
+msgstr "Login"
+
+msgid "Non hai ancora un account? Registrati ora"
+msgstr "Don't have an account? Sign up now"
+
+msgid "Scheda del Cane"
+msgstr "Dog Card"
+
+msgid "Genere"
+msgstr "Gender"
+
+msgid "Eventi di Salute"
+msgstr "Health Events"
+
+msgid "Nessun evento registrato."
+msgstr "No event recorded."
+
+msgid "Registro Giornaliero"
+msgstr "Daily Log"
+
+msgid "Data"
+msgstr "Date"
+
+msgid "Sonno"
+msgstr "Sleep"
+
+msgid "Gioco"
+msgstr "Play"
+
+msgid "Passeggiata"
+msgstr "Walk"
+
+msgid "Cibo"
+msgstr "Food"
+
+msgid "Nessun registro."
+msgstr "No log."
+
+msgid "Storico Analisi AI"
+msgstr "AI Analysis History"
+
+msgid "Tutte le consulenze digitali per"
+msgstr "All digital consultations for"
+
+msgid "Vedi Dettaglio Completo"
+msgstr "View Full Detail"
+
+msgid "Ha funzionato!"
+msgstr "It worked!"
+
+msgid "Nessuna analisi ancora effettuata"
+msgstr "No analysis performed yet"
+
+msgid "Le analisi AI per [dog] compariranno qui una volta completate."
+msgstr "AI analyses for [dog] will appear here once completed."
+
+msgid "Fai la prima analisi"
+msgstr "Do the first analysis"
+
+msgid "Analisi Intelligente"
+msgstr "Intelligent Analysis"
+
+msgid "Descrivi il problema del tuo cane e ricevi una risposta personalizzata basata su razza, età e comportamento"
+msgstr "Describe your dog's problem and get a personalized answer based on breed, age and behavior"
+
+msgid "Seleziona il tuo cane (opzionale)"
+msgstr "Select your dog (optional)"
+
+msgid "Seleziona un problema comune (opzionale)"
+msgstr "Select a common problem (optional)"
+
+msgid "Descrivi il problema"
+msgstr "Describe the problem"
+
+msgid "Analizza con AI"
+msgstr "Analyze with AI"
+
+msgid "Inizializzazione Motore IA..."
+msgstr "Initializing AI Engine..."
+
+msgid "Analisi della richiesta in corso."
+msgstr "Analyzing your request."
+
+msgid "L'AI analizza il problema tenendo conto delle caratteristiche specifiche del tuo cane"
+msgstr "AI analyzes the problem taking into account your dog's specific characteristics"
+
+msgid "Benvenuto nel tuo Assistente Veterinario IA"
+msgstr "Welcome to your AI Veterinary Assistant"
+
+msgid "Per sbloccare il vero potenziale dell'Intelligenza Artificiale, abbiamo bisogno di conoscere il tuo compagno di avventure."
+msgstr "To unlock the true potential of Artificial Intelligence, we need to know your adventure companion."
+
+msgid "Creando il profilo sbloccherai:"
+msgstr "By creating the profile you will unlock:"
+
+msgid "Diagnosi IA su Misura"
+msgstr "Custom AI Diagnosis"
+
+msgid "L'IA analizzerà i sintomi incrociandoli con l'età, il peso e la genetica della sua razza."
+msgstr "AI will analyze symptoms cross-referencing with age, weight and breed genetics."
+
+msgid "Dossier Clinico Condivisibile"
+msgstr "Shareable Clinical Dossier"
+
+msgid "Una cartella clinica completa con la sua storia medica, pronta da inviare via WhatsApp al veterinario."
+msgstr "A complete medical folder with their medical history, ready to send via WhatsApp to the vet."
+
+msgid "Memoria Longitudinale"
+msgstr "Longitudinal Memory"
+
+msgid "L'app ricorderà ogni singolo evento di salute o comportamento strano per analisi future."
+msgstr "The app will remember every single health event or strange behavior for future analysis."
+
+msgid "Tool Personalizzati"
+msgstr "Customized Tools"
+
+msgid "Calcolatore cibo, età biologica e suggerimenti mirati che si adattano al tuo cane man mano che cresce."
+msgstr "Food calculator, biological age and targeted suggestions that adapt to your dog as it grows."
+
+msgid "Ci vogliono meno di 2 minuti. Gratuito per sempre."
+msgstr "It takes less than 2 minutes. Free forever."
