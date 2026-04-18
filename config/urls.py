@@ -45,6 +45,7 @@ urlpatterns += i18n_patterns(
     path("knowledge/", include("knowledge.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("signup/", tools_views.signup, name="signup"),
+    path("newsletter/subscribe/", (lambda r: __import__('marketing.views', fromlist=['subscribe_newsletter']).subscribe_newsletter(r)), name="subscribe_newsletter"),
 )
 
 if settings.DEBUG:

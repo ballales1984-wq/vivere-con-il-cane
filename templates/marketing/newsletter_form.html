@@ -1,0 +1,21 @@
+{% load i18n %}
+<div id="newsletter-container" class="newsletter-box" style="background: white; padding: 2.5rem; border-radius: 24px; box-shadow: var(--shadow-lg); text-align: center; max-width: 800px; margin: 4rem auto; border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+    <!-- Background Decor -->
+    <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: var(--primary); opacity: 0.05; border-radius: 50%;"></div>
+    <div style="position: absolute; bottom: -30px; left: -30px; width: 100px; height: 100px; background: var(--accent); opacity: 0.1; border-radius: 50%;"></div>
+
+    <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">📬</span>
+    <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 800;">{% trans "Resta aggiornato" %}</h2>
+    <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">{% trans "Ricevi i nuovi articoli e le analisi IA direttamente nella tua inbox. Niente spam, solo consigli utili." %}</p>
+    
+    <form hx-post="{% url 'subscribe_newsletter' %}" hx-target="#newsletter-container" hx-swap="outerHTML" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="{% trans 'Inserisci la tua email' %}" required 
+               style="flex: 1; min-width: 250px; padding: 1rem 1.5rem; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; transition: 0.3s;"
+               onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#eee'">
+        <button type="submit" class="btn btn-primary" style="padding: 1rem 2rem; font-weight: 700; border-radius: 12px; box-shadow: var(--shadow-md);">
+            {% trans "Iscriviti Ora" %}
+        </button>
+    </form>
+    <p style="font-size: 0.8rem; color: #999; margin-top: 1.5rem;">{% trans "Iscrivendoti accetti la nostra" %} <a href="{% url 'privacy_policy' %}" style="text-decoration: underline; color: #777;">Privacy Policy</a>.</p>
+</div>
