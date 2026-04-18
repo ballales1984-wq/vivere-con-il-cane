@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from django.utils import timezone
+from django.contrib.auth.models import User
 from datetime import date
 from dog_profile.models import DogProfile, HealthEvent, DailyLog
 
@@ -67,8 +68,10 @@ class DailyLogModelTest(TestCase):
 class DogProfileViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        self.user = User.objects.create_user(username="testuser", password="password123")
+        self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
-            name="Marco", dog_name="Fido", breed="Labrador"
+            owner=self.user, name="Marco", dog_name="Fido", breed="Labrador"
         )
 
     def test_dashboard_view(self):
@@ -95,7 +98,11 @@ class DogProfileViewTest(TestCase):
 class HealthEventViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.profile = DogProfile.objects.create(name="Marco", dog_name="Fido")
+        self.user = User.objects.create_user(username="testuser", password="password123")
+        self.client.login(username="testuser", password="password123")
+        self.profile = DogProfile.objects.create(
+            owner=self.user, name="Marco", dog_name="Fido"
+        )
 
     def test_add_event_view(self):
         response = self.client.get(f"/cane/{self.profile.id}/evento/")
@@ -117,7 +124,11 @@ class HealthEventViewTest(TestCase):
 class DailyLogViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.profile = DogProfile.objects.create(name="Marco", dog_name="Fido")
+        self.user = User.objects.create_user(username="testuser", password="password123")
+        self.client.login(username="testuser", password="password123")
+        self.profile = DogProfile.objects.create(
+            owner=self.user, name="Marco", dog_name="Fido"
+        )
 
     def test_add_log_view(self):
         response = self.client.get(f"/cane/{self.profile.id}/log/")

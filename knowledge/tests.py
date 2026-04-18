@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.test import Client
+from django.contrib.auth.models import User
 from knowledge.models import BreedInsight, Problem, Cause, Solution, DogAnalysis
 from dog_profile.models import DogProfile
 
@@ -66,8 +67,9 @@ class SolutionModelTest(TestCase):
 
 class DogAnalysisModelTest(TestCase):
     def setUp(self):
+        self.user = User.objects.create_user(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
-            name="Marco", dog_name="Fido", gender="male"
+            owner=self.user, name="Marco", dog_name="Fido", gender="male"
         )
         self.problem = Problem.objects.create(
             title="Test Problem", category="behavior", description="Desc"
