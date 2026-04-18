@@ -55,15 +55,15 @@ class BlogPostViewTest(TestCase):
         )
 
     def test_blog_list_view(self):
-        response = self.client.get("/blog/")
+        response = self.client.get(reverse("blog_list"))
         self.assertEqual(response.status_code, 200)
 
     def test_blog_post_detail_view(self):
-        response = self.client.get(f"/blog/{self.post.slug}/")
+        response = self.client.get(reverse("blog_detail", kwargs={"slug": self.post.slug}))
         self.assertEqual(response.status_code, 200)
 
     def test_home_page_view(self):
-        response = self.client.get("/")
+        response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
 
 
@@ -80,7 +80,7 @@ class BlogVoteTest(TestCase):
 
     def test_vote_view(self):
         response = self.client.post(
-            f"/blog/vote/{self.post.id}/", HTTP_X_FORWARDED_FOR="192.168.1.1"
+            reverse("vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
         )
         self.assertEqual(response.status_code, 200)
         self.post.refresh_from_db()

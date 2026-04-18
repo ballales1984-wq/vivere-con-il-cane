@@ -47,10 +47,10 @@
                 <li><a href="{% url 'dashboard' %}">{% trans "Il mio Cane" %}</a></li>
                 {% if user.is_authenticated %}
                     <li class="nav-user">
-                        <span style="color: #333; font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: #000;">{{ user.username }}</strong></span>
+                        <span style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: white;">{{ user.username }}</strong></span>
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" style="background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 600; padding: 0 10px;">{% trans "Esci" %}</button>
+                            <button type="submit" style="background: none; border: none; color: var(--accent); cursor: pointer; font-weight: 700; padding: 0 10px;">{% trans "Esci" %}</button>
                         </form>
                     </li>
                 {% else %}
@@ -62,7 +62,7 @@
                 <li class="lang-selector" style="margin-left: 10px; padding: 4px 8px; background: rgba(0,0,0,0.05); border-radius: 20px;">
                     <form action="{% url 'set_language' %}" method="post" id="lang-form" style="display: flex; gap: 8px; align-items: center; margin: 0;">
                         {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
                         <button type="submit" name="language" value="it" title="Italiano" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; filter: {% if LANGUAGE_CODE == 'it' %}none{% else %}grayscale(0.5){% endif %}; padding: 0;">🇮🇹</button>
                         <span style="color: #ccc; font-size: 0.8rem;">|</span>
                         <button type="submit" name="language" value="en" title="English" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; filter: {% if LANGUAGE_CODE == 'en' %}none{% else %}grayscale(0.5){% endif %}; padding: 0;">🇬🇧</button>

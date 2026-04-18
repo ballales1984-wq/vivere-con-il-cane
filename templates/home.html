@@ -11,8 +11,8 @@
     <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 3rem;">
         
         <div style="flex: 1; min-width: 300px; z-index: 2;">
-            <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800; line-height: 1.2;">{% trans "Capisci e risolvi il comportamento del tuo cane" %}</h1>
-            <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; margin-bottom: 2.5rem;">{% trans "Descrivi cosa succede e ottieni subito una soluzione personalizzata con la nostra Intelligenza Artificiale." %}</p>
+            <h1 style="font-size: 3rem; color: white; margin-bottom: 1rem; font-weight: 800; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">{% trans "Capisci e risolvi il comportamento del tuo cane" %}</h1>
+            <p class="hero-subtitle" style="font-size: 1.3rem; color: white; opacity: 1; margin-bottom: 2.5rem;">{% trans "Descrivi cosa succede e ottieni subito una soluzione personalizzata con la nostra Intelligenza Artificiale." %}</p>
             
             <form action="{% url 'analyze_problem' %}" method="get" class="ai-form" style="background: white; padding: 10px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 10px;">
                 <div class="ai-input-wrapper" style="display: flex; flex-direction: column; width: 100%;">
@@ -28,7 +28,7 @@
         <!-- Immagine Lifestyle Generata -->
         <div style="flex: 1; min-width: 300px; display: flex; justify-content: center; position: relative; z-index: 1;">
             <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%); top: 0; left: 0; z-index: -1;"></div>
-            <img src="{% static 'images/hero_dog.png' %}" alt="{% trans 'Cane felice all'aperto' %}" style="width: 100%; max-width: 480px; max-height: 480px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 4px solid rgba(255,255,255,0.15); object-fit: cover;">
+            <img src="{% static 'images/hero_dog.png' %}" alt="{% trans "Cane felice all'aperto" %}" style="width: 100%; max-width: 480px; max-height: 480px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 4px solid rgba(255,255,255,0.15); object-fit: cover;">
         </div>
 
     </div>
