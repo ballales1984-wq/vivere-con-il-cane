@@ -453,6 +453,15 @@ Rispondi in italiano in modo chiaro e pratico."""
 4. **Quando rivolgerti a un professionista**: Se il problema persiste oltre 2-3 settimane nonostante gli allenamenti, consulta un educatore cinofilo o un Veterinario comportamentalista."""
 
 
+def analysis_history(request, dog_id):
+    """Show previous analyses for a specific dog."""
+    dog = get_object_or_404(DogProfile, id=dog_id)
+    analyses = DogAnalysis.objects.filter(dog=dog).order_by("-created_at")
+    return render(
+        request, "knowledge/analysis_history.html", {"dog": dog, "analyses": analyses}
+    )
+
+
 def update_analysis_result(request, analysis_id):
     """Update the result of an analysis after user tries solution."""
     if request.method == "POST":

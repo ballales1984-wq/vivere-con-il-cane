@@ -46,6 +46,9 @@
     
     <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
         <a href="{% url 'analyze_problem' %}" class="btn btn-secondary">Nuova analisi</a>
+        {% if dog %}
+        <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary">Vedi storico analisi</a>
+        {% endif %}
         <a href="{% url 'problem_list' %}" class="btn btn-secondary">Vedi tutti i problemi</a>
     </div>
 </section>

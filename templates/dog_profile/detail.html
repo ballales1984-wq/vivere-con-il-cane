@@ -26,6 +26,7 @@
     <div style="margin-top: 2rem; display: flex; gap: 10px; flex-wrap: wrap;">
         <a href="{% url 'profile_add_event' profile.id %}" class="btn-calculate" style="background-color: #3b82f6;">+ Evento Salute</a>
         <a href="{% url 'profile_add_log' profile.id %}" class="btn-calculate" style="background-color: #6366f1;">+ Registro Giornata</a>
+        <a href="{% url 'analysis_history' profile.id %}" class="btn-calculate" style="background-color: #f59e0b; border: 2px solid #d97706; font-weight: bold;">🧠 Storico Analisi AI</a>
         <a href="{% url 'profile_dossier' profile.id %}" class="btn-calculate" style="background-color: #10b981; border: 2px solid #059669; font-weight: bold;">📋 Genera Cartella Clinica</a>
     </div>
 </div>

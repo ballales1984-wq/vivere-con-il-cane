@@ -12,4 +12,5 @@ urlpatterns = [
         views.update_analysis_result,
         name="update_analysis_result",
     ),
+    path("history/<int:dog_id>/", views.analysis_history, name="analysis_history"),
 ]
