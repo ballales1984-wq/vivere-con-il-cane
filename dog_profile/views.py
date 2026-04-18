@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from .models import DogProfile, HealthEvent, DailyLog
 from knowledge.models import DogAnalysis
 from datetime import date
 
 
+@login_required
 def profile_list(request):
-    """List all dog profiles."""
-    profiles = DogProfile.objects.all()
+    """List all dog profiles for current user."""
+    profiles = DogProfile.objects.filter(owner=request.user)
     return render(request, "dog_profile/list.html", {"profiles": profiles})
 
 
+@login_required
 def profile_new(request):
     """Create new dog profile."""
     if request.method == "POST":
@@ -22,6 +25,7 @@ def profile_new(request):
         gender = request.POST.get("gender")
 
         profile = DogProfile.objects.create(
+            owner=request.user,
             name=name,
             dog_name=dog_name,
             breed=breed,
@@ -34,9 +38,10 @@ def profile_new(request):
     return render(request, "dog_profile/form.html", {})
 
 
+@login_required
 def profile_detail(request, profile_id):
-    """View dog profile with events and daily logs."""
-    profile = get_object_or_404(DogProfile, id=profile_id)
+    """View dog profile restricted to owner."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
     events = profile.events.all()[:10]
     logs = profile.daily_logs.all()[:7]
 
@@ -51,9 +56,10 @@ def profile_detail(request, profile_id):
     )
 
 
+@login_required
 def profile_add_event(request, profile_id):
     """Add health event to profile."""
-    profile = get_object_or_404(DogProfile, id=profile_id)
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
         HealthEvent.objects.create(
@@ -68,9 +74,10 @@ def profile_add_event(request, profile_id):
     return render(request, "dog_profile/event_form.html", {"profile": profile})
 
 
+@login_required
 def profile_add_log(request, profile_id):
     """Add daily log to profile."""
-    profile = get_object_or_404(DogProfile, id=profile_id)
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
         DailyLog.objects.create(
@@ -86,17 +93,19 @@ def profile_add_log(request, profile_id):
     return render(request, "dog_profile/log_form.html", {"profile": profile})
 
 
+@login_required
 def my_dog(request):
-    """Quick view for the first dog profile."""
-    profile = DogProfile.objects.first()
+    """Quick view for the first dog profile of the logged user."""
+    profile = DogProfile.objects.filter(owner=request.user).first()
     if not profile:
         return redirect("profile_new")
     return redirect("profile_detail", profile_id=profile.id)
 
 
+@login_required
 def dashboard(request):
-    """Main dashboard - unified view for all dog's data."""
-    profiles = list(DogProfile.objects.all())
+    """Main dashboard - private view for owner's dogs."""
+    profiles = list(DogProfile.objects.filter(owner=request.user))
 
     # Attach analyses to each profile
     for profile in profiles:
@@ -105,14 +114,15 @@ def dashboard(request):
     return render(request, "dog_profile/dashboard.html", {"profiles": profiles})
 
 
+@login_required
 def profile_dossier(request, profile_id):
-    """Generates a complete clinical history dossier for export/printing and WhatsApp sharing."""
-    profile = get_object_or_404(DogProfile, id=profile_id)
+    """Generates a complete clinical history dossier for the owner."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
     
     events = list(profile.events.all())
     analyses = list(profile.analyses.all())
     
-    # Normalize sorting dates and assign types
+    # ... (rest of the code remains the same as it uses profile variable correctly)
     for e in events:
         e.sort_date = e.date
         e.item_type = 'event'
@@ -124,7 +134,6 @@ def profile_dossier(request, profile_id):
     timeline = events + analyses
     timeline.sort(key=lambda x: x.sort_date, reverse=True)
     
-    # Pre-generate text format for clipboard/WhatsApp
     whatsapp_text = f"🐾 *Dossier Medico: {profile.dog_name}* 🐾\n"
     whatsapp_text += f"Razza: {profile.breed or 'N/A'} | Età: {profile.get_age()} anni | Peso: {profile.weight or 'N/A'} kg\n\n"
     

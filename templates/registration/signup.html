@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registrati - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section class="hero-ai" style="padding: 4rem 1rem; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 2rem;">
+    <h1>Unisciti a noi</h1>
+    <p>Crea un account gratuito per gestire i dati del tuo cane in totale privacy</p>
+</section>
+
+<div class="container" style="max-width: 500px; margin: 0 auto; padding: 2rem 1rem 4rem;">
+    <div class="tool-container" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow-md);">
+        <form method="post" class="form-style">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div style="margin-bottom: 1.5rem;">
+                <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small style="display: block; color: #666; font-size: 0.8rem; margin-top: 5px;">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div style="color: #ef4444; font-size: 0.85rem; margin-top: 5px;">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">Crea Account</button>
+        </form>
+        
+        <div style="margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #666;">
+            Hai già un account? <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 600;">Accedi qui</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-style input[type="text"], 
+    .form-style input[type="password"],
+    .form-style input[type="email"] {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    .form-style ul {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0;
+        font-size: 0.8rem;
+        color: #666;
+    }
+</style>
+{% endblock %}

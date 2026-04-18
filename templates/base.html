@@ -36,8 +36,19 @@
                 <li><a href="{% url 'about' %}">Chi Sono</a></li>
                 <li><a href="{% url 'blog_list' %}">Blog</a></li>
                 <li><a href="{% url 'problem_list' %}">Problemi</a></li>
-                <li><a href="{% url 'tools_index' %}">Tool</a></li>
                 <li><a href="{% url 'dashboard' %}">Il mio Cane</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-user">
+                        <span style="color: #666; font-size: 0.9rem;">Ciao, <strong>{{ user.username }}</strong></span>
+                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 600; padding: 0 10px;">Esci</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Accedi</a></li>
+                    <li><a href="{% url 'signup' %}" class="btn btn-primary btn-sm" style="color: white !important;">Registrati</a></li>
+                {% endif %}
                 <li class="lang-selector" style="display: flex; gap: 8px; align-items: center; margin-left: 10px; padding: 4px 8px; background: rgba(0,0,0,0.05); border-radius: 20px;">
                     <a href="#" onclick="changeLanguage('it'); return false;" title="Italiano" style="font-size: 1.2rem; filter: grayscale(0.5); transition: 0.3s;" onmouseover="this.style.filter='grayscale(0)'" onmouseout="if(!this.classList.contains('active')) this.style.filter='grayscale(0.5)'" class="{% if request.COOKIES.app_lang == 'it' or not request.COOKIES.app_lang %}active{% endif %}" id="lang-it">🇮🇹</a>
                     <span style="color: #ccc; font-size: 0.8rem;">|</span>

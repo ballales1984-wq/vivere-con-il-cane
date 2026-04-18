@@ -41,6 +41,8 @@ urlpatterns = [
     path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
     path("cane/", include("dog_profile.urls")),
     path("knowledge/", include("knowledge.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("signup/", tools_views.signup, name="signup"),
 ]
 
 if settings.DEBUG:
