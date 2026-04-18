@@ -75,3 +75,18 @@ msgstr "No articles available."
 
 msgid "Aggiungi un articolo"
 msgstr "Add an article"
+
+msgid "Ogni cane è unico"
+msgstr "Every dog is unique"
+
+msgid "Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed età."
+msgstr "Does your dog have a particular behavior? Describe it to our AI and get practical solutions based on its breed and age right away."
+
+msgid "Analizza il tuo caso con l'AI"
+msgstr "Analyze your case with AI"
+
+msgid "Articoli correlati"
+msgstr "Related articles"
+
+msgid "Torna al blog"
+msgstr "Back to blog"

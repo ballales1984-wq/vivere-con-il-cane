@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}{{ post.title }} - Vivere con il Cane{% endblock %}
 
@@ -55,15 +55,15 @@
 
     <!-- CTA: Analizza il tuo caso -->
     <div class="cta-analyze-box" style="background: var(--primary-light); border-left: 5px solid var(--primary); padding: 2rem; border-radius: var(--radius-md); margin: 2.5rem 0;">
-        <h3 style="color: var(--primary-dark); margin-top: 0;">Ogni cane &egrave; unico</h3>
-        <p style="font-size: 1.1rem; color: var(--text);">Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed et&agrave;.</p>
-        <a href="{% url 'analyze_problem' %}?description={{ post.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Analizza il tuo caso con l'AI &rarr;</a>
+        <h3 style="color: var(--primary-dark); margin-top: 0;">{% trans "Ogni cane è unico" %}</h3>
+        <p style="font-size: 1.1rem; color: var(--text);">{% trans "Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed età." %}</p>
+        <a href="{% url 'analyze_problem' %}?description={{ post.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">{% trans "Analizza il tuo caso con l'AI" %} &rarr;</a>
     </div>
 
     <!-- Articoli correlati -->
     {% if related_posts %}
     <div class="related-articles">
-        <h3>Articoli correlati</h3>
+        <h3>{% trans "Articoli correlati" %}</h3>
         <div class="related-grid">
             {% for related in related_posts %}
             <a href="{% url 'blog_detail' related.slug %}" class="related-card">
@@ -76,7 +76,7 @@
     {% endif %}
     
     <div class="post-actions" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--light-dark);">
-        <a href="{% url 'blog_list' %}" class="back-link">&larr; Torna al blog</a>
+        <a href="{% url 'blog_list' %}" class="back-link">&larr; {% trans "Torna al blog" %}</a>
         <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }})">
             &#9829; Mi piace <span class="vote-count">{{ post.votes_count }}</span>
         </button>
