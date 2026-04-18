@@ -69,3 +69,9 @@ msgstr "Tips, guides and tools for life with your four-legged friend"
 
 msgid "Leggi tutto"
 msgstr "Read all"
+
+msgid "Nessun articolo disponibile."
+msgstr "No articles available."
+
+msgid "Aggiungi un articolo"
+msgstr "Add an article"

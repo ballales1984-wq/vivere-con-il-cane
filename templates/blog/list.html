@@ -36,8 +36,8 @@
     </article>
     {% empty %}
     <div style="text-align: center; grid-column: 1/-1; padding: 3rem;">
-        <p style="font-size: 1.1rem; color: var(--text-light);">Nessun articolo disponibile.</p>
-        <a href="/admin" class="btn btn-primary" style="margin-top: 1rem;">Aggiungi un articolo</a>
+        <p style="font-size: 1.1rem; color: var(--text-light);">{% trans "Nessun articolo disponibile." %}</p>
+        <a href="/admin" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Aggiungi un articolo" %}</a>
     </div>
     {% endfor %}
 </section>
