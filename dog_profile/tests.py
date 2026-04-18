@@ -75,16 +75,16 @@ class DogProfileViewTest(TestCase):
         )
 
     def test_dashboard_view(self):
-        response = self.client.get("/cane/")
+        response = self.client.get(reverse("dashboard"))
         self.assertEqual(response.status_code, 200)
 
     def test_profile_create_view(self):
-        response = self.client.get("/cane/nuovo/")
+        response = self.client.get(reverse("profile_new"))
         self.assertEqual(response.status_code, 200)
 
     def test_profile_form_submission(self):
         response = self.client.post(
-            "/cane/nuovo/",
+            reverse("profile_new"),
             {
                 "name": "Luca",
                 "dog_name": "Rex",
@@ -105,12 +105,12 @@ class HealthEventViewTest(TestCase):
         )
 
     def test_add_event_view(self):
-        response = self.client.get(f"/cane/{self.profile.id}/evento/")
+        response = self.client.get(reverse("profile_add_event", kwargs={"profile_id": self.profile.id}))
         self.assertEqual(response.status_code, 200)
 
     def test_add_event_form_submission(self):
         response = self.client.post(
-            f"/cane/{self.profile.id}/evento/",
+            reverse("profile_add_event", kwargs={"profile_id": self.profile.id}),
             {
                 "event_type": "vaccine",
                 "title": "Vaccino annuale",
@@ -131,12 +131,12 @@ class DailyLogViewTest(TestCase):
         )
 
     def test_add_log_view(self):
-        response = self.client.get(f"/cane/{self.profile.id}/log/")
+        response = self.client.get(reverse("profile_add_log", kwargs={"profile_id": self.profile.id}))
         self.assertEqual(response.status_code, 200)
 
     def test_add_log_form_submission(self):
         response = self.client.post(
-            f"/cane/{self.profile.id}/log/",
+            reverse("profile_add_log", kwargs={"profile_id": self.profile.id}),
             {
                 "date": "2025-04-12",
                 "sleep_hours": 8,

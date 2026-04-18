@@ -8,31 +8,31 @@ class FoodCalculatorTest(TestCase):
         self.client = Client()
 
     def test_get_request_returns_200(self):
-        response = self.client.get("/tool/cibo/")
+        response = self.client.get(reverse("canine_tools:food_calculator"))
         self.assertEqual(response.status_code, 200)
 
     def test_post_with_valid_data(self):
         response = self.client.post(
-            "/tool/cibo/", {"weight": 20, "age": "adult", "activity": "normal"}
+            reverse("canine_tools:food_calculator"), {"weight": 20, "age": "adult", "activity": "normal"}
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("result", response.context)
 
     def test_post_with_invalid_data(self):
-        response = self.client.post("/tool/cibo/", {"weight": "invalid"})
+        response = self.client.post(reverse("canine_tools:food_calculator"), {"weight": "invalid"})
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(response.context.get("result"))
 
     def test_calculation_adult_normal(self):
         response = self.client.post(
-            "/tool/cibo/", {"weight": 10, "age": "adult", "activity": "normal"}
+            reverse("canine_tools:food_calculator"), {"weight": 10, "age": "adult", "activity": "normal"}
         )
         result = response.context["result"]
         self.assertEqual(result["grams"], 10 * 30 + 70)
 
     def test_calculation_puppy(self):
         response = self.client.post(
-            "/tool/cibo/", {"weight": 10, "age": "puppy", "activity": "normal"}
+            reverse("canine_tools:food_calculator"), {"weight": 10, "age": "puppy", "activity": "normal"}
         )
         result = response.context["result"]
         self.assertEqual(result["grams"], (10 * 30 + 70) * 2)
@@ -43,26 +43,26 @@ class AgeCalculatorTest(TestCase):
         self.client = Client()
 
     def test_get_request_returns_200(self):
-        response = self.client.get("/tool/eta/")
+        response = self.client.get(reverse("canine_tools:age_calculator"))
         self.assertEqual(response.status_code, 200)
 
     def test_post_with_valid_data(self):
-        response = self.client.post("/tool/eta/", {"dog_age": 5, "size": "medium"})
+        response = self.client.post(reverse("canine_tools:age_calculator"), {"dog_age": 5, "size": "medium"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("result", response.context)
 
     def test_calculation_medium_dog(self):
-        response = self.client.post("/tool/eta/", {"dog_age": 3, "size": "medium"})
+        response = self.client.post(reverse("canine_tools:age_calculator"), {"dog_age": 3, "size": "medium"})
         result = response.context["result"]
         self.assertEqual(result["human_age"], 24 + (3 - 2) * 9)
 
     def test_calculation_small_dog(self):
-        response = self.client.post("/tool/eta/", {"dog_age": 3, "size": "small"})
+        response = self.client.post(reverse("canine_tools:age_calculator"), {"dog_age": 3, "size": "small"})
         result = response.context["result"]
         self.assertEqual(result["human_age"], 24 + (3 - 2) * 10)
 
     def test_life_stage_puppy(self):
-        response = self.client.post("/tool/eta/", {"dog_age": 0.3, "size": "medium"})
+        response = self.client.post(reverse("canine_tools:age_calculator"), {"dog_age": 0.3, "size": "medium"})
         result = response.context["result"]
         self.assertEqual(result["life_stage"], "Cucciolo")
 
