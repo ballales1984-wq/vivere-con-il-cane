@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Blog - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Blog" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>📝 Il Blog</h1>
-    <p>Consigli, guide e strumenti per la vita con il tuo amico a quattro zampe</p>
+    <h1>📝 {% trans "Il Blog" %}</h1>
+    <p>{% trans "Consigli, guide e strumenti per la vita con il tuo amico a quattro zampe" %}</p>
 </section>
 
 <section class="blog-list">
@@ -27,7 +27,7 @@
             </p>
             <p>{{ post.content|truncatewords:30 }}</p>
             <div class="post-actions">
-                <a href="{% url 'blog_detail' post.slug %}" class="read-more">Leggi tutto →</a>
+                <a href="{% url 'blog_detail' post.slug %}" class="read-more">{% trans "Leggi tutto" %} →</a>
                 <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }})">
                     ♥ <span class="vote-count">{{ post.votes_count }}</span>
                 </button>
