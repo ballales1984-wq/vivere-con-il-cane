@@ -11,13 +11,14 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWZ5F6N4DJ"></script>
+<!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4T2X1M6C4B"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-HWZ5F6N4DJ');
+
+      gtag('config', 'G-4T2X1M6C4B');
     </script>
     <!-- AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055"
@@ -36,9 +37,10 @@
                 <li><a href="{% url 'problem_list' %}">Problemi</a></li>
                 <li><a href="{% url 'tools_index' %}">Tool</a></li>
                 <li><a href="{% url 'dashboard' %}">Il mio Cane</a></li>
-                <li class="lang-selector">
-                    <a href="#" onclick="changeLanguage('it'); return false;">🇮🇹</a>
-                    <a href="#" onclick="changeLanguage('en'); return false;">🇬🇧</a>
+                <li class="lang-selector" style="display: flex; gap: 8px; align-items: center; margin-left: 10px; padding: 4px 8px; background: rgba(0,0,0,0.05); border-radius: 20px;">
+                    <a href="#" onclick="changeLanguage('it'); return false;" title="Italiano" style="font-size: 1.2rem; filter: grayscale(0.5); transition: 0.3s;" onmouseover="this.style.filter='grayscale(0)'" onmouseout="if(!this.classList.contains('active')) this.style.filter='grayscale(0.5)'" class="{% if request.COOKIES.app_lang == 'it' or not request.COOKIES.app_lang %}active{% endif %}" id="lang-it">🇮🇹</a>
+                    <span style="color: #ccc; font-size: 0.8rem;">|</span>
+                    <a href="#" onclick="changeLanguage('en'); return false;" title="English" style="font-size: 1.2rem; filter: grayscale(0.5); transition: 0.3s;" onmouseover="this.style.filter='grayscale(0)'" onmouseout="if(!this.classList.contains('active')) this.style.filter='grayscale(0.5)'" class="{% if request.COOKIES.app_lang == 'en' %}active{% endif %}" id="lang-en">🇬🇧</a>
                 </li>
             </ul>
         </nav>
