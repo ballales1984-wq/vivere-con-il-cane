@@ -133,24 +133,26 @@ def dog_quiz(request):
 
 
 def tools_index(request):
+    from django.utils.translation import gettext as _
+
     tools = [
         {
-            "name": "Calcolatore Cibo",
+            "name": _("Calcolatore Cibo"),
             "url": "canine_tools:food_calculator",
             "icon": "🍖",
-            "desc": "Calcola le porzioni giornaliere",
+            "desc": _("Calcola le porzioni giornaliere"),
         },
         {
-            "name": "Età Umana",
+            "name": _("Età Umana"),
             "url": "canine_tools:age_calculator",
             "icon": "🎂",
-            "desc": "Conosci l'età del cane in anni umani",
+            "desc": _("Conosci l'età del cane in anni umani"),
         },
         {
-            "name": "Quiz Linguaggio",
+            "name": _("Quiz Linguaggio"),
             "url": "canine_tools:dog_quiz",
             "icon": "🧠",
-            "desc": "Testa la tua conoscenza",
+            "desc": _("Testa la tua conoscenza"),
         },
     ]
     return render(request, "canine_tools/index.html", {"tools": tools})

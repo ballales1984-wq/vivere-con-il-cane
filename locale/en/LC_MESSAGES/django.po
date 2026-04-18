@@ -462,3 +462,21 @@ msgstr "Food calculator, biological age and targeted suggestions that adapt to y
 
 msgid "Ci vogliono meno di 2 minuti. Gratuito per sempre."
 msgstr "It takes less than 2 minutes. Free forever."
+
+msgid "Calcolatore Cibo"
+msgstr "Food Calculator"
+
+msgid "Calcola le porzioni giornaliere"
+msgstr "Calculate daily portions"
+
+msgid "Età Umana"
+msgstr "Human Age"
+
+msgid "Conosci l'età del cane in anni umani"
+msgstr "Know your dog's age in human years"
+
+msgid "Quiz Linguaggio"
+msgstr "Language Quiz"
+
+msgid "Testa la tua conoscenza"
+msgstr "Test your knowledge"
