@@ -27,7 +27,7 @@
                 <li><a href="{% url 'dashboard' %}">{% trans "Il mio Cane" %}</a></li>
                 {% if user.is_authenticated %}
                     <li class="nav-user">
-                        <span style="color: #666; font-size: 0.9rem;">{% trans "Ciao" %}, <strong>{{ user.username }}</strong></span>
+                        <span style="color: #333; font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: #000;">{{ user.username }}</strong></span>
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" style="background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 600; padding: 0 10px;">{% trans "Esci" %}</button>
