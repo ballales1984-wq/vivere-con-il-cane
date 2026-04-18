@@ -90,3 +90,141 @@ msgstr "Related articles"
 
 msgid "Torna al blog"
 msgstr "Back to blog"
+
+msgid "Strumenti - Vivere con il Cane"
+msgstr "Tools - Living with your Dog"
+
+msgid "Strumenti per il tuo Cane"
+msgstr "Tools for your Dog"
+
+msgid "Calcolatori, quiz e guide per conoscere meglio il tuo amico a quattro zampe"
+msgstr "Calculators, quizzes and guides to better know your four-legged friend"
+
+msgid "Supporto AI"
+msgstr "AI Support"
+
+msgid "Descrivi un problema del tuo cane e ricevi un'analisi personalizzata."
+msgstr "Describe a problem with your dog and get a personalized analysis."
+
+msgid "Prova l'Analisi AI"
+msgstr "Try AI Analysis"
+
+msgid "Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane"
+msgstr "Living with your Dog - Understand and solve your dog's behavior"
+
+msgid "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani."
+msgstr "AI dog behavior analysis. Describe the problem and get personalized solutions. Free tools for dog owners."
+
+msgid "Più di 1.000 proprietari aiutati questo mese"
+msgstr "More than 1,000 owners helped this month"
+
+msgid "Esperienza reale, non teoria."
+msgstr "Real experience, not theory."
+
+msgid "Perché i cani non sono tutti uguali, e ogni binomio cane-proprietario ha bisogno di soluzioni su misura."
+msgstr "Because all dogs are not the same, and every dog-owner pair needs tailored solutions."
+
+msgid "Leggi la mia storia completa"
+msgstr "Read my full story"
+
+msgid "Anni"
+msgstr "Years"
+
+msgid "Di Esperienza"
+msgstr "Of Experience"
+
+msgid "Problemi più comuni"
+msgstr "Most common problems"
+
+msgid "Vedi tutti i problemi"
+msgstr "See all problems"
+
+msgid "Come funziona"
+msgstr "How it works"
+
+msgid "Descrivi il problema"
+msgstr "Describe the problem"
+
+msgid "Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia..."
+msgstr "Write what your dog does: barks, bites, pulls, doesn't eat..."
+
+msgid "L'AI analizza"
+msgstr "AI analyzes"
+
+msgid "Il sistema identifica le cause probabili in base al tuo cane"
+msgstr "The system identifies likely causes based on your dog"
+
+msgid "Ricevi soluzioni"
+msgstr "Get solutions"
+
+msgid "Consigli pratici personalizzati per razza, età e situazione"
+msgstr "Practical advice customized for breed, age and situation"
+
+msgid "Strumenti gratuiti"
+msgstr "Free tools"
+
+msgid "Calcolatore Cibo"
+msgstr "Food Calculator"
+
+msgid "Quanto deve mangiare il tuo cane? Calcola la porzione giusta."
+msgstr "How much should your dog eat? Calculate the right portion."
+
+msgid "Età in Anni Umani"
+msgstr "Age in Human Years"
+
+msgid "Scopri quanti anni ha il tuo cane in anni umani."
+msgstr "Discover how old your dog is in human years."
+
+msgid "Quiz Linguaggio"
+msgstr "Language Quiz"
+
+msgid "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova."
+msgstr "How well do you know your dog's language? Test yourself."
+
+msgid "Guide e articoli"
+msgstr "Guides and articles"
+
+msgid "Vedi tutti gli articoli"
+msgstr "See all articles"
+
+msgid "Inizia ora - è gratuito"
+msgstr "Start now - it's free"
+
+msgid "Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una soluzione."
+msgstr "No registration needed. Describe your dog's problem and get a solution right away."
+
+msgid "Analizza il comportamento del tuo cane"
+msgstr "Analyze your dog's behavior"
+
+msgid "Vivere con il Cane. Tutti i diritti riservati."
+msgstr "Living with your Dog. All rights reserved."
+
+msgid "Termini di Servizio"
+msgstr "Terms of Service"
+
+msgid "Benvenuto a bordo!"
+msgstr "Welcome aboard!"
+
+msgid "Presto riceverai i nostri migliori consigli per il tuo cane."
+msgstr "You will soon receive our best tips for your dog."
+
+msgid "Resta aggiornato"
+msgstr "Stay updated"
+
+msgid "Ricevi i nuovi articoli e le analisi IA direttamente nella tua inbox. Niente spam, solo consigli utili."
+msgstr "Receive new articles and AI analysis directly in your inbox. No spam, just useful tips."
+
+msgid "Iscriviti Ora"
+msgstr "Subscribe Now"
+
+msgid "Iscrivendoti accetti la nostra"
+msgstr "By subscribing you accept our"
+
+msgid "Letture Consigliate"
+msgstr "Recommended Readings"
+
+msgid "Leggi articolo"
+msgstr "Read article"
+
+msgid "Cane felice all'aperto"
+ msgstr "Happy dog outdoors"
