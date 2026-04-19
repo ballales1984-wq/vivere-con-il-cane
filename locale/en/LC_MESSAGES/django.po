@@ -480,3 +480,54 @@ msgstr "Language Quiz"
 
 msgid "Testa la tua conoscenza"
 msgstr "Test your knowledge"
+
+msgid "Chi sono"
+msgstr "About Me"
+
+msgid "Esperienze reali e consigli con testa da chi convive con i cani tutti i giorni."
+msgstr "Real experience, not theory."
+
+msgid "Mi chiamo Alessio e convivo con due cani da più di 10 anni. Per 3 anni ho fatto il dog sitter e ho visto centinaia di dinamiche tra cani."
+msgstr "My name is Alessio. I have lived with two dogs for over 10 years and was a dog sitter for hundreds of different dogs."
+
+msgid "Mi chiamo"
+msgstr "My name is"
+
+msgid "Per tre anni ho fatto il dog sitter, occupandomi di centinaia di cani: maschi e femmine, cuccioli e anziani, di tutte le razze, forme, dimensioni e caratteri."
+msgstr "For three years I worked as a dog sitter, handling hundreds of dogs: males and females, puppies and seniors, of all breeds, shapes, sizes and characters."
+
+msgid "In questi anni ho visto di tutto: dinamiche tra cani buoni, litigi improvvisi, amicizie nate in pochi minuti, paure, gioie, problemi di convivenza, gelosie, giochi e tensioni. Ho osservato centinaia di interazioni tra cani di taglia grande e piccola, maschi e femmine, sterilizzati e non."
+msgstr "Over the years I have seen it all: good dynamics, sudden fights, friendships formed in minutes, fears, joys, coexistence problems, jealousy, games and tensions. I observed hundreds of interactions between large and small dogs, males and females, neutered and not."
+
+msgid "Sono stato da diversi veterinari, ho ascoltato tantissime storie di proprietari, ho provato metodi diversi e ho confrontato quello che leggevo con la realtà che vedevo ogni giorno."
+msgstr "I have been to various veterinarians, listened to countless owner stories, tried different methods and compared what I read with the reality I saw every day."
+
+msgid "Per questo sul mio blog non prendo posizioni estreme."
+msgstr "This is why on my blog I do not take extreme positions."
+
+msgid "Non tifo per nessuno in modo acritico: né per i veterinari, né contro di loro; né per gli educatori cinofili, né per chi fa tutto da solo."
+msgstr "I do not blindly cheer for anyone: neither for veterinarians, nor against them; neither for dog trainers, nor for those who do everything themselves."
+
+msgid "Non credo che esista un solo metodo giusto per tutti i cani. <strong>I cani non sono tutti uguali</strong>: ognuno ha bisogno di un proprietario che lo ascolti e lo guidi nel percorso di convivenza umana. Proprio per questa loro unicità, gli approcci e le metodologie devono essere messe in atto valutando attentamente le caratteristiche del singolo soggetto e della coppia umano-cane."
+msgstr "I do not believe there is one right method for all dogs. <strong>All dogs are not the same</strong>: each one needs an owner who listens and guides them in the human coexistence path."
+
+msgid "Ho visto con i miei occhi che il rinforzo positivo funziona benissimo nella maggior parte dei casi, ma ho visto anche situazioni in cui serviva chiarezza, fermezza e buon senso."
+msgstr "I have seen with my own eyes that positive reinforcement works great in most cases, but I have also seen situations where clarity, firmness and common sense were needed."
+
+msgid "Rispetto la medicina veterinaria e ci vado senza esitazione quando serve un problema di salute. Ma so per esperienza che tanti disagi nascono dalla gestione quotidiana, dalla routine, dalla convivenza in casa e da come comunichiamo con il nostro cane."
+msgstr "I respect veterinary medicine and go without hesitation when a health problem arises. But I know from experience that many discomforts come from daily management, routine, living at home and how we communicate with our dog."
+
+msgid "Quello che scrivo qui..."
+msgstr "What I write here..."
+
+msgid "...nasce da quello che ho vissuto direttamente con i miei due cani e da tutto quello che ho osservato in questi anni di dog sitting: dinamiche reali tra cani di ogni tipo, errori che ho fatto, cose che hanno funzionato e altre che invece hanno complicato la situazione."
+msgstr "...comes from what I have directly experienced with my two dogs and everything I have observed over these years of dog sitting: real dynamics between dogs of all kinds, mistakes I made, things that worked and others that instead complicated the situation."
+
+msgid "Non ho la pretesa di avere sempre ragione. Cerco solo di raccontare le cose con testa, senza fanatismi e senza seguire le mode del momento."
+msgstr "I do not claim to always be right. I only try to tell things with my head, without fanatism and without following the trends of the moment."
+
+msgid "Se cerchi consigli pratici, onesti e basati sull'esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto."
+msgstr "If you are looking for practical, honest advice based on the real experience of someone who lives with dogs every day, you are in the right place."
+
+msgid "Se invece cerchi la verità assoluta o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te."
+msgstr "If instead you are looking for the absolute truth or the magic method that works for everyone, this blog is probably not for you."
