@@ -83,15 +83,15 @@
 
     <!-- CTA: Analizza il tuo caso specifico -->
     <div class="cta-analyze-box" style="background: var(--accent-light); border-left: 5px solid var(--accent); padding: 2rem; border-radius: var(--radius-md); margin: 2rem 0;">
-        <h3>Vuoi una soluzione personalizzata?</h3>
-        <p style="font-size: 1.1rem;">Ogni cane &egrave; un individuo. Descrivi il comportamento specifico del tuo cane e ricevi consigli su misura generati dalla nostra AI.</p>
-        <a href="{% url 'analyze_problem' %}?q={{ problem.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Analizza il tuo cane ora &rarr;</a>
+        <h3>{% trans "Vuoi una soluzione personalizzata?" %}</h3>
+        <p style="font-size: 1.1rem;">{% trans "Ogni cane è un individuo. Descrivi il comportamento specifico del tuo cane e ricevi consigli su misura generati dalla nostra AI." %}</p>
+        <a href="{% url 'analyze_problem' %}?q={{ problem.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">{% trans "Analizza il tuo cane ora" %} &rarr;</a>
     </div>
 
     <!-- Link a articoli correlati -->
     {% if related_articles %}
     <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid var(--light-dark);">
-        <h3 style="color: var(--primary); margin-bottom: 1rem;">Articoli correlati</h3>
+        <h3 style="color: var(--primary); margin-bottom: 1rem;">{% trans "Articoli correlati" %}</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
             {% for article in related_articles %}
             <a href="{% url 'blog_detail' article.slug %}" style="text-decoration: none; color: var(--text);">
@@ -106,7 +106,7 @@
     {% endif %}
 
     <div style="margin-top: 2rem;">
-        <a href="{% url 'problem_list' %}" class="back-link">&larr; Torna a tutti i problemi</a>
+        <a href="{% url 'problem_list' %}" class="back-link">&larr; {% trans "Torna a tutti i problemi" %}</a>
     </div>
 </section>
 

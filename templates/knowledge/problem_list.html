@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Problemi Comuni - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Problemi Comuni" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Problemi Comuni</h1>
-    <p>Scopri cause e soluzioni per i problemi più frequenti</p>
+    <h1>{% trans "Problemi Comuni" %}</h1>
+    <p>{% trans "Scopri cause e soluzioni per i problemi più frequenti" %}</p>
 </section>
 
 <section class="tools-grid">
@@ -16,7 +17,7 @@
         <span class="category-tag">{{ problem.get_category_display }}</span>
     </a>
     {% empty %}
-    <p>Nessun problema registrato.</p>
+    <p>{% trans "Nessun problema registrato." %}</p>
     {% endfor %}
 </section>
 

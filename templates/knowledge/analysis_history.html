@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Storico Analisi AI - {{ dog.dog_name }} - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Storico Analisi AI" %} - {{ dog.dog_name }} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero-ai" style="padding: 3rem 1rem; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 2.5rem;">
-    <h1>Storico Analisi AI</h1>
-    <p style="font-size: 1.2rem; opacity: 0.9;">Tutte le consulenze digitali per <strong>{{ dog.dog_name }}</strong></p>
+    <h1>{% trans "Storico Analisi AI" %}</h1>
+    <p style="font-size: 1.2rem; opacity: 0.9;">{% trans "Tutte le consulenze digitali per" %} <strong>{{ dog.dog_name }}</strong></p>
     <div style="margin-top: 1.5rem;">
-        <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-white">+ Nuova Analisi</a>
+        <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-white">{% trans "+ Nuova Analisi" %}</a>
     </div>
 </section>
 
@@ -36,13 +36,13 @@
                 </div>
                 
                 <div style="display: flex; gap: 1rem;">
-                    <a href="{% url 'analyze_problem' %}?analysis_id={{ analysis.id }}" class="btn btn-secondary btn-sm">Vedi Dettaglio Completo</a>
+                    <a href="{% url 'analyze_problem' %}?analysis_id={{ analysis.id }}" class="btn btn-secondary btn-sm">{% trans "Vedi Dettaglio Completo" %}</a>
                     
                     {% if analysis.result == 'pending' %}
                     <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
                         <input type="hidden" name="result" value="improved">
-                        <button type="submit" class="btn btn-outline btn-sm" style="color: #10b981; border-color: #10b981;">Ha funzionato! ✅</button>
+                        <button type="submit" class="btn btn-outline btn-sm" style="color: #10b981; border-color: #10b981;">{% trans "Ha funzionato!" %} ✅</button>
                     </form>
                     {% endif %}
                 </div>
@@ -51,15 +51,15 @@
         {% empty %}
         <div style="text-align: center; padding: 4rem 2rem; background: #fff; border-radius: 20px; box-shadow: var(--shadow-sm);">
             <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
-            <h3>Nessuna analisi ancora effettuata</h3>
-            <p>Le analisi AI per {{ dog.dog_name }} compariranno qui una volta completate.</p>
-            <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="margin-top: 1rem;">Fai la prima analisi</a>
+            <h3>{% trans "Nessuna analisi ancora effettuata" %}</h3>
+            <p>{% blocktrans %}Le analisi AI per {{ dog.dog_name }} compariranno qui una volta completate.{% endblocktrans %}</p>
+            <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Fai la prima analisi" %}</a>
         </div>
         {% endfor %}
     </div>
     
     <div style="margin-top: 3rem; text-align: center;">
-        <a href="{% url 'profile_detail' dog.id %}" class="back-link">&larr; Torna al profilo di {{ dog.dog_name }}</a>
+        <a href="{% url 'profile_detail' dog.id %}" class="back-link">&larr; {% trans "Torna al profilo di" %} {{ dog.dog_name }}</a>
     </div>
 </div>
 {% endblock %}

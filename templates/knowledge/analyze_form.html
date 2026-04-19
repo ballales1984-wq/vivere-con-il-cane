@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Analizza il problema del tuo cane - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Analizza il problema del tuo cane" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Analisi Intelligente</h1>
-    <p>Descrivi il problema del tuo cane e ricevi una risposta personalizzata basata su razza, età e comportamento</p>
+    <h1>{% trans "Analisi Intelligente" %}</h1>
+    <p>{% trans "Descrivi il problema del tuo cane e ricevi una risposta personalizzata basata su razza, età e comportamento" %}</p>
 </section>
 
 <section class="tool-container">
@@ -19,9 +20,9 @@
         {% csrf_token %}
         
         <div class="form-group">
-            <label>Seleziona il tuo cane (opzionale)</label>
+            <label>{% trans "Seleziona il tuo cane (opzionale)" %}</label>
             <select name="dog_id">
-                <option value="">-- Nessuno --</option>
+                <option value="">{% trans "-- Nessuno --" %}</option>
                 {% for dog in dogs %}
                 <option value="{{ dog.id }}">{{ dog.dog_name }}{% if dog.breed %} - {{ dog.breed }}{% endif %}</option>
                 {% endfor %}
@@ -29,9 +30,9 @@
         </div>
         
         <div class="form-group">
-            <label>Seleziona un problema comune (opzionale)</label>
+            <label>{% trans "Seleziona un problema comune (opzionale)" %}</label>
             <select name="problem_id">
-                <option value="">-- Descrizione libera --</option>
+                <option value="">{% trans "-- Descrizione libera --" %}</option>
                 {% for problem in problems %}
                 <option value="{{ problem.id }}">{{ problem.title }}</option>
                 {% endfor %}
@@ -39,12 +40,12 @@
         </div>
         
         <div class="form-group">
-            <label>Descrivi il problema</label>
-            <textarea name="description" rows="5" required placeholder="Es: Il mio cane abbaia ogni volta che esco di casa, anche solo per pochi minuti. Si dispera e graffia la porta.">{{ prefill }}</textarea>
+            <label>{% trans "Descrivi il problema" %}</label>
+            <textarea name="description" rows="5" required placeholder="{% trans 'Es: Il mio cane abbaia ogni volta cheusco di casa, anche solo per pochi minuti. Si dispera e graffia la porta.' %}">{{ prefill }}</textarea>
         </div>
         
         <button type="submit" class="btn-calculate" id="submitBtn" style="position: relative; overflow: hidden;">
-            <span class="btn-text">Analizza con AI &rarr;</span>
+            <span class="btn-text">{% trans "Analizza con AI" %} &rarr;</span>
         </button>
     </form>
 
@@ -54,8 +55,8 @@
         <!-- Spinner animato custom -->
         <div style="width: 80px; height: 80px; border: 8px solid var(--primary-light); border-top: 8px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 2rem;"></div>
         
-        <h2 id="aiLoadingTitle" style="color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 1rem; font-weight: 800; text-align: center;">Inizializzazione Motore IA...</h2>
-        <p id="aiLoadingText" style="font-size: 1.2rem; color: var(--text); max-width: 600px; text-align: center; line-height: 1.6; padding: 0 1rem;" class="pulse">Analisi della richiesta in corso.</p>
+        <h2 id="aiLoadingTitle" style="color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 1rem; font-weight: 800; text-align: center;">{% trans "Inizializzazione Motore IA..." %}</h2>
+        <p id="aiLoadingText" style="font-size: 1.2rem; color: var(--text); max-width: 600px; text-align: center; line-height: 1.6; padding: 0 1rem;" class="pulse">{% trans "Analisi della richiesta in corso." %}</p>
         
     </div>
 </section>
@@ -94,8 +95,8 @@
             { t: "AI Diagnostics...", d: "Llama-3 generating custom diagnostic response...", ms: 7500 }
         ] : [
             { t: "Recupero Profilo...", d: "Lettura della storia clinica longitudinale del cane...", ms: 1000 },
-            { t: "Ricerca Base Veterinaria...", d: "Interrogazione del database veterinario interno (RAG)...", ms: 3000 },
-            { t: "Ricerca Casi OpenFDA...", d: "Incrocio dei dati con casi clinici reali nel database del governo USA...", ms: 5000 },
+            { t: "Ricerca Base Veterinaria...", d: "Interrogazione del database veterinarianoterno (RAG)...", ms: 3000 },
+            { t: "Ricerca Casi OpenFDA...", d: "Incrocio dei dati con casi clinicineli nel database del governo USA...", ms: 5000 },
             { t: "Generazione IA...", d: "Il motore Llama-3 sta formulando la risposta personalizzata...", ms: 7500 }
         ];
         
@@ -109,7 +110,7 @@
 </script>
 
 <section style="padding: 2rem; text-align: center; background: #f9f9f9; margin-top: 2rem;">
-    <h3>Come funziona</h3>
-    <p>L'AI analizza il problema tenendo conto delle caratteristiche specifiche del tuo cane</p>
+    <h3>{% trans "Come funziona" %}</h3>
+    <p>{% trans "L'AI analizza il problema tenendo conto delle caratteristiche specifiche del tuo cane" %}</p>
 </section>
 {% endblock %}
