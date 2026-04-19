@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block title %}{{ breed.breed }} - Vivere con il Cane{% endblock %}
 {% block meta_description %}{{ breed.breed }}: caratteristiche, {{ breed.traits|truncatewords:15 }}. Problemi comuni: {{ breed.common_problems }}{% endblock %}
