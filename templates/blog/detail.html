@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 
-{% block title %}{{ post.title }} - Vivere con il Cane{% endblock %}
+{% block title %}{{ post.get_title }} - Vivere con il Cane{% endblock %}
 
-{% block meta_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{ post.content|truncatewords:25|striptags }}{% endif %}{% endblock %}
+{% block meta_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{ post.get_content|truncatewords:25|striptags }}{% endif %}{% endblock %}
 
 {% block extra_head %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "{{ post.title }}",
+    "headline": "{{ post.get_title }}",
     "datePublished": "{{ post.publish_date|date:'c' }}",
     "dateModified": "{{ post.updated_at|date:'c' }}",
     "author": {
@@ -22,7 +22,7 @@
         "name": "Vivere con il Cane",
         "url": "https://vivere-con-il-cane.onrender.com"
     },
-    "description": "{{ post.content|truncatewords:25|striptags }}"
+    "description": "{{ post.get_content|truncatewords:25|striptags }}"
 }
 </script>
 {% endblock %}
@@ -30,7 +30,7 @@
 {% block content %}
 <article class="post-detail">
     <header>
-        <h1>{{ post.title }}</h1>
+        <h1>{{ post.get_title }}</h1>
         <p class="post-meta">
             {{ post.created_at|date:"d M Y" }}
             {% if post.category %}
@@ -42,7 +42,7 @@
     <img id="post-image" src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
     
     <div class="post-body">
-        {{ post.content|linebreaks }}
+        {{ post.get_content|linebreaks }}
     </div>
 
     <!-- Newsletter -->

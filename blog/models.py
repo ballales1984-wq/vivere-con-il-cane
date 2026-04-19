@@ -51,6 +51,8 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
+    title_en = models.CharField(max_length=200, blank=True)
+    content_en = models.TextField(blank=True)
     image = models.ImageField(upload_to="blog/", blank=True, null=True)
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default="published"
@@ -78,6 +80,18 @@ class BlogPost(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_title(self):
+        lang = translation.get_language() or "it"
+        if lang == "en" and self.title_en:
+            return self.title_en
+        return self.title
+
+    def get_content(self):
+        lang = translation.get_language() or "it"
+        if lang == "en" and self.content_en:
+            return self.content_en
+        return self.content
 
     def __str__(self):
         return self.title
