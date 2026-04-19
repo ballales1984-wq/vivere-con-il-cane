@@ -41,9 +41,9 @@
             <a href="/" class="logo">🐕 {% trans "Vivere con il Cane" %}</a>
             <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'about' %}">{% trans "Chi Sono" %}</a></li>
-                <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                <li><a href="{% url 'blog_list' %}">{% trans "Blog" %}</a></li>
                 <li><a href="{% url 'problem_list' %}">{% trans "Problemi" %}</a></li>
                 <li><a href="{% url 'dashboard' %}">{% trans "Il mio Cane" %}</a></li>
                 {% if user.is_authenticated %}
