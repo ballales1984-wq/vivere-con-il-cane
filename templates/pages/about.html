@@ -1,70 +1,130 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 
-{% block title %}{% trans "Chi sono" %} - Vivere con il Cane{% endblock %}
-{% block meta_description %}{% trans "Mi chiamo Alessio e convivo con due cani da più di 10 anni. Per 3 anni ho fatto il dog sitter e ho visto centinaia di dinamiche tra cani." %}{% endblock %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% if LANGUAGE_CODE == 'en' %}About Me{% else %}{% trans "Chi sono" %}{% endif %} - Vivere con il Cane{% endblock %}
+{% block meta_description %}{% if LANGUAGE_CODE == 'en' %}My name is Alessio. I have lived with two dogs for over 10 years and was a dog sitter for hundreds of dogs.{% else %}{% trans "Mi chiamo Alessio e convivo con due cani da più di 10 anni. Per 3 anni ho fatto il dog sitter e ho visto centinaia di dinamiche tra cani." %}{% endif %}{% endblock %}
 
 {% block content %}
 <section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; padding: 4rem 1rem; text-align: center; border-radius: 0 0 50px 50px; margin-bottom: 3rem;">
-    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800;">{% trans "Chi sono" %}</h1>
-    <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">{% trans "Esperienze reali e consigli con testa da chi convive con i cani tutti i giorni." %}</p>
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800;">{% if LANGUAGE_CODE == 'en' %}About Me{% else %}{% trans "Chi sono" %}{% endif %}</h1>
+    <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">{% if LANGUAGE_CODE == 'en' %}Real experience, not theory.{% else %}{% trans "Esperienze reali e consigli con testa da chi convive con i cani tutti i giorni." %}{% endif %}</p>
 </section>
 
 <div class="container max-w-4xl mx-auto px-4 pb-12">
     <div class="box bg-white shadow-xl rounded-2xl p-8" style="border-top: 5px solid var(--accent); line-height: 1.8; font-size: 1.15rem; color: var(--text);">
         
+        {% if LANGUAGE_CODE == 'en' %}
         <p style="margin-bottom: 1.5rem;">
-            {% blocktrans with name=author_name|default:"Alessio" %}Mi chiamo <strong>{{ name }}</strong> e convivo con due cani da più di 10 anni.{% endblocktrans %}
+            My name is <strong>Alessio</strong>. I have lived with two dogs for over 10 years.
         </p>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "Per tre anni ho fatto il dog sitter, occupandomi di centinaia di cani: maschi e femmine, cuccioli e anziani, di tutte le razze, forme, dimensioni e caratteri." %}
+            For three years I worked as a dog sitter, handling hundreds of dogs: males and females, puppies and seniors, of all breeds, shapes, sizes and characters.
         </p>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "In questi anni ho visto di tutto: dinamiche tra cani buoni, litigi improvvisi, amicizie nate in pochi minuti, paure, gioie, problemi di convivenza, gelosie, giochi e tensioni. Ho osservato centinaia di interazioni tra cani di taglia grande e piccola, maschi e femmine, sterilizzati e non." %}
+            Over the years I have seen it all: good dynamics, sudden fights, friendships formed in minutes, fears, joys, coexistence problems, jealousy, games and tensions. I observed hundreds of interactions between large and small dogs, males and females, neutered and not.
         </p>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "Sono stato da diversi veterinari, ho ascoltato tantissime storie di proprietari, ho provato metodi diversi e ho confrontato quello che leggevo con la realtà che vedevo ogni giorno." %}
+            I have been to various veterinarians, listened to countless owner stories, tried different methods and compared what I read with the reality I saw every day.
         </p>
         
-        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">{% trans "Per questo sul mio blog non prendo posizioni estreme." %}</h2>
+        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">This is why on my blog I do not take extreme positions.</h2>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "Non tifo per nessuno in modo acritico: né per i veterinari, né contro di loro; né per gli educatori cinofili, né per chi fa tutto da solo." %}
-        </p>
-        
-        <p style="margin-bottom: 1.5rem;">
-            {% blocktrans %}Non credo che esista un solo metodo giusto per tutti i cani. <strong>I cani non sono tutti uguali</strong>: ognuno ha bisogno di un proprietario che lo ascolti e lo guidi nel percorso di convivenza umana. Proprio per questa loro unicità, gli approcci e le metodologie devono essere messe in atto valutando attentamente le caratteristiche del singolo soggetto e della coppia umano-cane.{% endblocktrans %}
+            I do not blindly cheer for anyone: neither for veterinarians, nor against them; neither for dog trainers, nor for those who do everything themselves.
         </p>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "Ho visto con i miei occhi che il rinforzo positivo funziona benissimo nella maggior parte dei casi, ma ho visto anche situazioni in cui serviva chiarezza, fermezza e buon senso." %}
+            I do not believe there is one right method for all dogs. <strong>All dogs are not the same</strong>: each one needs an owner who listens and guides them in the human coexistence path.
         </p>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "Rispetto la medicina veterinaria e ci vado senza esitazione quando serve un problema di salute. Ma so per esperienza che tanti disagi nascono dalla gestione quotidiana, dalla routine, dalla convivenza in casa e da come comunichiamo con il nostro cane." %}
-        </p>
-        
-        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">{% trans "Quello che scrivo qui..." %}</h2>
-        
-        <p style="margin-bottom: 1.5rem;">
-            {% trans "...nasce da quello che ho vissuto direttamente con i miei due cani e da tutto quello che ho osservato in questi anni di dog sitting: dinamiche reali tra cani di ogni tipo, errori che ho fatto, cose che hanno funzionato e altre che invece hanno complicato la situazione." %}
+            I have seen with my own eyes that positive reinforcement works great in most cases, but I have also seen situations where clarity, firmness and common sense were needed.
         </p>
         
         <p style="margin-bottom: 1.5rem;">
-            {% trans "Non ho la pretesa di avere sempre ragione. Cerco solo di raccontare le cose con testa, senza fanatismi e senza seguire le mode del momento." %}
+            I respect veterinary medicine and go without hesitation when a health problem arises. But I know from experience that many discomforts come from daily management, routine, living at home and how we communicate with our dog.
+        </p>
+        
+        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">What I write here...</h2>
+        
+        <p style="margin-bottom: 1.5rem;">
+            ...comes from what I have directly experienced with my two dogs and everything I have observed over these years of dog sitting.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            I do not claim to always be right. I only try to tell things with my head, without fanatism and without following the trends.
         </p>
         
         <div style="background: var(--primary-light); color: white; padding: 2rem; border-radius: 16px; margin-top: 3rem; text-align: center;">
             <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem;">
-                {% trans "Se cerchi consigli pratici, onesti e basati sull'esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto." %}
+                If you are looking for practical, honest advice based on real experience, you are in the right place.
             </p>
             <p style="margin-bottom: 0;">
-                {% trans "Se invece cerchi la verità assoluta o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te." %}
+                If instead you are looking for the absolute truth or the magic method that works for everyone, this blog is probably not for you.
             </p>
         </div>
+        
+        {% else %}
+        
+        <p style="margin-bottom: 1.5rem;">
+            Mi chiamo <strong>Alessio</strong> e convivo con due cani da più di 10 anni.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Per tre anni ho fatto il dog sitter, occupandomi di centinaia di cani: maschi e femmine, cuccioli e anziani, di tutte le razze, forme, dimensioni e caratteri.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            In questi anni ho visto di tutto: dinamiche tra cani buoni, litigi improvvisi, amicizie nate in pochi minuti, paure, gioie, problemi di convivenza, gelosie, giochi e tensioni. Ho osservato centinaia di interazioni tra cani di taglia grande e piccola, maschi e femmine, sterilizzati e non.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Sono stato da diversi veterinari, ho ascoltato tantissime storie di proprietari, ho provato metodi diversi e ho confrontato quello che leggevo con la realtà che vedevo ogni giorno.
+        </p>
+        
+        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">Per questo sul mio blog non prendo posizioni estreme.</h2>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Non tifo per nessuno in modo acritico: né per i veterinari, né contro di loro; né per gli educatori cinofili, né per chi fa tutto da solo.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Non credo che esista un solo metodo giusto per tutti i cani. <strong>I cani non sono tutti uguali</strong>: ognuno ha bisogno di un proprietario che lo ascolti e lo guidi nel percorso di convivenza umana.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Ho visto con i miei occhi che il rinforzo positivo funziona benissimo nella maggior parte dei casi, ma ho visto anche situazioni in cui serviva chiarezza, fermezza e buon senso.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Rispetto la medicina veterinaria e ci vado senza esitazione quando serve un problema di salute. Ma so per esperienza che tanti disagi nascono dalla gestione quotidiana, dalla convivenza in casa e da come comunichiamo con il nostro cane.
+        </p>
+        
+        <h2 style="color: var(--primary-dark); font-size: 1.8rem; margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--light-dark); padding-bottom: 0.5rem;">Quello che scrivo qui...</h2>
+        
+        <p style="margin-bottom: 1.5rem;">
+            ...nasce da quello che ho vissuto direttamente con i miei due cani e da tutto quello che ho osservato in questi anni di dog sitting.
+        </p>
+        
+        <p style="margin-bottom: 1.5rem;">
+            Non ho la pretesa di avere sempre ragione. Cerco solo di raccontare le cose con testa, senza fanatismi e senza seguire le mode del momento.
+        </p>
+        
+        <div style="background: var(--primary-light); color: white; padding: 2rem; border-radius: 16px; margin-top: 3rem; text-align: center;">
+            <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem;">
+                Se cerchi consigli pratici, onesti e basati sull'esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto.
+            </p>
+            <p style="margin-bottom: 0;">
+                Se invece cerchi la verità assoluta o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te.
+            </p>
+        </div>
+        
+        {% endif %}
         
     </div>
 </div>
