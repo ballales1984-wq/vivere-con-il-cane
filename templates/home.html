@@ -135,18 +135,18 @@
     <article class="post-card">
         <a href="{% url 'blog_detail' post.slug %}">
             <div class="post-image-container">
-                <img src="" alt="{{ post.title }}" class="post-img" data-index="{{ forloop.counter0 }}">
+                <img src="" alt="{{ post.get_title }}" class="post-img" data-index="{{ forloop.counter0 }}">
             </div>
         </a>
         <div class="post-content">
-            <h2><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h2>
+            <h2><a href="{% url 'blog_detail' post.slug %}">{{ post.get_title }}</a></h2>
             <p class="post-meta">
                 {{ post.created_at|date:"d M Y" }}
                 {% if post.category %}
                 <span class="category">{{ post.category.name }}</span>
                 {% endif %}
             </p>
-            <p>{{ post.content|truncatewords:25 }}</p>
+            <p>{{ post.get_content|truncatewords:25 }}</p>
             <a href="{% url 'blog_detail' post.slug %}" class="read-more">{% trans "Leggi tutto" %} &rarr;</a>
         </div>
     </article>
