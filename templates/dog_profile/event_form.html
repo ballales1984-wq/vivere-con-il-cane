@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Nuovo Evento - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Nuovo Evento" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Aggiungi Evento di Salute</h1>
-    <p>Per {{ profile.dog_name }}</p>
+    <h1>{% trans "Aggiungi Evento di Salute" %}</h1>
+    <p>{% trans "Per" %} {{ profile.dog_name }}</p>
 </section>
 
 <section class="tool-container">
@@ -13,33 +14,33 @@
         {% csrf_token %}
         
         <div class="form-group">
-            <label>Tipo evento</label>
+            <label>{% trans "Tipo evento" %}</label>
             <select name="event_type" required>
-                <option value="vaccine">Vaccino</option>
-                <option value="checkup">Visita</option>
-                <option value="medicine">Medicina</option>
-                <option value="illness">Malattia</option>
-                <option value="injury">Infortunio</option>
-                <option value="other">Altro</option>
+                <option value="vaccine">{% trans "Vaccino" %}</option>
+                <option value="checkup">{% trans "Visita" %}</option>
+                <option value="medicine">{% trans "Medicina" %}</option>
+                <option value="illness">{% trans "Malattia" %}</option>
+                <option value="injury">{% trans "Infortunio" %}</option>
+                <option value="other">{% trans "Altro" %}</option>
             </select>
         </div>
         
         <div class="form-group">
-            <label>Titolo</label>
+            <label>{% trans "Titolo" %}</label>
             <input type="text" name="title" required placeholder="Vaccino annuale">
         </div>
         
         <div class="form-group">
-            <label>Descrizione</label>
+            <label>{% trans "Descrizione" %}</label>
             <textarea name="description" rows="3" placeholder="Dettagli..."></textarea>
         </div>
         
         <div class="form-group">
-            <label>Data</label>
+            <label>{% trans "Data" %}</label>
             <input type="date" name="date" required>
         </div>
         
-        <button type="submit" class="btn-calculate">Salva Evento</button>
+        <button type="submit" class="btn-calculate">{% trans "Salva Evento" %}</button>
     </form>
 </section>
 {% endblock %}

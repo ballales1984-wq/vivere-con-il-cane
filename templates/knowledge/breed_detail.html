@@ -93,13 +93,13 @@
 
     <!-- CTA: Analizza il tuo cane di questa razza -->
     <div class="cta-analyze-box" style="background: var(--primary-light); border-left: 5px solid var(--primary); padding: 2rem; border-radius: var(--radius-md); margin: 2rem 0;">
-        <h3 style="color: var(--primary-dark); margin-top: 0;">Il tuo {{ breed.breed }} ha un comportamento particolare?</h3>
-        <p style="font-size: 1.1rem;">Ottieni una consulenza personalizzata basata sulle caratteristiche tipiche del <strong>{{ breed.breed }}</strong>.</p>
-        <a href="{% url 'analyze_problem' %}?q={{ breed.breed }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">Analizza il tuo {{ breed.breed }} &rarr;</a>
+        <h3 style="color: var(--primary-dark); margin-top: 0;">{% trans "Il tuo" %} {{ breed.breed }} {% trans "ha un comportamento particolare?" %}</h3>
+        <p style="font-size: 1.1rem;">{% trans "Ottieni una consulenza personalizzata basata sulle caratteristiche tipiche del" %} <strong>{{ breed.breed }}</strong>.</p>
+        <a href="{% url 'analyze_problem' %}?q={{ breed.breed }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">{% trans "Analizza il tuo" %} {{ breed.breed }} &rarr;</a>
     </div>
 
     <div style="margin-top: 2rem;">
-        <a href="{% url 'breed_list' %}" class="back-link">&larr; Torna a tutte le razze</a>
+        <a href="{% url 'breed_list' %}" class="back-link">&larr; {% trans "Torna a tutte le razze" %}</a>
     </div>
 </section>
 {% endblock %}

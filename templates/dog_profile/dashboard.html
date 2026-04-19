@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Il mio Cane - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Il mio Cane" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>🐕 Il mio Cane</h1>
-    <p>Centro di gestione e conoscenza per il tuo amico a quattro zampe</p>
+    <h1>🐕 {% trans "Il mio Cane" %}</h1>
+    <p>{% trans "Centro di gestione e conoscenza per il tuo amico a quattro zampe" %}</p>
 </section>
 
 {% if profiles %}
@@ -21,60 +21,60 @@
     
     <div class="stats-grid">
         <div class="stat-card">
-            <h3>Età</h3>
+            <h3>{% trans "Età" %}</h3>
             <div class="value">{{ profile.get_age }}</div>
         </div>
         {% if profile.weight %}
         <div class="stat-card">
-            <h3>Peso</h3>
+            <h3>{% trans "Peso" %}</h3>
             <div class="value">{{ profile.weight }} kg</div>
         </div>
         {% endif %}
         <div class="stat-card">
-            <h3>Eventi</h3>
+            <h3>{% trans "Eventi" %}</h3>
             <div class="value">{{ profile.events_count }}</div>
         </div>
     </div>
     
     <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-        <a href="{% url 'profile_detail' profile.id %}" class="btn btn-primary">Scheda Completa</a>
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary">+ Evento Salute</a>
-        <a href="{% url 'profile_add_log' profile.id %}" class="btn btn-secondary">+ Giornata</a>
+        <a href="{% url 'profile_detail' profile.id %}" class="btn btn-primary">{% trans "Scheda Completa" %}</a>
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary">{% trans "+ Evento Salute" %}</a>
+        <a href="{% url 'profile_add_log' profile.id %}" class="btn btn-secondary">{% trans "+ Giornata" %}</a>
     </div>
 </section>
 
 <section style="max-width: 900px; margin: 0 auto;">
-    <h2 class="section-title">🔧 Tool per {{ profile.dog_name }}</h2>
+    <h2 class="section-title">🔧 {% trans "Tool per" %} {{ profile.dog_name }}</h2>
     
     <div class="tools-grid">
         <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card">
             <span class="tool-icon">🍖</span>
-            <h3>Calcolatore Cibo</h3>
-            <p>Portata giornaliera in base a peso ed età</p>
+            <h3>{% trans "Calcolatore Cibo" %}</h3>
+            <p>{% trans "Portata giornaliera in base a peso ed età" %}</p>
         </a>
         
         <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
             <span class="tool-icon">🎂</span>
-            <h3>Età Umana</h3>
-            <p>Converti età del cane in anni umani</p>
+            <h3>{% trans "Età Umana" %}</h3>
+            <p>{% trans "Converti età del cane in anni umani" %}</p>
         </a>
         
         <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
             <span class="tool-icon">🧠</span>
-            <h3>Quiz Comportamento</h3>
-            <p>Testa la tua conoscenza</p>
+            <h3>{% trans "Quiz Comportamento" %}</h3>
+            <p>{% trans "Testa la tua conoscenza" %}</p>
         </a>
         
         <a href="{% url 'blog_list' %}" class="tool-card">
             <span class="tool-icon">📖</span>
-            <h3>Guide Consigliate</h3>
-            <p>Articoli utili per {{ profile.dog_name }}</p>
+            <h3>{% trans "Guide Consigliate" %}</h3>
+            <p>{% trans "Articoli utili per" %} {{ profile.dog_name }}</p>
         </a>
     </div>
 </section>
 
 <section style="max-width: 800px; margin: 2rem auto;">
-    <h2 class="section-title">📋 Attività Recenti</h2>
+    <h2 class="section-title">📋 {% trans "Attività Recenti" %}</h2>
     
     {% if profile.events.exists %}
     <div class="post-detail" style="padding: 1.5rem;">
@@ -88,13 +88,13 @@
         </div>
         {% endfor %}
         {% if profile.events.count > 5 %}
-        <p style="text-align: center; margin-top: 1rem;"><a href="{% url 'profile_detail' profile.id %}" class="read-more">Vedi tutte le attività →</a></p>
+        <p style="text-align: center; margin-top: 1rem;"><a href="{% url 'profile_detail' profile.id %}" class="read-more">{% trans "Vedi tutte le attività" %} →</a></p>
         {% endif %}
     </div>
     {% else %}
     <div class="tool-container" style="text-align: center;">
-        <p style="color: var(--text-light); margin-bottom: 1rem;">Nessuna attività registrata.</p>
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-primary">Aggiungi il primo evento</a>
+        <p style="color: var(--text-light); margin-bottom: 1rem;">{% trans "Nessuna attività registrata." %}</p>
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-primary">{% trans "Aggiungi il primo evento" %}</a>
     </div>
     {% endif %}
 </section>
@@ -102,7 +102,7 @@
 <!-- Storico Analisi AI -->
 {% if profile.recent_analyses %}
 <section style="max-width: 800px; margin: 2rem auto;">
-    <h2 class="section-title">🧠 Analisi Comportamento</h2>
+    <h2 class="section-title">🧠 {% trans "Analisi Comportamento" %}</h2>
     
     <div class="post-detail" style="padding: 1.5rem;">
         {% for analysis in profile.recent_analyses %}
@@ -115,15 +115,15 @@
                 <p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--text-light);">{{ analysis.created_at|date:"d M Y" }}</p>
             </div>
             <span class="problem-severity severity-{{ analysis.result }}">
-                {% if analysis.result == 'pending' %}Da provare
-                {% elif analysis.result == 'improved' %}Migliorato
-                {% elif analysis.result == 'no_change' %}Nessun cambio
-                {% elif analysis.result == 'worse' %}Peggio{% endif %}
+                {% if analysis.result == 'pending' %}{% trans "Da provare" %}
+                {% elif analysis.result == 'improved' %}{% trans "Migliorato" %}
+                {% elif analysis.result == 'no_change' %}{% trans "Nessun cambio" %}
+                {% elif analysis.result == 'worse' %}{% trans "Peggio" %}{% endif %}
             </span>
         </div>
         {% endfor %}
         <p style="text-align: center; margin-top: 1rem;">
-            <a href="{% url 'analyze_problem' %}" class="btn btn-primary">Nuova Analisi</a>
+            <a href="{% url 'analyze_problem' %}" class="btn btn-primary">{% trans "Nuova Analisi" %}</a>
         </p>
     </div>
 </section>
@@ -138,21 +138,21 @@
         <!-- Header Gradient -->
         <div style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); padding: 3rem 2rem; text-align: center; color: white;">
             <div style="font-size: 4rem; margin-bottom: 1rem; animation: bounce 2s infinite;">🐕</div>
-            <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2;">Benvenuto nel tuo Assistente Veterinario IA</h2>
-            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 500px; margin: 0 auto;">Per sbloccare il vero potenziale dell'Intelligenza Artificiale, abbiamo bisogno di conoscere il tuo compagno di avventure.</p>
+            <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2;">{% trans "Benvenuto nel tuo Assistente Veterinario IA" %}</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 500px; margin: 0 auto;">{% trans "Per sbloccare il vero potenziale dell'Intelligenza Artificiale, abbiamo bisogno di conoscere il tuo compagno di avventure." %}</p>
         </div>
         
         <!-- Features Grid -->
         <div style="padding: 3rem 2rem; background: #fafafa;">
-            <h3 style="text-align: center; color: var(--text); margin-bottom: 2rem; font-size: 1.3rem;">Creando il profilo sbloccherai:</h3>
+            <h3 style="text-align: center; color: var(--text); margin-bottom: 2rem; font-size: 1.3rem;">{% trans "Creando il profilo sbloccherai:" %}</h3>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
                 <!-- Feature 1 -->
                 <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
                     <div style="background: #e0f2fe; color: #0284c7; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">🧠</div>
                     <div>
-                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Diagnosi IA su Misura</h4>
-                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">L'IA analizzerà i sintomi incrociandoli con l'età, il peso e la genetica della sua razza.</p>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">{% trans "Diagnosi IA su Misura" %}</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">{% trans "L'IA analizzerà i sintomi incrociandoli con l'età, il peso e la genetica della sua razza." %}</p>
                     </div>
                 </div>
                 
@@ -160,8 +160,8 @@
                 <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
                     <div style="background: #fce7f3; color: #be185d; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">📋</div>
                     <div>
-                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Dossier Clinico Condivisibile</h4>
-                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">Una cartella clinica completa con la sua storia medica, pronta da inviare via WhatsApp al veterinario.</p>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">{% trans "Dossier Clinico Condivisibile" %}</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">{% trans "Una cartella clinica completa con la sua storia medica, pronta da inviare via WhatsApp al veterinario." %}</p>
                     </div>
                 </div>
                 
@@ -169,8 +169,8 @@
                 <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
                     <div style="background: #dcfce7; color: #059669; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">📊</div>
                     <div>
-                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Memoria Longitudinale</h4>
-                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">L'app ricorderà ogni singolo evento di salute o comportamento strano per analisi future.</p>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">{% trans "Memoria Longitudinale" %}</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">{% trans "L'app ricorderà ogni singolo evento di salute o comportamento strano per analisi future." %}</p>
                     </div>
                 </div>
                 
@@ -178,8 +178,8 @@
                 <div style="background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 1rem; align-items: flex-start;">
                     <div style="background: #fef9c3; color: #db2777; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">🍖</div>
                     <div>
-                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">Tool Personalizzati</h4>
-                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">Calcolatore cibo, età biologica e suggerimenti mirati che si adattano al tuo cane man mano che cresce.</p>
+                        <h4 style="color: var(--primary-dark); margin: 0 0 0.5rem 0; font-size: 1.1rem;">{% trans "Tool Personalizzati" %}</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">{% trans "Calcolatore cibo, età biologica e suggerimenti mirati che si adattano al tuo cane man mano che cresce." %}</p>
                     </div>
                 </div>
             </div>
@@ -187,9 +187,9 @@
             <!-- Call to Action -->
             <div style="text-align: center;">
                 <a href="{% url 'profile_new' %}" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.3rem; font-weight: 800; border-radius: 50px; background: var(--accent); border: none; box-shadow: 0 10px 20px rgba(230, 126, 34, 0.3); transition: transform 0.2s;">
-                    Crea Profilo del Cane &rarr;
+                    {% trans "Crea Profilo del Cane" %} &rarr;
                 </a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">Ci vogliono meno di 2 minuti. Gratuito per sempre.</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">{% trans "Ci vogliono meno di 2 minuti. Gratuito per sempre." %}</p>
             </div>
         </div>
     </div>

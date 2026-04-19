@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Accedi - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Accedi" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero-ai" style="padding: 4rem 1rem; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 2rem;">
-    <h1>Bentornato</h1>
-    <p>Accedi per gestire i profili dei tuoi cani</p>
+    <h1>{% trans "Bentornato" %}</h1>
+    <p>{% trans "Accedi per gestire i profili dei tuoi cani" %}</p>
 </section>
 
 <div class="container" style="max-width: 500px; margin: 0 auto; padding: 2rem 1rem 4rem;">
@@ -30,11 +30,11 @@
                 <input type="password" name="password" id="id_password" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px;">
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Accedi</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">{% trans "Accedi" %}</button>
         </form>
         
         <div style="margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #666;">
-            Non hai ancora un account? <a href="{% url 'signup' %}" style="color: var(--primary); font-weight: 600;">Registrati ora</a>
+            {% trans "Non hai ancora un account?" %} <a href="{% url 'signup' %}" style="color: var(--primary); font-weight: 600;">{% trans "Registrati ora" %}</a>
         </div>
     </div>
 </div>

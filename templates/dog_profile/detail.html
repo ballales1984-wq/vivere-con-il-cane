@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}{{ profile.dog_name }} - Vivere con il Cane{% endblock %}
 
@@ -9,30 +10,30 @@
 </section>
 
 <div class="tool-container">
-    <h2>Scheda del Cane</h2>
+    <h2>{% trans "Scheda del Cane" %}</h2>
     
     {% if profile.birth_date %}
-    <p><strong>Età:</strong> {{ profile.birth_date }}</p>
+    <p><strong>{% trans "Età" %}:</strong> {{ profile.birth_date }}</p>
     {% endif %}
     
     {% if profile.weight %}
-    <p><strong>Peso:</strong> {{ profile.weight }} kg</p>
+    <p><strong>{% trans "Peso" %}:</strong> {{ profile.weight }} kg</p>
     {% endif %}
     
     {% if profile.gender %}
-    <p><strong>Genere:</strong> {{ profile.get_gender_display }}</p>
+    <p><strong>{% trans "Genere" %}:</strong> {{ profile.get_gender_display }}</p>
     {% endif %}
     
     <div style="margin-top: 2rem; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn-calculate" style="background-color: #3b82f6;">+ Evento Salute</a>
-        <a href="{% url 'profile_add_log' profile.id %}" class="btn-calculate" style="background-color: #6366f1;">+ Registro Giornata</a>
-        <a href="{% url 'analysis_history' profile.id %}" class="btn-calculate" style="background-color: #f59e0b; border: 2px solid #d97706; font-weight: bold;">🧠 Storico Analisi AI</a>
-        <a href="{% url 'profile_dossier' profile.id %}" class="btn-calculate" style="background-color: #10b981; border: 2px solid #059669; font-weight: bold;">📋 Genera Cartella Clinica</a>
+        <a href="{% url 'profile_add_event' profile.id %}" class="btn-calculate" style="background-color: #3b82f6;">{% trans "+ Evento Salute" %}</a>
+        <a href="{% url 'profile_add_log' profile.id %}" class="btn-calculate" style="background-color: #6366f1;">{% trans "+ Registro Giornata" %}</a>
+        <a href="{% url 'analysis_history' profile.id %}" class="btn-calculate" style="background-color: #f59e0b; border: 2px solid #d97706; font-weight: bold;">{% trans "🧠 Storico Analisi AI" %}</a>
+        <a href="{% url 'profile_dossier' profile.id %}" class="btn-calculate" style="background-color: #10b981; border: 2px solid #059669; font-weight: bold;">{% trans "📋 Genera Cartella Clinica" %}</a>
     </div>
 </div>
 
 <section class="blog-list" style="margin-top: 2rem;">
-    <h2>Eventi di Salute</h2>
+    <h2>{% trans "Eventi di Salute" %}</h2>
     {% for event in events %}
     <article class="post-card">
         <div class="post-content">

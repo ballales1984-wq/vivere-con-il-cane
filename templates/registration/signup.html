@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Registrati - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Registrati" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero-ai" style="padding: 4rem 1rem; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 2rem;">
-    <h1>Unisciti a noi</h1>
-    <p>Crea un account gratuito per gestire i dati del tuo cane in totale privacy</p>
+    <h1>{% trans "Unisciti a noi" %}</h1>
+    <p>{% trans "Crea un account gratuito per gestire i dati del tuo cane in totale privacy" %}</p>
 </section>
 
 <div class="container" style="max-width: 500px; margin: 0 auto; padding: 2rem 1rem 4rem;">
@@ -29,11 +29,11 @@
             </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">Crea Account</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">{% trans "Crea Account" %}</button>
         </form>
         
         <div style="margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #666;">
-            Hai già un account? <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 600;">Accedi qui</a>
+            {% trans "Hai già un account?" %} <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 600;">{% trans "Accedi qui" %}</a>
         </div>
     </div>
 </div>

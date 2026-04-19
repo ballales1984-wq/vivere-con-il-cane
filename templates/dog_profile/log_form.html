@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Registra Giornata - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Registra Giornata" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Registra Giornata</h1>
-    <p>Per {{ profile.dog_name }}</p>
+    <h1>{% trans "Registra Giornata" %}</h1>
+    <p>{% trans "Per" %} {{ profile.dog_name }}</p>
 </section>
 
 <section class="tool-container">
@@ -13,31 +14,31 @@
         {% csrf_token %}
         
         <div class="form-group">
-            <label>Data</label>
+            <label>{% trans "Data" %}</label>
             <input type="date" name="date" required>
         </div>
         
         <div class="form-group">
-            <label>Ore di sonno</label>
+            <label>{% trans "Ore di sonno" %}</label>
             <input type="number" name="sleep_hours" step="0.5" value="12">
         </div>
         
         <div class="form-group">
-            <label>Minuti di gioco</label>
+            <label>{% trans "Minuti di gioco" %}</label>
             <input type="number" name="play_minutes" value="30">
         </div>
         
         <div class="form-group">
-            <label>Minuti di passeggiata</label>
+            <label>{% trans "Minuti di passeggiata" %}</label>
             <input type="number" name="walk_minutes" value="60">
         </div>
         
         <div class="form-group">
-            <label>Cibo (grammi)</label>
+            <label>{% trans "Cibo (grammi)" %}</label>
             <input type="number" name="food_grams" value="300">
         </div>
         
-        <button type="submit" class="btn-calcalculate">Salva Giornata</button>
+        <button type="submit" class="btn-calculate">{% trans "Salva Giornata" %}</button>
     </form>
 </section>
 {% endblock %}

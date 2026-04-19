@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Il mio Cane - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Il mio Cane" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Il mio Cane</h1>
-    <p>Gestisci il profilo e le attivita del tuo amico a quattro zampe</p>
+    <h1>{% trans "Il mio Cane" %}</h1>
+    <p>{% trans "Gestisci il profilo e le attivita del tuo amico a quattro zampe" %}</p>
 </section>
 
 <section class="tools-grid">
@@ -16,11 +17,11 @@
         <p>{{ profile.breed|default:"Razza non specificata" }}</p>
     </a>
     {% empty %}
-    <p>Nessun cane registrato. <a href="{% url 'profile_new' %}">Aggiungi il tuo cane!</a></p>
+    <p>{% trans "Nessun cane registrato." %} <a href="{% url 'profile_new' %}">{% trans "Aggiungi il tuo cane!" %}</a></p>
     {% endfor %}
 </section>
 
 <div style="text-align: center; margin-top: 2rem;">
-    <a href="{% url 'profile_new' %}" class="btn-calculate">Aggiungi Cane</a>
+    <a href="{% url 'profile_new' %}" class="btn-calculate">{% trans "Aggiungi Cane" %}</a>
 </div>
 {% endblock %}

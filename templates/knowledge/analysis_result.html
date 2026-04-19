@@ -12,7 +12,7 @@
 <section class="tool-container">
     {% if problem %}
     <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light); border-radius: var(--radius-sm); border-left: 4px solid var(--primary);">
-        <strong>Problema identificato:</strong> {{ problem.title }}
+        <strong>{% trans "Problema identificato" %}:</strong> {{ problem.title }}
         {% if problem.severity == 'high' %}
         <span class="problem-severity severity-high" style="margin-left: 0.5rem;">{{ problem.get_severity_display }}</span>
         {% endif %}
@@ -29,12 +29,12 @@
     
     {% if analysis %}
     <div style="margin-top: 2rem; text-align: center;">
-        <p>Ha funzionato questa soluzione?</p>
+        <p>{% trans "Ha funzionato questa soluzione?" %}</p>
         <form method="post" action="{% url 'update_analysis_result' analysis.id %}" style="display: inline;">
             {% csrf_token %}
-            <button type="submit" name="result" value="improved" class="btn-calculate" style="background: #4a7c59;">Migliorato</button>
-            <button type="submit" name="result" value="no_change" class="btn-calculate" style="background: #f4a460;">Nessun cambiamento</button>
-            <button type="submit" name="result" value="worse" class="btn-calculate" style="background: #e74c3c;">Peggio</button>
+            <button type="submit" name="result" value="improved" class="btn-calculate" style="background: #4a7c59;">{% trans "Migliorato" %}</button>
+            <button type="submit" name="result" value="no_change" class="btn-calculate" style="background: #f4a460;">{% trans "Nessun cambiamento" %}</button>
+            <button type="submit" name="result" value="worse" class="btn-calculate" style="background: #e74c3c;">{% trans "Peggio" %}</button>
         </form>
     </div>
     {% if suggested_articles %}
@@ -59,18 +59,18 @@
 
     {% elif not dog %}
     <div class="cta-analyze" style="margin-top: 2rem;">
-        <h3>Vuoi risultati migliori?</h3>
-        <p>Crea il profilo del tuo cane per ottenere risposte personalizzate per razza, eta e peso.</p>
-        <a href="{% url 'profile_new' %}" class="btn btn-primary">Crea profilo cane</a>
+        <h3>{% trans "Vuoi risultati migliori?" %}</h3>
+        <p>{% trans "Crea il profilo del tuo cane per ottenere risposte personalizzate per razza, eta e peso." %}</p>
+        <a href="{% url 'profile_new' %}" class="btn btn-primary">{% trans "Crea profilo cane" %}</a>
     </div>
     {% endif %}
     
     <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a href="{% url 'analyze_problem' %}" class="btn btn-secondary">Nuova analisi</a>
+        <a href="{% url 'analyze_problem' %}" class="btn btn-secondary">{% trans "Nuova analisi" %}</a>
         {% if dog %}
-        <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary">Vedi storico analisi</a>
+        <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary">{% trans "Vedi storico analisi" %}</a>
         {% endif %}
-        <a href="{% url 'problem_list' %}" class="btn btn-secondary">Vedi tutti i problemi</a>
+        <a href="{% url 'problem_list' %}" class="btn btn-secondary">{% trans "Vedi tutti i problemi" %}</a>
     </div>
 </section>
 
