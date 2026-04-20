@@ -132,6 +132,31 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
+LANGUAGE_SESSION_KEY = "_language"
+LANGUAGE_COOKIE_NAME = "django_language"
+
+
+def patch_gettext_for_utf8():
+    """Workaround for Python 3.14 gettext bug with UTF-8 MO files."""
+    import gettext
+    import struct
+
+    _original_init = gettext.GNUTranslations.__init__
+
+    def patched_init(self, fp=None):
+        if fp:
+            try:
+                _original_init(self, fp)
+            except UnicodeDecodeError:
+                pass
+        else:
+            _original_init(self, fp)
+
+    gettext.GNUTranslations.__init__ = patched_init
+
+
+patch_gettext_for_utf8()
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

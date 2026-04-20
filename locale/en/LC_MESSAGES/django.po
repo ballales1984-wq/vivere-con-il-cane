@@ -1,14 +1,7 @@
-# msgid ""
-# msgstr ""
-# "Project-Id-Version: Vivere con il Cane\n"
-# "POT-Creation-Date: 2026-04-18 08:05+0200\n"
-# "PO-Revision-Date: 2026-04-18 08:05+0200\n"
-# "Last-Translator: Antigravity\n"
-# "Language-Team: English\n"
-# "Language: en\n"
-# "MIME-Version: 1.0\n"
-# "Content-Type: text/plain; charset=UTF-8\n"
-# "Content-Transfer-Encoding: 8bit\n"
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 msgid "Capisci e risolvi il comportamento del tuo cane"
 msgstr "Understand and solve your dog's behavior"
@@ -126,6 +119,9 @@ msgstr "Because all dogs are not the same, and every dog-owner pair needs tailor
 
 msgid "Leggi la mia storia completa"
 msgstr "Read my full story"
+
+msgid "Mi chiamo <strong>Alessio</strong>. Vivo con due cani da oltre 10 anni e ho fatto il dog sitter per centinaia di cani diversi. Non tifo ciecamente per nessuna fazione: cerco solo di raccontare le cose con testa, unendo l'esperienza quotidiana alle visite veterinarie e alle migliori pratiche di educazione."
+msgstr "My name is <strong>Alessio</strong>. I have lived with two dogs for over 10 years and was a dog sitter for hundreds of different dogs. I don't blindly cheer for any faction: I only try to tell things with my head, combining everyday experience with veterinary visits and the best training practices."
 
 msgid "Anni"
 msgstr "Years"
@@ -530,4 +526,4 @@ msgid "Se cerchi consigli pratici, onesti e basati sull'esperienza reale di chi 
 msgstr "If you are looking for practical, honest advice based on the real experience of someone who lives with dogs every day, you are in the right place."
 
 msgid "Se invece cerchi la verità assoluta o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te."
-msgstr "If instead you are looking for the absolute truth or the magic method that works for everyone, this blog is probably not for you."
+msgstr "If you are looking for the absolute truth or the magic method that works for everyone, this blog is probably not for you."
