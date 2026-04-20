@@ -30,12 +30,18 @@
 
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+</script>
     <!-- AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055"
      crossorigin="anonymous"></script>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+<amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-2145959534306055">
+</amp-auto-ads>
     <header>
         <nav>
             <a href="/" class="logo">🐕 {% trans "Vivere con il Cane" %}</a>
