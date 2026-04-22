@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Invia al Veterinario - {{ dog.dog_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>📤 {% trans "Invia al Veterinario" %}</h1>
+    <p>{% trans "Crea un caso clinico strutturato per il tuo veterinario" %}</p>
+</section>
+
+<section class="tool-container" style="max-width: 800px; margin: 2rem auto;">
+    <form method="post" enctype="multipart/form-data" class="calculator-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label>{% trans "Descrivi il problema" %}</label>
+            <textarea name="problem_description" rows="5" required class="form-input" placeholder="{% trans 'Descrivi in dettaglio i sintomi, comportamenti anomali, quando è iniziato, ecc.' %}">{{ problem_description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>{% trans "Veterinario (opzionale)" %}</label>
+            <input type="text" name="vet_name" placeholder="{% trans 'Nome del veterinario' %}" class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label>{% trans "Email veterinario (opzionale)" %}</label>
+            <input type="email" name="vet_email" placeholder="vet@example.com" class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label>{% trans "Telefono veterinario (opzionale)" %}</label>
+            <input type="text" name="vet_phone" placeholder="+39 123 456 7890" class="form-input">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">{% trans "Annulla" %}</a>
+            <button type="submit" class="btn-calculate">
+                {% trans "Avvia Raccolta Media →" %}
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}

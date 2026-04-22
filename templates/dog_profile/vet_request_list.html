@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Richieste Veterinario{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>📋 {% trans "Richieste Veterinario" %}</h1>
+    <p>{% trans "Storico dei casi clinici inviati" %}</p>
+</section>
+
+<section class="tool-container" style="max-width: 900px; margin: 2rem auto;">
+    {% if requests %}
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {% for req in requests %}
+        <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h3 style="margin: 0 0 0.5rem 0; color: var(--primary-dark);">
+                    {{ req.dog.dog_name }}
+                    {% if req.analysis and req.analysis.problem %}
+                    <span style="font-size: 0.8rem; background: var(--primary-light); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; margin-left: 0.5rem;">{{ req.analysis.problem.title }}</span>
+                    {% endif %}
+                </h3>
+                <p style="margin: 0; color: var(--text-light); font-size: 0.9rem;">
+                    {{ req.created_at|date:"d/m/Y H:i" }} • {{ req.media_files.count }} media • {{ req.get_status_display }}
+                </p>
+                <p style="margin: 0.25rem 0 0; font-size: 0.9rem;">{{ req.problem_description|truncatewords:15 }}</p>
+            </div>
+            <div>
+                <a href="{% url 'vet_request_detail' req.dog.id req.id %}" class="btn btn-primary">{% trans "Vedi" %}</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; color: var(--text-light);">
+        <p style="font-size: 1.2rem; margin-bottom: 1rem;">{% trans "Nessuna richiesta inviata finora." %}</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary">{% trans "Vai alla Dashboard" %}</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

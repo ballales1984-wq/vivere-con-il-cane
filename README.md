@@ -21,7 +21,19 @@ Unlike standard LLM wrappers, our AI engine (powered by Llama-3 70B via Groq) fe
 
 ### 📋 2. Comprehensive Medical Dossier (Vet-Ready)
 - Generates a unified **Clinical History Timeline** that merges physical health events (vaccines, checkups) with past AI behavioral/diagnostic consultations.
-- Designed for immediate real-world use: features a 1-click **WhatsApp export**, plain-text clipboard copying, and a distraction-free **Print to PDF** view optimized for sending to veterinarians.
+- 1-click **WhatsApp export**, plain-text clipboard copying, and **Print to PDF** view optimized for sending to veterinarians.
+
+### 📤 3. Structured Veterinary Request System
+- **AI-Guided Media Collection**: When sending a request to the vet, the AI suggests specific photos/videos to capture based on the problem description (e.g., "photo of the limping paw", "video of the gait").
+- **Pre-Filtering**: The system guides users to capture only relevant media, avoiding noise and providing the vet with actionable visual data.
+- **Complete Digital Case File**: Each request bundles:
+  - Problem description
+  - Curated photos and videos (intelligently selected)
+  - Dog profile (age, breed, weight)
+  - Relevant medical history
+  - AI-generated clinical summary
+- **Direct Veterinarian Contact**: One-click WhatsApp message, email, or print-ready PDF containing all structured data and media references.
+- Result: Faster diagnosis, fewer phone calls, more efficient visits.
 
 ### 📚 3. Relational Symptoms-to-Causes Matrix
 This isn't a traditional flat database or a simple blog. The Knowledge Base is a relational matrix:

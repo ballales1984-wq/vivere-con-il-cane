@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Richiesta Inviata - {{ vet_request.dog.dog_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>📤 {% trans "Richiesta Inviata" %}</h1>
+    <p>{{ vet_request.dog.dog_name }} — {{ vet_request.created_at|date:"d/m/Y H:i" }}</p>
+</section>
+
+<section class="tool-container" style="max-width: 800px; margin: 2rem auto;">
+    <!-- Status Badge -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <span style="background: #4a7c59; color: white; padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 700;">
+            ✓ {{ vet_request.get_status_display }}
+        </span>
+    </div>
+
+    <!-- Contact Options -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <a href="{{ whatsapp_url }}" target="_blank" class="btn" style="background: #25D366; color: white; text-align: center; padding: 1rem; border-radius: 12px; text-decoration: none;">
+            📱 Apri WhatsApp
+        </a>
+        
+        {% if vet_request.vet_email %}
+        <a href="mailto:{{ vet_request.vet_email }}?subject=Caso%20clinico%20{{ vet_request.dog.dog_name }}" class="btn" style="background: #1976D2; color: white; text-align: center; padding: 1rem; border-radius: 12px; text-decoration: none;">
+            ✉️ Invia Email
+        </a>
+        {% endif %}
+        
+        <button onclick="window.print()" class="btn" style="background: #666; color: white; padding: 1rem; border-radius: 12px;">
+            🖨️ Stampa PDF
+        </button>
+    </div>
+
+    <!-- Summary -->
+    <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
+        <h3>📝 {% trans "Descrizione" %}</h3>
+        <p>{{ vet_request.problem_description }}</p>
+    </div>
+
+    <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
+        <h3>🧠 {% trans "Riassunto AI" %}</h3>
+        <pre style="white-space: pre-wrap; font-family: inherit;">{{ vet_request.ai_summary }}</pre>
+    </div>
+
+    <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+        <h3>📸 {% trans "Media Allegati" %}</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            {% for media in vet_request.media_files.all %}
+            <div>
+                {% if media.media_type == 'photo' %}
+                <img src="{{ media.file.url }}" style="width: 100%; border-radius: 8px;">
+                {% else %}
+                <div style="background: #f0f0f0; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 8px;">🎥</div>
+                {% endif %}
+                <p style="font-size: 0.8rem; margin-top: 0.5rem; text-align: center;">{{ media.get_media_type_display }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="{% url 'vet_request_list' %}" class="btn btn-secondary">← {% trans "Torna alla lista" %}</a>
+    </div>
+</section>
+{% endblock %}

@@ -71,6 +71,11 @@
         <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary">{% trans "Vedi storico analisi" %}</a>
         {% endif %}
         <a href="{% url 'problem_list' %}" class="btn btn-secondary">{% trans "Vedi tutti i problemi" %}</a>
+        {% if dog %}
+        <a href="{% url 'vet_request_start' dog.id %}?analysis_id={{ analysis.id }}" class="btn btn-primary" style="background: var(--accent);">
+            📤 {% trans "Invia al Veterinario" %}
+        </a>
+        {% endif %}
     </div>
 </section>
 

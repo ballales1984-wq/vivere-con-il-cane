@@ -77,6 +77,59 @@ class HealthEvent(models.Model):
         verbose_name_plural = "Eventi Salute"
 
 
+class VeterinaryMedia(models.Model):
+    """Media files (photos/videos) attached to veterinary request."""
+
+    MEDIA_TYPES = [
+        ("photo", "Foto"),
+        ("video", "Video"),
+    ]
+
+    request = models.ForeignKey(
+        "VeterinaryRequest", on_delete=models.CASCADE, related_name="media_files"
+    )
+    media_type = models.CharField(max_length=10, choices=MEDIA_TYPES)
+    file = models.FileField(upload_to="veterinary_requests/%Y/%m/")
+    caption = models.CharField(max_length=200, blank=True)
+    upload_order = models.IntegerField(default=0)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.get_media_type_display()}: {self.caption or self.file.name}"
+
+
+class VeterinaryRequest(models.Model):
+    """Structured request sent to veterinarian with AI summary and curated media."""
+
+    REQUEST_STATUS = [
+        ("draft", "Bozza"),
+        ("ready", "Pronto"),
+        ("sent", "Inviato"),
+    ]
+
+    dog = models.ForeignKey(
+        DogProfile, on_delete=models.CASCADE, related_name="vet_requests"
+    )
+    analysis = models.ForeignKey(
+        "knowledge.DogAnalysis",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="vet_requests",
+    )
+    problem_description = models.TextField(help_text="Descrizione del problema")
+    ai_summary = models.TextField(blank=True, help_text="Riassunto AI generato")
+    status = models.CharField(max_length=20, choices=REQUEST_STATUS, default="draft")
+    vet_name = models.CharField(max_length=200, blank=True)
+    vet_email = models.EmailField(blank=True)
+    vet_phone = models.CharField(max_length=50, blank=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Richiesta vet per {self.dog.dog_name} - {self.created_at.date()}"
+
+
 class DailyLog(models.Model):
     """Daily activity log for the dog."""
 

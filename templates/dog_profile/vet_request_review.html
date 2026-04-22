@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Rivedi Richiesta - {{ vet_request.dog.dog_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>✅ {% trans "Rivedi e Invia" %}</h1>
+    <p>{% trans "Verifica che tutto sia corretto prima di inviare al veterinario" %}</p>
+</section>
+
+<section class="tool-container" style="max-width: 900px; margin: 2rem auto;">
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Dog Profile Card -->
+        <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid #e0e0e0;">
+            <h3 style="color: var(--primary-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                🐕 {% trans "Profilo Cane" %}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div><strong>{% trans "Nome" %}:</strong> {{ vet_request.dog.dog_name }}</div>
+                <div><strong>{% trans "Razza" %}:</strong> {{ vet_request.dog.breed|default:"N/A" }}</div>
+                <div><strong>{% trans "Età" %}:</strong> {{ vet_request.dog.get_age }} anni</div>
+                <div><strong>{% trans "Peso" %}:</strong> {{ vet_request.dog.weight|default:"N/A" }} kg</div>
+            </div>
+        </div>
+
+        <!-- Problem Description -->
+        <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid #e0e0e0;">
+            <h3 style="color: var(--primary-dark); margin-bottom: 1rem;">📝 {% trans "Descrizione Problema" %}</h3>
+            <p style="line-height: 1.6;">{{ vet_request.problem_description }}</p>
+        </div>
+
+        <!-- AI Summary -->
+        {% if vet_request.ai_summary %}
+        <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; border: 1px solid #ce93d8;">
+            <h3 style="color: #6a1b9a; margin-bottom: 1rem;">🧠 {% trans "Riassunto AI per il Veterinario" %}</h3>
+            <pre style="white-space: pre-wrap; font-family: inherit; line-height: 1.6; font-size: 0.95rem;">{{ vet_request.ai_summary }}</pre>
+        </div>
+        {% endif %}
+
+        <!-- Media Files -->
+        <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid #e0e0e0;">
+            <h3 style="color: var(--primary-dark); margin-bottom: 1rem;">📸 {% trans "Media Allegati" %}</h3>
+            {% with media=vet_request.media_files.all %}
+                {% if media %}
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;">
+                    {% for m in media %}
+                    <div style="text-align: center;">
+                        {% if m.media_type == 'photo' %}
+                        <img src="{{ m.file.url }}" alt="{{ m.caption }}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px;">
+                        {% else %}
+                        <div style="background: #f0f0f0; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 2rem;">🎥</div>
+                        {% endif %}
+                        <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ m.caption|default:m.get_media_type_display }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="color: var(--text-light);">{% trans "Nessun media allegato" %}</p>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Recent Health Events -->
+        <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid #e0e0e0;">
+            <h3 style="color: var(--primary-dark); margin-bottom: 1rem;">📋 {% trans "Eventi Salute Recenti" %}</h3>
+            {% with events=vet_request.dog.events.all|slice:":5" %}
+                {% if events %}
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    {% for event in events %}
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #f5f5f5;">
+                        <strong>{{ event.get_event_type_display }}</strong>: {{ event.title }}
+                        <br><small style="color: var(--text-light);">{{ event.date|date:"d/m/Y" }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p style="color: var(--text-light);">{% trans "Nessun evento registrato" %}</p>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Vet Contact -->
+        <div style="background: #fff3e0; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; border: 1px solid #ffcc80;">
+            <h3 style="color: #e65100; margin-bottom: 1rem;">🏥 {% trans "Contatti Veterinario" %}</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                {% if vet_request.vet_name %}
+                <div><strong>{% trans "Nome" %}:</strong> {{ vet_request.vet_name }}</div>
+                {% endif %}
+                {% if vet_request.vet_email %}
+                <div><strong>{% trans "Email" %}:</strong> {{ vet_request.vet_email }}</div>
+                {% endif %}
+                {% if vet_request.vet_phone %}
+                <div><strong>{% trans "Telefono" %}:</strong> {{ vet_request.vet_phone }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'vet_request_upload' vet_request.dog.id vet_request.id %}" class="btn btn-secondary">
+                ↩️ {% trans "Modifica Media" %}
+            </a>
+            
+            <div style="display: flex; gap: 1rem;">
+                <a href="{% url 'vet_request_list' %}" class="btn btn-secondary">{% trans "Annulla" %}</a>
+                <button type="submit" class="btn-calculate" style="background: #4a7c59;">
+                    ✅ {% trans "Invia al Veterinario" %}
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock %}
