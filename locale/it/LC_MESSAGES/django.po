@@ -1,0 +1,529 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Capisci e risolvi il comportamento del tuo cane"
+msgstr "Understand and solve your dog's behavior"
+
+msgid "Descrivi cosa succede e ottieni subito una soluzione personalizzata con la nostra Intelligenza Artificiale."
+msgstr "Describe what's happening and get a personalized solution instantly with our Artificial Intelligence."
+
+msgid "Analizza ora con l'AI"
+msgstr "Analyze now with AI"
+
+msgid "Esempio: Il mio cane abbaia quando passano le macchine"
+msgstr "Example: My dog barks when cars pass by"
+
+msgid "Ciao"
+msgstr "Hi"
+
+msgid "Esci"
+msgstr "Logout"
+
+msgid "Accedi"
+msgstr "Login"
+
+msgid "Registrati"
+msgstr "Sign Up"
+
+msgid "Chi Sono"
+msgstr "About Me"
+
+msgid "Problemi"
+msgstr "Problems"
+
+msgid "Il mio Cane"
+msgstr "My Dog"
+
+msgid "Vivere con il Cane"
+msgstr "Living with your Dog"
+
+msgid "Iscriviti alla Newsletter"
+msgstr "Subscribe to our Newsletter"
+
+msgid "Ricevi consigli esclusivi e approfondimenti IA direttamente nella tua mail."
+msgstr "Receive exclusive tips and AI insights directly in your inbox."
+
+msgid "La tua email..."
+msgstr "Your email..."
+
+msgid "Iscriviti"
+msgstr "Subscribe"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Il Blog"
+msgstr "The Blog"
+
+msgid "Consigli, guide e strumenti per la vita con il tuo amico a quattro zampe"
+msgstr "Tips, guides and tools for life with your four-legged friend"
+
+msgid "Leggi tutto"
+msgstr "Read all"
+
+msgid "Nessun articolo disponibile."
+msgstr "No articles available."
+
+msgid "Aggiungi un articolo"
+msgstr "Add an article"
+
+msgid "Ogni cane è unico"
+msgstr "Every dog is unique"
+
+msgid "Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed età."
+msgstr "Does your dog have a particular behavior? Describe it to our AI and get practical solutions based on its breed and age right away."
+
+msgid "Analizza il tuo caso con l'AI"
+msgstr "Analyze your case with AI"
+
+msgid "Articoli correlati"
+msgstr "Related articles"
+
+msgid "Torna al blog"
+msgstr "Back to blog"
+
+msgid "Strumenti - Vivere con il Cane"
+msgstr "Tools - Living with your Dog"
+
+msgid "Strumenti per il tuo Cane"
+msgstr "Tools for your Dog"
+
+msgid "Calcolatori, quiz e guide per conoscere meglio il tuo amico a quattro zampe"
+msgstr "Calculators, quizzes and guides to better know your four-legged friend"
+
+msgid "Supporto AI"
+msgstr "AI Support"
+
+msgid "Descrivi un problema del tuo cane e ricevi un'analisi personalizzata."
+msgstr "Describe a problem with your dog and get a personalized analysis."
+
+msgid "Prova l'Analisi AI"
+msgstr "Try AI Analysis"
+
+msgid "Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane"
+msgstr "Living with your Dog - Understand and solve your dog's behavior"
+
+msgid "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani."
+msgstr "AI dog behavior analysis. Describe the problem and get personalized solutions. Free tools for dog owners."
+
+msgid "Più di 1.000 proprietari aiutati questo mese"
+msgstr "More than 1,000 owners helped this month"
+
+msgid "Esperienza reale, non teoria."
+msgstr "Real experience, not theory."
+
+msgid "Perché i cani non sono tutti uguali, e ogni binomio cane-proprietario ha bisogno di soluzioni su misura."
+msgstr "Because all dogs are not the same, and every dog-owner pair needs tailored solutions."
+
+msgid "Leggi la mia storia completa"
+msgstr "Read my full story"
+
+msgid "Mi chiamo <strong>Alessio</strong>. Vivo con due cani da oltre 10 anni e ho fatto il dog sitter per centinaia di cani diversi. Non tifo ciecamente per nessuna fazione: cerco solo di raccontare le cose con testa, unendo l'esperienza quotidiana alle visite veterinarie e alle migliori pratiche di educazione."
+msgstr "My name is <strong>Alessio</strong>. I have lived with two dogs for over 10 years and was a dog sitter for hundreds of different dogs. I don't blindly cheer for any faction: I only try to tell things with my head, combining everyday experience with veterinary visits and the best training practices."
+
+msgid "Anni"
+msgstr "Years"
+
+msgid "Di Esperienza"
+msgstr "Of Experience"
+
+msgid "Problemi più comuni"
+msgstr "Most common problems"
+
+msgid "Vedi tutti i problemi"
+msgstr "See all problems"
+
+msgid "Come funziona"
+msgstr "How it works"
+
+msgid "Descrivi il problema"
+msgstr "Describe the problem"
+
+msgid "Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia..."
+msgstr "Write what your dog does: barks, bites, pulls, doesn't eat..."
+
+msgid "L'AI analizza"
+msgstr "AI analyzes"
+
+msgid "Il sistema identifica le cause probabili in base al tuo cane"
+msgstr "The system identifies likely causes based on your dog"
+
+msgid "Ricevi soluzioni"
+msgstr "Get solutions"
+
+msgid "Consigli pratici personalizzati per razza, età e situazione"
+msgstr "Practical advice customized for breed, age and situation"
+
+msgid "Strumenti gratuiti"
+msgstr "Free tools"
+
+msgid "Calcolatore Cibo"
+msgstr "Food Calculator"
+
+msgid "Quanto deve mangiare il tuo cane? Calcola la porzione giusta."
+msgstr "How much should your dog eat? Calculate the right portion."
+
+msgid "Età in Anni Umani"
+msgstr "Age in Human Years"
+
+msgid "Scopri quanti anni ha il tuo cane in anni umani."
+msgstr "Discover how old your dog is in human years."
+
+msgid "Quiz Linguaggio"
+msgstr "Language Quiz"
+
+msgid "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova."
+msgstr "How well do you know your dog's language? Test yourself."
+
+msgid "Guide e articoli"
+msgstr "Guides and articles"
+
+msgid "Vedi tutti gli articoli"
+msgstr "See all articles"
+
+msgid "Inizia ora - è gratuito"
+msgstr "Start now - it's free"
+
+msgid "Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una soluzione."
+msgstr "No registration needed. Describe your dog's problem and get a solution right away."
+
+msgid "Analizza il comportamento del tuo cane"
+msgstr "Analyze your dog's behavior"
+
+msgid "Vivere con il Cane. Tutti i diritti riservati."
+msgstr "Living with your Dog. All rights reserved."
+
+msgid "Termini di Servizio"
+msgstr "Terms of Service"
+
+msgid "Benvenuto a bordo!"
+msgstr "Welcome aboard!"
+
+msgid "Presto riceverai i nostri migliori consigli per il tuo cane."
+msgstr "You will soon receive our best tips for your dog."
+
+msgid "Resta aggiornato"
+msgstr "Stay updated"
+
+msgid "Ricevi i nuovi articoli e le analisi IA direttamente nella tua inbox. Niente spam, solo consigli utili."
+msgstr "Receive new articles and AI analysis directly in your inbox. No spam, just useful tips."
+
+msgid "Iscriviti Ora"
+msgstr "Subscribe Now"
+
+msgid "Iscrivendoti accetti la nostra"
+msgstr "By subscribing you accept our"
+
+msgid "Letture Consigliate"
+msgstr "Recommended Readings"
+
+msgid "Leggi articolo"
+msgstr "Read article"
+
+msgid "Cane felice all'aperto"
+msgstr "Happy dog outdoors"
+
+msgid "Tool Correlato"
+msgstr "Related Tool"
+
+msgid "Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro calcolatore alimentare!"
+msgstr "Want to know how much your dog should eat? Try our food calculator!"
+
+msgid "Risultato dell'Analisi"
+msgstr "Analysis Result"
+
+msgid "Problema identificato:"
+msgstr "Problem identified:"
+
+msgid "Ha funzionato questa soluzione?"
+msgstr "Did this solution work?"
+
+msgid "Migliorato"
+msgstr "Improved"
+
+msgid "Nessun cambiamento"
+msgstr "No change"
+
+msgid "Peggio"
+msgstr "Worse"
+
+msgid "Vuoi risultati migliori?"
+msgstr "Want better results?"
+
+msgid "Crea il profilo del tuo cane per ottenere risposte personalizzate per razza, eta e peso."
+msgstr "Create your dog's profile to get personalized answers based on breed, age and weight."
+
+msgid "Crea profilo cane"
+msgstr "Create dog profile"
+
+msgid "Nuova analisi"
+msgstr "New analysis"
+
+msgid "Vedi storico analisi"
+msgstr "View analysis history"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+msgid "Cookie Policy"
+msgstr "Cookie Policy"
+
+msgid "Centro di gestione e conoscenza per il tuo amico a quattro zampe"
+msgstr "Management and knowledge center for your four-legged friend"
+
+msgid "Età"
+msgstr "Age"
+
+msgid "Peso"
+msgstr "Weight"
+
+msgid "Eventi"
+msgstr "Events"
+
+msgid "Scheda Completa"
+msgstr "Full Card"
+
+msgid "Portata giornaliera in base a peso ed età"
+msgstr "Daily portion based on weight and age"
+
+msgid "Converti età del cane in anni umani"
+msgstr "Convert dog's age to human years"
+
+msgid "Testa la tua conoscenza"
+msgstr "Test your knowledge"
+
+msgid "Articoli utili"
+msgstr "Useful articles"
+
+msgid "Vedi tutte le attività"
+msgstr "View all activities"
+
+msgid "Nessuna attività registrata."
+msgstr "No activity recorded."
+
+msgid "aggiungi il primo evento"
+msgstr "Add first event"
+
+msgid "Unisciti a noi"
+msgstr "Join us"
+
+msgid "Crea un account gratuito per gestire i dati del tuo cane in totale privacy"
+msgstr "Create a free account to manage your dog's data in total privacy"
+
+msgid "Crea Account"
+msgstr "Create Account"
+
+msgid "Hai già un account? Accedi qui"
+msgstr "Already have an account? Login here"
+
+msgid "Bentornato"
+msgstr "Welcome back"
+
+msgid "Accedi per gestire i profili dei tuoi cani"
+msgstr "Login to manage your dogs' profiles"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Accedi"
+msgstr "Login"
+
+msgid "Non hai ancora un account? Registrati ora"
+msgstr "Don't have an account? Sign up now"
+
+msgid "Scheda del Cane"
+msgstr "Dog Card"
+
+msgid "Genere"
+msgstr "Gender"
+
+msgid "Eventi di Salute"
+msgstr "Health Events"
+
+msgid "Nessun evento registrato."
+msgstr "No event recorded."
+
+msgid "Registro Giornaliero"
+msgstr "Daily Log"
+
+msgid "Data"
+msgstr "Date"
+
+msgid "Sonno"
+msgstr "Sleep"
+
+msgid "Gioco"
+msgstr "Play"
+
+msgid "Passeggiata"
+msgstr "Walk"
+
+msgid "Cibo"
+msgstr "Food"
+
+msgid "Nessun registro."
+msgstr "No log."
+
+msgid "Storico Analisi AI"
+msgstr "AI Analysis History"
+
+msgid "Tutte le consulenze digitali per"
+msgstr "All digital consultations for"
+
+msgid "Vedi Dettaglio Completo"
+msgstr "View Full Detail"
+
+msgid "Ha funzionato!"
+msgstr "It worked!"
+
+msgid "Nessuna analisi ancora effettuata"
+msgstr "No analysis performed yet"
+
+msgid "Le analisi AI per [dog] compariranno qui una volta completate."
+msgstr "AI analyses for [dog] will appear here once completed."
+
+msgid "Fai la prima analisi"
+msgstr "Do the first analysis"
+
+msgid "Analisi Intelligente"
+msgstr "Intelligent Analysis"
+
+msgid "Descrivi il problema del tuo cane e ricevi una risposta personalizzata basata su razza, età e comportamento"
+msgstr "Describe your dog's problem and get a personalized answer based on breed, age and behavior"
+
+msgid "Seleziona il tuo cane (opzionale)"
+msgstr "Select your dog (optional)"
+
+msgid "Seleziona un problema comune (opzionale)"
+msgstr "Select a common problem (optional)"
+
+msgid "Descrivi il problema"
+msgstr "Describe the problem"
+
+msgid "Analizza con AI"
+msgstr "Analyze with AI"
+
+msgid "Inizializzazione Motore IA..."
+msgstr "Initializing AI Engine..."
+
+msgid "Analisi della richiesta in corso."
+msgstr "Analyzing your request."
+
+msgid "L'AI analizza il problema tenendo conto delle caratteristiche specifiche del tuo cane"
+msgstr "AI analyzes the problem taking into account your dog's specific characteristics"
+
+msgid "Benvenuto nel tuo Assistente Veterinario IA"
+msgstr "Welcome to your AI Veterinary Assistant"
+
+msgid "Per sbloccare il vero potenziale dell'Intelligenza Artificiale, abbiamo bisogno di conoscere il tuo compagno di avventure."
+msgstr "To unlock the true potential of Artificial Intelligence, we need to know your adventure companion."
+
+msgid "Creando il profilo sbloccherai:"
+msgstr "By creating the profile you will unlock:"
+
+msgid "Diagnosi IA su Misura"
+msgstr "Custom AI Diagnosis"
+
+msgid "L'IA analizzerà i sintomi incrociandoli con l'età, il peso e la genetica della sua razza."
+msgstr "AI will analyze symptoms cross-referencing with age, weight and breed genetics."
+
+msgid "Dossier Clinico Condivisibile"
+msgstr "Shareable Clinical Dossier"
+
+msgid "Una cartella clinica completa con la sua storia medica, pronta da inviare via WhatsApp al veterinario."
+msgstr "A complete medical folder with their medical history, ready to send via WhatsApp to the vet."
+
+msgid "Memoria Longitudinale"
+msgstr "Longitudinal Memory"
+
+msgid "L'app ricorderà ogni singolo evento di salute o comportamento strano per analisi future."
+msgstr "The app will remember every single health event or strange behavior for future analysis."
+
+msgid "Tool Personalizzati"
+msgstr "Customized Tools"
+
+msgid "Calcolatore cibo, età biologica e suggerimenti mirati che si adattano al tuo cane man mano che cresce."
+msgstr "Food calculator, biological age and targeted suggestions that adapt to your dog as it grows."
+
+msgid "Ci vogliono meno di 2 minuti. Gratuito per sempre."
+msgstr "It takes less than 2 minutes. Free forever."
+
+msgid "Calcolatore Cibo"
+msgstr "Food Calculator"
+
+msgid "Calcola le porzioni giornaliere"
+msgstr "Calculate daily portions"
+
+msgid "Età Umana"
+msgstr "Human Age"
+
+msgid "Conosci l'età del cane in anni umani"
+msgstr "Know your dog's age in human years"
+
+msgid "Quiz Linguaggio"
+msgstr "Language Quiz"
+
+msgid "Testa la tua conoscenza"
+msgstr "Test your knowledge"
+
+msgid "Chi sono"
+msgstr "About Me"
+
+msgid "Esperienze reali e consigli con testa da chi convive con i cani tutti i giorni."
+msgstr "Real experience, not theory."
+
+msgid "Mi chiamo Alessio e convivo con due cani da più di 10 anni. Per 3 anni ho fatto il dog sitter e ho visto centinaia di dinamiche tra cani."
+msgstr "My name is Alessio. I have lived with two dogs for over 10 years and was a dog sitter for hundreds of different dogs."
+
+msgid "Mi chiamo"
+msgstr "My name is"
+
+msgid "Per tre anni ho fatto il dog sitter, occupandomi di centinaia di cani: maschi e femmine, cuccioli e anziani, di tutte le razze, forme, dimensioni e caratteri."
+msgstr "For three years I worked as a dog sitter, handling hundreds of dogs: males and females, puppies and seniors, of all breeds, shapes, sizes and characters."
+
+msgid "In questi anni ho visto di tutto: dinamiche tra cani buoni, litigi improvvisi, amicizie nate in pochi minuti, paure, gioie, problemi di convivenza, gelosie, giochi e tensioni. Ho osservato centinaia di interazioni tra cani di taglia grande e piccola, maschi e femmine, sterilizzati e non."
+msgstr "Over the years I have seen it all: good dynamics, sudden fights, friendships formed in minutes, fears, joys, coexistence problems, jealousy, games and tensions. I observed hundreds of interactions between large and small dogs, males and females, neutered and not."
+
+msgid "Sono stato da diversi veterinari, ho ascoltato tantissime storie di proprietari, ho provato metodi diversi e ho confrontato quello che leggevo con la realtà che vedevo ogni giorno."
+msgstr "I have been to various veterinarians, listened to countless owner stories, tried different methods and compared what I read with the reality I saw every day."
+
+msgid "Per questo sul mio blog non prendo posizioni estreme."
+msgstr "This is why on my blog I do not take extreme positions."
+
+msgid "Non tifo per nessuno in modo acritico: né per i veterinari, né contro di loro; né per gli educatori cinofili, né per chi fa tutto da solo."
+msgstr "I do not blindly cheer for anyone: neither for veterinarians, nor against them; neither for dog trainers, nor for those who do everything themselves."
+
+msgid "Non credo che esista un solo metodo giusto per tutti i cani. <strong>I cani non sono tutti uguali</strong>: ognuno ha bisogno di un proprietario che lo ascolti e lo guidi nel percorso di convivenza umana. Proprio per questa loro unicità, gli approcci e le metodologie devono essere messe in atto valutando attentamente le caratteristiche del singolo soggetto e della coppia umano-cane."
+msgstr "I do not believe there is one right method for all dogs. <strong>All dogs are not the same</strong>: each one needs an owner who listens and guides them in the human coexistence path."
+
+msgid "Ho visto con i miei occhi che il rinforzo positivo funziona benissimo nella maggior parte dei casi, ma ho visto anche situazioni in cui serviva chiarezza, fermezza e buon senso."
+msgstr "I have seen with my own eyes that positive reinforcement works great in most cases, but I have also seen situations where clarity, firmness and common sense were needed."
+
+msgid "Rispetto la medicina veterinaria e ci vado senza esitazione quando serve un problema di salute. Ma so per esperienza che tanti disagi nascono dalla gestione quotidiana, dalla routine, dalla convivenza in casa e da come comunichiamo con il nostro cane."
+msgstr "I respect veterinary medicine and go without hesitation when a health problem arises. But I know from experience that many discomforts come from daily management, routine, living at home and how we communicate with our dog."
+
+msgid "Quello che scrivo qui..."
+msgstr "What I write here..."
+
+msgid "...nasce da quello che ho vissuto direttamente con i miei due cani e da tutto quello che ho osservato in questi anni di dog sitting: dinamiche reali tra cani di ogni tipo, errori che ho fatto, cose che hanno funzionato e altre che invece hanno complicato la situazione."
+msgstr "...comes from what I have directly experienced with my two dogs and everything I have observed over these years of dog sitting: real dynamics between dogs of all kinds, mistakes I made, things that worked and others that instead complicated the situation."
+
+msgid "Non ho la pretesa di avere sempre ragione. Cerco solo di raccontare le cose con testa, senza fanatismi e senza seguire le mode del momento."
+msgstr "I do not claim to always be right. I only try to tell things with my head, without fanatism and without following the trends of the moment."
+
+msgid "Se cerchi consigli pratici, onesti e basati sull'esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto."
+msgstr "If you are looking for practical, honest advice based on the real experience of someone who lives with dogs every day, you are in the right place."
+
+msgid "Se invece cerchi la verità assoluta o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te."
+msgstr "If you are looking for the absolute truth or the magic method that works for everyone, this blog is probably not for you."
