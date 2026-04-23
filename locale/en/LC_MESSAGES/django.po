@@ -806,6 +806,7 @@ msgstr ""
 msgid ""
 "Hai più di un amico a quattro zampe? Aggiungi un nuovo profilo per gestirlo."
 msgstr ""
+"Have more than one four-legged friend? Add a new profile to manage it."
 
 msgid "Il tuo"
 msgstr ""

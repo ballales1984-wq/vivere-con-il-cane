@@ -30,7 +30,7 @@
     <div style="margin-top: 1rem;">
         <span class="problem-severity severity-{{ problem.severity }}">{{ problem.get_severity_display }}</span>
         {% if problem.common_breeds %}
-        <span style="margin-left: 1rem; color: var(--text-light); font-size: 0.9rem;">Razze piu colpite: {{ problem.common_breeds }}</span>
+        <span style="margin-left: 1rem; color: var(--text-light); font-size: 0.9rem;">{% trans "Razze piu colpite:" %} {{ problem.common_breeds }}</span>
         {% endif %}
     </div>
 </section>
@@ -38,7 +38,7 @@
 <section class="tool-container">
     {% if causes %}
     <div style="margin-bottom: 2rem;">
-        <h2 style="color: var(--primary); margin-bottom: 1rem;">Possibili Cause</h2>
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">{% trans "Possibili Cause" %}</h2>
         <ul style="list-style: none; padding: 0;">
         {% for cause in causes %}
         <li style="padding: 0.75rem; background: var(--light); margin-bottom: 0.5rem; border-radius: var(--radius-sm); border-left: 4px solid var(--accent);">
@@ -57,16 +57,16 @@
 
     {% if solutions %}
     <div style="margin-bottom: 2rem;">
-        <h2 style="color: var(--primary); margin-bottom: 1rem;">Soluzioni Consigliate</h2>
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">{% trans "Soluzioni Consigliate" %}</h2>
         {% for solution in solutions %}
         <div style="background: var(--white); padding: 1.25rem; margin-bottom: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
             <h3 style="color: var(--primary-dark); font-size: 1.1rem; margin-bottom: 0.5rem;">{{ solution.title }}</h3>
             <p style="margin-bottom: 0.75rem;">{{ solution.description }}</p>
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
                 <span style="background: #e8f5e9; padding: 0.2rem 0.5rem; border-radius: 4px;">{{ solution.get_solution_type_display }}</span>
-                <span style="background: #fff3e0; padding: 0.2rem 0.5rem; border-radius: 4px;">Difficolta: {{ solution.get_difficulty_display }}</span>
+                <span style="background: #fff3e0; padding: 0.2rem 0.5rem; border-radius: 4px;">{% trans "Difficolta" %}: {{ solution.get_difficulty_display }}</span>
                 {% if solution.time_needed %}
-                <span style="background: #e3f2fd; padding: 0.2rem 0.5rem; border-radius: 4px;">Tempo: {{ solution.time_needed }}</span>
+                <span style="background: #e3f2fd; padding: 0.2rem 0.5rem; border-radius: 4px;">{% trans "Tempo" %}: {{ solution.time_needed }}</span>
                 {% endif %}
                 {% if solution.warnings %}
                 <span style="color: #c62828; font-weight: 600;">⚠️ {{ solution.warnings }}</span>

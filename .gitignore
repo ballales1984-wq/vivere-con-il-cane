@@ -36,3 +36,4 @@ staticfiles/
 
 # Keep images
 !static/images/
+.coverage
