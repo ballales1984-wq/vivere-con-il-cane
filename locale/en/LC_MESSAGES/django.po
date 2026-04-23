@@ -852,7 +852,7 @@ msgid "Nessun media allegato"
 msgstr ""
 
 msgid "Nessun problema registrato."
-msgstr ""
+msgstr "No problems registered."
 
 msgid "Nessuna richiesta inviata finora."
 msgstr ""
@@ -901,7 +901,7 @@ msgid "Problema identificato"
 msgstr ""
 
 msgid "Problemi Comuni"
-msgstr ""
+msgstr "Common Problems"
 
 msgid "Profilo Cane"
 msgstr ""
@@ -949,7 +949,7 @@ msgid "Salva Giornata"
 msgstr ""
 
 msgid "Scopri cause e soluzioni per i problemi più frequenti"
-msgstr ""
+msgstr "Discover causes and solutions for the most frequent problems"
 
 msgid "Storico dei casi clinici inviati"
 msgstr ""
