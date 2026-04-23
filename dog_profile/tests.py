@@ -155,3 +155,20 @@ class HealthLogViewTest(TestCase):
             },
         )
         self.assertEqual(HealthLog.objects.filter(dog=self.profile).count(), 1)
+
+
+    def test_medical_events_relationship(self):
+        """Test that dog.medical_events relationship works after migration"""
+        dog = DogProfile.objects.create(
+            owner=self.user,
+            dog_name="TestDog",
+            breed="Test Breed"
+        )
+        event = MedicalEvent.objects.create(
+            dog=dog,
+            event_type="visit",
+            date="2024-01-15",
+            title="Test Visit"
+        )
+        self.assertEqual(dog.medical_events.count(), 1)
+        self.assertEqual(dog.medical_events.first().title, "Test Visit")
