@@ -349,10 +349,10 @@ def generate_vet_summary(vet_request):
         summary += "ANALISI AI:\n"
         summary += analysis.ai_response[:500] + "...\n"
 
-    # Add recent relevant health events
-    recent_events = dog.events.order_by("-date")[:3]
+    # Add recent relevant medical events
+    recent_events = dog.medical_events.order_by("-date")[:3]
     if recent_events:
-        summary += "\nEVENTI RECENTI:\n"
+        summary += "\nEVENTI MEDICI RECENTI:\n"
         for event in recent_events:
             summary += f"- {event.date.strftime('%d/%m/%Y')}: {event.title}\n"
 
