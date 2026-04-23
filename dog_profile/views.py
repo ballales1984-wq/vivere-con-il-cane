@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import (
     DogProfile,
-    HealthEvent,
-    DailyLog,
+    MedicalEvent,
+    HealthLog,
     VeterinaryRequest,
     VeterinaryMedia,
 )
@@ -50,8 +50,8 @@ def profile_new(request):
 def profile_detail(request, profile_id):
     """View dog profile restricted to owner."""
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
-    events = profile.events.all()[:10]
-    logs = profile.daily_logs.all()[:7]
+    events = profile.medical_events.all()[:10]
+    logs = profile.health_logs.filter(log_type="routine")[:7]
 
     return render(
         request,
@@ -66,15 +66,15 @@ def profile_detail(request, profile_id):
 
 @login_required
 def profile_add_event(request, profile_id):
-    """Add health event to profile."""
+    """Add medical event to profile."""
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
-        HealthEvent.objects.create(
+        MedicalEvent.objects.create(
             dog=profile,
             event_type=request.POST.get("event_type"),
             title=request.POST.get("title"),
-            description=request.POST.get("description"),
+            description=request.POST.get("description", ""),
             date=request.POST.get("date") or date.today(),
         )
         return redirect("profile_detail", profile_id=profile.id)
@@ -84,17 +84,19 @@ def profile_add_event(request, profile_id):
 
 @login_required
 def profile_add_log(request, profile_id):
-    """Add daily log to profile."""
+    """Add routine health log (daily metrics)."""
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
-        DailyLog.objects.create(
+        HealthLog.objects.create(
             dog=profile,
             date=request.POST.get("date") or date.today(),
-            sleep_hours=request.POST.get("sleep_hours") or 0,
-            play_minutes=request.POST.get("play_minutes") or 0,
-            walk_minutes=request.POST.get("walk_minutes") or 0,
-            food_grams=request.POST.get("food_grams") or 0,
+            log_type="routine",
+            sleep_hours=request.POST.get("sleep_hours") or None,
+            play_minutes=request.POST.get("play_minutes") or None,
+            walk_minutes=request.POST.get("walk_minutes") or None,
+            food_grams=request.POST.get("food_grams") or None,
+            description=request.POST.get("notes", ""),
         )
         return redirect("profile_detail", profile_id=profile.id)
 
@@ -127,10 +129,9 @@ def profile_dossier(request, profile_id):
     """Generates a complete clinical history dossier for the owner."""
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
-    events = list(profile.events.all())
+    events = list(profile.medical_events.all())
     analyses = list(profile.analyses.all())
 
-    # ... (rest of the code remains the same as it uses profile variable correctly)
     for e in events:
         e.sort_date = e.date
         e.item_type = "event"

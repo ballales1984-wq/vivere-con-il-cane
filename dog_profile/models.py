@@ -1,16 +1,18 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from datetime import date  # per proprietà DogProfile.get_age
 
 
 class DogProfile(models.Model):
-    """Owner with their dog profile."""
+    """Complete digital twin of a dog — identity + medical + behavioral + lifestyle context."""
 
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="profiles", null=True, blank=True
     )
 
-    name = models.CharField(max_length=100)
+    # ── 1. IDENTITÀ BASE ──
+    name = models.CharField(max_length=100)  # owner name
     dog_name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100, blank=True)
     birth_date = models.DateField(blank=True, null=True)
@@ -18,7 +20,101 @@ class DogProfile(models.Model):
     gender = models.CharField(
         max_length=10, choices=[("male", "Maschio"), ("female", "Femmina")], blank=True
     )
+    is_neutered = models.BooleanField(default=False)
+    microchip = models.CharField(
+        max_length=50, blank=True, help_text="Microchip number se presente"
+    )
+
+    # ── 2. ALIMENTAZIONE STRUTTURATA ──
+    food_type = models.CharField(
+        max_length=200, blank=True, help_text="Es: Croccantino Royal Canin Medium Adult"
+    )
+    food_grams_per_day = models.IntegerField(
+        null=True, blank=True, help_text="Grammi totali giornalieri"
+    )
+    meals_per_day = models.IntegerField(default=2, help_text="Numero pasti giornalieri")
+    supplements = models.TextField(
+        blank=True, help_text="Integratori: nome + dosaggio (es: Glucosamina 500mg ×2)"
+    )
+    diet_notes = models.TextField(
+        blank=True, help_text="Intolleranze, allergie, cibi proibiti"
+    )
+    RAW_FOOD_CHOICES = [
+        ("dry", "Crocchette"),
+        ("wet", "Umido"),
+        ("raw", "Crudo (BARF)"),
+        ("homemade", "Casalingo"),
+        ("mixed", "Misto"),
+    ]
+    diet_type = models.CharField(
+        max_length=20, choices=RAW_FOOD_CHOICES, default="dry", blank=True
+    )
+
+    # ── 3. FARMACI CORRENTI (JSON — lista strutturata) ──
+    current_medications = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="""[{
+            'name': 'Nome farmaco',
+            'dosage': '5mg',
+            'frequency': '2 volte/giorno',
+            'start_date': '2024-01-15',
+            'end_date': null,
+            'reason': 'Motivo prescrizione',
+            'vet_prescribed': true
+        }]""",
+    )
+
+    # ── 4. ABITUDINI / ROUTINE ──
+    ACTIVITY_CHOICES = [
+        ("low", "Basso – poco movimento"),
+        ("moderate", "Moderato – passeggiate normali"),
+        ("high", "Alto – molto attivo"),
+        ("very_high", "Molto alto – sportivo"),
+    ]
+    activity_level = models.CharField(
+        max_length=20, choices=ACTIVITY_CHOICES, default="moderate"
+    )
+    typical_walk_minutes = models.IntegerField(
+        null=True, blank=True, help_text="Minuti medi di passeggiata/giorno"
+    )
+    SLEEP_CHOICES = [
+        ("normal", "Normale"),
+        ("excessive", "Eccessivo"),
+        ("restless", "Agitato/insonne"),
+        ("variable", "Variabile"),
+    ]
+    sleep_pattern = models.CharField(
+        max_length=20, choices=SLEEP_CHOICES, default="normal"
+    )
+
+    # ── 5. AMBIENTE & SOCIALIZZAZIONE ──
+    is_indoor = models.BooleanField(
+        default=True, help_text="Vive prevalentemente in casa?"
+    )
+    has_access_garden = models.BooleanField(default=False)
+    socialization_level = models.CharField(
+        max_length=30,
+        choices=[
+            ("friendly", "Amichevole con tutti"),
+            ("selective", "Selettivo con alcuni"),
+            ("protective", "Protettivo/da guardia"),
+            ("shy", "Timido/riservato"),
+            ("reactive", "Reattivo/aggressivo"),
+        ],
+        default="friendly",
+    )
+
+    # ── 6. STORICO PESO (semplificato – per future analisi trend) ──
+    weight_history = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="""[{'date': '2024-01', 'weight': 28.5}, …]""",
+    )
+
+    # ── NOTE LIBERE (ultimo campo, Retrocompatibilità) ──
     notes = models.TextField(blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -40,41 +136,96 @@ class DogProfile(models.Model):
 
     @property
     def events_count(self):
-        return self.events.count()
+        return self.medical_events.count()
+
+    # ── PROPERTIES DI UTILITÀ ──
+    @property
+    def current_medications_structured(self):
+        """Restituisce lista di dict con info essenziali dei farmaci attuali."""
+        simplified = []
+        for m in self.current_medications:
+            simplified.append(
+                {
+                    "name": m.get("name", ""),
+                    "dosage": m.get("dosage", ""),
+                    "frequency": m.get("frequency", ""),
+                    "start": m.get("start_date", ""),
+                    "reason": m.get("reason", ""),
+                }
+            )
+        return simplified
+
+    @property
+    def nutrition_summary(self):
+        """Riassunto alimentare in una stringa."""
+        parts = []
+        if self.food_type:
+            parts.append(f"{self.food_type}")
+        if self.food_grams_per_day:
+            parts.append(f"{self.food_grams_per_day}g/giorno")
+        if self.meals_per_day:
+            parts.append(f"{self.meals_per_day} pasti/giorno")
+        if self.supplements:
+            parts.append(f"Integratori: {self.supplements}")
+        return " • ".join(parts) if parts else "Non specificato"
 
     class Meta:
         verbose_name = "Profilo Cane"
         verbose_name_plural = "Profili Cani"
 
 
-class HealthEvent(models.Model):
-    """Health events for a dog."""
+class MedicalEvent(models.Model):
+    """Evento medico VERO: visite, esami, diagnosi, terapie, interventi."""
 
-    EVENT_TYPES = [
-        ("vaccine", "Vaccino"),
-        ("checkup", "Visita"),
-        ("medicine", "Medicina"),
-        ("illness", "Malattia"),
-        ("injury", "Infortunio"),
+    EVENT_CATEGORIES = [
+        ("visit", "Visita Veterinaria"),
+        ("exam", "Esame Diagnostico"),
+        ("vaccine", "Vaccinazione"),
+        ("surgery", "Intervento Chirurgico"),
+        ("therapy_start", "Inizio Terapia"),
+        ("therapy_end", "Fine Terapia"),
+        ("emergency", "Pronto Soccorso"),
+        ("followup", "Controllo"),
         ("other", "Altro"),
     ]
 
-    dog = models.ForeignKey(DogProfile, on_delete=models.CASCADE, related_name="events")
-    event_type = models.CharField(max_length=20, choices=EVENT_TYPES)
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
+    dog = models.ForeignKey(
+        DogProfile, on_delete=models.CASCADE, related_name="medical_events"
+    )
+    event_type = models.CharField(max_length=30, choices=EVENT_CATEGORIES)
     date = models.DateField()
-    next_date = models.DateField(blank=True, null=True)
-    veterinarian = models.CharField(max_length=200, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(
+        max_length=200, blank=True, help_text="Titolo breve: es. 'Vaccino annuale'"
+    )
+    description = models.TextField(
+        blank=True, help_text="Descrizione libera (compatibilità)"
+    )  # retro
+    vet_clinic = models.CharField(max_length=200, blank=True)
+    vet_name = models.CharField(max_length=200, blank=True)
 
-    def __str__(self):
-        return f"{self.title} - {self.dog.dog_name}"
+    # CONTENUTO STRUTTURATO
+    diagnosis = models.TextField(blank=True, help_text="Diagnosi del veterinario")
+    prescribed_medications = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="Farmaci prescritti: [{name, dosage, duration, notes}]",
+    )
+    prescribed_tests = models.TextField(blank=True, help_text="Esami prescritti")
+    treatment_description = models.TextField(blank=True, help_text="Terapia applicata")
+    outcome = models.TextField(blank=True, help_text="Risultato finale")
+    next_event_date = models.DateField(null=True, blank=True)
+    cost = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
+    notes = models.TextField(blank=True, help_text="Note aggiuntive")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-date"]
-        verbose_name = "Evento Salute"
-        verbose_name_plural = "Eventi Salute"
+        verbose_name = "Evento Medico"
+        verbose_name_plural = "Eventi Medici"
+
+    def __str__(self):
+        return f"{self.get_event_type_display()} – {self.dog.dog_name} ({self.date})"
 
 
 class VeterinaryMedia(models.Model):
@@ -130,24 +281,101 @@ class VeterinaryRequest(models.Model):
         return f"Richiesta vet per {self.dog.dog_name} - {self.created_at.date()}"
 
 
-class DailyLog(models.Model):
-    """Daily activity log for the dog."""
+class HealthLog(models.Model):
+    """Log giornaliero/sintomo/comportamento — la TIMELINE CONTINUA del cane."""
+
+    LOG_TYPES = [
+        ("routine", "Routine Giornaliera"),
+        ("symptom", "Sintomo Osservato"),
+        ("behavior", "Comportamento Anomalo"),
+        ("diet", "Variazione Alimentare"),
+        ("medication", "Somministrazione Farmaco"),
+        ("vital_signs", "Segni Vitali (temperatura, frequenza…)"),
+        ("note", "Nota Libera"),
+    ]
+    SEVERITY_LEVELS = [
+        ("1", "Lieve – monitorare"),
+        ("2", "Moderato – attenzione"),
+        ("3", "Severo – consultare"),
+    ]
 
     dog = models.ForeignKey(
-        DogProfile, on_delete=models.CASCADE, related_name="daily_logs"
+        DogProfile, on_delete=models.CASCADE, related_name="health_logs"
     )
     date = models.DateField()
-    sleep_hours = models.DecimalField(max_digits=3, decimal_places=1, default=0)
-    play_minutes = models.IntegerField(default=0)
-    walk_minutes = models.IntegerField(default=0)
-    food_grams = models.IntegerField(default=0)
-    notes = models.TextField(blank=True)
+    log_type = models.CharField(max_length=20, choices=LOG_TYPES, default="routine")
+    severity = models.CharField(max_length=1, choices=SEVERITY_LEVELS, default="1")
+
+    # ── DATI STRUTTURATI PER TIPO ──
+    duration_hours = models.FloatField(
+        null=True, blank=True, help_text="Durata (ore) se sintomo/comportamento"
+    )
+    frequency = models.IntegerField(
+        null=True, blank=True, help_text="Frequenza episodi nella giornata"
+    )
+    temperature = models.DecimalField(
+        max_digits=4,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        help_text="Temperatura °C",
+    )
+    heart_rate = models.IntegerField(null=True, blank=True, help_text="Battiti/minuto")
+    respiratory_rate = models.IntegerField(
+        null=True, blank=True, help_text="Respiri/minuto"
+    )
+
+    description = models.TextField(help_text="Descrizione dettagliata")
+
+    # ── METRICHE GIORNALIERE (solo per log_type='routine') ──
+    sleep_hours = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        help_text="Ore sonno (24h)",
+    )
+    play_minutes = models.IntegerField(
+        null=True, blank=True, help_text="Minuti di gioco/attività"
+    )
+    walk_minutes = models.IntegerField(
+        null=True, blank=True, help_text="Minuti passeggiata"
+    )
+    food_grams = models.IntegerField(
+        null=True, blank=True, help_text="Grammi cibo totale"
+    )
+
+    # ── COLLEGAMENTI ──
+    # Un log può essere collegato a un evento medico (visita) se questo log ha contribuito alla visita
+    related_event = models.ForeignKey(
+        "MedicalEvent",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="linked_logs",
+        help_text="Evento medico collegato (se applicabile)",
+    )
+    media = models.ManyToManyField(
+        "VeterinaryMedia",
+        blank=True,
+        related_name="health_logs",
+        help_text="Foto/video associati a questa osservazione",
+    )
+
+    # ── AI LAYER ──
+    ai_tags = models.JSONField(
+        default=list, blank=True, help_text="Tags auto-generati dal sistema AI"
+    )
+    ai_summary_suggestion = models.TextField(
+        blank=True, help_text="Suggerimento AI per pattern recognition"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.dog.dog_name} - {self.date}"
-
     class Meta:
-        ordering = ["-date"]
-        verbose_name = "Registro Giornaliero"
-        verbose_name_plural = "Registri Giornalieri"
+        ordering = ["-date", "-created_at"]
+        verbose_name = "Log Sanitario"
+        verbose_name_plural = "Log Sanitari"
+        indexes = [models.Index(fields=["dog", "date"])]
+
+    def __str__(self):
+        return f"{self.dog.dog_name} • {self.date} • {self.get_log_type_display()}"

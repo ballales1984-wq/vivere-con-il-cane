@@ -3,7 +3,13 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from django.contrib.auth.models import User
 from datetime import date
-from dog_profile.models import DogProfile, HealthEvent, DailyLog
+from dog_profile.models import (
+    DogProfile,
+    MedicalEvent,
+    HealthLog,
+    VeterinaryRequest,
+    VeterinaryMedia,
+)
 
 
 class DogProfileModelTest(TestCase):
@@ -23,41 +29,43 @@ class DogProfileModelTest(TestCase):
         self.assertIn(age, ["5", "6"])
 
 
-class HealthEventModelTest(TestCase):
+class MedicalEventModelTest(TestCase):
     def setUp(self):
         self.profile = DogProfile.objects.create(name="Marco", dog_name="Fido")
 
-    def test_health_event_str(self):
-        event = HealthEvent(
+    def test_medical_event_str(self):
+        event = MedicalEvent(
             dog=self.profile, title="Vaccino", event_type="vaccine", date=date.today()
         )
         self.assertIn("Vaccino", str(event))
 
-    def test_health_event_default_ordering(self):
-        HealthEvent.objects.create(
+    def test_medical_event_default_ordering(self):
+        MedicalEvent.objects.create(
             dog=self.profile, title="Old Event", date=date(2024, 1, 1)
         )
-        HealthEvent.objects.create(
+        MedicalEvent.objects.create(
             dog=self.profile, title="New Event", date=date(2025, 1, 1)
         )
-        events = list(HealthEvent.objects.filter(dog=self.profile))
+        events = list(MedicalEvent.objects.filter(dog=self.profile))
         self.assertEqual(events[0].title, "New Event")
 
 
-class DailyLogModelTest(TestCase):
+class HealthLogModelTest(TestCase):
     def setUp(self):
         self.profile = DogProfile.objects.create(name="Marco", dog_name="Fido")
 
-    def test_daily_log_str(self):
-        log = DailyLog(dog=self.profile, date=date.today())
+    def test_health_log_str(self):
+        log = HealthLog(dog=self.profile, date=date.today())
         self.assertIn("Fido", str(log))
 
 
 class DogProfileViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        translation.activate('it')
-        self.user = User.objects.create_user(username="testuser", password="password123")
+        translation.activate("it")
+        self.user = User.objects.create_user(
+            username="testuser", password="password123"
+        )
         self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
             owner=self.user, name="Marco", dog_name="Fido", breed="Labrador"
@@ -84,18 +92,22 @@ class DogProfileViewTest(TestCase):
         self.assertEqual(DogProfile.objects.filter(dog_name="Rex").count(), 1)
 
 
-class HealthEventViewTest(TestCase):
+class MedicalEventViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        translation.activate('it')
-        self.user = User.objects.create_user(username="testuser", password="password123")
+        translation.activate("it")
+        self.user = User.objects.create_user(
+            username="testuser", password="password123"
+        )
         self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
             owner=self.user, name="Marco", dog_name="Fido"
         )
 
     def test_add_event_view(self):
-        response = self.client.get(reverse("profile_add_event", kwargs={"profile_id": self.profile.id}))
+        response = self.client.get(
+            reverse("profile_add_event", kwargs={"profile_id": self.profile.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_add_event_form_submission(self):
@@ -108,21 +120,27 @@ class HealthEventViewTest(TestCase):
                 "date": "2025-04-15",
             },
         )
-        self.assertEqual(HealthEvent.objects.filter(title="Vaccino annuale").count(), 1)
+        self.assertEqual(
+            MedicalEvent.objects.filter(title="Vaccino annuale").count(), 1
+        )
 
 
-class DailyLogViewTest(TestCase):
+class HealthLogViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        translation.activate('it')
-        self.user = User.objects.create_user(username="testuser", password="password123")
+        translation.activate("it")
+        self.user = User.objects.create_user(
+            username="testuser", password="password123"
+        )
         self.client.login(username="testuser", password="password123")
         self.profile = DogProfile.objects.create(
             owner=self.user, name="Marco", dog_name="Fido"
         )
 
     def test_add_log_view(self):
-        response = self.client.get(reverse("profile_add_log", kwargs={"profile_id": self.profile.id}))
+        response = self.client.get(
+            reverse("profile_add_log", kwargs={"profile_id": self.profile.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_add_log_form_submission(self):
@@ -136,4 +154,4 @@ class DailyLogViewTest(TestCase):
                 "food_grams": 400,
             },
         )
-        self.assertEqual(DailyLog.objects.filter(dog=self.profile).count(), 1)
+        self.assertEqual(HealthLog.objects.filter(dog=self.profile).count(), 1)

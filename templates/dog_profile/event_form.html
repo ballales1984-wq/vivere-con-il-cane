@@ -16,11 +16,14 @@
         <div class="form-group">
             <label>{% trans "Tipo evento" %}</label>
             <select name="event_type" required>
-                <option value="vaccine">{% trans "Vaccino" %}</option>
-                <option value="checkup">{% trans "Visita" %}</option>
-                <option value="medicine">{% trans "Medicina" %}</option>
-                <option value="illness">{% trans "Malattia" %}</option>
-                <option value="injury">{% trans "Infortunio" %}</option>
+                <option value="vaccine">{% trans "Vaccinazione" %}</option>
+                <option value="visit">{% trans "Visita Veterinaria" %}</option>
+                <option value="exam">{% trans "Esame Diagnostico" %}</option>
+                <option value="therapy_start">{% trans "Inizio Terapia" %}</option>
+                <option value="therapy_end">{% trans "Fine Terapia" %}</option>
+                <option value="surgery">{% trans "Intervento Chirurgico" %}</option>
+                <option value="emergency">{% trans "Pronto Soccorso" %}</option>
+                <option value="followup">{% trans "Controllo" %}</option>
                 <option value="other">{% trans "Altro" %}</option>
             </select>
         </div>
