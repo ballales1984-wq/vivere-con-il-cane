@@ -37,7 +37,10 @@ class MedicalEventModelTest(TestCase):
         event = MedicalEvent(
             dog=self.profile, title="Vaccino", event_type="vaccine", date=date.today()
         )
-        self.assertIn("Vaccino", str(event))
+        s = str(event)
+        # __str__ returns: "Vaccinazione – Fido (YYYY-MM-DD)"
+        self.assertIn(self.profile.dog_name, s)
+        self.assertIn("Vaccinazione", s)  # Italian display for vaccine
 
     def test_medical_event_default_ordering(self):
         MedicalEvent.objects.create(
@@ -156,19 +159,13 @@ class HealthLogViewTest(TestCase):
         )
         self.assertEqual(HealthLog.objects.filter(dog=self.profile).count(), 1)
 
-
     def test_medical_events_relationship(self):
         """Test that dog.medical_events relationship works after migration"""
         dog = DogProfile.objects.create(
-            owner=self.user,
-            dog_name="TestDog",
-            breed="Test Breed"
+            owner=self.user, dog_name="TestDog", breed="Test Breed"
         )
         event = MedicalEvent.objects.create(
-            dog=dog,
-            event_type="visit",
-            date="2024-01-15",
-            title="Test Visit"
+            dog=dog, event_type="visit", date="2024-01-15", title="Test Visit"
         )
         self.assertEqual(dog.medical_events.count(), 1)
         self.assertEqual(dog.medical_events.first().title, "Test Visit")
