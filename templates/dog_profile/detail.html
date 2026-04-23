@@ -30,8 +30,18 @@
         <a href="{% url 'analysis_history' profile.id %}" class="btn-calculate" style="background-color: #f59e0b; border: 2px solid #d97706; font-weight: bold;">{% trans "🧠 Storico Analisi AI" %}</a>
         <a href="{% url 'profile_dossier' profile.id %}" class="btn-calculate" style="background-color: #10b981; border: 2px solid #059669; font-weight: bold;">{% trans "📋 Genera Cartella Clinica" %}</a>
         <a href="{% url 'vet_request_start' profile.id %}" class="btn-calculate" style="background-color: var(--primary); border: 2px solid var(--primary-dark); font-weight: bold;">{% trans "📤 Invia al Veterinario" %}</a>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- Quick add another dog -->
+<section class="tool-container" style="max-width: 600px; margin: 2rem auto;">
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 1.5rem; border-radius: 16px; border: 2px dashed #10b981; text-align: center;">
+        <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">➕ {% trans "Aggiungi un altro cane" %}</h4>
+        <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">{% trans "Gestisci più cani nello stesso account" %}</p>
+        <a href="{% url 'profile_new' %}" class="btn btn-primary" style="background: #10b981; border: none;">{% trans "Nuovo Profilo Cane" %}</a>
+    </div>
+</section>
 
 <section class="blog-list" style="margin-top: 2rem;">
     <h2>{% trans "Eventi di Salute" %}</h2>
