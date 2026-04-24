@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BreedInsight, Problem, Cause, Solution, DogAnalysis, VeterinaryDocument
+from .models import BreedInsight, Problem, Cause, Solution, DogAnalysis, VeterinaryDocument, LifetimeMacroAnalysis
 
 
 @admin.register(BreedInsight)
@@ -41,3 +41,10 @@ class VeterinaryDocumentAdmin(admin.ModelAdmin):
     list_display = ["title", "keywords", "is_active", "created_at"]
     list_filter = ["is_active"]
     search_fields = ["title", "keywords", "content"]
+
+
+@admin.register(LifetimeMacroAnalysis)
+class LifetimeMacroAnalysisAdmin(admin.ModelAdmin):
+    list_display = ["dog", "created_at"]
+    list_filter = ["created_at"]
+    search_fields = ["dog__dog_name"]

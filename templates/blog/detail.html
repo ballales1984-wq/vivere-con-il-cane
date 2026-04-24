@@ -113,9 +113,12 @@
         </button>
     </div>
     
-    <div class="related-tool">
-        <h3>Tool Correlato</h3>
-        <p>Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro <a href="{% url 'canine_tools:food_calculator' %}">calcolatore alimentare</a>!</p>
+    <div class="related-tool" style="margin-top: 5rem; background: #fdf2f8; border: 1px solid #fbcfe8; padding: 2rem; border-radius: var(--radius-lg); text-align: center;">
+        <h3 style="color: #be185d; font-size: 1.4rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">🛠️ {% trans "Tool Correlato" %}</h3>
+        <p style="color: #831843; font-size: 1.1rem; margin: 0;">
+            {% trans "Vuoi sapere quanto deve mangiare il tuo cane? Prova il nostro" %} 
+            <a href="{% url 'canine_tools:food_calculator' %}" style="color: #be185d; font-weight: 700; text-decoration: underline;">{% trans "calcolatore alimentare" %}</a>!
+        </p>
     </div>
 </article>
 

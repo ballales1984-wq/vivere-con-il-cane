@@ -1834,3 +1834,110 @@ msgstr "Analyze now"
 
 msgid "Crea account gratuito"
 msgstr "Create free account"
+msgid "Benvenuto in Vivere con il Cane!"
+msgstr "Welcome to Living with your Dog!"
+
+msgid "Ciao,"
+msgstr "Hi,"
+
+msgid "Benvenuto a bordo!"
+msgstr "Welcome aboard!"
+
+msgid "Grazie per esserti iscritto! Il tuo cane è un membro della famiglia e merita il meglio."
+msgstr "Thanks for subscribing! Your dog is a family member and deserves the best."
+
+msgid "Presto riceverai i nostri migliori consigli per il tuo cane direttamente nella tua inbox."
+msgstr "Soon you'll receive our best tips for your dog directly in your inbox."
+
+msgid "Cosa puoi fare ora?"
+msgstr "What can you do now?"
+
+msgid "Analizza un comportamento problematico con la nostra IA"
+msgstr "Analyze a problematic behavior with our AI"
+
+msgid "Crea il profilo del tuo cane per ricevere consigli personalizzati"
+msgstr "Create your dog's profile to get personalized advice"
+
+msgid "Esplora le guide e gli articoli del blog"
+msgstr "Explore the guides and blog articles"
+
+msgid "Usa i calcolatori gratuiti (cibo, età, quiz)"
+msgstr "Use the free calculators (food, age, quiz)"
+
+msgid "Inizia Subito →"
+msgstr "Start Now →"
+
+msgid "Vivere con il Cane - Il tuo partner nella vita con il cane"
+msgstr "Living with your Dog - Your partner in life with your dog"
+
+msgid "Come usare al meglio l'IA per il tuo cane"
+msgstr "How to make the best use of the AI for your dog"
+
+msgid "Consigli Personalizzati per il Tuo Cane"
+msgstr "Personalized Tips for Your Dog"
+
+msgid "Ora che sei iscritto, scopri come ottenere il massimo dalla nostra piattaforma:"
+msgstr "Now that you're subscribed, discover how to get the most from our platform:"
+
+msgid "1. Crea il profilo del tuo cane"
+msgstr "1. Create your dog's profile"
+
+msgid "Aggiungi razza, età, peso e caratteristiche. L'IA userà queste info per darti consigli su misura."
+msgstr "Add breed, age, weight and traits. The AI will use this info to give you tailored advice."
+
+msgid "Crea profilo ora →"
+msgstr "Create profile now →"
+
+msgid "2. Registra le attività quotidiane"
+msgstr "2. Track daily activities"
+
+msgid "Tieni traccia di passeggiate, sonno, gioco e cibo. L'IA analizzerà le tendenze e ti darà consigli daily."
+msgstr "Track walks, sleep, play and food. The AI will analyze trends and give you daily tips."
+
+msgid "Vai alla Dashboard →"
+msgstr "Go to Dashboard →"
+
+msgid "3. Analizza i problemi comportamentali"
+msgstr "3. Analyze behavioral problems"
+
+msgid "Descrivi il comportamento del tuo cane (abbaia, tira al guinzaglio, ansia) e ottieni soluzioni basate su razza ed età."
+msgstr "Describe your dog's behavior (barks, pulls on leash, anxiety) and get solutions based on breed and age."
+
+msgid "Prova l'analisi IA →"
+msgstr "Try AI analysis →"
+
+msgid "Hai domande? Rispondi a questa email."
+msgstr "Questions? Reply to this email."
+
+msgid "Monitora la salute del tuo compagno"
+msgstr "Monitor your companion's health"
+
+msgid "La Salute del Tuo Cane in Un Solo Posto"
+msgstr "Your Dog's Health in One Place"
+
+msgid "Oltre all'IA, puoi tenere traccia completa della storia medica e comportamentale del tuo cane."
+msgstr "Besides AI, you can keep complete track of your dog's medical and behavioral history."
+
+msgid "Dossier Clinico Condivisibile"
+msgstr "Shareable Clinical Dossier"
+
+msgid "Genera un PDF completo con tutte le vaccinazioni, eventi medici e analisi. Perfetto da inviare al veterinario."
+msgstr "Generate a complete PDF with all vaccinations, medical events and analyses. Perfect to send to the vet."
+
+msgid "Genera Dossier PDF →"
+msgstr "Generate PDF Dossier →"
+
+msgid "Analisi Longitudinale"
+msgstr "Longitudinal Analysis"
+
+msgid "L'app impara dal tuo cane: più dati inserisci, più i consigli dell'IA diventano precisi e personalizzati."
+msgstr "The app learns from your dog: the more data you enter, the more precise and personalized the AI tips become."
+
+msgid "Scarica Analisi come PDF"
+msgstr "Download Analysis as PDF"
+
+msgid "Ogni analisi IA può essere salvata come PDF per riferimenti futuri o da mostrare al veterinario."
+msgstr "Each AI analysis can be saved as PDF for future reference or to show the vet."
+
+msgid "Il tuo cane ti ringrazierà. 💚"
+msgstr "Your dog will thank you. 💚"

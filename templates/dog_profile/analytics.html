@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container" style="max-width: 1000px; padding-top: 2rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+        <div>
+            <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.2rem; color: var(--primary-dark); margin: 0;">
+                🧠 {% trans "Wellness Hub & AI Memory" %}
+            </h1>
+            <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 1.1rem;">
+                Il gemello digitale di <strong>{{ profile.dog_name }}</strong>.
+            </p>
+        </div>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">← {% trans "Torna alla Dashboard" %}</a>
+    </div>
+
+    <!-- KPI Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 3rem;">
+        <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📅</div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Giorni Monitorati" %}</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ stats.total_days_tracked }}</div>
+        </div>
+        <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💤</div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Media Sonno" %}</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ stats.averages.sleep_hours }} <span style="font-size:0.9rem;">h/giorno</span></div>
+        </div>
+        <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🦮</div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Media Passeggiata" %}</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ stats.averages.walk_minutes }} <span style="font-size:0.9rem;">min/giorno</span></div>
+        </div>
+        <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🩺</div>
+            <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Eventi Medici" %}</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ stats.total_medical_events }}</div>
+        </div>
+    </div>
+
+    <!-- AI MACRO ANALYSIS SECTION -->
+    <div style="background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); border-radius: 16px; padding: 2.5rem; color: white; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div style="max-width: 600px;">
+                <h2 style="margin-top: 0; font-family: 'Outfit', sans-serif; font-size: 1.8rem;">🤖 {% trans "Macro-Analisi IA (Check-up)" %}</h2>
+                <p style="opacity: 0.8; font-size: 1.05rem; line-height: 1.6;">
+                    {% trans "L'Intelligenza Artificiale analizza <b>l'intera vita</b> del tuo cane (medie, storico medico, problemi comportamentali passati) per trovare schemi nascosti e generare un protocollo a lungo termine." %}
+                </p>
+            </div>
+            
+            <form method="post" action="{% url 'lifetime_analytics' profile.id %}" id="macro-form">
+                {% csrf_token %}
+                <button type="submit" id="generate-btn" class="btn btn-primary" style="background: #3b82f6; border: none; padding: 1rem 2rem; font-size: 1.1rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <span id="btn-text">✨ {% trans "Genera Report Completo" %}</span>
+                    <span id="btn-spinner" style="display: none;">⌛ {% trans "Generazione in corso..." %}</span>
+                </button>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById('macro-form').addEventListener('submit', function() {
+                const btn = document.getElementById('generate-btn');
+                const text = document.getElementById('btn-text');
+                const spinner = document.getElementById('btn-spinner');
+                
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                btn.style.cursor = 'not-allowed';
+                text.style.display = 'none';
+                spinner.style.display = 'inline';
+            });
+        </script>
+
+        {% if latest_macro %}
+        <div style="margin-top: 3rem; background: white; color: #333; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eff6ff; padding-bottom: 1rem; margin-bottom: 2rem;">
+                <h3 style="margin: 0; color: #1e3a8a; font-size: 1.4rem;">📄 {% trans "Ultimo Report Generato" %}</h3>
+                <span style="background: #eff6ff; color: #1d4ed8; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                    {{ latest_macro.created_at|date:"d M Y, H:i" }}
+                </span>
+            </div>
+            
+            <div class="ai-report-content" style="line-height: 1.7; font-size: 1.05rem;">
+                {{ latest_macro.ai_report_html|safe }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .ai-report-content h2 {
+        color: #1e40af;
+        font-size: 1.3rem;
+        margin-top: 2rem;
+        border-bottom: 1px solid #bfdbfe;
+        padding-bottom: 0.5rem;
+    }
+    .ai-report-content h2:first-child {
+        margin-top: 0;
+    }
+    .ai-report-content ul {
+        padding-left: 1.5rem;
+    }
+    .ai-report-content li {
+        margin-bottom: 0.5rem;
+    }
+    .ai-report-content strong {
+        color: #1e3a8a;
+    }
+</style>
+{% endblock %}

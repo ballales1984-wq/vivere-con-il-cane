@@ -10,7 +10,8 @@ from .models import (
     VeterinaryRequest,
     VeterinaryMedia,
 )
-from knowledge.models import DogAnalysis
+from knowledge.models import DogAnalysis, LifetimeMacroAnalysis
+from knowledge.views import generate_lifetime_macro_analysis
 from datetime import date
 import json
 import io
@@ -123,40 +124,50 @@ def get_daily_coach_tips(profile):
     """Generate dynamic daily tips using AI based on recent health logs."""
     today_str = date.today().isoformat()
     cache_key = f"daily_coach_{profile.id}_{today_str}"
-    
+
     # Try cache first
     cached_tips = cache.get(cache_key)
     if cached_tips:
         return cached_tips
-        
+
     logs = list(profile.health_logs.filter(log_type="routine").order_by("-date")[:7])
     if not logs:
-        return ["Inizia a registrare il Check-in quotidiano per ricevere consigli IA personalizzati!"]
-        
+        return [
+            "Inizia a registrare il Check-in quotidiano per ricevere consigli IA personalizzati!"
+        ]
+
     # Build history context
     history_text = f"Cane: {profile.dog_name}, Razza: {profile.breed}, Età: {profile.get_age()} anni.\n"
     history_text += "Storico ultimi giorni (Passeggiata min, Gioco min, Sonno ore):\n"
     for l in reversed(logs):
         history_text += f"- {l.date}: {l.walk_minutes or 0}m pass., {l.play_minutes or 0}m gioco, {l.sleep_hours or 0}h sonno.\n"
-        
+
     system_msg = "Sei un 'AI Daily Coach' per cani. Fornisci 2 consigli BREVI (max 15 parole l'uno) e molto pratici per la giornata di oggi, basati sui trend degli ultimi giorni. Sii incoraggiante."
-    prompt = f"Analizza questo storico e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: [\"consiglio 1\", \"consiglio 2\"]. Niente altro."
-    
+    prompt = f'Analizza questo storico e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: ["consiglio 1", "consiglio 2"]. Niente altro.'
+
     api_key = os.environ.get("GROK_API_KEY", "")
     if not api_key or len(api_key) < 20:
-        return ["Monitora sempre il riposo di Fido dopo l'attività fisica.", "Una sessione di masticazione aiuta a rilassare il cane a fine giornata."]
-        
+        return [
+            "Monitora sempre il riposo di Fido dopo l'attività fisica.",
+            "Una sessione di masticazione aiuta a rilassare il cane a fine giornata.",
+        ]
+
     try:
         response = requests.post(
             "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+            },
             json={
                 "model": "llama-3.3-70b-versatile",
                 "messages": [
                     {"role": "system", "content": system_msg},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": prompt},
                 ],
-                "response_format": {"type": "json_object"} # We might need to ensure valid JSON, but array is fine if parsing
+                "response_format": {
+                    "type": "json_object"
+                },  # We might need to ensure valid JSON, but array is fine if parsing
             },
             timeout=10,
         )
@@ -166,20 +177,28 @@ def get_daily_coach_tips(profile):
                 # Sometime LLMs wrap in Markdown
                 content = content.replace("```json", "").replace("```", "").strip()
                 import json
+
                 tips = json.loads(content)
-                if isinstance(tips, dict): # if it returned {"tips": [...]}
+                if isinstance(tips, dict):  # if it returned {"tips": [...]}
                     tips = list(tips.values())[0]
                 if isinstance(tips, list) and len(tips) > 0:
-                    cache.set(cache_key, tips[:2], 60 * 60 * 24) # Cache for 24h
+                    cache.set(cache_key, tips[:2], 60 * 60 * 24)  # Cache for 24h
                     return tips[:2]
             except Exception as e:
                 import logging
-                logging.warning(f"JSON Parse error for Daily Coach: {e} - Content: {content}")
+
+                logging.warning(
+                    f"JSON Parse error for Daily Coach: {e} - Content: {content}"
+                )
     except Exception as e:
         import logging
+
         logging.warning(f"API error for Daily Coach: {e}")
-        
-    return ["Usa il Check-in quotidiano per tenere traccia dei progressi!", "Ricorda di premiare sempre i comportamenti calmi."]
+
+    return [
+        "Usa il Check-in quotidiano per tenere traccia dei progressi!",
+        "Ricorda di premiare sempre i comportamenti calmi.",
+    ]
 
 
 @login_required
@@ -199,8 +218,10 @@ def dashboard(request):
         logs = list(profile.health_logs.order_by("-date")[:6])
         # Check if daily routine logged today
         today = date.today()
-        profile.logged_today = profile.health_logs.filter(date=today, log_type='routine').exists()
-        
+        profile.logged_today = profile.health_logs.filter(
+            date=today, log_type="routine"
+        ).exists()
+
         # Get AI Coach tips
         profile.daily_tips = get_daily_coach_tips(profile)
 
@@ -234,20 +255,61 @@ def log_daily_routine(request, profile_id):
         sleep_hours = request.POST.get("sleep_hours")
         play_minutes = request.POST.get("play_minutes")
         food_grams = request.POST.get("food_grams")
-        
+
+        # Safe conversion with defaults
+        try:
+            walk_minutes = int(walk_minutes) if walk_minutes else None
+        except (ValueError, TypeError):
+            walk_minutes = None
+
+        try:
+            sleep_hours = float(sleep_hours) if sleep_hours else None
+        except (ValueError, TypeError):
+            sleep_hours = None
+
+        try:
+            play_minutes = int(play_minutes) if play_minutes else None
+        except (ValueError, TypeError):
+            play_minutes = None
+
+        try:
+            food_grams = int(food_grams) if food_grams else None
+        except (ValueError, TypeError):
+            food_grams = None
+
         # Create health log for today
         HealthLog.objects.create(
             dog=profile,
             date=date.today(),
             log_type="routine",
-            walk_minutes=int(walk_minutes) if walk_minutes else None,
-            sleep_hours=float(sleep_hours) if sleep_hours else None,
-            play_minutes=int(play_minutes) if play_minutes else None,
-            food_grams=int(food_grams) if food_grams else None,
-            description="Check-in giornaliero (tramite Dashboard)"
+            walk_minutes=walk_minutes,
+            sleep_hours=sleep_hours,
+            play_minutes=play_minutes,
+            food_grams=food_grams,
+            description="Check-in giornaliero (tramite Dashboard)",
         )
         return redirect("dashboard")
     return redirect("dashboard")
+
+
+@login_required
+def lifetime_analytics(request, profile_id):
+    """Visualizza il Centro Salute (Wellness Hub) e gestisce la Macro-Analisi IA."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
+
+    if request.method == "POST":
+        # Genera nuovo report IA
+        generate_lifetime_macro_analysis(profile)
+        return redirect("lifetime_analytics", profile_id=profile.id)
+
+    stats = profile.get_lifetime_stats()
+    latest_macro = profile.macro_analyses.first()
+
+    return render(
+        request,
+        "dog_profile/analytics.html",
+        {"profile": profile, "stats": stats, "latest_macro": latest_macro},
+    )
 
 
 @login_required

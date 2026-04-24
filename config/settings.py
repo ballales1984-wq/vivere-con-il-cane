@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
+    "django.contrib.sites",  # Required for Site framework
     "blog",
     "canine_tools",
     "dog_profile",
@@ -143,6 +144,9 @@ LANGUAGES = [
 LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
+
+# Django Sites framework (required for email templates with absolute URLs)
+SITE_ID = 1
 
 LANGUAGE_SESSION_KEY = "_language"
 LANGUAGE_COOKIE_NAME = "django_language"

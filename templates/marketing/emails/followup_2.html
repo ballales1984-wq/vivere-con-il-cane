@@ -1,0 +1,45 @@
+{% extends "base_email.html" %}
+{% load i18n %}
+{% block title %}{% trans "Monitora la salute del tuo compagno" %}{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h1 style="color: #10b981; font-size: 24px;">📊 {% trans "La Salute del Tuo Cane in Un Solo Posto" %}</h1>
+    </div>
+
+    <div style="background: #f0fdf4; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+        <p style="color: #333; font-size: 15px; line-height: 1.6;">
+            {% trans "Oltre all'IA, puoi tenere traccia completa della storia medica e comportamentale del tuo cane." %}
+        </p>
+    </div>
+
+        <div style="margin-bottom: 20px;">
+            <h3 style="color: #047857; font-size: 17px; margin-bottom: 10px;">🩺 {% trans "Dossier Clinico Condivisibile" %}</h3>
+            <p style="color: #333; font-size: 15px; line-height: 1.6;">
+                {% trans "Genera un PDF completo con tutte le vaccinazioni, eventi medici e analisi. Perfetto da inviare al veterinario." %}
+            </p>
+            <a href="{{ protocol }}://{{ domain }}{% url 'profile_dossier' profile_id=1 %}"
+               style="color: #059669; text-decoration: none; font-weight: bold;">{% trans "Genera Dossier PDF →" %}</a>
+        </div>
+
+    <div style="margin-bottom: 20px;">
+        <h3 style="color: #047857; font-size: 17px; margin-bottom: 10px;">📈 {% trans "Analisi Longitudinale" %}</h3>
+        <p style="color: #333; font-size: 15px; line-height: 1.6;">
+            {% trans "L'app impara dal tuo cane: più dati inserisci, più i consigli dell'IA diventano precisi e personalizzati." %}
+        </p>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <h3 style="color: #047857; font-size: 17px; margin-bottom: 10px;">✉️ {% trans "Scarica Analisi come PDF" %}</h3>
+        <p style="color: #333; font-size: 15px; line-height: 1.6;">
+            {% trans "Ogni analisi IA può essere salvata come PDF per riferimenti futuri o da mostrare al veterinario." %}
+        </p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 13px;">
+        <p>{% trans " Il tuo cane ti ringrazierà. 💚" %}</p>
+        <p>{% trans "Vivere con il Cane" %}</p>
+    </div>
+</div>
+{% endblock %}

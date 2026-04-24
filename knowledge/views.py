@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.core.cache import cache
-from .models import Problem, Solution, BreedInsight, DogAnalysis, VeterinaryDocument
+from .models import Problem, Solution, BreedInsight, DogAnalysis, VeterinaryDocument, LifetimeMacroAnalysis
 from dog_profile.models import DogProfile
 from blog.models import BlogPost
 import requests
@@ -608,3 +608,68 @@ def download_analysis_pdf(request, analysis_id):
     if pisa_status.err:
         return HttpResponse("Si è verificato un errore durante la generazione del PDF <pre>" + html + "</pre>")
     return response
+
+
+def generate_lifetime_macro_analysis(profile):
+    """
+    Super-Prompt AI: Prende il 'Digital Twin' del cane (storico vita, medie)
+    e genera un referto macrostrutturato permanente.
+    """
+    import json
+    import markdown
+    
+    stats = profile.get_lifetime_stats()
+    
+    # Costruzione del "Context Snapshot"
+    context_data = {
+        "dog_name": profile.dog_name,
+        "breed": profile.breed,
+        "age": profile.get_age(),
+        "weight": str(profile.weight) if profile.weight else "N/D",
+        "stats": stats,
+        "medical_events": list(profile.medical_events.values('date', 'event_type', 'title')[:10]) # ultimi 10 eventi
+    }
+    
+    system_msg = """Sei un Esperto Veterinario Analista e Comportamentalista.
+Il tuo compito è leggere i dati aggregati di TUTTA LA VITA di questo cane e generare un Report Macro (Check-up Totale).
+Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elegantemente, diviso esattamente in queste 4 sezioni:
+<h2>1. Valutazione Stile di Vita</h2> (Analizza sonno, passeggiate, gioco basandoti sulle medie)
+<h2>2. Correlazioni Clinico-Comportamentali</h2> (Trova schemi tra eventi medici e problemi)
+<h2>3. Segnali d'Allarme (Red Flags)</h2> (Anomalie o carenze rispetto agli standard di razza)
+<h2>4. Protocollo Benessere Prossimi 3 Mesi</h2> (Azioni a lungo termine)"""
+
+    prompt = f"Analizza questo Gemello Digitale (Dati di Vita):\n{json.dumps(context_data, indent=2, default=str)}"
+
+    api_key = os.environ.get("GROK_API_KEY", "")
+    html_report = "<p>Impossibile contattare l'Intelligenza Artificiale al momento.</p>"
+    
+    if api_key and len(api_key) > 20:
+        try:
+            response = requests.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
+                json={
+                    "model": "llama-3.3-70b-versatile",
+                    "messages": [
+                        {"role": "system", "content": system_msg},
+                        {"role": "user", "content": prompt}
+                    ],
+                },
+                timeout=45, # This is a long generation
+            )
+            if response.status_code == 200:
+                html_report = response.json()["choices"][0]["message"]["content"]
+                html_report = html_report.replace("```html", "").replace("```", "").strip()
+            else:
+                html_report += f"<p>Errore API: {response.status_code}</p>"
+        except Exception as e:
+            html_report += f"<p>Eccezione: {str(e)}</p>"
+            
+    # Save the permanent macro analysis
+    macro = LifetimeMacroAnalysis.objects.create(
+        dog=profile,
+        context_snapshot=context_data,
+        ai_report_html=html_report
+    )
+    return macro
+

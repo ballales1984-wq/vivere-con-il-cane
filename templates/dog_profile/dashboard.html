@@ -80,9 +80,10 @@
             </div>
             {% endif %}
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
                 <a href="{% url 'profile_detail' profile.id %}" class="btn btn-primary" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;">🔍 {% trans "Gestisci" %}</a>
                 <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;">🩹 {% trans "+ Salute" %}</a>
+                <a href="{% url 'lifetime_analytics' profile.id %}" class="btn btn-secondary" style="width: 100%; font-size: 0.9rem; padding: 0.75rem; background: #eff6ff; color: #1e40af; border-color: #bfdbfe;">🧠 {% trans "Hub Salute" %}</a>
             </div>
         </div>
     </div>

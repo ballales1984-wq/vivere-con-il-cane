@@ -1,0 +1,44 @@
+{% extends "base_email.html" %}
+{% load i18n %}
+{% block title %}{% trans "Benvenuto in Vivere con il Cane!" %}{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #059669; font-size: 28px; margin-bottom: 10px;">🐕 {% trans "Benvenuto!" %}</h1>
+        <p style="color: #666; font-size: 16px;">{% trans "Ciao," %} {{ subscriber.email|default:"Amico" }},</p>
+    </div>
+
+    <div style="background: #f0fdf4; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #059669;">
+        <h2 style="color: #059669; font-size: 20px; margin-bottom: 10px;">{% trans "Benvenuto a bordo!" %}</h2>
+        <p style="color: #333; font-size: 15px; line-height: 1.6;">
+            {% trans "Grazie per esserti iscritto! Il tuo cane è un membro della famiglia e merita il meglio." %}
+        </p>
+        <p style="color: #333; font-size: 15px; line-height: 1.6;">
+            {% trans "Presto riceverai i nostri migliori consigli per il tuo cane direttamente nella tua inbox." %}
+        </p>
+    </div>
+
+    <div style="margin-bottom: 25px;">
+        <h3 style="color: #333; font-size: 18px; margin-bottom: 15px;">✨ {% trans "Cosa puoi fare ora?" %}</h3>
+        <ul style="color: #333; font-size: 15px; line-height: 1.8; padding-left: 20px;">
+            <li>{% trans "Analizza un comportamento problematico con la nostra IA" %}</li>
+            <li>{% trans "Crea il profilo del tuo cane per ricevere consigli personalizzati" %}</li>
+            <li>{% trans "Esplora le guide e gli articoli del blog" %}</li>
+            <li>{% trans "Usa i calcolatori gratuiti (cibo, età, quiz)" %}</li>
+        </ul>
+    </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{{ protocol }}://{{ domain }}{% url 'home' %}"
+               style="background: #059669; color: white; padding: 14px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px; display: inline-block;">
+                {% trans "Inizia Subito →" %}
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 13px;">
+            <p>{% trans "Vivere con il Cane - Il tuo partner nella vita con il cane" %}</p>
+            <p><a href="{{ protocol }}://{{ domain }}{% url 'privacy_policy' %}" style="color: #059669; text-decoration: none;">{% trans "Privacy Policy" %}</a> | <a href="{{ protocol }}://{{ domain }}{% url 'terms_of_service' %}" style="color: #059669; text-decoration: none;">{% trans "Termini di Servizio" %}</a></p>
+        </div>
+</div>
+{% endblock %}
