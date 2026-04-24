@@ -3,47 +3,62 @@
 {% block title %}Calcolatore Cibo Cane - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="tool-container">
-    <h1>🍖 Quanto deve mangiare il tuo cane?</h1>
-    <p class="tool-description">Inserisci i dati del tuo cane per calcolare la razione giornaliera approssimativa</p>
+<section style="max-width: 700px; margin: 4rem auto; padding: 0 1rem;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">🍖 {% trans "Quanto deve mangiare?" %}</h1>
+        <p style="font-size: 1.1rem; color: var(--text-muted);">{% trans "Calcola la razione giornaliera ideale in base alle caratteristiche uniche del tuo cane." %}</p>
+    </div>
     
-    <form method="post" class="calculator-form">
-        {% csrf_token %}
+    <div style="background: white; padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--accent));"></div>
         
-        <div class="form-group">
-            <label for="weight">Peso del cane (kg)</label>
-            <input type="number" id="weight" name="weight" step="0.1" min="0.5" required placeholder="Es: 15">
-        </div>
-        
-        <div class="form-group">
-            <label for="age">Età</label>
-            <select id="age" name="age">
-                <option value="puppy">Cucciolo (0-12 mesi)</option>
-                <option value="adult" selected>Adulto (1-7 anni)</option>
-                <option value="senior">Anziano (7+ anni)</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="activity">Livello di attività</label>
-            <select id="activity" name="activity">
-                <option value="low">Basso (poco movimento)</option>
-                <option value="normal" selected>Normale</option>
-                <option value="high">Alto (molto attivo)</option>
-            </select>
-        </div>
-        
-        <button type="submit" class="btn-calculate">Calcola</button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 2rem;">
+                <label for="weight" style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--secondary);">{% trans "Peso del cane (kg)" %}</label>
+                <input type="number" id="weight" name="weight" step="0.1" min="0.5" required placeholder="Es: 15" style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1.1rem; transition: var(--transition);">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                <div>
+                    <label for="age" style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--secondary);">{% trans "Fase della vita" %}</label>
+                    <select id="age" name="age" style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background: white;">
+                        <option value="puppy">👶 {% trans "Cucciolo (0-12 mesi)" %}</option>
+                        <option value="adult" selected>🐕 {% trans "Adulto (1-7 anni)" %}</option>
+                        <option value="senior">👴 {% trans "Anziano (7+ anni)" %}</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="activity" style="display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--secondary);">{% trans "Livello di attività" %}</label>
+                    <select id="activity" name="activity" style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background: white;">
+                        <option value="low">🛋️ {% trans "Basso" %}</option>
+                        <option value="normal" selected>🏃 {% trans "Normale" %}</option>
+                        <option value="high">⚡ {% trans "Alto" %}</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
+                🚀 {% trans "Calcola Razione" %}
+            </button>
+        </form>
+    </div>
     
     {% if result %}
-    <div class="result">
-        <h2>Risultato</h2>
-        <div class="result-box">
-            <p><strong>Giornaliero:</strong> <span class="highlight">{{ result.grams }}g</span> di crocchette</p>
-            <p><strong>Equivalente in tazze:</strong> {{ result.cups }} tazze (350g/tazza)</p>
+    <div style="margin-top: 3rem; background: #f0fdf4; border: 1px solid #d1fae5; border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+        <h2 style="color: var(--primary-dark); margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif;">✨ {% trans "Razione Consigliata" %}</h2>
+        <div style="display: inline-block; padding: 1.5rem 3rem; background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-md); margin-bottom: 1.5rem;">
+            <div style="font-size: 3rem; font-weight: 900; color: var(--primary);">{{ result.grams }}g</div>
+            <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">{% trans "di crocchette al giorno" %}</div>
         </div>
-        <p class="disclaimer">⚠️ Valore indicativo. Consulta il veterinario per una dieta personalizzata.</p>
+        <p style="color: var(--text-muted); font-size: 1rem;">
+            💡 {% trans "Equivale a circa" %} <strong>{{ result.cups }} {% trans "tazze" %}</strong> ({% trans "media 350g/tazza" %})
+        </p>
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px dashed #d1fae5; font-size: 0.85rem; color: #ef4444; font-weight: 600;">
+            ⚠️ {% trans "Valore indicativo. Consulta sempre il veterinario per una dieta specifica." %}
+        </div>
     </div>
     {% endif %}
 </section>

@@ -4,55 +4,66 @@
 {% block title %}{% trans "Registrati" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="hero-ai" style="padding: 4rem 1rem; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 2rem;">
-    <h1>{% trans "Unisciti a noi" %}</h1>
-    <p>{% trans "Crea un account gratuito per gestire i dati del tuo cane in totale privacy" %}</p>
+<section style="padding: 5rem 1rem 3rem; text-align: center; background: radial-gradient(circle at bottom right, #ecfdf5, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 2rem;">
+    <h1 style="font-size: 2.8rem; color: var(--secondary); margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">{% trans "Crea il tuo Account" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">{% trans "Inizia oggi a gestire la salute e il benessere del tuo cane con l'aiuto dell'IA." %}</p>
 </section>
 
-<div class="container" style="max-width: 500px; margin: 0 auto; padding: 2rem 1rem 4rem;">
-    <div class="tool-container" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow-md);">
-        <form method="post" class="form-style">
+<div style="max-width: 500px; margin: 0 auto; padding: 2rem 1rem 6rem;">
+    <div style="background: white; padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
+        
+        <form method="post" class="premium-form">
             {% csrf_token %}
             
             {% for field in form %}
             <div style="margin-bottom: 1.5rem;">
-                <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">{{ field.label }}</label>
+                <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{{ field.label }}</label>
                 {{ field }}
                 {% if field.help_text %}
-                <small style="display: block; color: #666; font-size: 0.8rem; margin-top: 5px;">{{ field.help_text }}</small>
+                <div style="display: block; color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; line-height: 1.4;">{{ field.help_text|safe }}</div>
                 {% endif %}
                 {% if field.errors %}
-                <div style="color: #ef4444; font-size: 0.85rem; margin-top: 5px;">
+                <div style="color: #ef4444; font-size: 0.85rem; margin-top: 6px; font-weight: 600;">
                     {{ field.errors }}
                 </div>
                 {% endif %}
             </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">{% trans "Crea Account" %}</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.15rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2); margin-top: 1rem;">
+                🚀 {% trans "Crea il mio account" %}
+            </button>
         </form>
         
-        <div style="margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #666;">
-            {% trans "Hai già un account?" %} <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 600;">{% trans "Accedi qui" %}</a>
+        <div style="margin-top: 2.5rem; text-align: center; font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">
+            {% trans "Hai già un account?" %} <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 700; text-decoration: none; border-bottom: 2px solid rgba(5, 150, 105, 0.1);">{% trans "Accedi qui" %}</a>
         </div>
     </div>
 </div>
 
 <style>
-    .form-style input[type="text"], 
-    .form-style input[type="password"],
-    .form-style input[type="email"] {
+    .premium-form input[type="text"], 
+    .premium-form input[type="password"],
+    .premium-form input[type="email"] {
         width: 100%;
-        padding: 0.8rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        transition: var(--transition);
     }
-    .form-style ul {
+    .premium-form input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+    }
+    .premium-form ul {
         list-style: none;
         padding: 0;
-        margin: 5px 0;
+        margin: 8px 0;
         font-size: 0.8rem;
-        color: #666;
+        color: var(--text-muted);
     }
 </style>
 {% endblock %}

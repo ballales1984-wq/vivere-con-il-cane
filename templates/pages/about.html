@@ -7,13 +7,18 @@
 {% block meta_description %}{% if LANGUAGE_CODE == 'en' %}My name is Alessio. I have lived with two dogs for over 10 years and was a dog sitter for hundreds of dogs.{% else %}{% trans "Mi chiamo Alessio e convivo con due cani da più di 10 anni. Per 3 anni ho fatto il dog sitter e ho visto centinaia di dinamiche tra cani." %}{% endif %}{% endblock %}
 
 {% block content %}
-<section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; padding: 4rem 1rem; text-align: center; border-radius: 0 0 50px 50px; margin-bottom: 3rem;">
-    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800;">{% if LANGUAGE_CODE == 'en' %}About Me{% else %}{% trans "Chi sono" %}{% endif %}</h1>
-    <p class="hero-subtitle" style="font-size: 1.3rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">{% if LANGUAGE_CODE == 'en' %}Real experience, not theory.{% else %}{% trans "Esperienze reali e consigli con testa da chi convive con i cani tutti i giorni." %}{% endif %}</p>
+<section style="padding: 6rem 2rem 4rem; text-align: center; background: radial-gradient(circle at top right, #f0fdf4, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 4rem;">
+    <h1 style="font-size: clamp(2.5rem, 5vw, 3.5rem); color: var(--secondary); margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+        {% if LANGUAGE_CODE == 'en' %}The Heart Behind the Project{% else %}{% trans "Chi c'è dietro il progetto" %}{% endif %}
+    </h1>
+    <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; font-weight: 500;">
+        {% if LANGUAGE_CODE == 'en' %}Real experience, shared for the love of dogs.{% else %}{% trans "Esperienza reale e consigli trasparenti da chi vive la quotidianità con i cani da oltre un decennio." %}{% endif %}
+    </p>
 </section>
 
-<div class="container max-w-4xl mx-auto px-4 pb-12">
-    <div class="box bg-white shadow-xl rounded-2xl p-8" style="border-top: 5px solid var(--accent); line-height: 1.8; font-size: 1.15rem; color: var(--text);">
+<div style="max-width: 900px; margin: 0 auto 6rem; padding: 0 1.5rem;">
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 4rem; border: 1px solid var(--border); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
         
         {% if LANGUAGE_CODE == 'en' %}
         <p style="margin-bottom: 1.5rem;">
@@ -115,12 +120,13 @@
             Non ho la pretesa di avere sempre ragione. Cerco solo di raccontare le cose con testa, senza fanatismi e senza seguire le mode del momento.
         </p>
         
-        <div style="background: var(--primary-light); color: white; padding: 2rem; border-radius: 16px; margin-top: 3rem; text-align: center;">
-            <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem;">
-                Se cerchi consigli pratici, onesti e basati sull'esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto.
+        <div style="background: #f0fdf4; border: 1px solid #d1fae5; padding: 3rem; border-radius: var(--radius-md); margin-top: 4rem; text-align: center; position: relative;">
+            <div style="font-size: 3rem; margin-bottom: 1.5rem;">✨</div>
+            <p style="font-size: 1.3rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+                {% if LANGUAGE_CODE == 'en' %}Looking for honest, practical advice?{% else %}{% trans "Cerchi consigli onesti e pratici?" %}{% endif %}
             </p>
-            <p style="margin-bottom: 0;">
-                Se invece cerchi la verità assoluta o il metodo magico che va bene per tutti, probabilmente questo blog non fa per te.
+            <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0;">
+                {% if LANGUAGE_CODE == 'en' %}If you want real insights from daily dog life, you're in the right place. If you're looking for absolute truths, this might not be for you.{% else %}{% trans "Se cerchi l'esperienza reale di chi vive con i cani tutti i giorni, sei nel posto giusto. Se cerchi verità assolute o metodi magici, questo blog non fa per te." %}{% endif %}
             </p>
         </div>
         
