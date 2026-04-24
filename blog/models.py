@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    name_en = models.CharField(max_length=100, blank=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -14,6 +15,12 @@ class Category(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def get_name(self):
+        lang = translation.get_language() or "it"
+        if lang == "en" and self.name_en:
+            return self.name_en
+        return self.name
 
     def __str__(self):
         return self.name

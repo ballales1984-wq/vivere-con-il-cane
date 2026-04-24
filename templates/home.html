@@ -96,7 +96,7 @@
                 {% else %}🐾
                 {% endif %}
             </span>
-            <strong>{{ problem.title }}</strong>
+            <strong>{{ problem.get_title }}</strong>
             <span class="problem-severity severity-{{ problem.severity }}">{{ problem.get_severity_display }}</span>
         </a>
         {% endfor %}
@@ -167,7 +167,7 @@
             <p class="post-meta">
                 {{ post.created_at|date:"d M Y" }}
                 {% if post.category %}
-                <span class="category">{{ post.category.name }}</span>
+                <span class="category">{{ post.category.get_name }}</span>
                 {% endif %}
             </p>
             <p>{{ post.get_content|truncatewords:25 }}</p>
