@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block title %}Dossier Medico - {{ profile.dog_name }} | Vivere con il Cane{% endblock %}
 
@@ -75,7 +76,7 @@
             </div>
             <div>
                 <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{% trans "Proprietario" %}</div>
-                <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">{{ profile.user.get_full_name|default:profile.user.username }}</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">{{ profile.owner.get_full_name|default:profile.owner.username }}</div>
             </div>
         </div>
 
