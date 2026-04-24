@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Referto Analisi Comportamentale IA - {% if dog %}{{ dog.dog_name }}{% else %}Generico{% endif %}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 2cm;
+        }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #333;
+            line-height: 1.5;
+            font-size: 10pt;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #3b82f6; /* Blue for AI */
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 20pt;
+            text-transform: uppercase;
+        }
+        .header p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 11pt;
+        }
+        .info-section {
+            margin-bottom: 30px;
+            background: #eff6ff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #bfdbfe;
+        }
+        .info-grid {
+            width: 100%;
+        }
+        .info-grid td {
+            padding: 5px;
+        }
+        .label {
+            font-weight: bold;
+            color: #1e40af;
+            width: 120px;
+        }
+        .value {
+            color: #111827;
+        }
+        .section-title {
+            color: #1e40af;
+            font-size: 14pt;
+            border-bottom: 1px solid #bfdbfe;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .content-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-left: 4px solid #3b82f6;
+            margin-bottom: 20px;
+        }
+        .ai-response {
+            white-space: pre-wrap;
+            font-size: 10pt;
+            line-height: 1.6;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 8pt;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 10px;
+        }
+        .disclaimer {
+            font-size: 8pt;
+            color: #b91c1c;
+            background: #fef2f2;
+            padding: 10px;
+            border: 1px solid #fecaca;
+            margin-top: 30px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>REFERTO ANALISI IA</h1>
+        <p>Vivere con il Cane - IntelliVet System</p>
+    </div>
+
+    <div class="info-section">
+        <table class="info-grid">
+            <tr>
+                <td class="label">Data Analisi:</td>
+                <td class="value">{{ analysis.created_at|date:"d/m/Y H:i" }}</td>
+                <td class="label">ID Analisi:</td>
+                <td class="value">#{{ analysis.id }}</td>
+            </tr>
+            {% if dog %}
+            <tr>
+                <td class="label">Paziente:</td>
+                <td class="value"><strong>{{ dog.dog_name }}</strong></td>
+                <td class="label">Razza:</td>
+                <td class="value">{{ dog.breed|default:"N/D" }}</td>
+            </tr>
+            <tr>
+                <td class="label">Età:</td>
+                <td class="value">{{ dog.get_age }} anni</td>
+                <td class="label">Genere:</td>
+                <td class="value">{{ dog.get_gender_display|default:"N/D" }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="label">Utente:</td>
+                <td class="value" colspan="3">Ospite (Nessun profilo selezionato)</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td class="label">Categoria:</td>
+                <td class="value" colspan="3"><strong>{{ analysis.problem.title|default:"Comportamento Generale" }}</strong></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section-title">Sintomi e Descrizione Fornita</div>
+    <div class="content-box">
+        <i>"{{ analysis.user_description }}"</i>
+    </div>
+
+    <div class="section-title">Valutazione e Protocollo (Generato da IA)</div>
+    <div class="ai-response">
+        {{ analysis.ai_response|safe }}
+    </div>
+
+    <div class="disclaimer">
+        <strong>ATTENZIONE:</strong> Questo report è stato generato automaticamente tramite algoritmi di Intelligenza Artificiale basati sulla letteratura scientifica e veterinaria. <strong>NON costituisce in alcun modo una diagnosi medica né una prescrizione terapeutica.</strong> Le informazioni contenute sono a scopo puramente informativo e di orientamento. Prima di intraprendere qualsiasi azione che possa influire sulla salute del cane, è obbligatorio consultare un medico veterinario o un educatore cinofilo qualificato.
+    </div>
+
+    <div class="footer">
+        Documento generato digitalmente da Vivere con il Cane. Data esportazione: {{ today|date:"d/m/Y" }}
+    </div>
+</body>
+</html>

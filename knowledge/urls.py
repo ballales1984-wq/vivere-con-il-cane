@@ -13,4 +13,5 @@ urlpatterns = [
         name="update_analysis_result",
     ),
     path("history/<int:dog_id>/", views.analysis_history, name="analysis_history"),
+    path("analizza/<int:analysis_id>/pdf/", views.download_analysis_pdf, name="download_analysis_pdf"),
 ]

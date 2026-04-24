@@ -302,3 +302,26 @@ class VeterinaryDocument(models.Model):
     class Meta:
         verbose_name = "Documento Veterinario"
         verbose_name_plural = "Documenti Veterinari"
+
+
+class LifetimeMacroAnalysis(models.Model):
+    """Stores the comprehensive, long-term AI check-up for a dog."""
+
+    dog = models.ForeignKey(
+        "dog_profile.DogProfile", on_delete=models.CASCADE, related_name="macro_analyses"
+    )
+    context_snapshot = models.JSONField(
+        help_text="I dati (medie, eventi) usati per generare questo report."
+    )
+    ai_report_html = models.TextField(
+        help_text="Il referto generato in formato HTML."
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Macro-Analisi {self.dog.dog_name} ({self.created_at.date()})"
+
+    class Meta:
+        verbose_name = "Macro-Analisi IA"
+        verbose_name_plural = "Macro-Analisi IA"
+        ordering = ["-created_at"]

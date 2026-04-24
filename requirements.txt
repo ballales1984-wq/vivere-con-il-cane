@@ -6,3 +6,4 @@ gunicorn>=21.0
 python-dotenv>=1.0.0
 xhtml2pdf>=0.2.11
 psycopg2-binary>=2.9.9
+matplotlib>=3.8.0

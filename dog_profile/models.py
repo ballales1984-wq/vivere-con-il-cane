@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Sum, Count
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -178,6 +179,42 @@ class DogProfile(models.Model):
         if self.supplements:
             parts.append(f"Integratori: {self.supplements}")
         return " • ".join(parts) if parts else "Non specificato"
+
+    def get_lifetime_stats(self):
+        """Calcola aggregazioni e medie di tutta la vita del cane (per IA)."""
+        routine_logs = self.health_logs.filter(log_type="routine")
+        
+        # Averages
+        avgs = routine_logs.aggregate(
+            avg_sleep=Avg('sleep_hours'),
+            avg_walk=Avg('walk_minutes'),
+            avg_play=Avg('play_minutes'),
+            avg_food=Avg('food_grams')
+        )
+        
+        # Totals
+        total_days_logged = routine_logs.count()
+        total_medical_events = self.medical_events.count()
+        
+        # Behavioral problems
+        # We need to count unique problem types analyzed
+        analyses = self.analyses.all() if hasattr(self, 'analyses') else []
+        problem_counts = {}
+        for a in analyses:
+            if a.problem:
+                problem_counts[a.problem.title] = problem_counts.get(a.problem.title, 0) + 1
+                
+        return {
+            "total_days_tracked": total_days_logged,
+            "averages": {
+                "sleep_hours": round(avgs['avg_sleep'] or 0, 1),
+                "walk_minutes": int(avgs['avg_walk'] or 0),
+                "play_minutes": int(avgs['avg_play'] or 0),
+                "food_grams": int(avgs['avg_food'] or 0)
+            },
+            "total_medical_events": total_medical_events,
+            "behavioral_issues_analyzed": problem_counts
+        }
 
     class Meta:
         verbose_name = "Profilo Cane"

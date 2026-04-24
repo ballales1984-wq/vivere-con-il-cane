@@ -86,6 +86,9 @@
         <a href="{% url 'analyze_problem' %}" class="btn btn-secondary" style="border: 1px solid var(--border); background: white; color: var(--secondary);">🔍 {% trans "Nuova analisi" %}</a>
         {% if dog %}
         <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary" style="border: 1px solid var(--border); background: white; color: var(--secondary);">🕒 {% trans "Vedi storico" %}</a>
+        <a href="{% url 'download_analysis_pdf' analysis.id %}" class="btn btn-secondary" style="border: 1px solid #bfdbfe; background: #eff6ff; color: #1e40af;">
+            📄 {% trans "Scarica PDF" %}
+        </a>
         <a href="{% url 'vet_request_start' dog.id %}?analysis_id={{ analysis.id }}" class="btn btn-primary" style="background: var(--primary-dark);">
             📤 {% trans "Invia al Veterinario" %}
         </a>

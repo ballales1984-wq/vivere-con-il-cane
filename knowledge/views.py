@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.core.cache import cache
 from .models import Problem, Solution, BreedInsight, DogAnalysis, VeterinaryDocument
@@ -7,6 +7,8 @@ from dog_profile.models import DogProfile
 from blog.models import BlogPost
 import requests
 import os
+from xhtml2pdf import pisa
+from django.template.loader import get_template
 
 
 def problem_list(request):
@@ -577,3 +579,32 @@ def update_analysis_result(request, analysis_id):
         analysis.save()
         return redirect("dashboard")
     return JsonResponse({"error": "POST required"}, status=405)
+
+
+def download_analysis_pdf(request, analysis_id):
+    """Generates a PDF report for a specific AI analysis."""
+    analysis = get_object_or_404(DogAnalysis, id=analysis_id)
+    
+    # Ensure the user has permission to download this analysis
+    if analysis.dog and request.user.is_authenticated and analysis.dog.owner != request.user:
+        return HttpResponse("Non sei autorizzato a scaricare questo referto.", status=403)
+        
+    template_path = "knowledge/analysis_pdf.html"
+    from datetime import date
+    context = {"analysis": analysis, "dog": analysis.dog, "today": date.today()}
+
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type="application/pdf")
+    filename = f"Referto_IA_{analysis.dog.dog_name if analysis.dog else 'Generico'}_{analysis.created_at.date()}.pdf"
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse("Si è verificato un errore durante la generazione del PDF <pre>" + html + "</pre>")
+    return response
