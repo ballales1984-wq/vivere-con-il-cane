@@ -149,9 +149,10 @@ msgid ""
 "educazione."
 msgstr ""
 "My name is <strong>Alessio</strong>. I have lived with two dogs for over 10 "
-"years and was a dog sitter for hundreds of different dogs. I don't blindly "
-"cheer for any faction: I only try to tell things with my head, combining "
-"everyday experience with veterinary visits and the best training practices."
+"years and have cared for hundreds of different dogs as a sitter. I don't "
+"take sides blindly: I aim to share insights thoughtfully, combining "
+"everyday experience with veterinary knowledge and the best training "
+"practices."
 
 msgid "Anni"
 msgstr "Years"
@@ -599,14 +600,14 @@ msgstr ""
 "every day."
 
 msgid "Per questo sul mio blog non prendo posizioni estreme."
-msgstr "This is why on my blog I do not take extreme positions."
+msgstr "This is why I avoid extreme positions on my blog."
 
 msgid ""
 "Non tifo per nessuno in modo acritico: né per i veterinari, né contro di "
 "loro; né per gli educatori cinofili, né per chi fa tutto da solo."
 msgstr ""
-"I do not blindly cheer for anyone: neither for veterinarians, nor against "
-"them; neither for dog trainers, nor for those who do everything themselves."
+"I don't blindly follow any ideology: whether it's veterinary experts or "
+"traditional trainers, I evaluate everything based on results."
 
 msgid ""
 "Non credo che esista un solo metodo giusto per tutti i cani. <strong>I cani "
@@ -697,97 +698,97 @@ msgid "Accedi qui"
 msgstr ""
 
 msgid "Aggiungi Cane"
-msgstr ""
+msgstr "Add Dog"
 
 msgid "Aggiungi Evento di Salute"
-msgstr ""
+msgstr "Add Health Event"
 
 msgid "Aggiungi il primo evento"
-msgstr ""
+msgstr "Add the first event"
 
 msgid "Aggiungi il tuo Cane"
-msgstr ""
+msgstr "Add your Dog"
 
 msgid "Aggiungi il tuo cane!"
-msgstr ""
+msgstr "Add your dog!"
 
 msgid "Aggiungi un altro cane"
 msgstr "Add another dog"
 
 msgid "Altro"
-msgstr ""
+msgstr "Other"
 
 msgid "Analizza il problema del tuo cane"
-msgstr ""
+msgstr "Analyze your dog's problem"
 
 msgid "Analizza il tuo"
-msgstr ""
+msgstr "Analyze your"
 
 msgid "Analizza il tuo cane ora"
-msgstr ""
+msgstr "Analyze your dog now"
 
 msgid "Annulla"
-msgstr ""
+msgstr "Cancel"
 
 msgid "Articoli utili per"
-msgstr ""
+msgstr "Useful articles for"
 
 msgid "Attività Recenti"
-msgstr ""
+msgstr "Recent Activities"
 
 msgid "Avvia Raccolta Media →"
-msgstr ""
+msgstr "Start Media Collection →"
 
 msgid "Carica i seguenti media:"
-msgstr ""
+msgstr "Upload the following media:"
 
 msgid "Carica solo le immagini e i video utili raccomandati dall'AI"
-msgstr ""
+msgstr "Upload only useful images and videos recommended by AI"
 
 msgid "Cibo (grammi)"
-msgstr ""
+msgstr "Food (grams)"
 
 msgid "Contatti Veterinario"
-msgstr ""
+msgstr "Vet Contacts"
 
 msgid "Controllo"
-msgstr ""
+msgstr "Check-up"
 
 msgid "Crea Profilo del Cane"
-msgstr ""
+msgstr "Create Dog Profile"
 
 msgid "Crea un caso clinico strutturato per il tuo veterinario"
-msgstr ""
+msgstr "Create a structured clinical case for your vet"
 
 msgid "Data di nascita"
-msgstr ""
+msgstr "Date of birth"
 
 msgid "Descrizione"
-msgstr ""
+msgstr "Description"
 
 msgid "Descrizione Problema"
-msgstr ""
+msgstr "Problem Description"
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Email veterinario (opzionale)"
-msgstr ""
+msgstr "Vet email (optional)"
 
 msgid "Esame Diagnostico"
-msgstr ""
+msgstr "Diagnostic Test"
 
 msgid "Eventi Salute Recenti"
-msgstr ""
+msgstr "Recent Health Events"
 
 msgid "File già caricati:"
-msgstr ""
+msgstr "Files already uploaded:"
 
 msgid "Fine Terapia"
-msgstr ""
+msgstr "End of Treatment"
 
 msgid "Gestisci il profilo e le attivita del tuo amico a quattro zampe"
-msgstr ""
+msgstr "Manage the profile and activities of your four-legged friend"
 
 msgid "Gestisci più cani nello stesso account"
 msgstr "Manage multiple dogs in the same account"
@@ -796,12 +797,14 @@ msgid ""
 "Grazie per esserti iscritto! Abbiamo inviato una conferma a <strong>{{ email"
 " }}</strong>."
 msgstr ""
+"Thank you for subscribing! We have sent a confirmation to <strong>{{ email"
+" }}</strong>."
 
 msgid "Guide Consigliate"
-msgstr ""
+msgstr "Recommended Guides"
 
 msgid "Hai già un account?"
-msgstr ""
+msgstr "Already have an account?"
 
 msgid ""
 "Hai più di un amico a quattro zampe? Aggiungi un nuovo profilo per gestirlo."
@@ -809,68 +812,69 @@ msgstr ""
 "Have more than one four-legged friend? Add a new profile to manage it."
 
 msgid "Il tuo"
-msgstr ""
+msgstr "Your"
 
 msgid "Il tuo nome"
-msgstr ""
+msgstr "Your name"
 
 msgid "Inizio Terapia"
-msgstr ""
+msgstr "Start of Treatment"
 
 msgid "Intervento Chirurgico"
-msgstr ""
+msgstr "Surgery"
 
 msgid "Invia al Veterinario"
-msgstr ""
+msgstr "Send to Vet"
 
 msgid "L'AI suggerisce questi media per questo problema:"
-msgstr ""
+msgstr "AI suggests these media for this problem:"
 
 msgid ""
 "Le analisi AI per {{ dog.dog_name }} compariranno qui una volta completate."
 msgstr ""
+"AI analyses for {{ dog.dog_name }} will appear here once completed."
 
 msgid "Media Allegati"
-msgstr ""
+msgstr "Attached Media"
 
 msgid "Minuti di gioco"
-msgstr ""
+msgstr "Play minutes"
 
 msgid "Minuti di passeggiata"
-msgstr ""
+msgstr "Walk minutes"
 
 msgid "Modifica Media"
-msgstr ""
+msgstr "Edit Media"
 
 msgid "Nessun cane registrato."
-msgstr ""
+msgstr "No dogs registered."
 
 msgid "Nessun evento registrato"
-msgstr ""
+msgstr "No events recorded"
 
 msgid "Nessun media allegato"
-msgstr ""
+msgstr "No media attached"
 
 msgid "Nessun problema registrato."
 msgstr "No problems registered."
 
 msgid "Nessuna richiesta inviata finora."
-msgstr ""
+msgstr "No requests sent so far."
 
 msgid "Nome"
-msgstr ""
+msgstr "Name"
 
 msgid "Nome del cane"
-msgstr ""
+msgstr "Dog's name"
 
 msgid "Non hai ancora un account?"
-msgstr ""
+msgstr "Don't have an account yet?"
 
 msgid "Nuovo Cane"
-msgstr ""
+msgstr "New Dog"
 
 msgid "Nuovo Evento"
-msgstr ""
+msgstr "New Event"
 
 msgid "Nuovo Profilo Cane"
 msgstr "New Dog Profile"
@@ -879,26 +883,29 @@ msgid ""
 "Ogni cane è un individuo. Descrivi il comportamento specifico del tuo cane e"
 " ricevi consigli su misura generati dalla nostra AI."
 msgstr ""
+"Every dog is an individual. Describe your dog's specific behavior and "
+"receive tailored advice generated by our AI."
 
 msgid "Oppure carica file aggiuntivi (foto/video liberi)"
-msgstr ""
+msgstr "Or upload additional files (free photos/videos)"
 
 msgid "Ore di sonno"
-msgstr ""
+msgstr "Sleep hours"
 
 msgid ""
 "Ottieni una consulenza personalizzata basata sulle caratteristiche tipiche "
 "del"
 msgstr ""
+"Get a personalized consultation based on the typical characteristics of the"
 
 msgid "Per"
-msgstr ""
+msgstr "For"
 
 msgid "Peso (kg)"
-msgstr ""
+msgstr "Weight (kg)"
 
 msgid "Problema identificato"
-msgstr ""
+msgstr "Problem identified"
 
 msgid "Problemi Comuni"
 msgstr "Common Problems"
@@ -919,120 +926,122 @@ msgid "Torna a tutti i problemi"
 msgstr "Back to all problems"
 
 msgid "Profilo Cane"
-msgstr ""
+msgstr "Dog Profile"
 
 msgid "Pronto Soccorso"
-msgstr ""
+msgstr "First Aid"
 
 msgid "Quiz Comportamento"
-msgstr ""
+msgstr "Behavior Quiz"
 
 msgid "Raccolta Media Guidata"
-msgstr ""
+msgstr "Guided Media Collection"
 
 msgid "Razza"
-msgstr ""
+msgstr "Breed"
 
 msgid "Registra Giornata"
-msgstr ""
+msgstr "Log Day"
 
 msgid "Registrati ora"
-msgstr ""
+msgstr "Register now"
 
 msgid "Riassunto AI"
-msgstr ""
+msgstr "AI Summary"
 
 msgid "Riassunto AI per il Veterinario"
-msgstr ""
+msgstr "AI Summary for the Vet"
 
 msgid "Richiesta Inviata"
-msgstr ""
+msgstr "Request Sent"
 
 msgid "Richieste Veterinario"
-msgstr ""
+msgstr "Vet Requests"
 
 msgid "Rivedi Pacchetto →"
-msgstr ""
+msgstr "Review Package →"
 
 msgid "Rivedi e Invia"
-msgstr ""
+msgstr "Review and Send"
 
 msgid "Salva Evento"
-msgstr ""
+msgstr "Save Event"
 
 msgid "Salva Giornata"
-msgstr ""
+msgstr "Save Day"
 
 msgid "Scopri cause e soluzioni per i problemi più frequenti"
 msgstr "Discover causes and solutions for the most frequent problems"
 
 msgid "Storico dei casi clinici inviati"
-msgstr ""
+msgstr "History of clinical cases sent"
 
 msgid "Telefono"
-msgstr ""
+msgstr "Phone"
 
 msgid "Telefono veterinario (opzionale)"
-msgstr ""
+msgstr "Vet phone (optional)"
 
 msgid "Tipo evento"
-msgstr ""
+msgstr "Event type"
 
 msgid "Titolo"
-msgstr ""
+msgstr "Title"
 
 msgid "Tool per"
-msgstr ""
+msgstr "Tool for"
 
 msgid "Torna a tutte le razze"
-msgstr ""
+msgstr "Back to all breeds"
 
 msgid "Torna a tutti i problemi"
-msgstr ""
+msgstr "Back to all problems"
 
 msgid "Torna al profilo di"
-msgstr ""
+msgstr "Back to profile of"
 
 msgid "Torna alla lista"
-msgstr ""
+msgstr "Back to list"
 
 msgid "Vaccinazione"
-msgstr ""
+msgstr "Vaccination"
 
 msgid "Vai alla Dashboard"
-msgstr ""
+msgstr "Go to Dashboard"
 
 msgid "Vedi"
-msgstr ""
+msgstr "View"
 
 msgid "Verifica che tutto sia corretto prima di inviare al veterinario"
-msgstr ""
+msgstr "Verify that everything is correct before sending to the vet"
 
 msgid "Veterinario (opzionale)"
-msgstr ""
+msgstr "Vet (optional)"
 
 msgid "Visita Veterinaria"
-msgstr ""
+msgstr "Veterinary Visit"
 
 msgid ""
 "Vivere con il Cane - Educazione cinofila, analisi AI del comportamento e "
 "strumenti pratici per il tuo cane"
 msgstr ""
+"Living with your Dog - Dog training, AI behavior analysis and practical "
+"tools for your dog"
 
 msgid "Vuoi una soluzione personalizzata?"
-msgstr ""
+msgstr "Want a personalized solution?"
 
 msgid "ha un comportamento particolare?"
-msgstr ""
+msgstr "has a particular behavior?"
 
-msgid "📋 Genera Cartella Clinica"
-msgstr ""
+msgid "Genera Dossier"
+msgstr "Generate Medical Record"
 
-msgid "📤 Invia al Veterinario"
-msgstr ""
+msgid "Invia al Veterinario"
+msgstr "Send to Vet"
 
-msgid "🧠 Storico Analisi AI"
-msgstr ""
+msgid "Storico Analisi AI"
+msgstr "AI Analysis History"
 
 msgid "Basso"
 msgstr "Low"
@@ -1289,5 +1298,539 @@ msgstr "Mark as Worsened"
 msgid "Elimina"
 msgstr "Delete"
 
-msgid "Eliminare questa analisi?"
-msgstr "Delete this analysis?"
+msgid "Nuovo Evento Salute"
+msgstr "New Health Event"
+
+msgid "Registro Giornata"
+msgstr "Daily Log"
+
+msgid "✨ Nuova Analisi AI v2.0"
+msgstr "✨ New AI Analysis v2.0"
+
+msgid "Centro di Comando"
+msgstr "Command Center"
+
+msgid "Il Mio Branco"
+msgstr "My Pack"
+
+msgid "Gestisci la salute e il benessere dei tuoi compagni a quattro zampe"
+msgstr "Manage the health and well-being of your four-legged companions"
+
+msgid "Gestisci"
+msgstr "Manage"
+
+msgid "+ Salute"
+msgstr "+ Health"
+
+msgid "Strumenti di Conoscenza"
+msgstr "Knowledge Tools"
+
+msgid "Aggiungi un altro compagno?"
+msgstr "Add another companion?"
+
+msgid "Gestisci profili multipli e ottieni analisi IA separate per ogni tuo cane."
+msgstr "Manage multiple profiles and get separate AI analysis for each of your dogs."
+
+msgid "Report Comportamentale IA"
+msgstr "AI Behavioral Report"
+
+msgid "Analisi del Comportamento"
+msgstr "Behavior Analysis"
+
+msgid "Per"
+msgstr "For"
+
+msgid "Generato per il tuo cane"
+msgstr "Generated for your dog"
+
+msgid "Focus dell'analisi"
+msgstr "Analysis Focus"
+
+msgid "Questa consulenza ti è stata utile?"
+msgstr "Was this consultation helpful?"
+
+msgid "Sì, ha aiutato"
+msgstr "Yes, it helped"
+
+msgid "Invariato"
+msgstr "Unchanged"
+
+msgid "È peggiorato"
+msgstr "It worsened"
+
+msgid "Sblocca Analisi Più Precise"
+msgstr "Unlock More Precise Analysis"
+
+msgid "Crea il profilo del tuo cane per ottenere risposte personalizzate in base alla razza, età e predisposizioni genetiche."
+msgstr "Create your dog's profile to get personalized answers based on breed, age and genetic predispositions."
+
+msgid "Crea profilo ora"
+msgstr "Create profile now"
+
+msgid "Nuova analisi"
+msgstr "New analysis"
+
+msgid "Vedi storico"
+msgstr "View history"
+
+msgid "Cartella Clinica Digitale"
+msgstr "Digital Medical Record"
+
+msgid "Dossier Medico e Storico"
+msgstr "Medical Dossier and History"
+
+msgid "Condividi con il Veterinario"
+msgstr "Share with the Veterinarian"
+
+msgid "Stampa / PDF"
+msgstr "Print / PDF"
+
+msgid "Copia Testo"
+msgstr "Copy Text"
+
+msgid "Copiato!"
+msgstr "Copied!"
+
+msgid "Cronologia Eventi"
+msgstr "Event History"
+
+msgid "Timeline della Salute"
+msgstr "Health Timeline"
+
+msgid "Evento Medico"
+msgstr "Medical Event"
+
+msgid "Report Virtuale"
+msgstr "Virtual Report"
+
+msgid "Sintomi Descriti"
+msgstr "Described Symptoms"
+
+msgid "Valutazione IA"
+msgstr "AI Evaluation"
+
+msgid "Fine della cronologia"
+msgstr "End of timeline"
+
+msgid "Inizio della storia"
+msgstr "Beginning of history"
+
+msgid "Vai alla Dashboard"
+msgstr "Go to Dashboard"
+
+msgid "Vedi"
+msgstr "View"
+
+msgid "Verifica che tutto sia corretto prima di inviare al veterinario"
+msgstr "Verify that everything is correct before sending to the veterinarian"
+
+msgid "Veterinario (opzionale)"
+msgstr "Veterinarian (optional)"
+
+msgid "Visita Veterinaria"
+msgstr "Veterinary Visit"
+
+msgid "Aggiungi Profilo"
+msgstr "Add Profile"
+
+msgid "Porzione giornaliera ideale per i tuoi cani."
+msgstr "Ideal daily portion for your dogs."
+
+msgid "Quanti anni umani hanno i tuoi amici?"
+msgstr "How many human years do your friends have?"
+
+msgid "Testa la tua empatia canina."
+msgstr "Test your canine empathy."
+
+msgid "Esplora le nostre guide esperte."
+msgstr "Explore our expert guides."
+
+msgid "Proprietario"
+msgstr "Owner"
+
+msgid "Informativa sulla Privacy"
+msgstr "Privacy Policy"
+
+msgid "Titolare del Trattamento"
+msgstr "Data Controller"
+
+msgid "Il titolare del trattamento dei dati personali è \"Vivere con il Cane\", accessibile all'indirizzo: vivereconilcane.it"
+msgstr "The data controller is \"Living with your Dog\", accessible at: vivereconilcane.it"
+
+msgid "Dati Raccolti"
+msgstr "Data Collected"
+
+msgid "Raccogliamo i seguenti dati:"
+msgstr "We collect the following data:"
+
+msgid "Dati di navigazione:"
+msgstr "Browsing data:"
+
+msgid "indirizzo IP, browser utilizzato, pagine visitate"
+msgstr "IP address, browser used, pages visited"
+
+msgid "Cookie tecnici:"
+msgstr "Technical cookies:"
+
+msgid "per il funzionamento del sito"
+msgstr "for the site's operation"
+
+msgid "Dati forniti volontariamente:"
+msgstr "Voluntarily provided data:"
+
+msgid "commenti, messaggi tramite form di contatto"
+msgstr "comments, messages via contact forms"
+
+msgid "Finalità del Trattamento"
+msgstr "Purposes of Processing"
+
+msgid "I dati sono utilizzati per:"
+msgstr "Data is used for:"
+
+msgid "Garantire il funzionamento del sito web"
+msgstr "Ensuring the website's operation"
+
+msgid "Analizzare le statistiche di visita (tramite Google Analytics)"
+msgstr "Analyzing visit statistics (via Google Analytics)"
+
+msgid "Rispondere alle richieste degli utenti"
+msgstr "Responding to user requests"
+
+msgid "Base Giuridica"
+msgstr "Legal Basis"
+
+msgid "Il trattamento avviene sulla base del legittimo interesse del titolare (art. 6, par. 1, lett. f del GDPR) per migliorare i nostri servizi."
+msgstr "Processing is based on the controller's legitimate interest (Art. 6, para. 1, letter f of the GDPR) to improve our services."
+
+msgid "Trascrizione a Terzi"
+msgstr "Transmission to Third Parties"
+
+msgid "I dati non vengono trasmessi a terzi, ad eccezione di:"
+msgstr "Data is not transmitted to third parties, except for:"
+
+msgid "per statistiche di visita (usa cookie anonimi)"
+msgstr "for visit statistics (uses anonymous cookies)"
+
+msgid "Periodo di Conservazione"
+msgstr "Retention Period"
+
+msgid "I dati di navigazione sono conservati per 12 mesi. I dati inviati tramite form sono conservati per il tempo necessario a rispondere."
+msgstr "Browsing data is kept for 12 months. Data sent via forms is kept for the time necessary to respond."
+
+msgid "Diritti dell'Interessato"
+msgstr "Data Subject Rights"
+
+msgid "Hai diritto di:"
+msgstr "You have the right to:"
+
+msgid "Accedere ai tuoi dati personali"
+msgstr "Access your personal data"
+
+msgid "Richiedere la rettifica o la cancellazione"
+msgstr "Request rectification or erasure"
+
+msgid "Opporti al trattamento"
+msgstr "Object to processing"
+
+msgid "Richiedere la portabilità dei dati"
+msgstr "Request data portability"
+
+msgid "Per esercitare questi diritti, contattaci a: vivereconilcane@gmail.com"
+msgstr "To exercise these rights, contact us at: vivereconilcane@gmail.com"
+
+msgid "Reclamo"
+msgstr "Complaint"
+
+msgid "Hai diritto di proporre reclamo al Garante per la Protezione dei Dati Personali (www.garanteprivacy.it)."
+msgstr "You have the right to lodge a complaint with the Data Protection Authority (www.garanteprivacy.it)."
+
+msgid "Accettazione"
+msgstr "Acceptance"
+
+msgid "Accedendo a questo sito web, accetti i presenti Termini di Servizio. Se non accetti questi termini, ti preghiamo di non utilizzare il sito."
+msgstr "By accessing this website, you accept these Terms of Service. If you do not accept these terms, please do not use the site."
+
+msgid "Proprietà Intellettuale"
+msgstr "Intellectual Property"
+
+msgid "Tutti i contenuti del sito, inclusi testi, immagini, grafiche, loghi e codice, sono protetti da diritti d'autore e appartengono a \"Vivere con il Cane\" o sono utilizzati con permesso."
+msgstr "All site content, including text, images, graphics, logos and code, are protected by copyright and belong to \"Living with your Dog\" or are used with permission."
+
+msgid "È vietato:"
+msgstr "It is forbidden to:"
+
+msgid "Copiare o riprodurre contenuti senza autorizzazione"
+msgstr "Copy or reproduce content without authorization"
+
+msgid "Utilizzare i contenuti per scopi commerciali"
+msgstr "Use content for commercial purposes"
+
+msgid "Modificare o alterare i contenuti"
+msgstr "Modify or alter content"
+
+msgid "Uso del Sito"
+msgstr "Site Use"
+
+msgid "Il sito è fornito \"così come è\". Ci riserviamo il diritto di:"
+msgstr "The site is provided \"as is\". We reserve the right to:"
+
+msgid "Modificare, sospendere o interrompere il servizio in qualsiasi momento"
+msgstr "Modify, suspend or terminate the service at any time"
+
+msgid "Modificare i presenti termini senza preavviso"
+msgstr "Modify these terms without notice"
+
+msgid "Responsabilità"
+msgstr "Responsibility"
+
+msgid "\"Vivere con il Cane\" non è responsabile per:"
+msgstr "\"Living with your Dog\" is not responsible for:"
+
+msgid "Errori o omissioni nei contenuti"
+msgstr "Errors or omissions in the content"
+
+msgid "Danni derivanti dall'uso delle informazioni presenti"
+msgstr "Damages arising from the use of the information provided"
+
+msgid "Problemi tecnici del sito"
+msgstr "Technical site issues"
+
+msgid "Le informazioni sul sito sono di natura informativa e non sostituiscono il parere veterinario professionista."
+msgstr "The information on the site is for information purposes only and does not replace professional veterinary advice."
+
+msgid "Contenuti degli Utenti"
+msgstr "User Content"
+
+msgid "Commenti e contenuti inviati dagli utenti diventano proprietà pubblica. Ci riserviamo il diritto di rimuovere contenuti inappropriati."
+msgstr "Comments and content submitted by users become public property. We reserve the right to remove inappropriate content."
+
+msgid "Link Esterni"
+msgstr "External Links"
+
+msgid "Il sito può contenere link a siti esterni. Non siamo responsabili per i contenuti o le pratiche di privacy di tali siti."
+msgstr "The site may contain links to external sites. We are not responsible for the content or privacy practices of such sites."
+
+msgid "Legge Applicabile"
+msgstr "Applicable Law"
+
+msgid "I presenti termini sono regolati dalla legge italiana. Per qualsiasi controversia, sarà competente il Foro di Milano."
+msgstr "These terms are governed by Italian law. For any dispute, the Court of Milan will have jurisdiction."
+
+msgid "Per domande sui Termini di Servizio, contattaci a: vivereconilcane@gmail.com"
+msgstr "For questions regarding the Terms of Service, contact us at: vivereconilcane@gmail.com"
+
+msgid "Ultimo aggiornamento:"
+msgstr "Last update:"
+
+msgid "Aprile"
+msgstr "April"
+
+msgid "Cosa sono i Cookie"
+msgstr "What are Cookies"
+
+msgid "I cookie sono piccoli file di testo memorizzati sul tuo dispositivo quando visiti un sito web. Servono a memorizzare preferenze e informazioni sulla visita."
+msgstr "Cookies are small text files stored on your device when you visit a website. They serve to store preferences and information about the visit."
+
+msgid "Tipologie di Cookie Utilizzati"
+msgstr "Types of Cookies Used"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "Finalità"
+msgstr "Purpose"
+
+msgid "Durata"
+msgstr "Duration"
+
+msgid "Tecnico"
+msgstr "Technical"
+
+msgid "Protezione da attacchi CSRF"
+msgstr "CSRF protection"
+
+msgid "Sessione"
+msgstr "Session"
+
+msgid "Identificativo di sessione"
+msgstr "Session identifier"
+
+msgid "Analitico"
+msgstr "Analytical"
+
+msgid "Google Analytics (statistiche)"
+msgstr "Google Analytics (statistics)"
+
+msgid "anni"
+msgstr "years"
+
+msgid "ore"
+msgstr "hours"
+
+msgid "Cookie di Terze Parti"
+msgstr "Third Party Cookies"
+
+msgid "Il sito utilizza Google Analytics per analizzare le visite. Google Analytics usa cookie per raccogliere informazioni anonime sul traffico del sito."
+msgstr "The site uses Google Analytics to analyze visits. Google Analytics uses cookies to collect anonymous information about site traffic."
+
+msgid "Maggiori informazioni:"
+msgstr "More information:"
+
+msgid "Gestione dei Cookie"
+msgstr "Cookie Management"
+
+msgid "Puoi gestire i cookie attraverso le impostazioni del tuo browser:"
+msgstr "You can manage cookies through your browser settings:"
+
+msgid "Impostazioni > Privacy > Impostazioni contenuti"
+msgstr "Settings > Privacy > Content Settings"
+
+msgid "Opzioni > Privacy"
+msgstr "Options > Privacy"
+
+msgid "Preferenze > Privacy"
+msgstr "Preferences > Privacy"
+
+msgid "Impostazioni > Privacy"
+msgstr "Settings > Privacy"
+
+msgid "Disattivando i cookie, alcune funzionalità del sito potrebbero non funzionare correttamente."
+msgstr "By disabling cookies, some site features may not function properly."
+
+msgid "Opt-out Google Analytics"
+msgstr "Google Analytics Opt-out"
+
+msgid "Puoi disattivare Google Analytics installando il"
+msgstr "You can deactivate Google Analytics by installing the"
+
+msgid "componente aggiuntivo di opt-out"
+msgstr "opt-out add-on"
+
+msgid "Consenso"
+msgstr "Consent"
+
+msgid "Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane"
+msgstr "Living with your Dog - Understand and solve your dog's behavior"
+
+msgid "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani."
+msgstr "AI analysis of dog behavior. Describe the problem and get personalized solutions. Free tools for dog owners."
+
+msgid "Nuova Analisi AI v2.0"
+msgstr "New AI Analysis v2.0"
+
+msgid "Capisci cosa ti sta dicendo il tuo cane."
+msgstr "Understand what your dog is telling you."
+
+msgid "Descrivi un comportamento che ti preoccupa e ottieni subito una consulenza personalizzata basata sull'intelligenza artificiale."
+msgstr "Describe a behavior that worries you and get immediate personalized advice based on artificial intelligence."
+
+msgid "Es: Il mio cane abbaia sempre quando resta solo a casa..."
+msgstr "Eg: My dog always barks when left alone at home..."
+
+msgid "Analizza con l'IA"
+msgstr "Analyze with AI"
+
+msgid "Cane felice"
+msgstr "Happy dog"
+
+msgid "Cani aiutati"
+msgstr "Dogs helped"
+
+msgid "Esperienza reale, non teoria."
+msgstr "Real experience, not theory."
+
+msgid "Mi chiamo <strong>Alessio</strong>. Vivo con i cani da oltre un decennio e ho gestito centinaia di caratteri diversi. La mia missione è unire l'empatia quotidiana alle migliori pratiche scientifiche per aiutarti a costruire un rapporto unico con il tuo cane."
+msgstr "My name is <strong>Alessio</strong>. I've lived with dogs for over a decade and managed hundreds of different temperaments. My mission is to combine daily empathy with scientific best practices to help you build a unique relationship with your dog."
+
+msgid "Anni"
+msgstr "Years"
+
+msgid "Casi risolti"
+msgstr "Cases resolved"
+
+msgid "Scopri di più sulla mia storia"
+msgstr "Learn more about my story"
+
+msgid "Problemi più comuni"
+msgstr "Most common problems"
+
+msgid "Vedi tutti i problemi"
+msgstr "See all problems"
+
+msgid "Come funziona"
+msgstr "How it works"
+
+msgid "Descrivi il problema"
+msgstr "Describe the problem"
+
+msgid "Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia..."
+msgstr "Write what your dog does: barks, bites, pulls, doesn't eat..."
+
+msgid "L'AI analizza"
+msgstr "AI analyzes"
+
+msgid "Il sistema identifica le cause probabili in base al tuo cane"
+msgstr "The system identifies probable causes based on your dog"
+
+msgid "Ricevi soluzioni"
+msgstr "Get solutions"
+
+msgid "Consigli pratici personalizzati per razza, età e situazione"
+msgstr "Practical advice personalized for breed, age, and situation"
+
+msgid "Strumenti gratuiti"
+msgstr "Free tools"
+
+msgid "Calcolatore Cibo"
+msgstr "Food Calculator"
+
+msgid "Quanto deve mangiare il tuo cane? Calcola la porzione giusta."
+msgstr "How much should your dog eat? Calculate the right portion."
+
+msgid "Età in Anni Umani"
+msgstr "Age in Human Years"
+
+msgid "Scopri quanti anni ha il tuo cane in anni umani."
+msgstr "Discover how old your dog is in human years."
+
+msgid "Quiz Linguaggio"
+msgstr "Language Quiz"
+
+msgid "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova."
+msgstr "How well do you know your dog's language? Test yourself."
+
+msgid "Guide e articoli"
+msgstr "Guides and articles"
+
+msgid "Leggi tutto"
+msgstr "Read more"
+
+msgid "Vedi tutti gli articoli"
+msgstr "See all articles"
+
+msgid "Resta aggiornato"
+msgstr "Stay updated"
+
+msgid "Ricevi i nuovi articoli e le analisi IA direttamente nella tua inbox. Niente spam, solo scienza e amore per i cani."
+msgstr "Receive new articles and AI analysis directly in your inbox. No spam, only science and love for dogs."
+
+msgid "La tua email migliore"
+msgstr "Your best email"
+
+msgid "Iscriviti Ora"
+msgstr "Subscribe Now"
+
+msgid "Rispettiamo la tua privacy al 100%. Leggi la nostra"
+msgstr "We respect your privacy 100%. Read our"
+
+msgid "Inizia oggi gratuitamente"
+msgstr "Start today for free"
+
+msgid "Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una consulenza professionale generata dalla nostra IA avanzata."
+msgstr "No registration required. Describe your dog's problem and receive immediate professional advice generated by our advanced AI."
+
+msgid "Analizza ora"
+msgstr "Analyze now"
+
+msgid "Crea account gratuito"
+msgstr "Create free account"

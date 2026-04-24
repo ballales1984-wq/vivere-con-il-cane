@@ -1,60 +1,61 @@
 {% extends "base.html" %}
-{% block title %}Privacy Policy - Vivere con il Cane{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Privacy Policy" %} - Vivere con il Cane{% endblock %}
 {% block content %}
 <style>
 .legal-content { max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.8; }
-.legal-content h1 { color: #2c5e1a; margin-bottom: 1.5rem; }
-.legal-content h2 { color: #3d7a2a; margin-top: 2rem; margin-bottom: 1rem; }
+.legal-content h1 { color: var(--secondary); margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; }
+.legal-content h2 { color: var(--primary-dark); margin-top: 2rem; margin-bottom: 1rem; font-family: 'Outfit', sans-serif; }
 .legal-content p { margin-bottom: 1rem; }
 .legal-content ul { margin-bottom: 1rem; padding-left: 1.5rem; }
 .legal-content li { margin-bottom: 0.5rem; }
 </style>
 <div class="legal-content">
-    <h1>Informativa sulla Privacy</h1>
-    <p><strong>Ultimo aggiornamento:</strong> 12 Aprile 2026</p>
+    <h1>{% trans "Informativa sulla Privacy" %}</h1>
+    <p><strong>{% trans "Ultimo aggiornamento:" %}</strong> 12 {% trans "Aprile" %} 2026</p>
 
-    <h2>1. Titolare del Trattamento</h2>
-    <p>Il titolare del trattamento dei dati personali è "Vivere con il Cane", accessibile all'indirizzo: vivereconilcane.it</p>
+    <h2>1. {% trans "Titolare del Trattamento" %}</h2>
+    <p>{% trans "Il titolare del trattamento dei dati personali è \"Vivere con il Cane\", accessibile all'indirizzo: vivereconilcane.it" %}</p>
 
-    <h2>2. Dati Raccolti</h2>
-    <p>Raccogliamo i seguenti dati:</p>
+    <h2>2. {% trans "Dati Raccolti" %}</h2>
+    <p>{% trans "Raccogliamo i seguenti dati:" %}</p>
     <ul>
-        <li><strong>Dati di navigazione:</strong> indirizzo IP, browser utilizzato, pagine visitate</li>
-        <li><strong>Cookie tecnici:</strong> per il funzionamento del sito</li>
-        <li><strong>Dati forniti volontariamente:</strong> commenti, messaggi tramite form di contatto</li>
+        <li><strong>{% trans "Dati di navigazione:" %}</strong> {% trans "indirizzo IP, browser utilizzato, pagine visitate" %}</li>
+        <li><strong>{% trans "Cookie tecnici:" %}</strong> {% trans "per il funzionamento del sito" %}</li>
+        <li><strong>{% trans "Dati forniti volontariamente:" %}</strong> {% trans "commenti, messaggi tramite form di contatto" %}</li>
     </ul>
 
-    <h2>3. Finalità del Trattamento</h2>
-    <p>I dati sono utilizzati per:</p>
+    <h2>3. {% trans "Finalità del Trattamento" %}</h2>
+    <p>{% trans "I dati sono utilizzati per:" %}</p>
     <ul>
-        <li>Garantire il funzionamento del sito web</li>
-        <li>Analizzare le statistiche di visita (tramite Google Analytics)</li>
-        <li>Rispondere alle richieste degli utenti</li>
+        <li>{% trans "Garantire il funzionamento del sito web" %}</li>
+        <li>{% trans "Analizzare le statistiche di visita (tramite Google Analytics)" %}</li>
+        <li>{% trans "Rispondere alle richieste degli utenti" %}</li>
     </ul>
 
-    <h2>4. Base Giuridica</h2>
-    <p>Il trattamento avviene sulla base del legittimo interesse del titolare (art. 6, par. 1, lett. f del GDPR) per migliorare i nostri servizi.</p>
+    <h2>4. {% trans "Base Giuridica" %}</h2>
+    <p>{% trans "Il trattamento avviene sulla base del legittimo interesse del titolare (art. 6, par. 1, lett. f del GDPR) per migliorare i nostri servizi." %}</p>
 
-    <h2>5. Trascrizione a Terzi</h2>
-    <p>I dati non vengono trasmessi a terzi, ad eccezione di:</p>
+    <h2>5. {% trans "Trascrizione a Terzi" %}</h2>
+    <p>{% trans "I dati non vengono trasmessi a terzi, ad eccezione di:" %}</p>
     <ul>
-        <li><strong>Google Analytics:</strong> per statistiche di visita (usa cookie anonimi)</li>
+        <li><strong>Google Analytics:</strong> {% trans "per statistiche di visita (usa cookie anonimi)" %}</li>
     </ul>
 
-    <h2>6. Periodo di Conservazione</h2>
-    <p>I dati di navigazione sono conservati per 12 mesi. I dati inviati tramite form sono conservati per il tempo necessario a rispondere.</p>
+    <h2>6. {% trans "Periodo di Conservazione" %}</h2>
+    <p>{% trans "I dati di navigazione sono conservati per 12 mesi. I dati inviati tramite form sono conservati per il tempo necessario a rispondere." %}</p>
 
-    <h2>7. Diritti dell'Interessato</h2>
-    <p>Hai diritto di:</p>
+    <h2>7. {% trans "Diritti dell'Interessato" %}</h2>
+    <p>{% trans "Hai diritto di:" %}</p>
     <ul>
-        <li>Accedere ai tuoi dati personali</li>
-        <li>Richiedere la rettifica o la cancellazione</li>
-        <li>Opporti al trattamento</li>
-        <li>Richiedere la portabilità dei dati</li>
+        <li>{% trans "Accedere ai tuoi dati personali" %}</li>
+        <li>{% trans "Richiedere la rettifica o la cancellazione" %}</li>
+        <li>{% trans "Opporti al trattamento" %}</li>
+        <li>{% trans "Richiedere la portabilità dei dati" %}</li>
     </ul>
-    <p>Per esercitare questi diritti, contattaci a: vivereconilcane@gmail.com</p>
+    <p>{% trans "Per esercitare questi diritti, contattaci a: vivereconilcane@gmail.com" %}</p>
 
-    <h2>8. Reclamo</h2>
-    <p>Hai diritto di proporre reclamo al Garante per la Protezione dei Dati Personali (www.garanteprivacy.it).</p>
+    <h2>8. {% trans "Reclamo" %}</h2>
+    <p>{% trans "Hai diritto di proporre reclamo al Garante per la Protezione dei Dati Personali (www.garanteprivacy.it)." %}</p>
 </div>
 {% endblock %}
