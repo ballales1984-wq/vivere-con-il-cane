@@ -4,46 +4,56 @@
 {% block title %}{% trans "Nuovo Evento" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>{% trans "Aggiungi Evento di Salute" %}</h1>
-    <p>{% trans "Per" %} {{ profile.dog_name }}</p>
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #f0fdf4, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: var(--secondary); font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">🩹 {% trans "Aggiungi Evento Salute" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">{% trans "Registra un evento medico per" %} <strong style="color: var(--primary);">{{ profile.dog_name }}</strong></p>
 </section>
 
-<section class="tool-container">
-    <form method="post" class="calculator-form">
-        {% csrf_token %}
+<div style="max-width: 600px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    <div style="background: white; padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
         
-        <div class="form-group">
-            <label>{% trans "Tipo evento" %}</label>
-            <select name="event_type" required>
-                <option value="vaccine">{% trans "Vaccinazione" %}</option>
-                <option value="visit">{% trans "Visita Veterinaria" %}</option>
-                <option value="exam">{% trans "Esame Diagnostico" %}</option>
-                <option value="therapy_start">{% trans "Inizio Terapia" %}</option>
-                <option value="therapy_end">{% trans "Fine Terapia" %}</option>
-                <option value="surgery">{% trans "Intervento Chirurgico" %}</option>
-                <option value="emergency">{% trans "Pronto Soccorso" %}</option>
-                <option value="followup">{% trans "Controllo" %}</option>
-                <option value="other">{% trans "Altro" %}</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Titolo" %}</label>
-            <input type="text" name="title" required placeholder="Vaccino annuale">
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Descrizione" %}</label>
-            <textarea name="description" rows="3" placeholder="Dettagli..."></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Data" %}</label>
-            <input type="date" name="date" required>
-        </div>
-        
-        <button type="submit" class="btn-calculate">{% trans "Salva Evento" %}</button>
-    </form>
-</section>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Tipo evento" %}</label>
+                <select name="event_type" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc;">
+                    <option value="vaccine">{% trans "Vaccinazione" %}</option>
+                    <option value="visit">{% trans "Visita Veterinaria" %}</option>
+                    <option value="exam">{% trans "Esame Diagnostico" %}</option>
+                    <option value="therapy_start">{% trans "Inizio Terapia" %}</option>
+                    <option value="therapy_end">{% trans "Fine Terapia" %}</option>
+                    <option value="surgery">{% trans "Intervento Chirurgico" %}</option>
+                    <option value="emergency">{% trans "Pronto Soccorso" %}</option>
+                    <option value="followup">{% trans "Controllo" %}</option>
+                    <option value="other">{% trans "Altro" %}</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Titolo" %}</label>
+                <input type="text" name="title" required placeholder="{% trans "Esempio: Vaccino annuale" %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem;">
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Descrizione" %}</label>
+                <textarea name="description" rows="4" placeholder="{% trans "Dettagli sulla visita o prescrizioni..." %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="margin-bottom: 2.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Data" %}</label>
+                <input type="date" name="date" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc;">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.15rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);">
+                💾 {% trans "Salva Evento" %}
+            </button>
+            
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="{% url 'profile_detail' profile.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">{% trans "Annulla" %}</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

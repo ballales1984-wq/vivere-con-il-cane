@@ -140,6 +140,7 @@
 .analysis-summary.collapsed {
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -272,7 +273,7 @@
                 </form>
                 {% else %}
                 <div class="dropdown">
-                    <button class="btn btn-outline btn-sm dropdown-toggle" onclick="toggleDropdown({{ analysis.id }})">⚙️ {% trans "Azioni" %}</button>
+                    <button class="btn btn-outline btn-sm dropdown-toggle" data-id="{{ analysis.id }}">⚙️ {% trans "Azioni" %}</button>
                     <div class="dropdown-menu" id="dropdown-{{ analysis.id }}">
                         <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
                             {% csrf_token %}
@@ -290,7 +291,7 @@
                             <button type="submit" class="dropdown-item" {% if analysis.result == 'worse' %}disabled{% endif %}>❌ {% trans "Segna come Peggiorato" %}</button>
                         </form>
                         <hr style="margin: 0.25rem 0; border: none; border-top: 1px solid #eee;">
-                        <form action="{% url 'delete_analysis' analysis.id %}" method="post" style="display:block;" onsubmit="return confirm('{% trans "Eliminare questa analisi?" %}');">
+                        <form action="{% url 'delete_analysis' analysis.id %}" method="post" style="display:block;" class="delete-analysis-form">
                             {% csrf_token %}
                             <button type="submit" class="dropdown-item" style="color: #ef4444;">🗑️ {% trans "Elimina" %}</button>
                         </form>
@@ -353,6 +354,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+    // Dropdown toggle
+    document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const id = this.dataset.id;
+            toggleDropdown(id);
+        });
+    });
+
+    // Delete confirmation
+    const deleteMsg = "{% trans "Eliminare questa analisi?" %}";
+    document.querySelectorAll('.delete-analysis-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            if (!confirm(deleteMsg)) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+    });
+});
+
 function toggleDropdown(id) {
     const menu = document.getElementById('dropdown-' + id);
     // Close other dropdowns
@@ -361,12 +387,5 @@ function toggleDropdown(id) {
     });
     menu.classList.toggle('show');
 }
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', function(e) {
-    if (!e.target.matches('.dropdown-toggle')) {
-        document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
-    }
-});
 </script>
 {% endblock %}

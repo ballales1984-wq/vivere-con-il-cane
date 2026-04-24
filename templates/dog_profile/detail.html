@@ -4,35 +4,43 @@
 {% block title %}{{ profile.dog_name }} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>{{ profile.dog_name }}</h1>
-    <p>{{ profile.breed|default:"Razza non specificata" }}</p>
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #ecfdf5, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: var(--secondary); font-size: 3rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">{{ profile.dog_name }}</h1>
+    <p style="color: var(--primary); font-weight: 700; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">{{ profile.breed|default:"Razza non specificata" }}</p>
 </section>
 
-<div class="tool-container">
-    <h2>{% trans "Scheda del Cane" %}</h2>
-    
-    {% if profile.birth_date %}
-    <p><strong>{% trans "Età" %}:</strong> {{ profile.birth_date }}</p>
-    {% endif %}
-    
-    {% if profile.weight %}
-    <p><strong>{% trans "Peso" %}:</strong> {{ profile.weight }} kg</p>
-    {% endif %}
-    
-    {% if profile.gender %}
-    <p><strong>{% trans "Genere" %}:</strong> {{ profile.get_gender_display }}</p>
-    {% endif %}
-    
-    <div style="margin-top: 2rem; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn-calculate" style="background-color: #3b82f6;">{% trans "+ Evento Salute" %}</a>
-        <a href="{% url 'profile_add_log' profile.id %}" class="btn-calculate" style="background-color: #6366f1;">{% trans "+ Registro Giornata" %}</a>
-        <a href="{% url 'analysis_history' profile.id %}" class="btn-calculate" style="background-color: #f59e0b; border: 2px solid #d97706; font-weight: bold;">{% trans "🧠 Storico Analisi AI" %}</a>
-        <a href="{% url 'profile_dossier' profile.id %}" class="btn-calculate" style="background-color: #10b981; border: 2px solid #059669; font-weight: bold;">{% trans "📋 Genera Cartella Clinica" %}</a>
-        <a href="{% url 'vet_request_start' profile.id %}" class="btn-calculate" style="background-color: var(--primary); border: 2px solid var(--primary-dark); font-weight: bold;">{% trans "📤 Invia al Veterinario" %}</a>
+<div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
+    <!-- Stats & Quick Actions -->
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 4rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-bottom: 3rem; text-align: center;">
+            <div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">{% trans "Età" %}</div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ profile.get_age }}</div>
+            </div>
+            {% if profile.weight %}
+            <div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">{% trans "Peso" %}</div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ profile.weight }} kg</div>
+            </div>
+            {% endif %}
+            {% if profile.gender %}
+            <div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">{% trans "Genere" %}</div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ profile.get_gender_display }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+            <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px;"><span>🩹</span> {% trans "Nuovo Evento Salute" %}</a>
+            <a href="{% url 'profile_add_log' profile.id %}" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px;"><span>✍️</span> {% trans "Registro Giornata" %}</a>
+            <a href="{% url 'analysis_history' profile.id %}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--secondary);"><span>🧠</span> {% trans "Storico Analisi AI" %}</a>
+            <a href="{% url 'profile_dossier' profile.id %}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px;"><span>📋</span> {% trans "Genera Dossier" %}</a>
+            <a href="{% url 'vet_request_start' profile.id %}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary-dark);"><span>📤</span> {% trans "Invia al Veterinario" %}</a>
         </div>
     </div>
-</section>
 
 <!-- Quick add another dog -->
 <section class="tool-container" style="max-width: 600px; margin: 2rem auto;">
@@ -43,42 +51,53 @@
     </div>
 </section>
 
-<section class="blog-list" style="margin-top: 2rem;">
-    <h2>{% trans "Eventi di Salute" %}</h2>
-    {% for event in events %}
-    <article class="post-card">
-        <div class="post-content">
-            <h3>{{ event.title }}</h3>
-            <p class="post-meta">{{ event.date }}</p>
-            <p>{{ event.get_event_type_display }}</p>
+    <div style="margin-top: 4rem;">
+        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">🩹 {% trans "Eventi di Salute" %}</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+            {% for event in events %}
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); border-left: 5px solid var(--primary);">
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem;">{{ event.date|date:"d M Y" }}</div>
+                <h3 style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 0.5rem;">{{ event.title }}</h3>
+                <span style="background: #f0fdf4; color: var(--primary); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">{{ event.get_event_type_display }}</span>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1/-1; background: #f8fafc; padding: 3rem; border-radius: var(--radius-md); text-align: center; border: 1px dashed var(--border);">
+                <p style="color: var(--text-muted);">{% trans "Nessun evento di salute registrato." %}</p>
+            </div>
+            {% endfor %}
         </div>
-    </article>
-    {% empty %}
-    <p>Nessun evento registrato.</p>
-    {% endfor %}
-</section>
+    </div>
 
-<section class="blog-list" style="margin-top: 2rem;">
-    <h2>Registro Giornaliero</h2>
-    <table>
-        <tr>
-            <th>Data</th>
-            <th>Sonno</th>
-            <th>Gioco</th>
-            <th>Passeggiata</th>
-            <th>Cibo</th>
-        </tr>
-        {% for log in logs %}
-        <tr>
-            <td>{{ log.date }}</td>
-            <td>{{ log.sleep_hours }}h</td>
-            <td>{{ log.play_minutes }}min</td>
-            <td>{{ log.walk_minutes }}min</td>
-            <td>{{ log.food_grams }}g</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="5">Nessun registro.</td></tr>
-        {% endfor %}
-    </table>
-</section>
+    <div style="margin-top: 4rem; margin-bottom: 5rem;">
+        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">📊 {% trans "Registro Giornaliero" %}</h2>
+        <div style="overflow-x: auto; background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="background: #f8fafc; border-bottom: 1px solid var(--border);">
+                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Data</th>
+                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Sonno</th>
+                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Gioco</th>
+                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Passeggiata</th>
+                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Cibo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 1rem 1.5rem; font-weight: 600;">{{ log.date|date:"d M Y" }}</td>
+                        <td style="padding: 1rem 1.5rem;">{{ log.sleep_hours }}h</td>
+                        <td style="padding: 1rem 1.5rem;">{{ log.play_minutes }}min</td>
+                        <td style="padding: 1rem 1.5rem;">{{ log.walk_minutes }}min</td>
+                        <td style="padding: 1rem 1.5rem;">{{ log.food_grams }}g</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="padding: 3rem; text-align: center; color: var(--text-muted);">{% trans "Nessun registro disponibile." %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
