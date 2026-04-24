@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Dossier Medico - {{ profile.dog_name }}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 2cm;
+        }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #333;
+            line-height: 1.5;
+            font-size: 10pt;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #059669;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #059669;
+            margin: 0;
+            font-size: 24pt;
+        }
+        .header p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 12pt;
+        }
+        .info-section {
+            margin-bottom: 30px;
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .info-grid {
+            width: 100%;
+        }
+        .info-grid td {
+            padding: 5px;
+        }
+        .label {
+            font-weight: bold;
+            color: #4b5563;
+            width: 120px;
+        }
+        .value {
+            color: #111827;
+        }
+        .timeline-title {
+            color: #064e3b;
+            font-size: 16pt;
+            border-left: 4px solid #059669;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+        table.timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.timeline-table th {
+            background-color: #f3f4f6;
+            color: #374151;
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        table.timeline-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+        .type-badge {
+            font-size: 8pt;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .badge-event { background-color: #d1fae5; color: #065f46; }
+        .badge-analysis { background-color: #dbeafe; color: #1e40af; }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 8pt;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DOSSIER CLINICO CANINO</h1>
+        <p>Vivere con il Cane - Digital Health Platform</p>
+    </div>
+
+    <div class="info-section">
+        <table class="info-grid">
+            <tr>
+                <td class="label">Paziente:</td>
+                <td class="value"><strong>{{ profile.dog_name }}</strong></td>
+                <td class="label">Data Dossier:</td>
+                <td class="value">{{ today|date:"d/m/Y" }}</td>
+            </tr>
+            <tr>
+                <td class="label">Razza:</td>
+                <td class="value">{{ profile.breed|default:"N/D" }}</td>
+                <td class="label">Età:</td>
+                <td class="value">{{ profile.get_age }} anni</td>
+            </tr>
+            <tr>
+                <td class="label">Peso:</td>
+                <td class="value">{{ profile.weight|default:"N/D" }} kg</td>
+                <td class="label">Genere:</td>
+                <td class="value">{{ profile.get_gender_display|default:"N/D" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2 class="timeline-title">Cronologia Eventi e Analisi</h2>
+    
+    <table class="timeline-table">
+        <thead>
+            <tr>
+                <th style="width: 15%;">Data</th>
+                <th style="width: 20%;">Tipo</th>
+                <th style="width: 65%;">Dettagli / Esito</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in timeline %}
+            <tr>
+                <td>{{ item.sort_date|date:"d/m/Y" }}</td>
+                <td>
+                    {% if item.item_type == 'event' %}
+                        <span class="type-badge badge-event">Evento Salute</span>
+                    {% else %}
+                        <span class="type-badge badge-analysis">Analisi IA</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <strong>
+                    {% if item.item_type == 'event' %}
+                        {{ item.title }}
+                    {% else %}
+                        {{ item.problem.get_title|default:"Analisi Generale" }}
+                    {% endif %}
+                    </strong>
+                    <div style="margin-top: 5px; font-size: 9pt; color: #4b5563;">
+                    {% if item.item_type == 'event' %}
+                        {{ item.description|default:"" }}
+                    {% else %}
+                        Sintomi: {{ item.user_description|truncatewords:30 }}
+                        {% if item.result != 'pending' %}
+                            <br><em>Esito: {{ item.get_result_display }}</em>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="text-align: center; padding: 30px;">Nessun dato registrato nella cronologia.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Documento generato digitalmente da Vivere con il Cane. Non sostituisce il parere di un veterinario in presenza.
+    </div>
+</body>
+</html>

@@ -83,10 +83,11 @@
         <div style="background: #f8fafc; padding: 1.5rem 3rem;" class="no-print">
             <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
                 <p style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">{% trans "Condividi con il Veterinario" %}</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button onclick="window.print()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem;">🖨️ {% trans "Stampa / PDF" %}</button>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                    <a href="{% url 'export_dossier_pdf' profile.id %}" class="btn" style="background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">📄 {% trans "PDF Professionale" %}</a>
+                    <button onclick="window.print()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem;">🖨️ {% trans "Stampa" %}</button>
                     <button onclick="copyToClipboard()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem; position: relative;">
-                        📋 {% trans "Copia Testo" %}
+                        📋 {% trans "Copia" %}
                         <span id="copyFeedback" class="copy-feedback" style="position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem;">{% trans "Copiato!" %}</span>
                     </button>
                     <a href="{{ whatsapp_url }}" target="_blank" class="btn" style="background: #25D366; color: white; border: none; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 700;">📱 WhatsApp</a>

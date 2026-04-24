@@ -12,7 +12,7 @@
 </style>
 
 <!-- HERO: AI Input Centrale con Immagine -->
-<section style="background: radial-gradient(circle at bottom right, #10b981, #065f46); color: white; padding: 6rem 2rem; border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 4rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
+<section class="animate-in" style="background: radial-gradient(circle at bottom right, #10b981, #065f46); color: white; padding: 6rem 2rem; border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 4rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--hero-pattern); opacity: 0.05; pointer-events: none;"></div>
     
     <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4rem;">
@@ -51,7 +51,7 @@
 </section>
 
 <!-- Chi Sono / Breve intro -->
-<section style="max-width: 1200px; margin: 0 auto 6rem; padding: 0 1.5rem;">
+<section class="animate-in" style="max-width: 1200px; margin: 0 auto 6rem; padding: 0 1.5rem; animation-delay: 0.1s;">
     <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 4rem; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center; border: 1px solid var(--border); position: relative;">
         <div style="position: absolute; top: 0; left: 0; width: 8px; height: 100%; background: var(--accent); border-radius: var(--radius-lg) 0 0 var(--radius-lg);"></div>
         <div style="flex: 1; min-width: 300px;">
@@ -108,7 +108,7 @@
 {% endif %}
 
 <!-- Come Funziona -->
-<section class="section-how">
+<section class="section-how animate-in" style="animation-delay: 0.2s;">
     <h2 class="section-heading">{% trans "Come funziona" %}</h2>
     <div class="steps-grid">
         <div class="step-card">

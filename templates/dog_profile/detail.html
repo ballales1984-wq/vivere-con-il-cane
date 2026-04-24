@@ -4,14 +4,14 @@
 {% block title %}{{ profile.dog_name }} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #ecfdf5, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+<section class="animate-in" style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #ecfdf5, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
     <h1 style="color: var(--secondary); font-size: 3rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">{{ profile.dog_name }}</h1>
     <p style="color: var(--primary); font-weight: 700; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">{{ profile.breed|default:"Razza non specificata" }}</p>
 </section>
 
 <div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
     <!-- Stats & Quick Actions -->
-    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 4rem; position: relative; overflow: hidden;">
+    <div class="animate-in" style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 4rem; position: relative; overflow: hidden; animation-delay: 0.1s;">
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-bottom: 3rem; text-align: center;">
@@ -51,7 +51,7 @@
     </div>
 </section>
 
-    <div style="margin-top: 4rem;">
+    <div class="animate-in" style="margin-top: 4rem; animation-delay: 0.2s;">
         <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 3rem; font-family: 'Outfit', sans-serif;">🩹 {% trans "Timeline della Salute" %}</h2>
         
         {% if events %}
@@ -90,7 +90,7 @@
         {% endif %}
     </div>
 
-    <div style="margin-top: 4rem; margin-bottom: 5rem;">
+    <div class="animate-in" style="margin-top: 4rem; margin-bottom: 5rem; animation-delay: 0.3s;">
         <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">📊 {% trans "Registro Giornaliero" %}</h2>
         <div style="overflow-x: auto; background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
             <table style="width: 100%; border-collapse: collapse; text-align: left;">

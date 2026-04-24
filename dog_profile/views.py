@@ -12,6 +12,9 @@ from .models import (
 from knowledge.models import DogAnalysis
 from datetime import date
 import json
+import io
+from xhtml2pdf import pisa
+from django.template.loader import get_template
 
 
 @login_required
@@ -184,6 +187,44 @@ def profile_dossier(request, profile_id):
             "whatsapp_url": whatsapp_url,
         },
     )
+
+
+@login_required
+def export_dossier_pdf(request, profile_id):
+    """Generates a professional clinical PDF dossier."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
+    events = list(profile.medical_events.all())
+    analyses = list(profile.analyses.all())
+
+    for e in events:
+        e.sort_date = e.date
+        e.item_type = "event"
+    for a in analyses:
+        e_date = getattr(a, "created_at", None)
+        a.sort_date = e_date.date() if e_date else date.today()
+        a.item_type = "analysis"
+
+    timeline = events + analyses
+    timeline.sort(key=lambda x: x.sort_date, reverse=True)
+
+    template_path = "dog_profile/dossier_pdf.html"
+    context = {"profile": profile, "timeline": timeline, "today": date.today()}
+
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="Dossier_{profile.dog_name}_{date.today()}.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    # if error then show some funny view
+    if pisa_status.err:
+        return HttpResponse("We had some errors <pre>" + html + "</pre>")
+    return response
 
 
 @login_required

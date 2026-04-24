@@ -9,6 +9,7 @@ urlpatterns = [
     path("<int:profile_id>/evento/", views.profile_add_event, name="profile_add_event"),
     path("<int:profile_id>/log/", views.profile_add_log, name="profile_add_log"),
     path("<int:profile_id>/dossier/", views.profile_dossier, name="profile_dossier"),
+    path("<int:profile_id>/dossier/pdf/", views.export_dossier_pdf, name="export_dossier_pdf"),
     path("miod cane/", views.my_dog, name="my_dog"),
     # Veterinary Requests
     path(
