@@ -123,6 +123,18 @@ TIME_ZONE = "Europe/Rome"
 USE_I18N = True
 USE_TZ = True
 
+# Cache (LocMemCache per dev, in produzione sostituire con Redis)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "vivere-cane-cache",
+    }
+}
+
+# Rate limiting per l'analisi IA: max richieste per IP per finestra temporale
+ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))  # max 10
+ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))  # per ora
+
 LANGUAGES = [
     ("it", "Italiano"),
     ("en", "English"),

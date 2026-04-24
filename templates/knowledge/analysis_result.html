@@ -91,7 +91,54 @@
         </a>
         {% endif %}
     </div>
+
+    <!-- Social Sharing -->
+    <div style="margin-top: 3rem; padding: 2.5rem; background: #f8fafc; border-radius: var(--radius-lg); border: 1px solid var(--border); text-align: center;">
+        <p style="font-size: 0.9rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem;">
+            {% trans "Questo consiglio ti è stato utile? Condividilo" %}
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+            <a id="share-whatsapp"
+               href="https://wa.me/?text={{ request.scheme }}://{{ request.get_host }}{% url 'analyze_problem' %}"
+               target="_blank" rel="noopener"
+               style="display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 0.75rem 1.5rem; border-radius: 100px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(37,211,102,0.3)';"
+               onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.368 0 0 5.369 0 11.994c0 2.116.554 4.1 1.52 5.822L0 24l6.335-1.663a11.955 11.955 0 005.658 1.435h.005C18.619 23.772 24 18.403 24 11.778 24 5.152 18.619 0 11.993 0zm-.005 21.785a9.929 9.929 0 01-5.065-1.378l-.363-.216-3.76.986 1.005-3.654-.237-.375a9.938 9.938 0 01-1.524-5.31c0-5.493 4.469-9.962 9.962-9.962 2.663 0 5.165 1.037 7.045 2.92a9.922 9.922 0 012.913 7.043c-.002 5.492-4.471 9.946-9.976 9.946z"/></svg>
+                WhatsApp
+            </a>
+            <button id="copy-link-btn"
+               onclick="copyAnalysisLink()"
+               style="display: inline-flex; align-items: center; gap: 8px; background: var(--secondary); color: white; padding: 0.75rem 1.5rem; border-radius: 100px; font-weight: 700; border: none; cursor: pointer; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';"
+               onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                🔗 <span id="copy-label">{% trans "Copia Link" %}</span>
+            </button>
+        </div>
+    </div>
 </div>
+
+<script>
+function copyAnalysisLink() {
+    const url = window.location.href;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+            const label = document.getElementById('copy-label');
+            label.textContent = '{% trans "Copiato!" %}';
+            setTimeout(() => { label.textContent = '{% trans "Copia Link" %}'; }, 2500);
+        });
+    }
+}
+
+// Set WhatsApp link dynamically
+const waLink = document.getElementById('share-whatsapp');
+if (waLink) {
+    const msg = encodeURIComponent(
+        '{% trans "Ho analizzato il comportamento del mio cane con questa IA gratuita:" %} ' + window.location.origin + '{% url "analyze_problem" %}'
+    );
+    waLink.href = 'https://wa.me/?text=' + msg;
+}
+</script>
 
 <style>
 .analysis-result {

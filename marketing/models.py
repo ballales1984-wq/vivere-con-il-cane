@@ -11,6 +11,9 @@ class NewsletterSubscriber(models.Model):
     unsubscribe_token = models.UUIDField(
         default=uuid.uuid4, unique=True, editable=False
     )
+    welcome_sent = models.BooleanField(default=False)
+    followup_step = models.IntegerField(default=0, help_text="Current step in the onboarding sequence (1-3)")
+    last_email_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.email

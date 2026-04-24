@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.conf import settings
+from django.core.cache import cache
 from .models import Problem, Solution, BreedInsight, DogAnalysis, VeterinaryDocument
 from dog_profile.models import DogProfile
 from blog.models import BlogPost
@@ -83,14 +84,35 @@ def breed_detail(request, slug):
 
 
 def analyze_problem(request):
-    """AI-powered problem analysis."""
+    """AI-powered problem analysis with IP-based rate limiting."""
     if request.method == "POST":
+        # --- Rate Limiting ---
+        ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR", "unknown"))
+        ip = ip.split(",")[0].strip()
+        rate_key = f"analyze_rate:{ip}"
+        rate_limit = getattr(settings, "ANALYZE_RATE_LIMIT", 10)
+        rate_window = getattr(settings, "ANALYZE_RATE_WINDOW", 3600)
+        current_count = cache.get(rate_key, 0)
+        if current_count >= rate_limit:
+            dogs = DogProfile.objects.filter(owner=request.user) if request.user.is_authenticated else []
+            problems = Problem.objects.all()
+            return render(
+                request,
+                "knowledge/analyze_form.html",
+                {
+                    "dogs": dogs,
+                    "problems": problems,
+                    "error": "Hai raggiunto il limite di analisi orarie. Riprova tra poco.",
+                },
+            )
+        cache.set(rate_key, current_count + 1, rate_window)
+        # --- End Rate Limiting ---
+
         dog_id = request.POST.get("dog_id")
         problem_id = request.POST.get("problem_id")
         description = request.POST.get("description", "").strip()
 
         if not description:
-            # Redirect back to form if no description
             dogs = DogProfile.objects.all()
             problems = Problem.objects.all()
             return render(
@@ -171,6 +193,7 @@ def auto_detect_problem(text):
     """Auto-detect problem from user description text."""
     text_lower = text.lower()
     keyword_map = {
+        # Existing problems
         "abbaia": "abbaia-troppo",
         "abbaio": "abbaia-troppo",
         "tira": "tira-guinzaglio",
@@ -196,6 +219,38 @@ def auto_detect_problem(text):
         "mastica": "distrugge-casa",
         "eccitato": "eccitazione-eccessiva",
         "eccitazione": "eccitazione-eccessiva",
+        # New problems
+        "reattivo": "reattivita-guinzaglio",
+        "reattivita": "reattivita-guinzaglio",
+        "ringhia": "reattivita-guinzaglio",
+        "aggressivo": "reattivita-guinzaglio",
+        "sassi": "mangia-tutto-terra",
+        "terra": "mangia-tutto-terra",
+        "raccoglie": "mangia-tutto-terra",
+        "inghiotte": "mangia-tutto-terra",
+        "pica": "mangia-tutto-terra",
+        "estraneo": "paura-estranei",
+        "persone": "paura-estranei",
+        "estranei": "paura-estranei",
+        "feci": "mangia-feci",
+        "coprofagia": "mangia-feci",
+        "scava": "scava-giardino",
+        "buche": "scava-giardino",
+        "giardino": "scava-giardino",
+        "veterinario": "paura-veterinario",
+        "clinica": "paura-veterinario",
+        "visita": "paura-veterinario",
+        "auto": "mal-auto",
+        "macchina": "mal-auto",
+        "vomita": "mal-auto",
+        "viaggi": "mal-auto",
+        "lecca": "lecca-zampe-ossessivo",
+        "zampe": "lecca-zampe-ossessivo",
+        "prurito": "lecca-zampe-ossessivo",
+        "distrae": "scarsa-attenzione",
+        "distrazione": "scarsa-attenzione",
+        "concentrazione": "scarsa-attenzione",
+        "attenzione": "scarsa-attenzione",
     }
 
     for keyword, slug in keyword_map.items():

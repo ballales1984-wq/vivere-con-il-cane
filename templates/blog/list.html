@@ -13,7 +13,7 @@
     {% for post in posts %}
     <article style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--border); transition: var(--transition); display: flex; flex-direction: column;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-premium)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)';" class="post-card">
         <a href="{% url 'blog_detail' post.slug %}" style="text-decoration: none; position: relative; display: block; overflow: hidden; aspect-ratio: 16/9;">
-            <img src="" alt="{{ post.get_title }}" class="post-img" data-index="{{ forloop.counter0 }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+            <img src="" alt="{{ post.get_title }}" class="post-img" data-index="{{ forloop.counter0 }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" loading="lazy" decoding="async" width="400" height="225">
             {% if post.category %}
             <span style="position: absolute; top: 1rem; left: 1rem; background: var(--primary); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: var(--shadow-md);">
                 {{ post.category.name }}

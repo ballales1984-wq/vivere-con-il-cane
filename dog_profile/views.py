@@ -120,9 +120,13 @@ def dashboard(request):
     """Main dashboard - private view for owner's dogs."""
     profiles = list(DogProfile.objects.filter(owner=request.user))
 
-    # Attach analyses to each profile
     for profile in profiles:
         profile.recent_analyses = list(profile.analyses.all()[:5])
+        profile.events_count = profile.medical_events.count()
+        # Last 6 health logs for mini-chart
+        logs = list(profile.health_logs.order_by('-date')[:6])
+        profile.chart_labels = [str(l.date) for l in reversed(logs)]
+        profile.chart_walk = [l.walk_minutes or 0 for l in reversed(logs)]
 
     return render(request, "dog_profile/dashboard.html", {"profiles": profiles})
 

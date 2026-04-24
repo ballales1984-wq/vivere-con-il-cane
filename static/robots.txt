@@ -1,13 +1,25 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+
+# Disallow private/admin areas
 Disallow: /admin/
 Disallow: /cane/
-Disallow: /account/
-Disallow: /password/
+Disallow: /it/cane/
+Disallow: /en/cane/
+Disallow: /accounts/
+Disallow: /it/accounts/
+Disallow: /en/accounts/
+Disallow: /media/
 
+# Allow all public content
 Allow: /
 Allow: /blog/
 Allow: /tool/
 Allow: /knowledge/
+Allow: /chi-sono/
+Allow: /it/
+Allow: /en/
+Allow: /static/
 
+# Sitemaps
 Sitemap: https://vivere-con-il-cane.onrender.com/sitemap.xml
