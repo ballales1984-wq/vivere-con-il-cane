@@ -62,6 +62,11 @@ def subscribe_newsletter(request):
                 html_message=html_message,
                 fail_silently=False,
             )
+            # Mark welcome as sent for follow-up sequence
+            subscriber.welcome_sent = True
+            from django.utils import timezone
+            subscriber.last_email_at = timezone.now()
+            subscriber.save()
         except Exception as e:
             print(f"Error sending welcome email to {email}: {e}")
 
