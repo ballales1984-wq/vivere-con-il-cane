@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.db.models import Count
 from .models import (
     DogProfile,
     MedicalEvent,
@@ -118,17 +119,35 @@ def my_dog(request):
 @login_required
 def dashboard(request):
     """Main dashboard - private view for owner's dogs."""
-    profiles = list(DogProfile.objects.filter(owner=request.user))
+    profiles = list(
+        DogProfile.objects.filter(owner=request.user).annotate(
+            events_count=Count("medical_events")
+        )
+    )
 
+    chart_data = []
     for profile in profiles:
         profile.recent_analyses = list(profile.analyses.all()[:5])
-        profile.events_count = profile.medical_events.count()
-        # Last 6 health logs for mini-chart
-        logs = list(profile.health_logs.order_by('-date')[:6])
-        profile.chart_labels = [str(l.date) for l in reversed(logs)]
-        profile.chart_walk = [l.walk_minutes or 0 for l in reversed(logs)]
 
-    return render(request, "dog_profile/dashboard.html", {"profiles": profiles})
+        # Last 6 health logs for mini-chart
+        logs = list(profile.health_logs.order_by("-date")[:6])
+        if logs:
+            profile.has_chart = True
+            chart_data.append(
+                {
+                    "id": str(profile.id),
+                    "labels": [str(l.date) for l in reversed(logs)],
+                    "walk": [l.walk_minutes or 0 for l in reversed(logs)],
+                }
+            )
+        else:
+            profile.has_chart = False
+
+    return render(
+        request,
+        "dog_profile/dashboard.html",
+        {"profiles": profiles, "chart_data_json": chart_data},
+    )
 
 
 @login_required
@@ -216,7 +235,9 @@ def export_dossier_pdf(request, profile_id):
 
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="Dossier_{profile.dog_name}_{date.today()}.pdf"'
+    response["Content-Disposition"] = (
+        f'attachment; filename="Dossier_{profile.dog_name}_{date.today()}.pdf"'
+    )
 
     # find the template and render it.
     template = get_template(template_path)

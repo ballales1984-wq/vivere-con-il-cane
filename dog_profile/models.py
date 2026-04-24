@@ -139,7 +139,14 @@ class DogProfile(models.Model):
 
     @property
     def events_count(self):
+        # If annotated via QuerySet.annotate(), use that value; otherwise compute.
+        if hasattr(self, "_events_count"):
+            return self._events_count
         return self.medical_events.count()
+
+    @events_count.setter
+    def events_count(self, value):
+        self._events_count = value
 
     # ── PROPERTIES DI UTILITÀ ──
     @property

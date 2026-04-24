@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            {% if profile.chart_labels %}
+            {% if profile.has_chart %}
             <div style="margin-bottom: 1.5rem; background: #f8fafc; border-radius: 12px; padding: 1rem;">
                 <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">📊 {% trans "Attività (min/giorno)" %}</div>
                 <canvas id="chart-{{ profile.id }}" height="60"></canvas>
@@ -162,21 +162,12 @@
     }
 </style>
 
+{{ chart_data_json|json_script:"chart-data" }}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script>
 (function() {
-    // Collect data from template variables in a way that doesn't break IDE parsing
-    const rawData = [
-        {% for profile in profiles %}
-        {% if profile.chart_labels %}
-        {
-            id: "{{ profile.id }}",
-            labels: {{ profile.chart_labels|safe }},
-            walk: {{ profile.chart_walk|safe }}
-        },
-        {% endif %}
-        {% endfor %}
-    ];
+    // Parse the safely embedded JSON data
+    const rawData = JSON.parse(document.getElementById('chart-data').textContent);
 
     rawData.forEach(data => {
         const ctx = document.getElementById('chart-' + data.id);
