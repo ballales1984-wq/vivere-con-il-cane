@@ -195,6 +195,8 @@ class DogProfile(models.Model):
         # Totals
         total_days_logged = routine_logs.count()
         total_medical_events = self.medical_events.count()
+        total_walk_min = routine_logs.aggregate(Sum('walk_minutes'))['walk_minutes__sum'] or 0
+        total_km = round(total_walk_min / 15, 1) # Stima ~4km/h
         
         # Behavioral problems
         # We need to count unique problem types analyzed
@@ -206,6 +208,7 @@ class DogProfile(models.Model):
                 
         return {
             "total_days_tracked": total_days_logged,
+            "total_km": total_km,
             "averages": {
                 "sleep_hours": round(avgs['avg_sleep'] or 0, 1),
                 "walk_minutes": int(avgs['avg_walk'] or 0),

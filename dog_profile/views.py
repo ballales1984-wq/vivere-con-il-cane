@@ -58,8 +58,15 @@ def profile_new(request):
 def profile_detail(request, profile_id):
     """View dog profile restricted to owner."""
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
-    events = profile.medical_events.all()[:10]
-    logs = profile.health_logs.filter(log_type="routine")[:7]
+    events = profile.medical_events.all().order_by("-date")[:10]
+    logs = list(profile.health_logs.filter(log_type="routine").order_by("-date")[:14])
+    
+    chart_data = {
+        "labels": [l.date.strftime("%d/%m") for l in reversed(logs)],
+        "walk": [l.walk_minutes or 0 for l in reversed(logs)],
+        "play": [l.play_minutes or 0 for l in reversed(logs)],
+        "sleep": [float(l.sleep_hours or 0) for l in reversed(logs)],
+    }
 
     return render(
         request,
@@ -68,6 +75,8 @@ def profile_detail(request, profile_id):
             "profile": profile,
             "events": events,
             "logs": logs,
+            "stats": profile.get_lifetime_stats(),
+            "chart_data_json": json.dumps(chart_data)
         },
     )
 
@@ -141,9 +150,17 @@ def get_daily_coach_tips(profile):
     history_text += "Storico ultimi giorni (Passeggiata min, Gioco min, Sonno ore):\n"
     for l in reversed(logs):
         history_text += f"- {l.date}: {l.walk_minutes or 0}m pass., {l.play_minutes or 0}m gioco, {l.sleep_hours or 0}h sonno.\n"
+    
+    # NEW: Add recent medical events (last 14 days)
+    recent_date = date.today() - timezone.timedelta(days=14)
+    medical_events = profile.medical_events.filter(date__gte=recent_date).order_by("-date")
+    if medical_events.exists():
+        history_text += "\nEventi Medici Recenti (IMPORTANTE):\n"
+        for me in medical_events:
+            history_text += f"- {me.date}: {me.title} ({me.get_event_type_display()}). Descrizione: {me.description or 'N/D'}\n"
 
-    system_msg = "Sei un 'AI Daily Coach' per cani. Fornisci 2 consigli BREVI (max 15 parole l'uno) e molto pratici per la giornata di oggi, basati sui trend degli ultimi giorni. Sii incoraggiante."
-    prompt = f'Analizza questo storico e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: ["consiglio 1", "consiglio 2"]. Niente altro.'
+    system_msg = "Sei un 'AI Daily Coach' per cani. Fornisci 2 consigli BREVI (max 15 parole l'uno) e molto pratici per la giornata di oggi, basati sui trend degli ultimi giorni E sugli eventuali problemi medici recenti segnalati. Sii incoraggiante."
+    prompt = f'Analizza lo storico e gli eventi medici recenti e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: ["consiglio 1", "consiglio 2"]. Niente altro.'
 
     api_key = os.environ.get("GROK_API_KEY", "")
     if not api_key or len(api_key) < 20:

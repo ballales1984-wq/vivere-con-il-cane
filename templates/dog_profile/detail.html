@@ -4,121 +4,175 @@
 {% block title %}{{ profile.dog_name }} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="animate-in" style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #ecfdf5, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
-    <h1 style="color: var(--secondary); font-size: 3rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">{{ profile.dog_name }}</h1>
-    <p style="color: var(--primary); font-weight: 700; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">{{ profile.breed|default:"Razza non specificata" }}</p>
-</section>
-
-<div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
-    <!-- Stats & Quick Actions -->
-    <div class="animate-in" style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 4rem; position: relative; overflow: hidden; animation-delay: 0.1s;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-bottom: 3rem; text-align: center;">
-            <div>
-                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">{% trans "Età" %}</div>
-                <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ profile.get_age }}</div>
+<section class="animate-in" style="padding: 4rem 2rem 3rem; background: #0f172a; color: white; border-bottom: 4px solid #e11d48; position: relative; overflow: hidden;">
+    <!-- F1 Pattern Overlay -->
+    <div style="position: absolute; inset: 0; opacity: 0.05; background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 50%, #fff 50%, #fff 75%, transparent 75%, transparent); background-size: 4px 4px;"></div>
+    
+    <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-end; gap: 2rem; flex-wrap: wrap;">
+        <div style="width: 120px; height: 120px; background: #1e293b; border: 3px solid #e11d48; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 4rem; box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);">🐶</div>
+        <div style="flex: 1; min-width: 300px; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <span style="background: #e11d48; color: white; padding: 2px 8px; font-family: monospace; font-weight: 900; font-style: italic; font-size: 0.8rem; letter-spacing: 1px;">ACTIVE UNIT</span>
+                <span style="color: #64748b; font-family: monospace; font-size: 0.8rem;">REF_ID: {{ profile.id|stringformat:"05d" }}</span>
             </div>
-            {% if profile.weight %}
-            <div>
-                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">{% trans "Peso" %}</div>
-                <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ profile.weight }} kg</div>
-            </div>
-            {% endif %}
-            {% if profile.gender %}
-            <div>
-                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem;">{% trans "Genere" %}</div>
-                <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">{{ profile.get_gender_display }}</div>
-            </div>
-            {% endif %}
+            <h1 style="font-size: 4rem; line-height: 1; margin: 0; font-family: 'Outfit', sans-serif; font-weight: 900; text-transform: uppercase; font-style: italic; letter-spacing: -2px;">{{ profile.dog_name }}</h1>
+            <p style="color: #94a3b8; font-family: sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-top: 0.5rem;">{{ profile.breed|default:"UNSPECIFIED BREED" }} // PERFORMANCE MONITOR</p>
         </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
-            <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px;"><span>🩹</span> {% trans "Nuovo Evento Salute" %}</a>
-            <a href="{% url 'profile_add_log' profile.id %}" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px;"><span>✍️</span> {% trans "Registro Giornata" %}</a>
-            <a href="{% url 'analysis_history' profile.id %}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--secondary);"><span>🧠</span> {% trans "Storico Analisi AI" %}</a>
-            <a href="{% url 'profile_dossier' profile.id %}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px;"><span>📋</span> {% trans "Genera Dossier" %}</a>
-            <a href="{% url 'vet_request_start' profile.id %}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary-dark);"><span>📤</span> {% trans "Invia al Veterinario" %}</a>
+        <div style="text-align: right; border-left: 1px solid #334155; padding-left: 2rem;">
+            <div style="font-family: monospace; color: #e11d48; font-size: 0.8rem; font-weight: 900; margin-bottom: 5px;">LIFETIME_STATUS</div>
+            <div style="font-size: 2.5rem; font-weight: 900; font-family: 'Outfit'; font-style: italic;">{{ stats.total_days_tracked }}D</div>
+            <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase; font-weight: 700;">Data Points Logged</div>
         </div>
-    </div>
-
-<!-- Quick add another dog -->
-<section class="tool-container" style="max-width: 600px; margin: 2rem auto;">
-    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 1.5rem; border-radius: 16px; border: 2px dashed #10b981; text-align: center;">
-        <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">➕ {% trans "Aggiungi un altro cane" %}</h4>
-        <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">{% trans "Gestisci più cani nello stesso account" %}</p>
-        <a href="{% url 'profile_new' %}" class="btn btn-primary" style="background: #10b981; border: none;">{% trans "Nuovo Profilo Cane" %}</a>
     </div>
 </section>
 
-    <div class="animate-in" style="margin-top: 4rem; animation-delay: 0.2s;">
-        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 3rem; font-family: 'Outfit', sans-serif;">🩹 {% trans "Timeline della Salute" %}</h2>
+<div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 5rem; background: #f1f5f9; min-height: 100vh;">
+    
+    <!-- TELEMETRY GRID -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
         
-        {% if events %}
-        <div style="position: relative; border-left: 2px solid var(--border); padding-left: 2.5rem; margin-left: 0.5rem; margin-bottom: 5rem;">
-            {% for event in events %}
-            <div style="position: relative; margin-bottom: 2.5rem;">
-                <!-- Timeline Dot -->
-                <div style="position: absolute; left: -2.85rem; top: 0; width: 14px; height: 14px; background: var(--primary); border: 3px solid white; border-radius: 50%; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);"></div>
-                
-                <div style="background: white; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: transform 0.2s;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                        <div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{{ event.date|date:"d M Y" }}</div>
-                            <h3 style="font-size: 1.3rem; color: var(--secondary); margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">{{ event.title }}</h3>
-                            <span style="background: #f0fdf4; color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">{{ event.get_event_type_display }}</span>
-                        </div>
-                        <div style="font-size: 1.5rem; opacity: 0.5;">🩹</div>
+        <!-- MAIN DATA PANEL -->
+        <div style="grid-column: span 2; background: white; border: 1px solid #e2e8f0; padding: 2rem; border-top: 4px solid #0f172a;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                <h3 style="margin: 0; font-family: 'Outfit'; text-transform: uppercase; font-style: italic; font-weight: 900; color: #0f172a;">📊 Performance Telemetry <span style="color: #e11d48;">[LIVE_TRENDS]</span></h3>
+                <div style="font-family: monospace; font-size: 0.75rem; color: #64748b; background: #f8fafc; padding: 4px 10px; border: 1px solid #e2e8f0;">SAMPLE_RATE: 24H_CYCLES</div>
+            </div>
+            
+            {% if chart_data_json %}
+            <div style="height: 350px; position: relative;">
+                <canvas id="f1Chart"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const data = JSON.parse('{{ chart_data_json|safe }}');
+                    const ctx = document.getElementById('f1Chart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.labels,
+                            datasets: [
+                                {
+                                    label: 'WALK (MIN)',
+                                    data: data.walk,
+                                    borderColor: '#e11d48',
+                                    borderWidth: 4,
+                                    pointBackgroundColor: '#e11d48',
+                                    tension: 0,
+                                    yAxisID: 'y'
+                                },
+                                {
+                                    label: 'PLAY (MIN)',
+                                    data: data.play,
+                                    borderColor: '#0f172a',
+                                    borderDash: [5, 5],
+                                    borderWidth: 2,
+                                    tension: 0,
+                                    yAxisID: 'y'
+                                },
+                                {
+                                    label: 'SLEEP (H)',
+                                    data: data.sleep,
+                                    type: 'bar',
+                                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                                    yAxisID: 'y1'
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { position: 'bottom', labels: { font: { family: 'monospace', weight: 'bold' } } } },
+                            scales: {
+                                y: { type: 'linear', position: 'left', grid: { color: '#f1f5f9' }, ticks: { font: { family: 'monospace' } } },
+                                y1: { type: 'linear', position: 'right', grid: { display: false }, ticks: { font: { family: 'monospace' } } }
+                            }
+                        }
+                    });
+                });
+            </script>
+            {% endif %}
+        </div>
+
+        <!-- RIGHT PANEL: KPI & COMMANDS -->
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- PHYSICAL STATS -->
+            <div style="background: #0f172a; color: white; padding: 1.5rem; border-left: 6px solid #e11d48;">
+                <div style="font-family: monospace; font-size: 0.7rem; font-weight: 900; color: #e11d48; margin-bottom: 1rem;">PHYSICAL_PARAMETERS</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <div style="font-size: 0.6rem; color: #94a3b8; text-transform: uppercase;">Weight</div>
+                        <div style="font-size: 1.5rem; font-weight: 900; font-family: 'Outfit';">{{ profile.weight|default:"--" }}<span style="font-size: 0.8rem; color: #e11d48;">KG</span></div>
                     </div>
-                    {% if event.description %}
-                    <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">{{ event.description|truncatewords:20 }}</p>
-                    {% endif %}
+                    <div>
+                        <div style="font-size: 0.6rem; color: #94a3b8; text-transform: uppercase;">Age</div>
+                        <div style="font-size: 1.5rem; font-weight: 900; font-family: 'Outfit';">{{ profile.get_age }}<span style="font-size: 0.8rem; color: #e11d48;">YR</span></div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.6rem; color: #94a3b8; text-transform: uppercase;">Distance</div>
+                        <div style="font-size: 1.5rem; font-weight: 900; font-family: 'Outfit';">{{ stats.total_km }}<span style="font-size: 0.8rem; color: #e11d48;">KM</span></div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.6rem; color: #94a3b8; text-transform: uppercase;">Avg_Sleep</div>
+                        <div style="font-size: 1.5rem; font-weight: 900; font-family: 'Outfit';">{{ stats.averages.sleep_hours }}<span style="font-size: 0.8rem; color: #e11d48;">H</span></div>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
-            <div style="display: flex; align-items: center; gap: 1rem; margin-top: -1rem;">
-                <div style="width: 14px; height: 14px; background: var(--border); border-radius: 50%; border: 3px solid white; margin-left: -0.4rem;"></div>
-                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">{% trans "Inizio della storia" %}</p>
+
+            <!-- QUICK ACTIONS -->
+            <div style="background: white; border: 1px solid #e2e8f0; padding: 1.5rem; flex: 1;">
+                <div style="font-family: monospace; font-size: 0.7rem; font-weight: 900; color: #0f172a; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px;">SYSTEM_COMMANDS</div>
+                <div style="display: grid; gap: 0.5rem;">
+                    <a href="{% url 'profile_add_log' profile.id %}" style="display: block; background: #e11d48; color: white; text-decoration: none; padding: 0.75rem; text-align: center; font-weight: 900; font-family: 'Outfit'; font-style: italic; text-transform: uppercase; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); transition: 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">✚ Data Input</a>
+                    <a href="{% url 'profile_add_event' profile.id %}" style="display: block; background: #0f172a; color: white; text-decoration: none; padding: 0.75rem; text-align: center; font-weight: 900; font-family: 'Outfit'; font-style: italic; text-transform: uppercase; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); transition: 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">✚ Health Event</a>
+                    <a href="{% url 'lifetime_analytics' profile.id %}" style="display: block; border: 2px solid #e11d48; color: #e11d48; text-decoration: none; padding: 0.75rem; text-align: center; font-weight: 900; font-family: 'Outfit'; font-style: italic; text-transform: uppercase; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); transition: 0.2s;" onmouseover="this.style.background='#e11d48'; this.style.color='white'" onmouseout="this.style.background='transparent'; this.style.color='#e11d48'">✨ AI_MACRO_HUB</a>
+                    <a href="{% url 'profile_dossier' profile.id %}" style="display: block; background: #64748b; color: white; text-decoration: none; padding: 0.75rem; text-align: center; font-weight: 900; font-family: 'Outfit'; font-style: italic; text-transform: uppercase; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%); transition: 0.2s;">💾 Export_PDF</a>
+                </div>
             </div>
         </div>
-        {% else %}
-        <div style="background: #f8fafc; padding: 3rem; border-radius: var(--radius-md); text-align: center; border: 1px dashed var(--border); margin-bottom: 4rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.2;">🩹</div>
-            <p style="color: var(--text-muted);">{% trans "Nessun evento di salute registrato." %}</p>
-            <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary" style="margin-top: 1.5rem;">{% trans "Aggiungi Primo Evento" %}</a>
-        </div>
-        {% endif %}
     </div>
 
-    <div class="animate-in" style="margin-top: 4rem; margin-bottom: 5rem; animation-delay: 0.3s;">
-        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">📊 {% trans "Registro Giornaliero" %}</h2>
-        <div style="overflow-x: auto; background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead>
-                    <tr style="background: #f8fafc; border-bottom: 1px solid var(--border);">
-                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Data</th>
-                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Sonno</th>
-                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Gioco</th>
-                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Passeggiata</th>
-                        <th style="padding: 1rem 1.5rem; color: var(--secondary); font-weight: 700;">Cibo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for log in logs %}
-                    <tr style="border-bottom: 1px solid var(--border);">
-                        <td style="padding: 1rem 1.5rem; font-weight: 600;">{{ log.date|date:"d M Y" }}</td>
-                        <td style="padding: 1rem 1.5rem;">{{ log.sleep_hours }}h</td>
-                        <td style="padding: 1rem 1.5rem;">{{ log.play_minutes }}min</td>
-                        <td style="padding: 1rem 1.5rem;">{{ log.walk_minutes }}min</td>
-                        <td style="padding: 1rem 1.5rem;">{{ log.food_grams }}g</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="5" style="padding: 3rem; text-align: center; color: var(--text-muted);">{% trans "Nessun registro disponibile." %}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <!-- LOWER SECTION: TIMELINE -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+        <div style="background: white; border: 1px solid #e2e8f0; padding: 2rem;">
+            <h3 style="font-family: 'Outfit'; text-transform: uppercase; font-style: italic; font-weight: 900; color: #0f172a; margin-bottom: 1.5rem;">📅 Event History</h3>
+            {% for event in events %}
+            <div style="border-left: 3px solid #e11d48; padding: 1rem; background: #f8fafc; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-family: monospace; font-size: 0.7rem; color: #64748b;">{{ event.date|date:"Y-m-d" }}</div>
+                    <div style="font-weight: 800; text-transform: uppercase; color: #0f172a;">{{ event.title }}</div>
+                </div>
+                <div style="font-family: monospace; font-size: 0.65rem; background: #e11d48; color: white; padding: 2px 6px;">{{ event.get_event_type_display|upper }}</div>
+            </div>
+            {% empty %}
+            <p style="font-family: monospace; color: #94a3b8; text-align: center;">NO_DATA_LOGGED</p>
+            {% endfor %}
+        </div>
+        
+        <div style="background: white; border: 1px solid #e2e8f0; padding: 2rem;">
+            <h3 style="font-family: 'Outfit'; text-transform: uppercase; font-style: italic; font-weight: 900; color: #0f172a; margin-bottom: 1.5rem;">⏱️ Activity Log</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; font-family: monospace; font-size: 0.85rem; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #0f172a; color: white; text-align: left;">
+                            <th style="padding: 10px;">DATE</th>
+                            <th style="padding: 10px;">SLEEP</th>
+                            <th style="padding: 10px;">WALK</th>
+                            <th style="padding: 10px;">PLAY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 10px; font-weight: 800;">{{ log.date|date:"m/d" }}</td>
+                            <td style="padding: 10px; color: #e11d48;">{{ log.sleep_hours }}H</td>
+                            <td style="padding: 10px;">{{ log.walk_minutes }}M</td>
+                            <td style="padding: 10px;">{{ log.play_minutes }}M</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

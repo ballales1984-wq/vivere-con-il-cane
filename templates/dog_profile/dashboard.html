@@ -108,10 +108,15 @@
                 <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Behavior Quiz" %}</h3>
                 <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Testa la tua empatia canina." %}</p>
             </a>
-            <a href="{% url 'blog_list' %}" class="tool-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-decoration: none; display: block; transition: all 0.3s ease;">
-                <div style="font-size: 2.5rem; margin-bottom: 1rem;">📖</div>
-                <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Knowledge" %}</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Esplora le nostre guide esperte." %}</p>
+            <a href="{% url 'learning_hub' %}" class="tool-card" style="background: #0f172a; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 2px solid #e11d48; text-decoration: none; display: block; transition: all 0.3s ease;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎓</div>
+                <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.2rem; font-family: 'Outfit'; font-style: italic;">{% trans "Hub Didattico" %}</h3>
+                <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.4;">{% trans "Risorse accademiche e scientifiche di massimo livello." %}</p>
+            </a>
+            <a href="{% url 'problem_list' %}" class="tool-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-decoration: none; display: block; transition: all 0.3s ease;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🧠</div>
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Knowledge Base" %}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Enciclopedia dei problemi comportamentali." %}</p>
             </a>
         </div>
     </div>

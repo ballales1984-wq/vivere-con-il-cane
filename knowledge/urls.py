@@ -14,4 +14,5 @@ urlpatterns = [
     ),
     path("history/<int:dog_id>/", views.analysis_history, name="analysis_history"),
     path("analizza/<int:analysis_id>/pdf/", views.download_analysis_pdf, name="download_analysis_pdf"),
+    path("risorse/", views.learning_hub, name="learning_hub"),
 ]

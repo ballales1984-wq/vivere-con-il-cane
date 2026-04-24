@@ -418,7 +418,7 @@ def generate_ai_response(problem, description, dog, breed_info, lang="it"):
 
     # Add recent medical events if dog is available
     if dog:
-        recent_events = dog.medical_events.order_by("-date")[:3]
+        recent_events = dog.medical_events.order_by("-date")[:7]
         if recent_events:
             context += "\nEventi medici recenti:\n"
             for event in recent_events:
@@ -627,7 +627,7 @@ def generate_lifetime_macro_analysis(profile):
         "age": profile.get_age(),
         "weight": str(profile.weight) if profile.weight else "N/D",
         "stats": stats,
-        "medical_events": list(profile.medical_events.values('date', 'event_type', 'title')[:10]) # ultimi 10 eventi
+        "medical_events": list(profile.medical_events.values('date', 'event_type', 'title', 'description')[:15]) # ultimi 15 eventi
     }
     
     system_msg = """Sei un Esperto Veterinario Analista e Comportamentalista.
@@ -673,3 +673,7 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
     )
     return macro
 
+
+def learning_hub(request):
+    """Visualizza l'Hub Didattico con risorse accademiche e scientifiche."""
+    return render(request, "knowledge/learning_hub.html")
