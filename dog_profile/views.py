@@ -94,6 +94,8 @@ def profile_add_event(request, profile_id):
             description=request.POST.get("description", ""),
             date=request.POST.get("date") or date.today(),
         )
+        # Invalidate daily coach cache for today
+        cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
 
     return render(request, "dog_profile/event_form.html", {"profile": profile})
@@ -115,6 +117,8 @@ def profile_add_log(request, profile_id):
             food_grams=request.POST.get("food_grams") or None,
             description=request.POST.get("notes", ""),
         )
+        # Invalidate daily coach cache for today
+        cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
 
     return render(request, "dog_profile/log_form.html", {"profile": profile})

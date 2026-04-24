@@ -2,7 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.core.cache import cache
-from .models import Problem, Solution, BreedInsight, DogAnalysis, VeterinaryDocument, LifetimeMacroAnalysis
+from django.contrib.auth.decorators import login_required
+from .models import (
+    Problem,
+    Solution,
+    BreedInsight,
+    DogAnalysis,
+    VeterinaryDocument,
+    LifetimeMacroAnalysis,
+)
 from dog_profile.models import DogProfile
 from blog.models import BlogPost
 import requests
@@ -89,14 +97,20 @@ def analyze_problem(request):
     """AI-powered problem analysis with IP-based rate limiting."""
     if request.method == "POST":
         # --- Rate Limiting ---
-        ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR", "unknown"))
+        ip = request.META.get(
+            "HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR", "unknown")
+        )
         ip = ip.split(",")[0].strip()
         rate_key = f"analyze_rate:{ip}"
         rate_limit = getattr(settings, "ANALYZE_RATE_LIMIT", 10)
         rate_window = getattr(settings, "ANALYZE_RATE_WINDOW", 3600)
         current_count = cache.get(rate_key, 0)
         if current_count >= rate_limit:
-            dogs = DogProfile.objects.filter(owner=request.user) if request.user.is_authenticated else []
+            dogs = (
+                DogProfile.objects.filter(owner=request.user)
+                if request.user.is_authenticated
+                else []
+            )
             problems = Problem.objects.all()
             return render(
                 request,
@@ -271,7 +285,7 @@ def get_related_articles(text, problem=None):
     if problem:
         # Use problem slug keywords
         keywords.extend(problem.slug.split("-"))
-    
+
     # Extract some long words from description as potential keywords
     desc_words = [w.lower() for w in text.split() if len(w) > 4]
     keywords.extend(desc_words[:3])  # Take a few
@@ -284,7 +298,9 @@ def get_related_articles(text, problem=None):
 
     query = Q()
     for kw in keywords:
-        query |= Q(title__icontains=kw) | Q(slug__icontains=kw) | Q(content__icontains=kw)
+        query |= (
+            Q(title__icontains=kw) | Q(slug__icontains=kw) | Q(content__icontains=kw)
+        )
 
     return (
         BlogPost.objects.filter(query, published=True)
@@ -304,21 +320,28 @@ def query_external_vet_db(description, breed=None):
     try:
         # Extract keywords for better search
         symptoms_map = {
-            "vomito": "vomiting", "diarrea": "diarrhea", "zoppica": "lameness",
-            "prurito": "itching", "tosse": "cough", "febbre": "fever",
-            "letargia": "lethargy", "sangue": "blood", "pelo": "alopecia"
+            "vomito": "vomiting",
+            "diarrea": "diarrhea",
+            "zoppica": "lameness",
+            "prurito": "itching",
+            "tosse": "cough",
+            "febbre": "fever",
+            "letargia": "lethargy",
+            "sangue": "blood",
+            "pelo": "alopecia",
         }
-        
+
         search_term = None
         for it_kw, en_kw in symptoms_map.items():
             if it_kw in description.lower():
                 search_term = en_kw
                 break
-        
+
         if not search_term:
             # Fallback to the first long word used as is (OpenFDA is primarily English)
             words = [w for w in description.split() if len(w) > 5]
-            if not words: return ""
+            if not words:
+                return ""
             search_term = words[0]
 
         # Build the query for dogs
@@ -562,19 +585,23 @@ Rispondi in italiano in modo chiaro e pratico."""
 4. **Quando rivolgerti a un professionista**: Se il problema persiste oltre 2-3 settimane nonostante gli allenamenti, consulta un educatore cinofilo o un Veterinario comportamentalista."""
 
 
+@login_required
 def analysis_history(request, dog_id):
     """Show previous analyses for a specific dog."""
-    dog = get_object_or_404(DogProfile, id=dog_id)
+    dog = get_object_or_404(DogProfile, id=dog_id, owner=request.user)
     analyses = DogAnalysis.objects.filter(dog=dog).order_by("-created_at")
     return render(
         request, "knowledge/analysis_history.html", {"dog": dog, "analyses": analyses}
     )
 
 
+@login_required
 def update_analysis_result(request, analysis_id):
     """Update the result of an analysis after user tries solution."""
     if request.method == "POST":
-        analysis = get_object_or_404(DogAnalysis, id=analysis_id)
+        analysis = get_object_or_404(
+            DogAnalysis, id=analysis_id, dog__owner=request.user
+        )
         analysis.result = request.POST.get("result", "pending")
         analysis.save()
         return redirect("dashboard")
@@ -584,13 +611,20 @@ def update_analysis_result(request, analysis_id):
 def download_analysis_pdf(request, analysis_id):
     """Generates a PDF report for a specific AI analysis."""
     analysis = get_object_or_404(DogAnalysis, id=analysis_id)
-    
+
     # Ensure the user has permission to download this analysis
-    if analysis.dog and request.user.is_authenticated and analysis.dog.owner != request.user:
-        return HttpResponse("Non sei autorizzato a scaricare questo referto.", status=403)
-        
+    if (
+        analysis.dog
+        and request.user.is_authenticated
+        and analysis.dog.owner != request.user
+    ):
+        return HttpResponse(
+            "Non sei autorizzato a scaricare questo referto.", status=403
+        )
+
     template_path = "knowledge/analysis_pdf.html"
     from datetime import date
+
     context = {"analysis": analysis, "dog": analysis.dog, "today": date.today()}
 
     # Create a Django response object, and specify content_type as pdf
@@ -606,7 +640,11 @@ def download_analysis_pdf(request, analysis_id):
     pisa_status = pisa.CreatePDF(html, dest=response)
 
     if pisa_status.err:
-        return HttpResponse("Si è verificato un errore durante la generazione del PDF <pre>" + html + "</pre>")
+        return HttpResponse(
+            "Si è verificato un errore durante la generazione del PDF <pre>"
+            + html
+            + "</pre>"
+        )
     return response
 
 
@@ -617,9 +655,9 @@ def generate_lifetime_macro_analysis(profile):
     """
     import json
     import markdown
-    
+
     stats = profile.get_lifetime_stats()
-    
+
     # Costruzione del "Context Snapshot"
     context_data = {
         "dog_name": profile.dog_name,
@@ -627,9 +665,13 @@ def generate_lifetime_macro_analysis(profile):
         "age": profile.get_age(),
         "weight": str(profile.weight) if profile.weight else "N/D",
         "stats": stats,
-        "medical_events": list(profile.medical_events.values('date', 'event_type', 'title', 'description')[:15]) # ultimi 15 eventi
+        "medical_events": list(
+            profile.medical_events.values("date", "event_type", "title", "description")[
+                :15
+            ]
+        ),  # ultimi 15 eventi
     }
-    
+
     system_msg = """Sei un Esperto Veterinario Analista e Comportamentalista.
 Il tuo compito è leggere i dati aggregati di TUTTA LA VITA di questo cane e generare un Report Macro (Check-up Totale).
 Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elegantemente, diviso esattamente in queste 4 sezioni:
@@ -642,34 +684,37 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
 
     api_key = os.environ.get("GROK_API_KEY", "")
     html_report = "<p>Impossibile contattare l'Intelligenza Artificiale al momento.</p>"
-    
+
     if api_key and len(api_key) > 20:
         try:
             response = requests.post(
                 "https://api.groq.com/openai/v1/chat/completions",
-                headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {api_key}",
+                },
                 json={
                     "model": "llama-3.3-70b-versatile",
                     "messages": [
                         {"role": "system", "content": system_msg},
-                        {"role": "user", "content": prompt}
+                        {"role": "user", "content": prompt},
                     ],
                 },
-                timeout=45, # This is a long generation
+                timeout=45,  # This is a long generation
             )
             if response.status_code == 200:
                 html_report = response.json()["choices"][0]["message"]["content"]
-                html_report = html_report.replace("```html", "").replace("```", "").strip()
+                html_report = (
+                    html_report.replace("```html", "").replace("```", "").strip()
+                )
             else:
                 html_report += f"<p>Errore API: {response.status_code}</p>"
         except Exception as e:
             html_report += f"<p>Eccezione: {str(e)}</p>"
-            
+
     # Save the permanent macro analysis
     macro = LifetimeMacroAnalysis.objects.create(
-        dog=profile,
-        context_snapshot=context_data,
-        ai_report_html=html_report
+        dog=profile, context_snapshot=context_data, ai_report_html=html_report
     )
     return macro
 
