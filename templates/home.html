@@ -4,6 +4,33 @@
 {% block title %}{% trans "Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane" %}{% endblock %}
 {% block meta_description %}{% trans "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani." %}{% endblock %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "{% trans 'Come funziona l\'analisi IA del cane?' %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% trans 'L\'IA analizza la descrizione del comportamento fornita dall\'utente incrociandola con dati di razza, età e conoscenze veterinarie per fornire consigli pratici.' %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{% trans 'È un sostituto del veterinario?' %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% trans 'No, è uno strumento di supporto per capire meglio il cane. In caso di problemi di salute, consulta sempre un professionista.' %}"
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <style>
     :root {
@@ -35,7 +62,7 @@
             </form>
         </div>
         
-        <div style="flex: 1; min-width: 320px; display: flex; justify-content: center; position: relative;">
+        <div style="flex: 1; min-width: 320px; display: flex; justify-content: center; position: relative;" class="animate-float">
             <div style="position: relative; z-index: 2;">
                 <img src="{% static 'images/hero_dog.png' %}" alt="{% trans 'Cane felice' %}" style="width: 100%; max-width: 500px; border-radius: 32px; box-shadow: var(--shadow-premium); border: 8px solid rgba(255,255,255,0.1); object-fit: cover; aspect-ratio: 1/1;">
                 <div style="position: absolute; bottom: -20px; right: -20px; background: white; padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; border: 1px solid var(--border);">
@@ -178,6 +205,21 @@
     </div>
     <div style="text-align: center; margin-top: 2rem;">
         <a href="{% url 'blog_list' %}" class="btn btn-secondary">{% trans "Vedi tutti gli articoli" %} &rarr;</a>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="animate-in" style="max-width: 900px; margin: 6rem auto; padding: 0 1.5rem;">
+    <h2 class="section-heading">{% trans "Domande Frequenti" %}</h2>
+    <div style="display: grid; gap: 1.5rem;">
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+            <h3 style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">{% trans "Come funziona l'analisi IA del cane?" %}</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">{% trans "La nostra tecnologia analizza la tua descrizione e la confronta con database di razza e comportamento per darti suggerimenti immediati e personalizzati." %}</p>
+        </div>
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+            <h3 style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">{% trans "I consigli sono affidabili?" %}</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">{% trans "I consigli sono basati su best practice di educazione cinofila e dati veterinari, ma servono come supporto informativo e non sostituiscono un parere professionale." %}</p>
+        </div>
     </div>
 </section>
 

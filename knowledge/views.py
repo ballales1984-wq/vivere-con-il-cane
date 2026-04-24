@@ -245,24 +245,34 @@ def query_external_vet_db(description, breed=None):
     cercando corrispondenze con i sintomi descritti per ottenere contesto medico aggiuntivo.
     """
     try:
-        # Estrai parole lunghe dalla descrizione come possibili sintomi (escludi stop words)
-        words = [w for w in description.split() if len(w) > 4]
-        if not words:
-            return ""
+        # Extract keywords for better search
+        symptoms_map = {
+            "vomito": "vomiting", "diarrea": "diarrhea", "zoppica": "lameness",
+            "prurito": "itching", "tosse": "cough", "febbre": "fever",
+            "letargia": "lethargy", "sangue": "blood", "pelo": "alopecia"
+        }
+        
+        search_term = None
+        for it_kw, en_kw in symptoms_map.items():
+            if it_kw in description.lower():
+                search_term = en_kw
+                break
+        
+        if not search_term:
+            # Fallback to the first long word used as is (OpenFDA is primarily English)
+            words = [w for w in description.split() if len(w) > 5]
+            if not words: return ""
+            search_term = words[0]
 
-        # Usa la prima parola lunga come termine di ricerca sintomo (es. "vomito", "zoppica")
-        # In un'app reale useremmo NLP, qui facciamo una semplice ricerca testuale
-        symptom = words[0]
-
-        # Costruisci la query per cani
+        # Build the query for dogs
         query = 'animal.species:"Dog"'
         if breed:
             # Pulisci il nome della razza
             safe_breed = breed.split()[0]
             query += f' AND animal.breed.breed_name:"{safe_breed}"'
 
-        # Aggiungi il sintomo
-        query += f' AND (reaction.reaction_pt:"{symptom}" OR health_assessment_prior_to_exposure.condition:"{symptom}")'
+        # Add the symptom
+        query += f' AND (reaction.reaction_pt:"{search_term}" OR health_assessment_prior_to_exposure.condition:"{search_term}")'
 
         url = f"https://api.fda.gov/animalandveterinary/event.json?search={urllib.parse.quote(query)}&limit=2"
 
@@ -348,6 +358,14 @@ def generate_ai_response(problem, description, dog, breed_info, lang="it"):
     if breed_info:
         context += f"Razza {dog.breed} - caratteristiche: {breed_info.traits}\n"
         context += f"Problemi comuni: {breed_info.common_problems}\n"
+
+    # Add recent medical events if dog is available
+    if dog:
+        recent_events = dog.medical_events.order_by("-date")[:3]
+        if recent_events:
+            context += "\nEventi medici recenti:\n"
+            for event in recent_events:
+                context += f"- {event.date.strftime('%d/%m/%Y')}: {event.title} ({event.get_event_type_display()})\n"
 
     # Add previous analyses context if dog is available
     if dog:
