@@ -1,65 +1,372 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 
-{% block title %}{% trans "Storico Analisi AI" %} - {{ dog.dog_name }} - Vivere con il Cane{% endblock %}
+{% block title %}{% trans "Storico Analisi AI" %} - {{ dog.dog_name }} - {% trans "Vivere con il Cane" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+.analysis-hero {
+    padding: 4rem 1rem;
+    text-align: center;
+    background: radial-gradient(circle at top right, #f0fdf4, #f8fafc);
+    color: var(--secondary);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    margin-bottom: 3rem;
+}
+.analysis-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+.filter-btn {
+    padding: 0.6rem 1.25rem;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text-muted);
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+.filter-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+.search-box {
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    position: relative;
+}
+.search-box input {
+    width: 100%;
+    padding: 1rem 1.25rem 1rem 3.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 1.1rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    background: white;
+}
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+}
+.search-box::before {
+    content: "🔍";
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    z-index: 2;
+}
+.analysis-card {
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--primary);
+    transition: var(--transition);
+}
+.analysis-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-premium);
+}
+.analysis-card.status-improved { border-left-color: #10b981; }
+.analysis-card.status-worse { border-left-color: #ef4444; }
+.analysis-card.status-no_change { border-left-color: #3b82f6; }
+.analysis-card.status-pending { border-left-color: #f59e0b; }
+.analysis-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.analysis-title {
+    margin: 0;
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+}
+.analysis-date {
+    font-size: 0.85rem;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+}
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.status-badge.pending { background: #fef3c7; color: #92400e; }
+.status-badge.improved { background: #d1fae5; color: #065f46; }
+.status-badge.no_change { background: #dbeafe; color: #1e40af; }
+.status-badge.worse { background: #fee2e2; color: #991b1b; }
+.analysis-quote {
+    font-style: italic;
+    color: var(--text);
+    margin: 0 1.5rem 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #eee;
+    font-size: 0.95rem;
+}
+.analysis-summary {
+    background: #f8fafc;
+    padding: 1rem 1.5rem;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+}
+.analysis-summary.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.analysis-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.btn-secondary { background: #e5e7eb; color: #374151; }
+.btn-secondary:hover { background: #d1d5db; }
+.btn-outline { background: transparent; border: 1px solid currentColor; }
+.btn-success { background: #10b981; color: white; }
+.btn-danger { background: #ef4444; color: white; }
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    min-width: 140px;
+    z-index: 100;
+    overflow: hidden;
+}
+.dropdown-menu.show { display: block; }
+.dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+.dropdown-item:hover { background: var(--light); }
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+}
+.empty-state .emoji { font-size: 4rem; margin-bottom: 1rem; }
+@media (max-width: 600px) {
+    .analysis-header { flex-direction: column; }
+    .status-badge { align-self: flex-start; margin-top: 0.5rem; }
+}
+</style>
+{% endblock %}
 
 {% block content %}
-<section class="hero-ai" style="padding: 3rem 1rem; text-align: center; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 2.5rem;">
-    <h1>{% trans "Storico Analisi AI" %}</h1>
-    <p style="font-size: 1.2rem; opacity: 0.9;">{% trans "Tutte le consulenze digitali per" %} <strong>{{ dog.dog_name }}</strong></p>
-    <div style="margin-top: 1.5rem;">
-        <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-white">{% trans "+ Nuova Analisi" %}</a>
+<section class="analysis-hero">
+    <h1 style="color: var(--secondary); font-size: 2.8rem; margin-bottom: 0.5rem;">{% trans "Storico Analisi AI" %}</h1>
+    <p style="font-size: 1.2rem; color: var(--text-muted);">{% trans "Tutte le consulenze digitali per" %} <strong style="color: var(--primary-dark);">{{ dog.dog_name }}</strong></p>
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="padding: 0.8rem 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">{% trans "+ Nuova Analisi" %}</a>
     </div>
 </section>
 
 <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 1rem 4rem;">
+    <!-- Search & Filters -->
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="{% trans "Cerca nelle analisi..." %}" autocomplete="off">
+    </div>
+
+    <div class="analysis-filters">
+        <button class="filter-btn active" data-filter="all">{% trans "Tutti" %}</button>
+        <button class="filter-btn" data-filter="pending">⏳ {% trans "In Corso" %}</button>
+        <button class="filter-btn" data-filter="improved">✅ {% trans "Migliorato" %}</button>
+        <button class="filter-btn" data-filter="no_change">➖ {% trans "Nessun Cambiamento" %}</button>
+        <button class="filter-btn" data-filter="worse">❌ {% trans "Peggiorato" %}</button>
+    </div>
+
     <div class="history-list" style="display: flex; flex-direction: column; gap: 1.5rem;">
         {% for analysis in analyses %}
-        <div class="analysis-card" style="background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; border-left: 6px solid {% if analysis.result == 'improved' %}#10b981{% elif analysis.result == 'worse' %}#ef4444{% else %}#3b82f6{% endif %};">
-            <div style="padding: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <div>
-                        <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">{{ analysis.created_at|date:"d F Y" }}</span>
-                        <h3 style="margin: 0.3rem 0; color: var(--primary-dark);">{{ analysis.problem.title|default:"Analisi Generale" }}</h3>
-                    </div>
-                    <span class="status-badge" style="padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; background: {% if analysis.result == 'improved' %}#d1fae5; color: #065f46{% elif analysis.result == 'worse' %}#fee2e2; color: #991b1b{% else %}#dbeafe; color: #1e40af{% endif %};">
-                        {{ analysis.get_result_display }}
-                    </span>
+        <div class="analysis-card status-{{ analysis.result }}" data-result="{{ analysis.result }}" data-search-text="{{ analysis.user_description|lower }} {{ analysis.problem.title|lower }}">
+            <div class="analysis-header">
+                <div>
+                    <div class="analysis-date">{{ analysis.created_at|date:"d M Y" }}</div>
+                    <h3 class="analysis-title">
+                        {% if analysis.problem and analysis.problem.title %}
+                            {{ analysis.problem.get_title }}
+                        {% else %}
+                            {% trans "Analisi Generale" %}
+                        {% endif %}
+                    </h3>
                 </div>
-                
-                <p style="color: var(--text); font-style: italic; margin-bottom: 1rem; border-left: 2px solid #eee; padding-left: 1rem;">
-                    "{{ analysis.user_description|truncatechars:120 }}"
-                </p>
-                
-                <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
-                    {{ analysis.ai_response|truncatewords:40|linebreaks }}
-                </div>
-                
-                <div style="display: flex; gap: 1rem;">
-                    <a href="{% url 'analyze_problem' %}?analysis_id={{ analysis.id }}" class="btn btn-secondary btn-sm">{% trans "Vedi Dettaglio Completo" %}</a>
-                    
-                    {% if analysis.result == 'pending' %}
-                    <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <input type="hidden" name="result" value="improved">
-                        <button type="submit" class="btn btn-outline btn-sm" style="color: #10b981; border-color: #10b981;">{% trans "Ha funzionato!" %} ✅</button>
-                    </form>
+                <span class="status-badge {{ analysis.result }}">
+                    {% if analysis.result == 'pending' %}⏳ {% trans "In Corso" %}
+                    {% elif analysis.result == 'improved' %}✅ {% trans "Migliorato" %}
+                    {% elif analysis.result == 'no_change' %}➖ {% trans "Nessun Cambiamento" %}
+                    {% elif analysis.result == 'worse' %}❌ {% trans "Peggiorato" %}
+                    {% else %}{{ analysis.get_result_display }}
                     {% endif %}
+                </span>
+            </div>
+
+            <div class="analysis-quote">"{{ analysis.user_description|truncatechars:150 }}"</div>
+
+            <div class="analysis-summary collapsed" id="summary-{{ analysis.id }}">
+                {{ analysis.ai_response|linebreaks }}
+            </div>
+
+            <div class="analysis-actions">
+                <a href="{% url 'analyze_problem' %}?analysis_id={{ analysis.id }}" class="btn btn-secondary btn-sm">📖 {% trans "Vedi Dettaglio Completo" %}</a>
+
+                {% if analysis.result == 'pending' %}
+                <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="result" value="improved">
+                    <button type="submit" class="btn btn-success btn-sm">{% trans "Ha funzionato!" %} ✅</button>
+                </form>
+                {% else %}
+                <div class="dropdown">
+                    <button class="btn btn-outline btn-sm dropdown-toggle" onclick="toggleDropdown({{ analysis.id }})">⚙️ {% trans "Azioni" %}</button>
+                    <div class="dropdown-menu" id="dropdown-{{ analysis.id }}">
+                        <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
+                            {% csrf_token %}
+                            <input type="hidden" name="result" value="improved">
+                            <button type="submit" class="dropdown-item" {% if analysis.result == 'improved' %}disabled{% endif %}>✅ {% trans "Segna come Migliorato" %}</button>
+                        </form>
+                        <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
+                            {% csrf_token %}
+                            <input type="hidden" name="result" value="no_change">
+                            <button type="submit" class="dropdown-item" {% if analysis.result == 'no_change' %}disabled{% endif %}>➖ {% trans "Segna come Nessun Cambiamento" %}</button>
+                        </form>
+                        <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
+                            {% csrf_token %}
+                            <input type="hidden" name="result" value="worse">
+                            <button type="submit" class="dropdown-item" {% if analysis.result == 'worse' %}disabled{% endif %}>❌ {% trans "Segna come Peggiorato" %}</button>
+                        </form>
+                        <hr style="margin: 0.25rem 0; border: none; border-top: 1px solid #eee;">
+                        <form action="{% url 'delete_analysis' analysis.id %}" method="post" style="display:block;" onsubmit="return confirm('{% trans "Eliminare questa analisi?" %}');">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item" style="color: #ef4444;">🗑️ {% trans "Elimina" %}</button>
+                        </form>
+                    </div>
                 </div>
+                {% endif %}
             </div>
         </div>
         {% empty %}
-        <div style="text-align: center; padding: 4rem 2rem; background: #fff; border-radius: 20px; box-shadow: var(--shadow-sm);">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
+        <div class="empty-state">
+            <div class="emoji">🔍</div>
             <h3>{% trans "Nessuna analisi ancora effettuata" %}</h3>
             <p>{% blocktrans %}Le analisi AI per {{ dog.dog_name }} compariranno qui una volta completate.{% endblocktrans %}</p>
             <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Fai la prima analisi" %}</a>
         </div>
         {% endfor %}
     </div>
-    
+
     <div style="margin-top: 3rem; text-align: center;">
         <a href="{% url 'profile_detail' dog.id %}" class="back-link">&larr; {% trans "Torna al profilo di" %} {{ dog.dog_name }}</a>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.analysis-card');
+
+    // Filter handler
+    function applyFilters() {
+        const search = searchInput.value.toLowerCase();
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+
+        cards.forEach(card => {
+            const result = card.dataset.result;
+            const searchText = card.dataset.searchText;
+            const matchesSearch = searchText.includes(search);
+            const matchesFilter = activeFilter === 'all' || result === activeFilter;
+
+            card.style.display = (matchesSearch && matchesFilter) ? '' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            applyFilters();
+        });
+    });
+
+    // Toggle summary expand/collapse
+    document.querySelectorAll('.analysis-summary').forEach(summary => {
+        summary.addEventListener('click', function() {
+            this.classList.toggle('collapsed');
+        });
+    });
+});
+
+function toggleDropdown(id) {
+    const menu = document.getElementById('dropdown-' + id);
+    // Close other dropdowns
+    document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+        if (m !== menu) m.classList.remove('show');
+    });
+    menu.classList.toggle('show');
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.matches('.dropdown-toggle')) {
+        document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+    }
+});
+</script>
 {% endblock %}
