@@ -45,8 +45,8 @@
             <a href="{% url 'blog_detail' article.slug %}" class="article-suggestion-card" style="text-decoration: none; display: flex; flex-direction: column; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; transition: 0.3s; border: 1px solid #f0f0f0;">
                 <div style="padding: 1.5rem;">
                     <span class="category-badge" style="background: var(--primary-light); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; display: inline-block;">{{ article.category.name }}</span>
-                    <h4 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 700;">{{ article.title }}</h4>
-                    <p style="margin: 0; color: #666; font-size: 0.9rem; line-height: 1.5;">{{ article.content|truncatewords:15 }}</p>
+                     <h4 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 700;">{{ article.get_title }}</h4>
+                     <p style="margin: 0; color: #666; font-size: 0.9rem; line-height: 1.5;">{{ article.get_content|truncatewords:15 }}</p>
                 </div>
                 <div style="background: #fcfcfc; padding: 0.8rem 1.5rem; border-top: 1px solid #f9f9f9; color: var(--primary); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
                     {% trans "Leggi articolo" %} <span>&rarr;</span>

@@ -39,7 +39,7 @@
         </p>
     </header>
     
-    <img id="post-image" src="{% static 'images/dog-training.jpg' %}" alt="{{ post.title }}" class="post-image">
+    <img id="post-image" src="{% static 'images/dog-training.jpg' %}" alt="{{ post.get_title }}" class="post-image">
     
     <div class="post-body">
         {{ post.get_content|linebreaks }}
@@ -57,7 +57,7 @@
     <div class="cta-analyze-box" style="background: var(--primary-light); border-left: 5px solid var(--primary); padding: 2rem; border-radius: var(--radius-md); margin: 2.5rem 0;">
         <h3 style="color: var(--primary-dark); margin-top: 0;">{% trans "Ogni cane è unico" %}</h3>
         <p style="font-size: 1.1rem; color: var(--text);">{% trans "Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed età." %}</p>
-        <a href="{% url 'analyze_problem' %}?description={{ post.title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">{% trans "Analizza il tuo caso con l'AI" %} &rarr;</a>
+        <a href="{% url 'analyze_problem' %}?description={{ post.get_title }}" class="btn btn-primary btn-lg" style="margin-top: 1rem;">{% trans "Analizza il tuo caso con l'AI" %} &rarr;</a>
     </div>
 
     <!-- Articoli correlati -->
@@ -67,8 +67,8 @@
         <div class="related-grid">
             {% for related in related_posts %}
             <a href="{% url 'blog_detail' related.slug %}" class="related-card">
-                <strong>{{ related.title }}</strong>
-                <span>{{ related.content|truncatewords:12 }}</span>
+                <strong>{{ related.get_title }}</strong>
+                <span>{{ related.get_content|truncatewords:12 }}</span>
             </a>
             {% endfor %}
         </div>

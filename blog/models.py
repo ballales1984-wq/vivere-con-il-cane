@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
@@ -25,28 +26,28 @@ class Category(models.Model):
 
 class BlogPost(models.Model):
     STATUS_CHOICES = [
-        ("draft", "Bozza"),
-        ("published", "Pubblicato"),
-        ("archived", "Archiviato"),
+        ("draft", _("Bozza")),
+        ("published", _("Pubblicato")),
+        ("archived", _("Archiviato")),
     ]
 
     IMPORTANCE_CHOICES = [
-        ("high", "Alta"),
-        ("medium", "Media"),
-        ("low", "Basica"),
+        ("high", _("Alta")),
+        ("medium", _("Media")),
+        ("low", _("Basica")),
     ]
 
     LENGTH_CHOICES = [
-        ("short", "Breve"),
-        ("medium", "Medio"),
-        ("long", "Lungo"),
+        ("short", _("Breve")),
+        ("medium", _("Medio")),
+        ("long", _("Lungo")),
     ]
 
     SOURCE_CHOICES = [
-        ("ai", "AI Generato"),
-        ("manual", "Manuale"),
-        ("news", "Notizia"),
-        ("translated", "Tradotto"),
+        ("ai", _("AI Generato")),
+        ("manual", _("Manuale")),
+        ("news", _("Notizia")),
+        ("translated", _("Tradotto")),
     ]
 
     title = models.CharField(max_length=200)

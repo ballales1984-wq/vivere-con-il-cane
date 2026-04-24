@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 from datetime import date  # per proprietà DogProfile.get_age
 
 
@@ -18,7 +19,9 @@ class DogProfile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     weight = models.DecimalField(max_digits=5, decimal_places=1, blank=True, null=True)
     gender = models.CharField(
-        max_length=10, choices=[("male", "Maschio"), ("female", "Femmina")], blank=True
+        max_length=10,
+        choices=[("male", _("Maschio")), ("female", _("Femmina"))],
+        blank=True,
     )
     is_neutered = models.BooleanField(default=False)
     microchip = models.CharField(
@@ -40,11 +43,11 @@ class DogProfile(models.Model):
         blank=True, help_text="Intolleranze, allergie, cibi proibiti"
     )
     RAW_FOOD_CHOICES = [
-        ("dry", "Crocchette"),
-        ("wet", "Umido"),
-        ("raw", "Crudo (BARF)"),
-        ("homemade", "Casalingo"),
-        ("mixed", "Misto"),
+        ("dry", _("Crocchette")),
+        ("wet", _("Umido")),
+        ("raw", _("Crudo (BARF)")),
+        ("homemade", _("Casalingo")),
+        ("mixed", _("Misto")),
     ]
     diet_type = models.CharField(
         max_length=20, choices=RAW_FOOD_CHOICES, default="dry", blank=True
@@ -67,10 +70,10 @@ class DogProfile(models.Model):
 
     # ── 4. ABITUDINI / ROUTINE ──
     ACTIVITY_CHOICES = [
-        ("low", "Basso – poco movimento"),
-        ("moderate", "Moderato – passeggiate normali"),
-        ("high", "Alto – molto attivo"),
-        ("very_high", "Molto alto – sportivo"),
+        ("low", _("Basso – poco movimento")),
+        ("moderate", _("Moderato – passeggiate normali")),
+        ("high", _("Alto – molto attivo")),
+        ("very_high", _("Molto alto – sportivo")),
     ]
     activity_level = models.CharField(
         max_length=20, choices=ACTIVITY_CHOICES, default="moderate"
@@ -79,10 +82,10 @@ class DogProfile(models.Model):
         null=True, blank=True, help_text="Minuti medi di passeggiata/giorno"
     )
     SLEEP_CHOICES = [
-        ("normal", "Normale"),
-        ("excessive", "Eccessivo"),
-        ("restless", "Agitato/insonne"),
-        ("variable", "Variabile"),
+        ("normal", _("Normale")),
+        ("excessive", _("Eccessivo")),
+        ("restless", _("Agitato/insonne")),
+        ("variable", _("Variabile")),
     ]
     sleep_pattern = models.CharField(
         max_length=20, choices=SLEEP_CHOICES, default="normal"
@@ -96,11 +99,11 @@ class DogProfile(models.Model):
     socialization_level = models.CharField(
         max_length=30,
         choices=[
-            ("friendly", "Amichevole con tutti"),
-            ("selective", "Selettivo con alcuni"),
-            ("protective", "Protettivo/da guardia"),
-            ("shy", "Timido/riservato"),
-            ("reactive", "Reattivo/aggressivo"),
+            ("friendly", _("Amichevole con tutti")),
+            ("selective", _("Selettivo con alcuni")),
+            ("protective", _("Protettivo/da guardia")),
+            ("shy", _("Timido/riservato")),
+            ("reactive", _("Reattivo/aggressivo")),
         ],
         default="friendly",
     )
@@ -178,15 +181,15 @@ class MedicalEvent(models.Model):
     """Evento medico VERO: visite, esami, diagnosi, terapie, interventi."""
 
     EVENT_CATEGORIES = [
-        ("visit", "Visita Veterinaria"),
-        ("exam", "Esame Diagnostico"),
-        ("vaccine", "Vaccinazione"),
-        ("surgery", "Intervento Chirurgico"),
-        ("therapy_start", "Inizio Terapia"),
-        ("therapy_end", "Fine Terapia"),
-        ("emergency", "Pronto Soccorso"),
-        ("followup", "Controllo"),
-        ("other", "Altro"),
+        ("visit", _("Visita Veterinaria")),
+        ("exam", _("Esame Diagnostico")),
+        ("vaccine", _("Vaccinazione")),
+        ("surgery", _("Intervento Chirurgico")),
+        ("therapy_start", _("Inizio Terapia")),
+        ("therapy_end", _("Fine Terapia")),
+        ("emergency", _("Pronto Soccorso")),
+        ("followup", _("Controllo")),
+        ("other", _("Altro")),
     ]
 
     dog = models.ForeignKey(
@@ -232,8 +235,8 @@ class VeterinaryMedia(models.Model):
     """Media files (photos/videos) attached to veterinary request."""
 
     MEDIA_TYPES = [
-        ("photo", "Foto"),
-        ("video", "Video"),
+        ("photo", _("Foto")),
+        ("video", _("Video")),
     ]
 
     request = models.ForeignKey(
@@ -253,9 +256,9 @@ class VeterinaryRequest(models.Model):
     """Structured request sent to veterinarian with AI summary and curated media."""
 
     REQUEST_STATUS = [
-        ("draft", "Bozza"),
-        ("ready", "Pronto"),
-        ("sent", "Inviato"),
+        ("draft", _("Bozza")),
+        ("ready", _("Pronto")),
+        ("sent", _("Inviato")),
     ]
 
     dog = models.ForeignKey(
@@ -285,18 +288,18 @@ class HealthLog(models.Model):
     """Log giornaliero/sintomo/comportamento — la TIMELINE CONTINUA del cane."""
 
     LOG_TYPES = [
-        ("routine", "Routine Giornaliera"),
-        ("symptom", "Sintomo Osservato"),
-        ("behavior", "Comportamento Anomalo"),
-        ("diet", "Variazione Alimentare"),
-        ("medication", "Somministrazione Farmaco"),
-        ("vital_signs", "Segni Vitali (temperatura, frequenza…)"),
-        ("note", "Nota Libera"),
+        ("routine", _("Routine Giornaliera")),
+        ("symptom", _("Sintomo Osservato")),
+        ("behavior", _("Comportamento Anomalo")),
+        ("diet", _("Variazione Alimentare")),
+        ("medication", _("Somministrazione Farmaco")),
+        ("vital_signs", _("Segni Vitali (temperatura, frequenza…)")),
+        ("note", _("Nota Libera")),
     ]
     SEVERITY_LEVELS = [
-        ("1", "Lieve – monitorare"),
-        ("2", "Moderato – attenzione"),
-        ("3", "Severo – consultare"),
+        ("1", _("Lieve – monitorare")),
+        ("2", _("Moderato – attenzione")),
+        ("3", _("Severo – consultare")),
     ]
 
     dog = models.ForeignKey(
