@@ -1,0 +1,49 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'it' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Benvenuto!" %}</title>
+</head>
+<body style="font-family: 'Outfit', Arial, sans-serif; background: #f9fafb; margin: 0; padding: 0;">
+    <div style="max-width: 600px; margin: 2rem auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%); padding: 2.5rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🐕</div>
+            <h1 style="margin: 0; font-size: 1.8rem; font-weight: 800;">{% trans "Benvenuto a bordo!" %}</h1>
+            <p style="margin: 0.5rem 0 0; opacity: 0.9; font-size: 1rem;">{% trans "Vivere con il Cane" %}</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 2rem;">
+            <p style="font-size: 1.1rem; line-height: 1.6; color: #374151; margin-bottom: 1.5rem;">
+                {% trans "Grazie per esserti iscritto!" %}
+                {% trans "Presto riceverai i nostri migliori consigli per il tuo cane direttamente nella tua casella di posta." %}
+            </p>
+            
+            <div style="background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; text-align: center;">
+                <p style="margin: 0; color: #166534; font-weight: 700;">
+                    📧 {{ email }}
+                </p>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 0.95rem; line-height: 1.6;">
+                {% trans "Se non hai richiesto questa iscrizione, puoi disapplicarti cliccando il link in basso." %}
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div style="background: #f9fafb; padding: 1.5rem 2rem; text-align: center; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 1rem; color: #6b7280; font-size: 0.9rem;">
+                © 2026 {% trans "Vivere con il Cane" %}. {% trans "Tutti i diritti riservati." %}
+            </p>
+            <p style="margin: 0; font-size: 0.85rem;">
+                <a href="{{ unsubscribe_url }}" style="color: #4a7c59; text-decoration: none;">{% trans "Disiscriviti" %}</a>
+                &nbsp;•&nbsp;
+                <a href="https://vivere-con-il-cane.onrender.com" style="color: #4a7c59; text-decoration: none;">Website</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

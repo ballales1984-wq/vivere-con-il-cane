@@ -1,0 +1,30 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'it' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Disiscritto" %}</title>
+</head>
+<body style="font-family: 'Outfit', Arial, sans-serif; background: #f9fafb; margin: 0; padding: 0;">
+    <div style="max-width: 600px; margin: 4rem auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+        <div style="background: #fee2e2; padding: 3rem 2rem; color: #991b1b;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">👋</div>
+            <h1 style="margin: 0; font-size: 1.8rem; font-weight: 800;">{% trans "Disiscritto" %}</h1>
+        </div>
+        <div style="padding: 2rem;">
+            <p style="font-size: 1.1rem; line-height: 1.6; color: #374151;">
+                {% trans "Ci dispiace vederti andare." %}
+                {% trans "Hai rimosso l'iscrizione alla newsletter di Vivere con il Cane." %}
+            </p>
+            <p style="color: #6b7280; font-size: 0.95rem; margin-top: 1.5rem;">
+                {% trans "Puoi iscriverti di nuovo in qualsiasi momento dalla homepage." %}
+            </p>
+            <a href="{% url 'home' %}" style="display: inline-block; margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: #4a7c59; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">{% trans "Torna alla Home" %}</a>
+        </div>
+        <div style="background: #f9fafb; padding: 1rem; text-align: center; color: #9ca3af; font-size: 0.85rem;">
+            © 2026 {% trans "Vivere con il Cane" %}
+        </div>
+    </div>
+</body>
+</html>

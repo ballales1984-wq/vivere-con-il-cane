@@ -232,7 +232,7 @@
         <button class="filter-btn" data-filter="worse">❌ {% trans "Peggiorato" %}</button>
     </div>
 
-    <div class="history-list" style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <div class="history-list" data-delete-msg="{% trans 'Eliminare questa analisi?' %}" style="display: flex; flex-direction: column; gap: 1.5rem;">
         {% for analysis in analyses %}
         <div class="analysis-card status-{{ analysis.result }}" data-result="{{ analysis.result }}" data-search-text="{{ analysis.user_description|lower }} {{ analysis.problem.title|lower }}">
             <div class="analysis-header">
@@ -352,7 +352,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.toggle('collapsed');
         });
     });
-});
 
     // Dropdown toggle
     document.querySelectorAll('.dropdown-toggle').forEach(btn => {
@@ -364,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Delete confirmation
-    const deleteMsg = "{% trans "Eliminare questa analisi?" %}";
+    const deleteMsg = document.querySelector('.history-list').dataset.deleteMsg;
     document.querySelectorAll('.delete-analysis-form').forEach(form => {
         form.addEventListener('submit', function(e) {
             if (!confirm(deleteMsg)) {

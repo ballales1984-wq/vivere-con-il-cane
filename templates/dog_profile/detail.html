@@ -52,20 +52,42 @@
 </section>
 
     <div style="margin-top: 4rem;">
-        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">🩹 {% trans "Eventi di Salute" %}</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 3rem; font-family: 'Outfit', sans-serif;">🩹 {% trans "Timeline della Salute" %}</h2>
+        
+        {% if events %}
+        <div style="position: relative; border-left: 2px solid var(--border); padding-left: 2.5rem; margin-left: 0.5rem; margin-bottom: 5rem;">
             {% for event in events %}
-            <div style="background: white; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); border-left: 5px solid var(--primary);">
-                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem;">{{ event.date|date:"d M Y" }}</div>
-                <h3 style="font-size: 1.2rem; color: var(--secondary); margin-bottom: 0.5rem;">{{ event.title }}</h3>
-                <span style="background: #f0fdf4; color: var(--primary); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">{{ event.get_event_type_display }}</span>
-            </div>
-            {% empty %}
-            <div style="grid-column: 1/-1; background: #f8fafc; padding: 3rem; border-radius: var(--radius-md); text-align: center; border: 1px dashed var(--border);">
-                <p style="color: var(--text-muted);">{% trans "Nessun evento di salute registrato." %}</p>
+            <div style="position: relative; margin-bottom: 2.5rem;">
+                <!-- Timeline Dot -->
+                <div style="position: absolute; left: -2.85rem; top: 0; width: 14px; height: 14px; background: var(--primary); border: 3px solid white; border-radius: 50%; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);"></div>
+                
+                <div style="background: white; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: transform 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                        <div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{{ event.date|date:"d M Y" }}</div>
+                            <h3 style="font-size: 1.3rem; color: var(--secondary); margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">{{ event.title }}</h3>
+                            <span style="background: #f0fdf4; color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">{{ event.get_event_type_display }}</span>
+                        </div>
+                        <div style="font-size: 1.5rem; opacity: 0.5;">🩹</div>
+                    </div>
+                    {% if event.description %}
+                    <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">{{ event.description|truncatewords:20 }}</p>
+                    {% endif %}
+                </div>
             </div>
             {% endfor %}
+            <div style="display: flex; align-items: center; gap: 1rem; margin-top: -1rem;">
+                <div style="width: 14px; height: 14px; background: var(--border); border-radius: 50%; border: 3px solid white; margin-left: -0.4rem;"></div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">{% trans "Inizio della storia" %}</p>
+            </div>
         </div>
+        {% else %}
+        <div style="background: #f8fafc; padding: 3rem; border-radius: var(--radius-md); text-align: center; border: 1px dashed var(--border); margin-bottom: 4rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.2;">🩹</div>
+            <p style="color: var(--text-muted);">{% trans "Nessun evento di salute registrato." %}</p>
+            <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary" style="margin-top: 1.5rem;">{% trans "Aggiungi Primo Evento" %}</a>
+        </div>
+        {% endif %}
     </div>
 
     <div style="margin-top: 4rem; margin-bottom: 5rem;">

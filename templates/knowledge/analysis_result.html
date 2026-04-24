@@ -4,38 +4,53 @@
 {% block title %}Risultato Analisi - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>Risultato dell'Analisi</h1>
-    <p>{% if dog %}Per {{ dog.dog_name }}{% else %}Per il tuo cane{% endif %}</p>
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #f8fafc, #f1f5f9); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem; border-bottom: 1px solid var(--border);">
+    <div style="display: inline-block; background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">📋 {% trans "Report Comportamentale IA" %}</div>
+    <h1 style="color: var(--secondary); font-size: 2.8rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">{% trans "Analisi del Comportamento" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">{% if dog %}{% trans "Per" %} <strong style="color: var(--primary);">{{ dog.dog_name }}</strong>{% else %}{% trans "Generato per il tuo cane" %}{% endif %}</p>
 </section>
 
-<section class="tool-container">
+<div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem 5rem;">
     {% if problem %}
-    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light); border-radius: var(--radius-sm); border-left: 4px solid var(--primary);">
-        <strong>{% trans "Problema identificato" %}:</strong> {{ problem.title }}
+    <div style="background: white; padding: 1.5rem 2rem; border-radius: var(--radius-md); border-left: 6px solid var(--primary); box-shadow: var(--shadow-sm); margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;">
+        <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">{% trans "Focus dell'analisi" %}</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--secondary);">{{ problem.title }}</div>
+        </div>
         {% if problem.severity == 'high' %}
-        <span class="problem-severity severity-high" style="margin-left: 0.5rem;">{{ problem.get_severity_display }}</span>
+        <div style="background: #fee2e2; color: #b91c1c; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;">⚠️ {{ problem.get_severity_display }}</div>
         {% endif %}
     </div>
     {% endif %}
 
-    <div class="analysis-result">
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); overflow: hidden; margin-bottom: 4rem;">
+        <div style="padding: 3rem; line-height: 1.8; color: var(--secondary); font-size: 1.05rem;">
+            <div class="analysis-result">
+                {% if analysis %}
+                    {{ analysis.ai_response|linebreaks }}
+                {% else %}
+                    {{ ai_response|linebreaks }}
+                {% endif %}
+            </div>
+        </div>
+        
         {% if analysis %}
-            {{ analysis.ai_response|linebreaks }}
-        {% else %}
-            {{ ai_response|linebreaks }}
+        <div style="background: #f8fafc; padding: 2.5rem 3rem; border-top: 1px solid var(--border); text-align: center;">
+            <h4 style="color: var(--secondary); margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-size: 1.2rem;">{% trans "Questa consulenza ti è stata utile?" %}</h4>
+            <form method="post" action="{% url 'update_analysis_result' analysis.id %}" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                {% csrf_token %}
+                <button type="submit" name="result" value="improved" class="btn btn-secondary" style="background: #059669; border: none; padding: 0.8rem 1.5rem; display: flex; align-items: center; gap: 8px;">
+                    <span>✅</span> {% trans "Sì, ha aiutato" %}
+                </button>
+                <button type="submit" name="result" value="no_change" class="btn btn-secondary" style="background: #64748b; border: none; padding: 0.8rem 1.5rem; display: flex; align-items: center; gap: 8px;">
+                    <span>😐</span> {% trans "Invariato" %}
+                </button>
+                <button type="submit" name="result" value="worse" class="btn btn-secondary" style="background: #e11d48; border: none; padding: 0.8rem 1.5rem; display: flex; align-items: center; gap: 8px;">
+                    <span>❌</span> {% trans "È peggiorato" %}
+                </button>
+            </form>
+        </div>
         {% endif %}
-    </div>
-    
-    {% if analysis %}
-    <div style="margin-top: 2rem; text-align: center;">
-        <p>{% trans "Ha funzionato questa soluzione?" %}</p>
-        <form method="post" action="{% url 'update_analysis_result' analysis.id %}" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" name="result" value="improved" class="btn-calculate" style="background: #4a7c59;">{% trans "Migliorato" %}</button>
-            <button type="submit" name="result" value="no_change" class="btn-calculate" style="background: #f4a460;">{% trans "Nessun cambiamento" %}</button>
-            <button type="submit" name="result" value="worse" class="btn-calculate" style="background: #e74c3c;">{% trans "Peggio" %}</button>
-        </form>
     </div>
     {% if suggested_articles %}
     <div class="suggested-reading" style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #eee;">
@@ -57,44 +72,55 @@
     </div>
     {% endif %}
 
-    {% elif not dog %}
-    <div class="cta-analyze" style="margin-top: 2rem;">
-        <h3>{% trans "Vuoi risultati migliori?" %}</h3>
-        <p>{% trans "Crea il profilo del tuo cane per ottenere risposte personalizzate per razza, eta e peso." %}</p>
-        <a href="{% url 'profile_new' %}" class="btn btn-primary">{% trans "Crea profilo cane" %}</a>
+    {% if not dog %}
+    <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 3rem; border-radius: var(--radius-lg); color: white; text-align: center; margin-bottom: 4rem; box-shadow: var(--shadow-lg);">
+        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">{% trans "Sblocca Analisi Più Precise" %}</h3>
+        <p style="font-size: 1.1rem; opacity: 0.8; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">{% trans "Crea il profilo del tuo cane per ottenere risposte personalizzate in base alla razza, età e predisposizioni genetiche." %}</p>
+        <a href="{% url 'profile_new' %}" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);">
+            ✨ {% trans "Crea profilo ora" %}
+        </a>
     </div>
     {% endif %}
     
-    <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a href="{% url 'analyze_problem' %}" class="btn btn-secondary">{% trans "Nuova analisi" %}</a>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+        <a href="{% url 'analyze_problem' %}" class="btn btn-secondary" style="border: 1px solid var(--border); background: white; color: var(--secondary);">🔍 {% trans "Nuova analisi" %}</a>
         {% if dog %}
-        <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary">{% trans "Vedi storico analisi" %}</a>
-        {% endif %}
-        <a href="{% url 'problem_list' %}" class="btn btn-secondary">{% trans "Vedi tutti i problemi" %}</a>
-        {% if dog %}
-        <a href="{% url 'vet_request_start' dog.id %}?analysis_id={{ analysis.id }}" class="btn btn-primary" style="background: var(--accent);">
+        <a href="{% url 'analysis_history' dog.id %}" class="btn btn-secondary" style="border: 1px solid var(--border); background: white; color: var(--secondary);">🕒 {% trans "Vedi storico" %}</a>
+        <a href="{% url 'vet_request_start' dog.id %}?analysis_id={{ analysis.id }}" class="btn btn-primary" style="background: var(--primary-dark);">
             📤 {% trans "Invia al Veterinario" %}
         </a>
         {% endif %}
     </div>
-</section>
+</div>
 
 <style>
 .analysis-result {
-    background: #f9f9f9;
-    padding: 1.5rem;
-    border-radius: 8px;
     line-height: 1.8;
 }
-.analysis-result h2, .analysis-result h3 {
-    color: var(--primary);
-    margin-top: 1.5rem;
+.analysis-result h2 {
+    color: var(--secondary);
+    font-size: 1.5rem;
+    margin: 2.5rem 0 1.25rem;
+    font-family: 'Outfit', sans-serif;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+.analysis-result h3 {
+    color: var(--primary-dark);
+    font-size: 1.25rem;
+    margin: 2rem 0 1rem;
+    font-family: 'Outfit', sans-serif;
 }
 .analysis-result ul {
     margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 .analysis-result li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    position: relative;
+}
+.analysis-result p {
+    margin-bottom: 1.25rem;
 }
 .article-suggestion-card:hover {
     transform: translateY(-5px);

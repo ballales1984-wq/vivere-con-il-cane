@@ -4,114 +4,84 @@
 {% block title %}{% trans "Il mio Cane" %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>🐕 {% trans "Il mio Cane" %}</h1>
-    <p>{% trans "Centro di gestione e conoscenza per il tuo amico a quattro zampe" %}</p>
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #ecfdf5, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem; border-bottom: 1px solid var(--border);">
+    <div style="display: inline-block; background: #dcfce7; color: #15803d; padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">🏠 {% trans "Centro di Comando" %}</div>
+    <h1 style="color: var(--secondary); font-size: 3rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">{% trans "Il Mio Branco" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">{% trans "Gestisci la salute e il benessere dei tuoi compagni a quattro zampe" %}</p>
 </section>
 
-{% if profiles %}
-{% for profile in profiles %}
-<section class="post-detail" style="max-width: 800px; margin: 0 auto 2rem;">
-    <div class="dashboard-header">
-        <div class="dog-avatar">🐶</div>
-        <div class="dog-info">
-            <h1>{{ profile.dog_name }}</h1>
-            {% if profile.breed %}<span class="breed">{{ profile.breed }}</span>{% endif %}
+<div style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    {% if profiles %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 5rem;">
+    {% for profile in profiles %}
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); overflow: hidden; position: relative; transition: transform 0.3s ease;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
+        <div style="padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="width: 70px; height: 70px; background: #f0fdf4; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 1px solid #dcfce7;">🐶</div>
+                <div>
+                    <h2 style="font-size: 1.8rem; color: var(--secondary); margin: 0; font-family: 'Outfit', sans-serif;">{{ profile.dog_name }}</h2>
+                    {% if profile.breed %}<span style="color: var(--primary); font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">{{ profile.breed }}</span>{% endif %}
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; text-align: center;">
+                <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                    <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Età" %}</div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--secondary);">{{ profile.get_age }}</div>
+                </div>
+                <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                    <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Peso" %}</div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--secondary);">{{ profile.weight|default:"--" }} kg</div>
+                </div>
+                <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                    <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">{% trans "Eventi" %}</div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--secondary);">{{ profile.events_count }}</div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <a href="{% url 'profile_detail' profile.id %}" class="btn btn-primary" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;">🔍 {% trans "Gestisci" %}</a>
+                <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;">🩹 {% trans "+ Salute" %}</a>
+            </div>
         </div>
     </div>
-    
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>{% trans "Età" %}</h3>
-            <div class="value">{{ profile.get_age }}</div>
-        </div>
-        {% if profile.weight %}
-        <div class="stat-card">
-            <h3>{% trans "Peso" %}</h3>
-            <div class="value">{{ profile.weight }} kg</div>
-        </div>
-        {% endif %}
-        <div class="stat-card">
-            <h3>{% trans "Eventi" %}</h3>
-            <div class="value">{{ profile.events_count }}</div>
-        </div>
-    </div>
-    
-    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-        <a href="{% url 'profile_detail' profile.id %}" class="btn btn-primary">{% trans "Scheda Completa" %}</a>
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-secondary">{% trans "+ Evento Salute" %}</a>
-        <a href="{% url 'profile_add_log' profile.id %}" class="btn btn-secondary">{% trans "+ Giornata" %}</a>
-    </div>
-</section>
-
-<section style="max-width: 900px; margin: 0 auto;">
-    <h2 class="section-title">🔧 {% trans "Tool per" %} {{ profile.dog_name }}</h2>
-    
-    <div class="tools-grid">
-        <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card">
-            <span class="tool-icon">🍖</span>
-            <h3>{% trans "Calcolatore Cibo" %}</h3>
-            <p>{% trans "Portata giornaliera in base a peso ed età" %}</p>
-        </a>
-        
-        <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
-            <span class="tool-icon">🎂</span>
-            <h3>{% trans "Età Umana" %}</h3>
-            <p>{% trans "Converti età del cane in anni umani" %}</p>
-        </a>
-        
-        <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
-            <span class="tool-icon">🧠</span>
-            <h3>{% trans "Quiz Comportamento" %}</h3>
-            <p>{% trans "Testa la tua conoscenza" %}</p>
-        </a>
-        
-        <a href="{% url 'blog_list' %}" class="tool-card">
-            <span class="tool-icon">📖</span>
-            <h3>{% trans "Guide Consigliate" %}</h3>
-            <p>{% trans "Articoli utili per" %} {{ profile.dog_name }}</p>
-        </a>
-    </div>
-</section>
-
-<section style="max-width: 800px; margin: 2rem auto;">
-    <h2 class="section-title">📋 {% trans "Attività Recenti" %}</h2>
-    
-    {% if profile.events.exists %}
-    <div class="post-detail" style="padding: 1.5rem;">
-        {% for event in profile.events.all|slice:":5" %}
-        <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--light-dark);">
-            <span style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">
-                {{ event.get_event_type_display }}
-            </span>
-            <span style="flex: 1; font-weight: 500;">{{ event.title }}</span>
-            <span style="color: var(--text-light); font-size: 0.9rem;">{{ event.date|date:"d M Y" }}</span>
-        </div>
-        {% endfor %}
-        {% if profile.events.count > 5 %}
-        <p style="text-align: center; margin-top: 1rem;"><a href="{% url 'profile_detail' profile.id %}" class="read-more">{% trans "Vedi tutte le attività" %} →</a></p>
-        {% endif %}
-    </div>
-    {% else %}
-    <div class="tool-container" style="text-align: center;">
-        <p style="color: var(--text-light); margin-bottom: 1rem;">{% trans "Nessuna attività registrata." %}</p>
-        <a href="{% url 'profile_add_event' profile.id %}" class="btn btn-primary">{% trans "Aggiungi il primo evento" %}</a>
-    </div>
-    {% endif %}
-    </section>
-
     {% endfor %}
+    </div>
 
-    <!-- Add another dog CTA (visible when user already has dogs) -->
-    <section style="max-width: 600px; margin: 3rem auto; text-align: center;">
-        <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 2rem; border-radius: 20px; border: 2px dashed #10b981;">
-            <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">🐕 {% trans "Aggiungi un altro cane" %}</h3>
-            <p style="color: var(--text-light); margin-bottom: 1.5rem;">{% trans "Hai più di un amico a quattro zampe? Aggiungi un nuovo profilo per gestirlo." %}</p>
-            <a href="{% url 'profile_new' %}" class="btn btn-primary" style="background: #10b981; border: none; padding: 0.75rem 2rem; font-size: 1.1rem;">
-                ➕ {% trans "Nuovo Profilo Cane" %}
+    <div style="margin-top: 5rem;">
+        <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">🛠️ {% trans "Strumenti di Conoscenza" %}</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem;">
+            <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-decoration: none; display: block; transition: all 0.3s ease;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🍖</div>
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Food Calculator" %}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Porzione giornaliera ideale per i tuoi cani." %}</p>
+            </a>
+            <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-decoration: none; display: block; transition: all 0.3s ease;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎂</div>
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Human Age" %}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Quanti anni umani hanno i tuoi amici?" %}</p>
+            </a>
+            <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-decoration: none; display: block; transition: all 0.3s ease;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🧠</div>
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Behavior Quiz" %}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Testa la tua empatia canina." %}</p>
+            </a>
+            <a href="{% url 'blog_list' %}" class="tool-card" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-decoration: none; display: block; transition: all 0.3s ease;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">📖</div>
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem; font-size: 1.2rem;">{% trans "Knowledge" %}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.4;">{% trans "Esplora le nostre guide esperte." %}</p>
             </a>
         </div>
-    </section>
+    </div>
+
+    <!-- Add another dog CTA -->
+    <div style="margin-top: 6rem; background: #f0fdf4; padding: 3rem; border-radius: var(--radius-lg); border: 2px dashed #bbf7d0; text-align: center;">
+        <h3 style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">🐕 {% trans "Aggiungi un altro compagno?" %}</h3>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">{% trans "Gestisci profili multipli e ottieni analisi IA separate per ogni tuo cane." %}</p>
+        <a href="{% url 'profile_new' %}" class="btn btn-primary" style="background: var(--primary); border: none; padding: 1rem 2.5rem;">➕ {% trans "Aggiungi Profilo" %}</a>
+    </div>
+</div>
 
 {% else %}
 <!-- ONBOARDING WIZARD -->

@@ -135,6 +135,20 @@ LOCALE_PATHS = [
 LANGUAGE_SESSION_KEY = "_language"
 LANGUAGE_COOKIE_NAME = "django_language"
 
+# Email configuration
+# Development: console backend (prints to stdout)
+# Production: SMTP from environment variables
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+)
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() in ("true", "1", "yes")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@vivereconilcane.com")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 
 def patch_gettext_for_utf8():
     """Workaround for Python 3.14 gettext bug with UTF-8 MO files."""

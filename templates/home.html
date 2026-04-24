@@ -5,10 +5,15 @@
 {% block meta_description %}{% trans "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani." %}{% endblock %}
 
 {% block content %}
+<style>
+    :root {
+        --hero-pattern: url('{% static "images/pattern.svg" %}');
+    }
+</style>
 
 <!-- HERO: AI Input Centrale con Immagine -->
 <section style="background: radial-gradient(circle at bottom right, #10b981, #065f46); color: white; padding: 6rem 2rem; border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 4rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('{% static 'images/pattern.svg' %}'); opacity: 0.05; pointer-events: none;"></div>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--hero-pattern); opacity: 0.05; pointer-events: none;"></div>
     
     <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4rem;">
         <div style="flex: 1; min-width: 320px; z-index: 2;">

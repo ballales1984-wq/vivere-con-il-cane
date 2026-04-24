@@ -6,42 +6,37 @@
 <style>
 /* Stili specifici per la stampa della cartella clinica */
 @media print {
-    /* Nascondi gli elementi che non servono su carta */
     .navbar, footer, .no-print, .print-hide {
         display: none !important;
     }
-    
-    /* Forza sfondo bianco e rimuove ombre per leggibilità */
     body {
         background-color: white !important;
-        color: #333 !important;
+        color: #1e293b !important;
+        padding: 0 !important;
     }
-    
-    .timeline-card {
-        page-break-inside: avoid;
+    .main-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .medical-card {
         box-shadow: none !important;
-        border: 1px solid #ddd !important;
-        margin-bottom: 20px;
+        border: 1px solid #e2e8f0 !important;
+        page-break-inside: avoid;
     }
 }
 
-.timeline-item {
-    position: relative;
-    padding-left: 2rem;
-    border-left: 3px solid #3b82f6; /* Tailwind blue-500 */
-    margin-bottom: 2rem;
-}
-.timeline-item::before {
-    content: '';
+.timeline-dot {
     position: absolute;
-    left: -0.55rem;
+    left: -7px;
     top: 0;
-    width: 1rem;
-    height: 1rem;
-    background: #3b82f6;
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border: 3px solid white;
     border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
-
 .copy-feedback {
     display: none;
     transition: opacity 0.3s;
@@ -51,131 +46,112 @@
 <!-- Pre-formatted text for clipboard, hidden from view but accessible by JS -->
 <textarea id="whatsappText" class="is-hidden" style="display:none;">{{ whatsapp_text }}</textarea>
 
-<section class="section">
-    <div class="container max-w-4xl mx-auto">
-        
-        <!-- Intestazione Dossier -->
-        <div class="box bg-white shadow-xl border-t-4 border-blue-500 mb-6 p-6 timeline-card">
-            <div class="flex justify-between items-start border-b pb-4 mb-4">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-800">Dossier Medico e Storico</h1>
-                    <p class="text-xl text-gray-600 mt-2">Paziente: <span class="font-bold text-blue-600">{{ profile.dog_name }}</span></p>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm text-gray-500">Generato il: {% now "d/m/Y" %}</p>
-                    <p class="text-sm text-gray-500">Proprietario: {{ profile.name }}</p>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div class="p-3 bg-gray-50 rounded-lg">
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Razza</p>
-                    <p class="text-lg font-semibold">{{ profile.breed|default:"Meticcio/Non specificato" }}</p>
-                </div>
-                <div class="p-3 bg-gray-50 rounded-lg">
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Età</p>
-                    <p class="text-lg font-semibold">{{ profile.get_age }} anni</p>
-                </div>
-                <div class="p-3 bg-gray-50 rounded-lg">
-                    <p class="text-sm text-gray-500 uppercase tracking-wide">Peso</p>
-                    <p class="text-lg font-semibold">{{ profile.weight|default:"-" }} kg</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Azioni (Nascoste in stampa) -->
-        <div class="no-print bg-blue-50 p-5 rounded-xl border border-blue-100 flex flex-col md:flex-row gap-4 justify-between items-center mb-8 shadow-sm">
+<div style="max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 5rem;" class="main-container">
+    <!-- Header Medical Dossier -->
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); overflow: hidden; margin-bottom: 3rem;" class="medical-card">
+        <div style="background: var(--secondary); padding: 2rem 3rem; color: white; display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h3 class="font-bold text-blue-800">Condividi con il Veterinario</h3>
-                <p class="text-sm text-blue-600">Esporta o condividi questo storico in modo semplice</p>
+                <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--primary-light); margin-bottom: 0.5rem;">{% trans "Cartella Clinica Digitale" %}</div>
+                <h1 style="font-size: 2.2rem; margin: 0; font-family: 'Outfit', sans-serif;">{{ profile.dog_name }}</h1>
             </div>
-            <div class="flex flex-wrap gap-3">
-                <button onclick="window.print()" class="button is-white border-gray-300">
-                    <span class="icon text-gray-600">🖨️</span>
-                    <span>Stampa / Salva PDF</span>
-                </button>
-                <button onclick="copyToClipboard()" class="button is-white border-gray-300 relative">
-                    <span class="icon text-gray-600">📋</span>
-                    <span>Copia Testo</span>
-                    <span id="copyFeedback" class="copy-feedback absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded">Copiato!</span>
-                </button>
-                <a href="{{ whatsapp_url }}" target="_blank" class="button is-success" style="background-color: #25D366; color: white;">
-                    <span class="icon">📱</span>
-                    <span class="font-bold">Invia via WhatsApp</span>
-                </a>
+            <div style="text-align: right; opacity: 0.8;">
+                <div style="font-size: 0.85rem; font-weight: 600;">ID: #{{ profile.id|stringformat:"05d" }}</div>
+                <div style="font-size: 0.85rem;">{% now "d/m/Y" %}</div>
+            </div>
+        </div>
+        
+        <div style="padding: 2.5rem 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; border-bottom: 1px solid var(--border);">
+            <div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{% trans "Razza" %}</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">{{ profile.breed|default:"Meticcio" }}</div>
+            </div>
+            <div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{% trans "Età" %}</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">{{ profile.get_age }}</div>
+            </div>
+            <div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{% trans "Peso" %}</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">{{ profile.weight|default:"-" }} kg</div>
+            </div>
+            <div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">{% trans "Proprietario" %}</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--secondary);">{{ profile.user.get_full_name|default:profile.user.username }}</div>
             </div>
         </div>
 
-        <!-- Cronologia -->
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Cronologia Eventi</h2>
-        
-        <div class="bg-white p-5 md:p-6 rounded-xl shadow-lg">
-            {% if timeline %}
-                <div class="mt-4">
-                    {% for item in timeline %}
-                        <div class="timeline-item timeline-card line-height-normal">
-                            <span class="text-sm font-bold text-blue-600">{{ item.sort_date|date:"d M Y" }}</span>
-                            
-                            {% if item.item_type == 'event' %}
-                                <!-- Evento Salute -->
-                                <h3 class="text-lg font-bold text-gray-800 mt-1">🩺 {{ item.title }}</h3>
-                                <p class="text-sm text-gray-500 mb-2">Evento Medico - {{ item.get_event_type_display }}</p>
-                                
-                                {% if item.description %}
-                                <div class="bg-gray-50 p-4 rounded text-gray-700 mt-2 border-l-2 border-gray-200">
-                                    {{ item.description|linebreaksbr }}
-                                </div>
-                                {% endif %}
-                                
-                                {% if item.veterinarian %}
-                                <p class="text-sm mt-2"><span class="font-semibold">Veterinario:</span> {{ item.veterinarian }}</p>
-                                {% endif %}
-                                
-                            {% elif item.item_type == 'analysis' %}
-                                <!-- Analisi IA -->
-                                <h3 class="text-lg font-bold text-purple-700 mt-1">🤖 Consulto IA: {{ item.problem.title|default:"Analisi Comportamentale/Sintomatica" }}</h3>
-                                <p class="text-sm text-gray-500 mb-2">Pre-triage generato dall'Assistente Virtuale</p>
-                                
-                                <div class="bg-purple-50 p-4 rounded text-gray-800 mt-2 border-l-2 border-purple-300">
-                                    <p class="font-semibold text-sm text-purple-800 mb-1">Sintomi descritti:</p>
-                                    <p class="italic mb-3">"{{ item.user_description }}"</p>
-                                    
-                                    {% if item.ai_response %}
-                                    <div class="mt-3 p-3 bg-white rounded border border-purple-100 text-sm" style="line-height: 1.6;">
-                                        <p class="font-semibold text-purple-800 mb-2">Risposta dell'IA:</p>
-                                        {{ item.ai_response|linebreaksbr }}
-                                    </div>
-                                    {% endif %}
-                                    
-                                    {% if item.result != 'pending' %}
-                                    <div class="mt-3">
-                                        <span class="inline-block px-3 py-1 bg-white rounded-full text-xs font-bold border border-purple-200">
-                                            Esito: {{ item.get_result_display }}
-                                        </span>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
+        <!-- Sharing Actions (No Print) -->
+        <div style="background: #f8fafc; padding: 1.5rem 3rem;" class="no-print">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+                <p style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">{% trans "Condividi con il Veterinario" %}</p>
+                <div style="display: flex; gap: 1rem;">
+                    <button onclick="window.print()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem;">🖨️ {% trans "Stampa / PDF" %}</button>
+                    <button onclick="copyToClipboard()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem; position: relative;">
+                        📋 {% trans "Copia Testo" %}
+                        <span id="copyFeedback" class="copy-feedback" style="position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: var(--secondary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem;">{% trans "Copiato!" %}</span>
+                    </button>
+                    <a href="{{ whatsapp_url }}" target="_blank" class="btn" style="background: #25D366; color: white; border: none; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 700;">📱 WhatsApp</a>
                 </div>
-            {% else %}
-                <div class="text-center py-12">
-                    <p class="text-gray-500 text-lg">Nessun evento o consulto registrato per questo cane.</p>
-                </div>
-            {% endif %}
-            
-            <!-- Fine timeline element for UI balance -->
-            {% if timeline %}
-            <div class="relative pl-8 -mt-4">
-                <div class="absolute left-[-0.3rem] top-0 w-4 h-4 bg-gray-300 border-2 border-white rounded-full"></div>
-                <p class="text-sm text-gray-400 font-semibold">Tutti gli eventi mostrati</p>
             </div>
-            {% endif %}
         </div>
-        
     </div>
-</section>
+
+    <!-- Cronologia -->
+    <h2 style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">🩺 {% trans "Cronologia Eventi" %}</h2>
+    
+    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border); padding: 3rem;">
+        {% if timeline %}
+            <div style="position: relative; border-left: 2px solid var(--border); padding-left: 2.5rem; margin-left: 0.5rem;">
+                {% for item in timeline %}
+                    <div style="position: relative; margin-bottom: 3.5rem;" class="medical-card">
+                        <div class="timeline-dot"></div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">{{ item.sort_date|date:"d M Y" }}</div>
+                        
+                        {% if item.item_type == 'event' %}
+                            <!-- Evento Salute -->
+                            <h3 style="font-size: 1.3rem; color: var(--secondary); margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">{{ item.title }}</h3>
+                            <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 1rem;">🩺 {% trans "Evento Medico" %} &bull; {{ item.get_event_type_display }}</div>
+                            
+                            {% if item.description %}
+                            <div style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border); font-size: 0.95rem; color: var(--secondary);">
+                                {{ item.description|linebreaksbr }}
+                            </div>
+                            {% endif %}
+                            
+                        {% elif item.item_type == 'analysis' %}
+                            <!-- Analisi IA -->
+                            <h3 style="font-size: 1.3rem; color: #6366f1; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">{% trans "Analisi Assistente IA" %}: {{ item.problem.title|default:"Comportamento" }}</h3>
+                            <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #818cf8; margin-bottom: 1rem;">🤖 {% trans "Report Virtuale" %}</div>
+                            
+                            <div style="background: #f5f3ff; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid #ddd6fe;">
+                                <div style="font-size: 0.8rem; font-weight: 800; color: #5b21b6; text-transform: uppercase; margin-bottom: 0.5rem;">{% trans "Sintomi Descriti" %}</div>
+                                <p style="font-style: italic; color: #4338ca; margin-bottom: 1.5rem;">"{{ item.user_description }}"</p>
+                                
+                                {% if item.ai_response %}
+                                <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e0e7ff; font-size: 0.9rem; line-height: 1.6;">
+                                    <div style="font-size: 0.75rem; font-weight: 800; color: #6366f1; text-transform: uppercase; margin-bottom: 0.8rem;">{% trans "Valutazione IA" %}</div>
+                                    {{ item.ai_response|truncatewords:50|linebreaksbr }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 5rem 0;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">📋</div>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">{% trans "Nessun evento o consulto registrato per questo cane." %}</p>
+            </div>
+        {% endif %}
+        
+        {% if timeline %}
+        <div style="display: flex; align-items: center; gap: 1rem; margin-top: -1rem;">
+            <div style="width: 14px; height: 14px; background: var(--border); border-radius: 50%; border: 3px solid white; margin-left: 0.5rem;"></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">{% trans "Fine della cronologia" %}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
 <script>
 function copyToClipboard() {

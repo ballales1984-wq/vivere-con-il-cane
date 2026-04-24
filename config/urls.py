@@ -13,6 +13,7 @@ from blog.sitemap import (
     StaticViewSitemap,
 )
 from django.contrib.sitemaps.views import sitemap
+from marketing import views as marketing_views
 
 sitemaps = {
     "blog": BlogPostSitemap(),
@@ -26,12 +27,16 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path(
         "manifest.json",
-        TemplateView.as_view(template_name="pwa/manifest.json", content_type="application/json"),
+        TemplateView.as_view(
+            template_name="pwa/manifest.json", content_type="application/json"
+        ),
         name="manifest",
     ),
     path(
         "service-worker.js",
-        TemplateView.as_view(template_name="pwa/service-worker.js", content_type="application/javascript"),
+        TemplateView.as_view(
+            template_name="pwa/service-worker.js", content_type="application/javascript"
+        ),
         name="service_worker",
     ),
     path("ping/", blog_views.ping, name="ping"),
@@ -56,7 +61,16 @@ urlpatterns += i18n_patterns(
     path("knowledge/", include("knowledge.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("signup/", tools_views.signup, name="signup"),
-    path("newsletter/subscribe/", (lambda r: __import__('marketing.views', fromlist=['subscribe_newsletter']).subscribe_newsletter(r)), name="subscribe_newsletter"),
+    path(
+        "newsletter/subscribe/",
+        marketing_views.subscribe_newsletter,
+        name="subscribe_newsletter",
+    ),
+    path(
+        "unsubscribe/<uuid:token>/",
+        marketing_views.unsubscribe_newsletter,
+        name="unsubscribe_newsletter",
+    ),
 )
 
 if settings.DEBUG:
