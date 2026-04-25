@@ -791,24 +791,43 @@ def analyze_heart_sound(filepath, context=''):
 
         # --- 4. NORMALIZZAZIONE ---
         env_min, env_max = np.min(envelope_smooth), np.max(envelope_smooth)
-        if env_max - env_min < 1e-9:
-            env_norm = np.zeros_like(envelope_smooth)
+        env_range = env_max - env_min
+        if env_range < 1e-6:  # Segnale piatto o troppo debole
+            # Crea envelope artificiale basato sui picchi del segnale filtrato
+            # Cerca variazioni nel segnale filtrato
+            abs_signal = np.abs(y_filt)
+            if np.max(abs_signal) < 1e-6:  # Segnale quasi nullo
+                # Usa envelope costante per evitare crash
+                env_norm = np.zeros_like(envelope_smooth)
+            else:
+                # Normalizza il segnale assoluto come envelope alternativo
+                env_norm = abs_signal / (np.max(abs_signal) + 1e-9)
         else:
-            env_norm = (envelope_smooth - env_min) / (env_max - env_min + 1e-9)
-        # Sostituisci NaN/inf con 0
+            env_norm = (envelope_smooth - env_min) / (env_range + 1e-9)
+        
+        # Sostituisci definitivamente qualsiasi NaN/inf residuo
         env_norm = np.nan_to_num(env_norm, nan=0.0, posinf=0.0, neginf=0.0)
 
         # --- 5. RILEVAMENTO PICCHI (find_peaks) ---
         min_distance = int(0.3 * sr)  # 300 ms min tra battiti (max 200 bpm)
-        height_thresholds = [0.2, 0.15, 0.1, 0.05]
+        
+        # Calcola soglia dinamica basata sulla distribuzione dell'envelope
+        env_std = np.std(env_norm)
+        env_median = np.median(env_norm)
+        dynamic_threshold = max(0.02, env_median + 0.5 * env_std)
+        
+        height_thresholds = [0.2, 0.15, 0.1, dynamic_threshold, 0.05, 0.03, 0.02]
         peaks = None
         for th in height_thresholds:
-            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=0.05)
+            if th > 1.0:  # Normalizza threshold se > 1
+                th = min(th, 1.0)
+            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=max(0.01, th*0.5))
             if len(candidate_peaks) >= 2:
                 peaks = candidate_peaks
                 break
         if peaks is None:
-            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.02, prominence=0.01)
+            # Ultimo tentativo con threshold molto basso
+            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.01, prominence=0.005)
 
         # --- 6. PULIZIA OUTLIER (artefatti momentanei) ---
         if len(peaks) >= 3:

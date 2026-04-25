@@ -117,18 +117,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const peakTimes = analysis.peak_times;
     const amplitudes = analysis.amplitudes;
     
-    if (!envelopeData || !peakTimes || peakTimes.length === 0) {
-        console.warn('Dati envelope o picchi mancanti');
+    // Validazione dati
+    if (!envelopeData || !envelopeData.times || envelopeData.times.length === 0) {
+        console.warn('Dati envelope mancanti');
+        return;
+    }
+    
+    // Verifica che i dati siano numerici finiti
+    const validEnvelope = envelopeData.values.every(v => typeof v === 'number' && isFinite(v));
+    const validPeaks = peakTimes.every(t => typeof t === 'number' && isFinite(t));
+    
+    if (!validEnvelope || !validPeaks) {
+        console.warn('Dati contengono valori non validi');
         return;
     }
 
     const ctx = document.getElementById('heartbeat-full-chart').getContext('2d');
     
-    // Prepara dati envelope come array di punti {x, y}
-    const envelopePoints = envelopeData.times.map((t, i) => ({ x: parseFloat(t), y: envelopeData.values[i] }));
+    // Prepara dati envelope
+    const envelopePoints = envelopeData.times.map((t, i) => ({ 
+        x: parseFloat(t), 
+        y: parseFloat(envelopeData.values[i]) 
+    }));
     
-    // Prepara dati picchi come array di punti {x, y}
-    const beatPoints = peakTimes.map((t, i) => ({ x: parseFloat(t), y: amplitudes[i] }));
+    // Prepara dati picchi
+    const beatPoints = peakTimes.map((t, i) => ({ 
+        x: parseFloat(t), 
+        y: parseFloat(amplitudes[i]) 
+    }));
+    
+    // Calcola max X per scala
+    const maxX = envelopePoints.length > 0 ? envelopePoints[envelopePoints.length-1].x : 10;
     
     new Chart(ctx, {
         type: 'line',
@@ -181,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     type: 'linear',
                     title: { display: true, text: 'Tempo (secondi)' },
                     min: 0,
-                    max: envelopePoints.length ? envelopePoints[envelopePoints.length-1].x : 10
+                    max: maxX
                 },
                 y: {
                     min: 0,
