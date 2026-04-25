@@ -786,10 +786,17 @@ def analyze_heart_sound(filepath, context=''):
             envelope_smooth = savgol_filter(envelope, window_len, 3)
         else:
             envelope_smooth = envelope
+        # Sostituisci NaN/inf generati dai filtri ai bordi
+        envelope_smooth = np.nan_to_num(envelope_smooth, nan=0.0, posinf=0.0, neginf=0.0)
 
         # --- 4. NORMALIZZAZIONE ---
         env_min, env_max = np.min(envelope_smooth), np.max(envelope_smooth)
-        env_norm = (envelope_smooth - env_min) / (env_max - env_min + 1e-9)
+        if env_max - env_min < 1e-9:
+            env_norm = np.zeros_like(envelope_smooth)
+        else:
+            env_norm = (envelope_smooth - env_min) / (env_max - env_min + 1e-9)
+        # Sostituisci NaN/inf con 0
+        env_norm = np.nan_to_num(env_norm, nan=0.0, posinf=0.0, neginf=0.0)
 
         # --- 5. RILEVAMENTO PICCHI (find_peaks) ---
         min_distance = int(0.3 * sr)  # 300 ms min tra battiti (max 200 bpm)
