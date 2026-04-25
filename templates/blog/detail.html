@@ -108,9 +108,9 @@
     
     <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
         <a href="{% url 'blog_list' %}" style="color: var(--text-muted); text-decoration: none; font-weight: 600;">&larr; {% trans "Torna al blog" %}</a>
-        <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }})" style="background: rgba(239, 68, 68, 0.05); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.6rem 1.2rem; border-radius: 100px; font-weight: 700; cursor: pointer; transition: var(--transition);">
-            ❤️ {% trans "Mi piace" %} <span class="vote-count">{{ post.votes_count }}</span>
-        </button>
+         <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }});" style="background: rgba(239, 68, 68, 0.05); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.6rem 1.2rem; border-radius: 100px; font-weight: 700; cursor: pointer; transition: var(--transition);">
+             ❤️ {% trans "Mi piace" %} <span class="vote-count">{{ post.votes_count }}</span>
+         </button>
     </div>
     
     <div class="related-tool" style="margin-top: 5rem; background: #fdf2f8; border: 1px solid #fbcfe8; padding: 2rem; border-radius: var(--radius-lg); text-align: center;">
