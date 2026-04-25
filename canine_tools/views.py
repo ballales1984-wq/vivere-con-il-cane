@@ -318,9 +318,10 @@ def heart_recording_export_csv(request, recording_id):
 
 
 @login_required
+@login_required
 def heart_analyze_ai(request, recording_id):
     """Analizza una registrazione cardiaca con LLM (Groq/OpenAI)."""
-    import tempfile, os, json, requests
+    import tempfile, os, requests
     from django.http import JsonResponse
     from django.shortcuts import get_object_or_404
     
@@ -343,13 +344,10 @@ def heart_analyze_ai(request, recording_id):
         subject_weight = f"{recording.dog.weight} kg" if recording.dog and recording.dog.weight else "N/A"
         context_display = recording.get_recording_context_display() if recording.recording_context else "N/A"
         
-        # Rapporto S1/S2 safe
+        # Rapporto S1/S2 safe (evita divisione per zero)
         s1_s2_ratio = "N/A"
-        if analysis.get('s1_s2'):
-            s1 = analysis['s1_s2']['s1_avg_amplitude']
-            s2 = analysis['s1_s2']['s2_avg_amplitude']
-            if s2 and s2 > 0:
-                s1_s2_ratio = f"{s1/s2:.2f}"
+        if analysis.get('s1_s2') and analysis['s1_s2']['s2_avg_amplitude'] > 0:
+            s1_s2_ratio = f"{analysis['s1_s2']['s1_avg_amplitude'] / analysis['s1_s2']['s2_avg_amplitude']:.2f}"
         
         prompt = f"""Sei un veterinario specializzato in cardiologia animale. Analizza questi dati di fonocardiografia.
 
@@ -367,15 +365,15 @@ def heart_analyze_ai(request, recording_id):
             h = analysis['hrv']
             prompt += f" SDNN={h['sdnn_sec']}s, RMSSD={h['rmssd_sec']}s, pNN50={h['pnn50_percent']}%"
         else:
-            prompt += " Non disp."
+            prompt += " Non disponibile."
         
         prompt += f"""
 **S1/S2:** S1={analysis['s1_s2']['s1_count'] if analysis.get('s1_s2') else 'N/A'}, S2={analysis['s1_s2']['s2_count'] if analysis.get('s1_s2') else 'N/A'}, Rapporto={s1_s2_ratio}
 
 Fornisci 4 punti:
-1. Stato attuale (normale/stressato/anomalo)
-2. Confronto BPM con range normale ({'cane '+subject_weight if subject_type=='dog' else 'umano'})
-3. Cosa indicano HRV e S1/S2
+1. Stato attuale (normale/stressato/patologico)
+2. Confronto BPM con range normale ({subject_weight if subject_type=='dog' else '60-100 BPM'})
+3. Significato HRV e S1/S2
 4. Consigli pratici
 
 Max 150 parole, italiano chiaro."""
@@ -418,7 +416,7 @@ Max 150 parole, italiano chiaro."""
                 pass
         
         if not analysis_text:
-            analysis_text = "⚠️ IA non disponibile. Verifica le API keys nel .env."
+            analysis_text = "⚠️ Servizio IA non disponibile. Verifica le chiavi API nel file .env."
         
         return JsonResponse({
             "success": True,
@@ -431,6 +429,11 @@ Max 150 parole, italiano chiaro."""
     except Exception as e:
         import traceback; traceback.print_exc()
         return JsonResponse({"success": False, "error": str(e)}, status=500)
+    finally:
+        if tmp_path and os.path.exists(tmp_path):
+            try: os.unlink(tmp_path)
+            except: pass
+
     finally:
         if tmp_path and os.path.exists(tmp_path):
             try: os.unlink(tmp_path)
