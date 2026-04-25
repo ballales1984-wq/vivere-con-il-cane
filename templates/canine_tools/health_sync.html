@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Sincronizza Dati Salute" %} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #eff6ff, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: #2563eb; font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">💙 {% trans "Google Health Connect" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">
+        {% trans "Sincronizza i dati del tuo smartphone (passi, battiti, sonno) con il tuo cane." %}
+    </p>
+</section>
+
+<div style="max-width: 800px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    {% if not token_exists %}
+    <!-- Connessione OAuth -->
+    <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-align: center;">
+        <h2 style="margin-top: 0; color: #1e40af;">🔗 {% trans "Connetti Google Health" %}</h2>
+        <p style="margin-bottom: 1.5rem; color: var(--text);">
+            {% trans "Collega il tuo account Google Health per importare automaticamente i dati di attività, passi e frequenza cardiaca del tuo cane." %}
+        </p>
+        <a href="{% url 'canine_tools:google_fit_auth' %}" class="btn" style="background: #4285f4; color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-size: 1.1rem;">
+            🔑 {% trans "Autorizza con Google" %}
+        </a>
+        <p style="font-size: 0.85rem; color: #6b7280; margin-top: 1rem;">
+            {% trans "I tuoi dati sono al sicuro. Puoi revocare l'accesso in qualsiasi momento." %}
+        </p>
+    </div>
+    {% else %}
+    <!-- Pannello sincronizzazione -->
+    <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="width: 50px; height: 50px; background: #dcfce7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">✅</div>
+            <div>
+                <h3 style="margin: 0;">{% trans "Account Connesso" %}</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: #6b7280;">{% trans "Google Health è collegato al tuo account." %}</p>
+            </div>
+        </div>
+        
+        <button id="sync-btn" class="btn" style="background: #059669; color: white; padding: 1rem 2rem; border-radius: 8px; font-size: 1rem;">
+            🔄 {% trans "Sincronizza Dati Ora" %}
+        </button>
+        <div id="sync-status" style="margin-top: 1rem; font-weight: 600;"></div>
+    </div>
+
+    <!-- Ultimi dati sincronizzati -->
+    {% if recent_sync %}
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 2rem;">
+        <h3 style="margin-top: 0;">📊 {% trans "Ultimi Dati Sincronizzati" %}</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #f1f5f9;">
+                        <th style="padding: 10px;">{% trans "Data" %}</th>
+                        <th style="padding: 10px;">{% trans "Cane" %}</th>
+                        <th style="padding: 10px;">{% trans "Tipo" %}</th>
+                        <th style="padding: 10px; text-align: center;">{% trans "Valore" %}</th>
+                        <th style="padding: 10px; text-align: center;">{% trans "Unit" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for point in recent_sync %}
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 10px;">{{ point.start_time|date:"d/m/Y" }}</td>
+                        <td style="padding: 10px;">{{ point.dog.dog_name|default:"—" }}</td>
+                        <td style="padding: 10px;">{{ point.get_source_type_display }}</td>
+                        <td style="padding: 10px; text-align: center; font-weight: 700;">{{ point.value }}</td>
+                        <td style="padding: 10px; text-align: center;">{{ point.unit }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Link a storico completo -->
+    <div style="text-align: center;">
+        <a href="{% url 'canine_tools:health_data_history' 0 %}?all=1" class="btn btn-secondary">
+            📈 {% trans "Vedi Storico Completo" %}
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.getElementById('sync-btn')?.addEventListener('click', async function() {
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = '⏳ Sincronizzazione...';
+    
+    const statusDiv = document.getElementById('sync-status');
+    statusDiv.textContent = 'Connessione a Google Health...';
+    statusDiv.style.color = '#3b82f6';
+    
+    try {
+        const response = await fetch("{% url 'canine_tools:sync_health_data' %}", {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            statusDiv.textContent = `✅ Sincronizzazione completata! Salvati ${data.saved_points} punti.`;
+            statusDiv.style.color = '#059669';
+            setTimeout(() => location.reload(), 2000);
+        } else {
+            statusDiv.textContent = '❌ ' + (data.error || 'Errore');
+            statusDiv.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = '🔄 Riprova';
+        }
+    } catch (err) {
+        statusDiv.textContent = '❌ Errore: ' + err.message;
+        statusDiv.style.color = '#dc2626';
+        btn.disabled = false;
+        btn.textContent = '🔄 Riprova';
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Storico Dati Salute" %} - {{ dog.dog_name }} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #eff6ff, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: #2563eb; font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">📊 {{ dog.dog_name }} – {% trans "Dati Salute Google" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">
+        {% trans "Dati sincronizzati da Google Health / Fit" %}
+    </p>
+</section>
+
+<div style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    <!-- Filtri -->
+    <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0; margin-bottom: 1rem;">🔍 {% trans "Filtra per Tipo" %}</h3>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="{% url 'canine_tools:health_data_history' dog.id %}" class="btn {% if not selected_source %}btn-primary{% else %}btn-secondary{% endif %}">
+                🏠 Tutti
+            </a>
+            <a href="?source=steps" class="btn {% if selected_source == 'steps' %}btn-primary{% else %}btn-secondary{% endif %}">
+                👣 Passi
+            </a>
+            <a href="?source=heart_rate" class="btn {% if selected_source == 'heart_rate' %}btn-primary{% else %}btn-secondary{% endif %}">
+                ❤️ Battiti
+            </a>
+            <a href="?source=distance" class="btn {% if selected_source == 'distance' %}btn-primary{% else %}btn-secondary{% endif %}">
+                📏 Distanza
+            </a>
+            <a href="?source=calories" class="btn {% if selected_source == 'calories' %}btn-primary{% else %}btn-secondary{% endif %}">
+                🔥 Calorie
+            </a>
+        </div>
+    </div>
+
+    <!-- Grafico -->
+    {% if data_points %}
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0;">📈 {% trans "Andamento Temporale" %}</h3>
+        <div style="height: 350px;">
+            <canvas id="health-chart"></canvas>
+        </div>
+    </div>
+
+    <!-- Tabella dati -->
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0;">📋 {% trans "Dettaglio Registrazioni" %}</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #f1f5f9;">
+                        <th style="padding: 10px; text-align: left;">{% trans "Data" %}</th>
+                        <th style="padding: 10px; text-align: left;">{% trans "Tipo" %}</th>
+                        <th style="padding: 10px; text-align: right;">{% trans "Valore" %}</th>
+                        <th style="padding: 10px; text-align: left;">{% trans "Unità" %}</th>
+                        <th style="padding: 10px; text-align: left;">{% trans "Fonte" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for point in data_points %}
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 10px;">
+                            {{ point.start_time|date:"d/m/Y H:i" }}
+                        </td>
+                        <td style="padding: 10px; font-weight: 600;">
+                            {{ point.get_source_type_display }}
+                        </td>
+                        <td style="padding: 10px; text-align: right; font-size: 1.1rem; font-weight: 800; color: #2563eb;">
+                            {{ point.value }}
+                        </td>
+                        <td style="padding: 10px;">{{ point.unit }}</td>
+                        <td style="padding: 10px; font-size: 0.85rem; color: #6b7280;">
+                            {{ point.data_source_name|default:"Google Health" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                            {% trans "Nessun dato disponibile per questo filtro." %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div style="background: #f8fafc; border-radius: var(--radius-lg); padding: 3rem; text-align: center; color: #6b7280;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+        <h3>{% trans "Nessun Dato Disponibile" %}</h3>
+        <p>{% trans "Sincronizza i tuoi dati da Google Health per vederli qui." %}</p>
+        <a href="{% url 'canine_tools:health_sync' %}" class="btn" style="background: #2563eb; color: white; margin-top: 1rem;">
+            🔄 {% trans "Vai a Sincronizzazione" %}
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% if data_points %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('health-chart').getContext('2d');
+    
+    const labels = {{ chart_data_json.labels|safe }};
+    const datasets = [];
+    
+    {% if not selected_source or selected_source == 'steps' %}
+    datasets.push({
+        label: 'Passi',
+        data: {{ chart_data_json.steps|default:'[]'|safe }},
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+        fill: true,
+        tension: 0.3,
+        yAxisID: 'y'
+    });
+    {% endif %}
+    
+    {% if not selected_source or selected_source == 'heart_rate' %}
+    datasets.push({
+        label: 'Battiti (bpm)',
+        data: {{ chart_data_json.heart_rate|default:'[]'|safe }},
+        borderColor: '#dc2626',
+        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+        fill: false,
+        tension: 0.4,
+        yAxisID: 'y1'
+    });
+    {% endif %}
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: { labels: labels, datasets: datasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: true } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { 
+                    type: 'linear', 
+                    display: true, 
+                    position: 'left',
+                    title: { display: true, text: 'Passi' }
+                },
+                y1: { 
+                    type: 'linear', 
+                    display: true, 
+                    position: 'right',
+                    title: { display: true, text: 'BPM' },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

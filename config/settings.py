@@ -50,6 +50,31 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
+# Google OAuth / Health Connect Configuration
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
+GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
+GOOGLE_OAUTH_REDIRECT_URI = os.environ.get(
+    "GOOGLE_OAUTH_REDIRECT_URI", 
+    "http://localhost:8000/auth/google/callback"
+)
+
+# Google Health / Fitness API Scopes
+# Usiamo Health API se disponibile, altrimenti Fitness come fallback
+GOOGLE_HEALTH_SCOPES = [
+    "https://www.googleapis.com/auth/fitness.activity.read",
+    "https://www.googleapis.com/auth/fitness.body.read",
+    "https://www.googleapis.com/auth/fitness.heart_rate.read",
+    "https://www.googleapis.com/auth/fitness.location.read",
+]
+
+# Per compatibilità con vecchia Fitness API (se Health non disponibile)
+GOOGLE_FIT_SCOPES = [
+    "https://www.googleapis.com/auth/fitness.activity.read",
+    "https://www.googleapis.com/auth/fitness.body.read",
+    "https://www.googleapis.com/auth/fitness.heart_rate.read",
+]
+
+
 # Application definition
 
 INSTALLED_APPS = [

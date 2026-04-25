@@ -206,17 +206,23 @@ async function analyzeAudio(blob) {
     if (dogSelect && dogSelect.value) {
         formData.append('dog_id', dogSelect.value);
     }
+    // CSRF token da cookie
+    const csrf = getCookie('csrftoken');
+    if (!csrf) {
+        statusDiv.textContent = "❌ Errore CSRF token";
+        return;
+    }
 
     try {
         const response = await fetch("{% url 'canine_tools:heart_analyze' %}", {
             method: 'POST',
             body: formData,
+            headers: {'X-CSRFToken': csrf},
         });
         const data = await response.json();
 
         if (data.success) {
-            // Reindirizza alla pagina di dettaglio
-            window.location.href = data.redirect_url;
+            window.location.href = "{% url 'canine_tools:heart_recording_detail' 0 %}".replace('0/', data.recording_id + '/');
         } else {
             statusDiv.textContent = "❌ Errore: " + (data.error || "Analisi fallita");
             recordBtn.style.display = 'inline-block';
@@ -227,6 +233,21 @@ async function analyzeAudio(blob) {
         recordBtn.style.display = 'inline-block';
         recordBtn.textContent = "🎤 Riprova";
     }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 </script>
 
