@@ -254,16 +254,20 @@ def heart_recording_detail(request, recording_id):
 
 
 @login_required
-def heart_recording_export_csv(request, recording_id):
-    """Esporta i risultati dell'analisi in CSV."""
+def heart_analyze_ai(request, recording_id):
+    """
+    Analizza una registrazione cardiaca con LLM (Groq/OpenAI).
+    Restituisce un rapporto interpretativo in linguaggio naturale.
+    """
+    import json
+    import os
+    import tempfile
+    import requests
+    from django.http import JsonResponse
+    
     recording = get_object_or_404(HeartSoundRecording, id=recording_id, owner=request.user)
     
-    import tempfile
-    import os
-    import csv
-    from django.http import HttpResponse
-    
-    # Ricalcola analisi per dati completi
+    # Ricalcola analisi completa
     with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_file:
         with recording.audio_file.open('rb') as src:
             tmp_file.write(src.read())
@@ -274,44 +278,210 @@ def heart_recording_export_csv(request, recording_id):
     finally:
         os.unlink(tmp_path)
     
-    # Prepara response CSV
-    response = HttpResponse(content_type='text/csv; charset=utf-8')
-    response['Content-Disposition'] = f'attachment; filename="heart_recording_{recording_id}_{recording.created_at.strftime("%Y%m%d")}.csv"'
+    # Prepara dati per LLM
+    subject_type = recording.get_subject_type()
+    subject_name = recording.dog.dog_name if recording.dog else "l'utente"
+    subject_weight = f"{recording.dog.weight} kg" if recording.dog and recording.dog.weight else "N/A"
+    context_display = recording.get_recording_context_display() if recording.recording_context else "N/A"
     
-    writer = csv.writer(response, delimiter=';')
-    # Intestazioni
-    writer.writerow(['# Analisi fonocardiografica - Vivere con il Cane'])
-    writer.writerow(['# Cane', recording.dog.dog_name if recording.dog else 'N/A'])
-    writer.writerow(['# Data', recording.created_at.strftime('%Y-%m-%d %H:%M')])
-    writer.writerow(['# Durata (s)', analysis['duration']])
-    writer.writerow(['# BPM', analysis['bpm']])
-    writer.writerow(['# Battiti totali', analysis['beat_count']])
-    writer.writerow(['# Confidenza', f"{analysis['confidence']*100:.1f}%"])
+    # Prompt da veterinario cardiologo
+    prompt = f"""Sei un veterinario specializzato in cardiologia animale. Analizza questi dati di fonocardiografia e fornisci una valutazione dettagliata.
+
+**Dati registrazione:**
+- Soggetto: {subject_name} ({'cane' if subject_type == 'dog' else 'essere umano'})
+- Peso: {subject_weight}
+- Contesto: {context_display}
+- Durata: {analysis['duration']} secondi
+
+**Metriche cardiache:**
+- BPM: {analysis['bpm']}
+- Battiti (cicli S1): {analysis['beat_count']}
+- Confidenza algoritmo: {analysis['confidence']:.2f}/1.0
+
+**Variabilità cardiaca (HRV):**"""
+    
     if analysis.get('hrv'):
         h = analysis['hrv']
-        writer.writerow(['# HRV - SDNN (s)', h['sdnn_sec']])
-        writer.writerow(['# HRV - RMSSD (s)', h['rmssd_sec']])
-        writer.writerow(['# HRV - pNN50 (%)', h['pnn50_percent']])
-    writer.writerow([])
+        prompt += f"""
+- SDNN: {h['sdnn_sec']} s
+- RMSSD: {h['rmssd_sec']} s
+- pNN50: {h['pnn50_percent']}%
+- Intervallo RR medio: {h['mean_hr_sec']} s
+"""
+    else:
+        prompt += "\n- Non disponibile (troppi pochi battiti)\n"
     
-    # Dati per ogni battito
-    writer.writerow(['N.', 'Tempo (s)', 'Ampiezza', 'Intervallo dal precedente (s)', 'Intervallo (ms)'])
+    prompt += f"""
+**Classificazione suoni cardiaci (S1/S2):**
+- S1 conteggio: {analysis['s1_s2']['s1_count'] if analysis.get('s1_s2') else 'N/A'}
+- S2 conteggio: {analysis['s1_s2']['s2_count'] if analysis.get('s1_s2') else 'N/A'}
+- Rapporto ampiezza S1/S2: {analysis['s1_s2']['s1_avg_amplitude']/analysis['s1_s2']['s2_avg_amplitude']:.2f} {'(normale)' if analysis.get('s1_s2') and analysis['s1_s2']['s1_avg_amplitude'] > analysis['s1_s2']['s2_avg_amplitude']*1.2 else '(attenzione)' if analysis.get('s1_s2') and analysis['s1_s2']['s1_avg_amplitude'] < analysis['s1_s2']['s2_avg_amplitude']*0.8 else ''}
+
+**Richiesta:**
+Fornisci un'analisi strutturata in 4 punti:
+
+1. **Stato attuale** — Il cuore è in condizioni normali, stressato, o qualcosa non va? (basati su BPM, HRV, S1/S2)
+2. **Confronto con range normale** — Per un {'cane di '+subject_weight if subject_type=='dog' else 'essere umano adulto'}, il BPM di {analysis['bpm']} è?
+3. **Indicatori di salute** — Cosa indicano l'HRV (SDNN, RMSSD, pNN50) e il rapporto S1/S2?
+4. **Consigli pratici** — Che fare? (riposo, visita veterinaria, ulteriori test)
+
+Rispondi in italiano, conciso (max 200 parole), professionale ma accessibile."""
     
-    peak_times = analysis['peak_times']
-    amplitudes = analysis['amplitudes']
+    # Chiama LLM via Groq (o OpenAI fallback) — stesso pattern di knowledge/views.py
+    grok_key = os.environ.get("GROK_API_KEY", "")
+    openai_key = os.environ.get("OPENAI_API_KEY", "")
+    analysis_text = None
     
-    for i in range(len(peak_times)):
-        t = peak_times[i]
-        a = amplitudes[i]
-        if i == 0:
-            interval_s = ''
-            interval_ms = ''
-        else:
-            interval_s = round(peak_times[i] - peak_times[i-1], 4)
-            interval_ms = round(interval_s * 1000, 1) if interval_s != '' else ''
-        writer.writerow([i+1, f"{t:.4f}", f"{a:.4f}", f"{interval_s}" if interval_s != '' else '', f"{interval_ms}" if interval_ms != '' else ''])
+    # Try Groq
+    if grok_key and len(grok_key) > 20:
+        try:
+            response = requests.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {grok_key}",
+                },
+                json={
+                    "model": "llama-3.3-70b-versatile",
+                    "messages": [
+                        {"role": "system", "content": "Sei un veterinario esperto di cardiologia. Rispondi in italiano, conciso (max 200 parole), professionale."},
+                        {"role": "user", "content": prompt},
+                    ],
+                    "temperature": 0.7,
+                    "max_tokens": 500,
+                },
+                timeout=30,
+            )
+            if response.status_code == 200:
+                analysis_text = response.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            pass
     
-    return response
+    # Fallback OpenAI
+    if not analysis_text and openai_key and len(openai_key) > 20:
+        try:
+            response = requests.post(
+                "https://api.openai.com/v1/chat/completions",
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {openai_key}",
+                },
+                json={
+                    "model": "gpt-4o-mini",
+                    "messages": [
+                        {"role": "system", "content": "Sei un veterinario esperto di cardiologia. Rispondi in italiano, conciso (max 200 parole), professionale."},
+                        {"role": "user", "content": prompt},
+                    ],
+                    "temperature": 0.7,
+                    "max_tokens": 500,
+                },
+                timeout=30,
+            )
+            if response.status_code == 200:
+                analysis_text = response.json()["choices"][0]["message"]["content"]
+        except Exception:
+            pass
+    
+    if not analysis_text:
+        analysis_text = "⚠️ Servizio IA temporaneamente non disponibile. Riprova più tardi."
+    
+    return JsonResponse({
+        "success": True,
+        "recording_id": recording.id,
+        "analysis_text": analysis_text,
+        "subject": subject_name,
+        "bpm": analysis['bpm'],
+    })
+
+
+@login_required
+def heart_analyze_ai(request, recording_id):
+    """
+    Analizza una registrazione cardiaca con LLM (Groq/OpenAI).
+    Restituisce un rapporto interpretativo in linguaggio naturale.
+    """
+    import json
+    import os
+    import tempfile
+    from django.http import JsonResponse
+    
+    recording = get_object_or_404(HeartSoundRecording, id=recording_id, owner=request.user)
+    
+    # Ricalcola analisi completa
+    with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_file:
+        with recording.audio_file.open('rb') as src:
+            tmp_file.write(src.read())
+        tmp_path = tmp_file.name
+    
+    try:
+        analysis = analyze_heart_sound(tmp_path)
+    finally:
+        os.unlink(tmp_path)
+    
+    # Prepara dati per LLM
+    subject_type = recording.get_subject_type()
+    subject_name = recording.dog.dog_name if recording.dog else "l'utente"
+    subject_weight = f"{recording.dog.weight} kg" if recording.dog and recording.dog.weight else "N/A"
+    context = recording.get_recording_context_display() if recording.recording_context else "N/A"
+    
+    # Prompt da veterinario cardiologo
+    prompt = f"""Sei un veterinario specializzato in cardiologia animale. Analizza questi dati di fonocardiografia e fornisci una valutazione dettagliata.
+
+**Datiregistrazione:**
+- Soggetto: {subject_name} ({'cane' if subject_type == 'dog' else 'essere umano'})
+- Peso: {subject_weight}
+- Contesto: {context}
+- Durata: {analysis['duration']} secondi
+
+**Metriche cardiache:**
+- BPM: {analysis['bpm']}
+- Battiti (cicli S1): {analysis['beat_count']}
+- Confidenza algoritmo: {analysis['confidence']:.2f}/1.0
+
+**Variabilità cardiaca (HRV):**
+"""
+    
+    if analysis.get('hrv'):
+        h = analysis['hrv']
+        prompt += f"""
+- SDNN: {h['sdnn_sec']} s
+- RMSSD: {h['rmssd_sec']} s
+- pNN50: {h['pnn50_percent']}%
+- Intervallo RR medio: {h['mean_hr_sec']} s
+"""
+    else:
+        prompt += "- Non disponibile (troppi pochi battiti)\n"
+    
+    prompt += f"""
+**Classificazione suoni cardiaci (S1/S2):**
+- S1 conteggio: {analysis['s1_s2']['s1_count'] if analysis.get('s1_s2') else 'N/A'}
+- S2 conteggio: {analysis['s1_s2']['s2_count'] if analysis.get('s1_s2') else 'N/A'}
+- Rapporto ampiezza S1/S2: {analysis['s1_s2']['s1_avg_amplitude']/analysis['s1_s2']['s2_avg_amplitude']:.2f} {'(normale)' if analysis.get('s1_s2') and analysis['s1_s2']['s1_avg_amplitude'] > analysis['s1_s2']['s2_avg_amplitude']*1.2 else ' anomalo'} se S1/S2 è molto basso
+
+**Richiesta:**
+Fornisci un'analisi strutturata in 4 punti:
+
+1. **Stato attuale** — Il cuore è in condizioni normali, stressato, o qualcosa non va? (basati su BPM, HRV, S1/S2)
+2. **Confronto con range normale** — Per un {subject_type} {'di '+subject_weight if subject_type=='dog' else ''}, il BPM di {analysis['bpm']} è?
+3. **Indicatori di salute** — Cosa indicano l'HRV (SDNN, RMSSD, pNN50) e il rapporto S1/S2?
+4. **Consigli pratici** — Che fare? (riposo, visita veterinaria, ulteriori test)
+
+Rispondi in italiano, conciso (max 200 parole), professionale ma accessibile."""
+    
+    # Chiama LLM via Groq (o OpenAI fallback)
+    try:
+        llm_response = call_groq_llm(prompt)
+        analysis_text = llm_response
+    except Exception as e:
+        analysis_text = f"Errore nell'analisi IA: {str(e)}"
+    
+    return JsonResponse({
+        "success": True,
+        "recording_id": recording.id,
+        "analysis_text": analysis_text,
+        "subject": subject_name,
+        "bpm": analysis['bpm'],
+    })
 
 
 # Google Health/Fit OAuth

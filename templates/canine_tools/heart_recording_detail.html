@@ -123,6 +123,21 @@
         </audio>
     </div>
 
+    <!-- Analisi IA -->
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="margin: 0; color: #7c3aed;">🤖 {% trans "Analisi con Intelligenza Artificiale" %}</h3>
+            <button id="btn-ai-analyze" class="btn" style="background: #7c3aed; color: white; padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.9rem;">
+                🔍 {% trans "Analizza con IA" %}
+            </button>
+        </div>
+        <div id="ai-analysis-loading" style="display: none; color: #6b7280; font-style: italic; margin: 1rem 0;">
+            ⏳ {% trans "Analisi in corso... (può richiedere 10-20 secondi)" %}
+        </div>
+        <div id="ai-analysis-result" style="display: none; background: #f8fafc; border-radius: 8px; padding: 1.5rem; border-left: 4px solid #7c3aed; white-space: pre-line; line-height: 1.6;">
+        </div>
+    </div>
+
     <!-- Note -->
     {% if recording.notes %}
     <div style="background: #f8fafc; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; border-left: 4px solid #3b82f6;">
@@ -145,18 +160,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Grafico cardiogramma ---
     const analysis = {{ analysis_json|safe }};
     const envelopeData = analysis.envelope;
     const peakTimes = analysis.peak_times;
     const amplitudes = analysis.amplitudes;
     
-    // Validazione dati
     if (!envelopeData || !envelopeData.times || envelopeData.times.length === 0) {
         console.warn('Dati envelope mancanti');
         return;
     }
     
-    // Verifica che i dati siano numerici finiti
     const validEnvelope = envelopeData.values.every(v => typeof v === 'number' && isFinite(v));
     const validPeaks = peakTimes.every(t => typeof t === 'number' && isFinite(t));
     
@@ -167,19 +181,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const ctx = document.getElementById('heartbeat-full-chart').getContext('2d');
     
-    // Prepara dati envelope
     const envelopePoints = envelopeData.times.map((t, i) => ({ 
         x: parseFloat(t), 
         y: parseFloat(envelopeData.values[i]) 
     }));
     
-    // Prepara dati picchi
     const beatPoints = peakTimes.map((t, i) => ({ 
         x: parseFloat(t), 
         y: parseFloat(amplitudes[i]) 
     }));
     
-    // Calcola max X per scala
     const maxX = envelopePoints.length > 0 ? envelopePoints[envelopePoints.length-1].x : 10;
     
     new Chart(ctx, {
@@ -212,16 +223,9 @@ document.addEventListener('DOMContentLoaded', function() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            },
+            interaction: { intersect: false, mode: 'index' },
             plugins: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: { usePointStyle: true }
-                },
+                legend: { display: true, position: 'top', labels: { usePointStyle: true } },
                 tooltip: {
                     callbacks: {
                         label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.y.toFixed(3)} (${ctx.raw.x.toFixed(2)}s)`
@@ -229,20 +233,76 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             },
             scales: {
-                x: {
-                    type: 'linear',
-                    title: { display: true, text: 'Tempo (secondi)' },
-                    min: 0,
-                    max: maxX
-                },
-                y: {
-                    min: 0,
-                    max: 1.1,
-                    title: { display: true, text: 'Ampiezza normalizzata' }
-                }
+                x: { type: 'linear', title: { display: true, text: 'Tempo (secondi)' }, min: 0, max: maxX },
+                y: { min: 0, max: 1.1, title: { display: true, text: 'Ampiezza normalizzata' } }
             }
         }
     });
+
+    // --- Analisi IA ---
+    const aiButton = document.getElementById('btn-ai-analyze');
+    const aiLoading = document.getElementById('ai-analysis-loading');
+    const aiResult = document.getElementById('ai-analysis-result');
+    
+    if (aiButton) {
+        aiButton.addEventListener('click', async function() {
+            aiButton.disabled = true;
+            aiButton.textContent = '⏳ Analisi...';
+            aiLoading.style.display = 'block';
+            aiResult.style.display = 'none';
+            
+            try {
+                const response = await fetch("{% url 'canine_tools:heart_analyze_ai' recording.id %}", {
+                    method: 'GET',
+                    headers: {'X-CSRFToken': getCookie('csrftoken')},
+                    credentials: 'include',
+                });
+                
+                let data;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    console.error('Non-JSON response:', response.status, text.substring(0, 200));
+                    throw new Error(`Server error ${response.status}`);
+                }
+                
+                if (data.success) {
+                    aiResult.textContent = data.analysis_text;
+                    aiResult.style.display = 'block';
+                    aiButton.textContent = '🔄 Ricarica';
+                } else {
+                    aiResult.textContent = '❌ Errore: ' + (data.error || 'Analisi fallita');
+                    aiResult.style.display = 'block';
+                    aiButton.textContent = '🔍 Analizza con IA';
+                }
+            } catch (err) {
+                console.error('AI fetch error:', err);
+                aiResult.textContent = '❌ Errore di rete: ' + err.message;
+                aiResult.style.display = 'block';
+                aiButton.textContent = '🔍 Analizza con IA';
+            } finally {
+                aiLoading.style.display = 'none';
+                aiButton.disabled = false;
+            }
+        });
+    }
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 });
 </script>
 {% endblock %}
