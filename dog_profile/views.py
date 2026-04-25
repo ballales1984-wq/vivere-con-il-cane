@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Avg, Sum, Count
 from .models import (
     DogProfile,
     MedicalEvent,
@@ -14,8 +14,6 @@ from knowledge.models import DogAnalysis, LifetimeMacroAnalysis
 from knowledge.views import generate_lifetime_macro_analysis
 from datetime import date
 import json
-import io
-import requests
 import os
 from django.core.cache import cache
 from xhtml2pdf import pisa
@@ -87,14 +85,18 @@ def profile_add_event(request, profile_id):
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
+        # Usa la data fornita o quella di oggi - registrazione automatica
+        event_date = request.POST.get("date")
+        if not event_date:
+            event_date = date.today()
+        
         MedicalEvent.objects.create(
             dog=profile,
             event_type=request.POST.get("event_type"),
             title=request.POST.get("title"),
             description=request.POST.get("description", ""),
-            date=request.POST.get("date") or date.today(),
+            date=event_date,
         )
-        # Invalidate daily coach cache for today
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
 
@@ -107,9 +109,13 @@ def profile_add_log(request, profile_id):
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
+        log_date = request.POST.get("date")
+        if not log_date:
+            log_date = date.today()
+        
         HealthLog.objects.create(
             dog=profile,
-            date=request.POST.get("date") or date.today(),
+            date=log_date,
             log_type="routine",
             sleep_hours=request.POST.get("sleep_hours") or None,
             play_minutes=request.POST.get("play_minutes") or None,
@@ -117,7 +123,6 @@ def profile_add_log(request, profile_id):
             food_grams=request.POST.get("food_grams") or None,
             description=request.POST.get("notes", ""),
         )
-        # Invalidate daily coach cache for today
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
 

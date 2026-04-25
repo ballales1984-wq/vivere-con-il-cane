@@ -1,87 +1,33 @@
-"""
-Management command to generate realistic dog profiles with data.
-"""
-
+from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
+from django.utils import timezone
+from dog_profile.models import DogProfile, HealthLog, MedicalEvent
+from knowledge.models import BreedInsight
 import random
 from datetime import date, timedelta
 from decimal import Decimal
-from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
-from dog_profile.models import DogProfile, HealthLog, MedicalEvent
-from knowledge.models import BreedInsight
-
 
 COMMON_MEDICATIONS = [
     {"name": "Antibiotico", "dosage": "500mg", "frequency": "2 volte/giorno"},
     {"name": "Antinfiammatorio", "dosage": "10mg", "frequency": "1 volta/giorno"},
-    {
-        "name": "Antiparassitario",
-        "dosage": "pipetta spot-on",
-        "frequency": "1 volta/mese",
-    },
+    {"name": "Antiparassitario", "dosage": "pipetta spot-on", "frequency": "1 volta/mese"},
     {"name": "Probiotico", "dosage": "compresse", "frequency": "1 volta/giorno"},
 ]
 
 DOG_NAMES = [
-    "Bella",
-    "Max",
-    "Charlie",
-    "Lucy",
-    "Cooper",
-    "Daisy",
-    "Rocky",
-    "Luna",
-    "Bailey",
-    "Molly",
-    "Duke",
-    "Sadie",
-    "Tucker",
-    "Maggie",
-    "Bear",
-    "Sophie",
-    "Oliver",
-    "Rosie",
-    "Murphy",
-    "Abby",
-    "Winston",
-    "Penny",
-    "Zeus",
-    "Stella",
-    "Gunnar",
-    "Willow",
-    "Jasper",
-    "Cleo",
-    "Kai",
-    "Lily",
-    "Leo",
-    "Nala",
-    "Oscar",
-    "Zoe",
-    "Henry",
-    "Ruby",
-    "Finn",
-    "Piper",
-    "Toby",
-    "Mia",
-    "Jax",
-    "Roxy",
-    "Sam",
-    "Coco",
-    "Bandit",
-    "Peanut",
-    "Milo",
-    "Buster",
+    "Bella", "Max", "Charlie", "Lucy", "Cooper", "Daisy", "Rocky", "Luna",
+    "Bailey", "Molly", "Duke", "Sadie", "Tucker", "Maggie", "Bear",
+    "Sophie", "Oliver", "Rosie", "Murphy", "Abby", "Winston", "Penny",
+    "Zeus", "Stella", "Gunnar", "Willow", "Jasper", "Cleo", "Kai", "Lily",
+    "Leo", "Nala", "Oscar", "Zoe", "Henry", "Ruby", "Finn", "Piper",
+    "Toby", "Mia", "Jax", "Roxy", "Sam", "Coco", "Bandit", "Peanut", "Milo", "Buster"
 ]
 
 DOG_FOODS = [
-    "Royal Canin Medium Adult",
-    "Hill's Science Plan Adult",
-    "Pro Plan Medium Adult",
-    "Monge Grain Free",
-    "Acana Original",
-    "Orijen Six Fish",
-    "BARF Dieta Cruda",
-    "Casalingo con verdure",
+    "Royal Canin Medium Adult", "Hill's Science Plan Adult",
+    "Pro Plan Medium Adult", "Monge Grain Free",
+    "Acana Original", "Orijen Six Fish",
+    "BARF Dieta Cruda", "Casalingo con verdure"
 ]
 
 BREED_WEIGHT_RANGES = {
@@ -102,7 +48,6 @@ SLEEP_PATTERNS = ["normal", "excessive", "restless", "variable"]
 SOCIALIZATION = ["friendly", "selective", "protective", "shy", "reactive"]
 DIET_TYPES = ["dry", "wet", "mixed", "raw", "homemade"]
 
-
 def generate_weight(breed, gender):
     ranges = BREED_WEIGHT_RANGES.get(breed, BREED_WEIGHT_RANGES["Meticcio"])
     rg = ranges.get(gender, ranges.get("male"))
@@ -111,14 +56,10 @@ def generate_weight(breed, gender):
         w *= 0.88
     return Decimal(str(round(max(1.0, w), 1)))
 
-
 def generate_grams(weight, activity):
     base = 30
-    fac = {"low": 0.7, "moderate": 1.0, "high": 1.4, "very_high": 1.8}.get(
-        activity, 1.0
-    )
+    fac = {"low": 0.7, "moderate": 1.0, "high": 1.4, "very_high": 1.8}.get(activity, 1.0)
     return int(float(weight) * base * fac)
-
 
 def generate_walk_minutes(activity, age_years):
     base = {"low": 20, "moderate": 45, "high": 90, "very_high": 120}.get(activity, 45)
@@ -128,11 +69,9 @@ def generate_walk_minutes(activity, age_years):
         base = int(base * 0.7)
     return max(10, base + random.randint(-20, 30))
 
-
 def generate_sleep(activity):
     s = {"low": 14, "moderate": 12, "high": 10, "very_high": 9}.get(activity, 12)
     return round(s + random.uniform(-1.5, 1.5), 1)
-
 
 class Command(BaseCommand):
     help = "Genera dati realistici per cani"
@@ -149,18 +88,12 @@ class Command(BaseCommand):
 
         owner, created = User.objects.get_or_create(
             username="test_user_dog_data",
-            defaults={
-                "email": "test.dog.data@example.com",
-                "first_name": "Test",
-                "last_name": "User",
-            },
+            defaults={"email": "test.dog.data@example.com", "first_name": "Test", "last_name": "User"}
         )
         if created:
             owner.set_password("test123456")
             owner.save()
-            self.stdout.write(
-                self.style.WARNING("Creato utente test (password: test123456)")
-            )
+            self.stdout.write(self.style.WARNING("Creato utente test (password: test123456)"))
 
         all_breeds = list(BREED_WEIGHT_RANGES.keys())
         breed_insights = list(BreedInsight.objects.all())
@@ -174,30 +107,22 @@ class Command(BaseCommand):
         total_events = 0
         total_logs = 0
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"=== Generazione {num_dogs} cani realistici ==="
-                f"\nGiorni log: {num_days} | Eventi medi: {avg_events}"
-                f"\nRazze: {', '.join(available_breeds[:5])}..."
-                f"\n==========================================\n"
-            )
-        )
+        self.stdout.write(self.style.SUCCESS(
+            f"=== Generazione {num_dogs} cani realistici ==="
+            f"\nGiorni log: {num_days} | Eventi medi: {avg_events}"
+            f"\nRazze: {', '.join(available_breeds[:5])}..."
+            f"\n==========================================\n"
+        ))
 
         for i in range(num_dogs):
             breed = available_breeds[i % len(available_breeds)]
             gender = random.choice(["male", "female"])
-            age_years = random.choices(
-                range(1, 13), weights=[15, 20, 20, 15, 10, 8, 5, 3, 2, 1, 1, 0.5]
-            )[0]
-
-            birth_date = date.today() - timedelta(
-                days=age_years * 365 + random.randint(-90, 90)
-            )
+            age_years = random.choices(range(1, 13), weights=[15, 20, 20, 15, 10, 8, 5, 3, 2, 1, 1, 0.5])[0]
+            birth_date = date.today() - timedelta(days=age_years * 365 + random.randint(-90, 90))
             weight = generate_weight(breed, gender)
             activity = random.choices(ACTIVITY_LEVELS, weights=[10, 45, 30, 15])[0]
             if age_years >= 8:
                 activity = random.choices(ACTIVITY_LEVELS, weights=[35, 40, 20, 5])[0]
-
             walk_min = generate_walk_minutes(activity, age_years)
             diet = random.choice(DIET_TYPES)
             grams = generate_grams(weight, activity)
@@ -212,9 +137,7 @@ class Command(BaseCommand):
                     "weight": weight,
                     "gender": gender,
                     "is_neutered": random.random() < 0.6 if age_years >= 1 else False,
-                    "microchip": f"MC{random.randint(100000, 999999)}"
-                    if random.random() < 0.5
-                    else "",
+                    "microchip": f"MC{random.randint(100000, 999999)}" if random.random() < 0.5 else "",
                     "food_type": random.choice(DOG_FOODS),
                     "food_grams_per_day": grams,
                     "meals_per_day": 2 if age_years >= 1 else 3,
@@ -225,56 +148,38 @@ class Command(BaseCommand):
                     "is_indoor": random.random() < 0.85,
                     "has_access_garden": random.random() < 0.4,
                     "socialization_level": random.choice(SOCIALIZATION),
-                    "notes": f"Generato per test - {age_years} anni",
-                },
+                    "notes": f"Generato per test - {age_years} anni"
+                }
             )
             if created:
                 created_dogs += 1
             else:
                 updated_dogs += 1
 
-            # Eventi medici
+            # Eventi medici con timestamp di registrazione automatica
             n_events = random.randint(0, avg_events * 2)
             for _ in range(n_events):
                 months_ago = random.randint(1, max(1, age_years * 12))
                 ed = date.today() - timedelta(days=months_ago * 30)
-                et = random.choice(
-                    ["visit", "vaccine", "exam", "followup", "therapy_start"]
-                )
-                costs = {
-                    "vaccine": 60,
-                    "visit": 90,
-                    "exam": 150,
-                    "followup": 50,
-                    "therapy_start": 200,
-                }
+                et = random.choice(["visit", "vaccine", "exam", "followup", "therapy_start"])
+                costs = {"vaccine": 60, "visit": 90, "exam": 150, "followup": 50, "therapy_start": 200}
                 MedicalEvent.objects.create(
-                    dog=profile,
-                    event_type=et,
-                    date=ed,
-                    title=random.choice(
-                        [
-                            "Visita controllo",
-                            "Esami sangue",
-                            "Vaccino",
-                            "Controllo follow-up",
-                        ]
-                    ),
+                    dog=profile, event_type=et, date=ed,
+                    title=random.choice(["Visita controllo", "Esami sangue", "Vaccino", "Controllo follow-up"]),
                     description="Esame clinico completo.",
-                    vet_clinic=random.choice(
-                        ["Clinica Vet Centrale", "Studio Vet", "Ambulatorio"]
-                    ),
+                    vet_clinic=random.choice(["Clinica Vet Centrale", "Studio Vet", "Ambulatorio"]),
                     vet_name=random.choice(["Dr. Rossi", "Dr. Bianchi", "Dr. Verdi"]),
                     diagnosis="Valutazione clinica.",
-                    prescribed_medications=COMMON_MEDICATIONS[: random.randint(0, 2)],
+                    prescribed_medications=COMMON_MEDICATIONS[:random.randint(0, 2)],
                     treatment_description="Terapia indicata.",
                     outcome="In corso" if et == "therapy_start" else "Soddisfacente",
                     cost=Decimal(str(costs.get(et, 80))),
                     notes="Nessuna complicazione.",
+                    registered_at=timezone.now() - timedelta(days=random.randint(0, months_ago*30))
                 )
                 total_events += 1
 
-            # Log sanitari (solo se non esistono)
+            # Log sanitari con timestamp di registrazione automatica
             if not HealthLog.objects.filter(dog=profile).exists():
                 logs = []
                 for d in range(num_days):
@@ -283,45 +188,29 @@ class Command(BaseCommand):
                     age_y = age_days / 365.25
                     sm = 1.3 if age_y < 1 else (0.8 if age_y > 10 else 1.0)
                     pm = 0.8 if age_y < 1 else (0.6 if age_y > 10 else 1.0)
-                    logs.append(
-                        HealthLog(
-                            dog=profile,
-                            date=ld,
-                            log_type="routine",
-                            severity="1",
-                            sleep_hours=round(
-                                generate_sleep(activity)
-                                * sm
-                                * random.uniform(0.8, 1.2),
-                                1,
-                            ),
-                            play_minutes=int(
-                                generate_walk_minutes(activity, age_y)
-                                * 0.4
-                                * pm
-                                * random.uniform(0.7, 1.3)
-                            ),
-                            walk_minutes=int(walk_min * random.uniform(0.6, 1.3)),
-                            food_grams=grams,
-                            description="Routine giornaliera normale.",
-                            ai_tags=["routine"],
-                            ai_summary_suggestion="Parametri nella norma.",
-                        )
-                    )
+                    logs.append(HealthLog(
+                        dog=profile, date=ld, log_type="routine", severity="1",
+                        sleep_hours=round(generate_sleep(activity) * sm * random.uniform(0.8, 1.2), 1),
+                        play_minutes=int(generate_walk_minutes(activity, age_y) * 0.4 * pm * random.uniform(0.7, 1.3)),
+                        walk_minutes=int(walk_min * random.uniform(0.6, 1.3)),
+                        food_grams=grams,
+                        description="Routine giornaliera normale.",
+                        ai_tags=["routine"],
+                        ai_summary_suggestion="Parametri nella norma.",
+                        registered_at=timezone.now() - timedelta(days=d, hours=random.randint(0, 23))
+                    ))
                 HealthLog.objects.bulk_create(logs)
                 total_logs += len(logs)
 
             if (i + 1) % 20 == 0:
                 self.stdout.write(f"  Generati {i + 1}/{num_dogs}...")
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"\n=== Completato ==="
-                f"\nNuovi profili: {created_dogs}"
-                f"\nAggiornati: {updated_dogs}"
-                f"\nEventi medici: {total_events}"
-                f"\nLog sanitari: {total_logs}"
-                f"\nTotali in DB: {DogProfile.objects.count()} cani"
-                f"\n==================\n"
-            )
-        )
+        self.stdout.write(self.style.SUCCESS(
+            f"\n=== Completato ==="
+            f"\nNuovi profili: {created_dogs}"
+            f"\nAggiornati: {updated_dogs}"
+            f"\nEventi medici: {total_events}"
+            f"\nLog sanitari: {total_logs}"
+            f"\nTotali in DB: {DogProfile.objects.count()} cani"
+            f"\n==================\n"
+        ))
