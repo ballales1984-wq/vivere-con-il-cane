@@ -1,44 +1,68 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Registra Giornata" %} - Vivere con il Cane{% endblock %}
+{% block title %}{% if log %}{% trans "Modifica Log" %}{% else %}{% trans "Registra Giornata" %}{% endif %} - Vivere con il Cane{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>{% trans "Registra Giornata" %}</h1>
-    <p>{% trans "Per" %} {{ profile.dog_name }}</p>
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #f0fdf4, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: var(--secondary); font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">
+        {% if log %}✏️ {% trans "Modifica Log Sanitario" %}{% else %}⏱️ {% trans "Registra Giornata" %}{% endif %}
+    </h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">{% trans "Dati routine giornaliera per" %} <strong style="color: var(--primary);">{{ profile.dog_name }}</strong></p>
 </section>
 
-<section class="tool-container">
-    <form method="post" class="calculator-form">
-        {% csrf_token %}
+<div style="max-width: 600px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    <div style="background: white; padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); border: 1px solid var(--border); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(to right, var(--primary), var(--primary-light));"></div>
         
-         <div class="form-group">
-            <label>{% trans "Data" %}</label>
-            <input type="date" name="date" value="{{ default_date|date:'Y-m-d' }}" required>
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Ore di sonno" %}</label>
-            <input type="number" name="sleep_hours" step="0.5" value="12">
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Minuti di gioco" %}</label>
-            <input type="number" name="play_minutes" value="30">
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Minuti di passeggiata" %}</label>
-            <input type="number" name="walk_minutes" value="60">
-        </div>
-        
-        <div class="form-group">
-            <label>{% trans "Cibo (grammi)" %}</label>
-            <input type="number" name="food_grams" value="300">
-        </div>
-        
-        <button type="submit" class="btn-calculate">{% trans "Salva Giornata" %}</button>
-    </form>
-</section>
+        <form method="post" class="calculator-form">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Data" %}</label>
+                <input type="date" name="date" required value="{% if log %}{{ log.date|date:'Y-m-d' }}{% else %}{{ default_date|date:'Y-m-d' }}{% endif %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc;">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Ore sonno" %}</label>
+                    <input type="number" step="0.5" name="sleep_hours" placeholder="{% trans 'es. 12' %}" value="{% if log %}{{ log.sleep_hours }}{% else %}12{% endif %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Minuti gioco" %}</label>
+                    <input type="number" name="play_minutes" placeholder="{% trans 'es. 30' %}" value="{% if log %}{{ log.play_minutes }}{% else %}30{% endif %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Minuti passeggiata" %}</label>
+                    <input type="number" name="walk_minutes" placeholder="{% trans 'es. 60' %}" value="{% if log %}{{ log.walk_minutes }}{% else %}60{% endif %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Cibo (grammi)" %}</label>
+                    <input type="number" name="food_grams" placeholder="{% trans 'es. 300' %}" value="{% if log %}{{ log.food_grams }}{% else %}300{% endif %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem;">
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 2.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Note aggiuntive" %}</label>
+                <textarea name="notes" rows="3" placeholder="{% trans "Eventuali osservazioni..." %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; resize: vertical;">{% if log %}{{ log.description }}{% endif %}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.15rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);">
+                💾 {% if log %}{% trans "Aggiorna Log" %}{% else %}{% trans "Salva Giornata" %}{% endif %}
+            </button>
+            
+            {% if log %}
+            <div style="margin-top: 1rem; text-align: center;">
+                <a href="{% url 'log_delete' profile.id log.id %}" class="btn" style="background: #dc2626; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-size: 0.9rem; text-decoration: none;" onclick="return confirm('{% trans "Sei sicuro di voler eliminare questo log?" %}');">
+                    🗑️ {% trans "Elimina Log" %}
+                </a>
+            </div>
+            {% endif %}
+            
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="{% url 'profile_detail' profile.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">❌ {% trans "Annulla" %}</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

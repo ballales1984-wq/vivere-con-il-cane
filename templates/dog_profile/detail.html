@@ -148,30 +148,39 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
         <!-- EVENTS -->
         <div style="background: white; border: 1px solid #e2e8f0; padding: 2rem; border-radius: 8px;">
-            <h3 style="font-family: 'Outfit'; text-transform: uppercase; font-weight: 800; color: #0f172a; margin-bottom: 2rem;">📅 Storico Salute</h3>
+            <h3 style="font-family: 'Outfit'; text-transform: uppercase; font-weight: 800; color: #0f172a; margin-bottom: 2rem;">📅 {% trans "Storico Salute" %}</h3>
             {% for event in events %}
             <div style="padding: 1rem; border: 1px solid #f1f5f9; background: #fafafa; margin-bottom: 0.75rem; border-radius: 4px; display: flex; justify-content: space-between; align-items: flex-start;">
-                <div>
+                <div style="flex: 1;">
                     <div style="font-size: 0.7rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">{{ event.date|date:"d M Y" }}</div>
                     <div style="font-weight: 700; color: #0f172a;">{{ event.title }}</div>
+                    {% if event.description %}
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">{{ event.description }}</div>
+                    {% endif %}
                 </div>
-                <div style="font-size: 0.6rem; background: #e2e8f0; color: #475569; padding: 2px 6px; border-radius: 2px; font-weight: 800;">{{ event.get_event_type_display|upper }}</div>
+                <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                    <a href="{% url 'event_edit' profile.id event.id %}" class="btn" style="background: #3b82f6; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.8rem; text-decoration: none;">✏️</a>
+                    <a href="{% url 'event_delete' profile.id event.id %}" class="btn" style="background: #dc2626; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.8rem; text-decoration: none;" onclick="return confirm('{% trans "Sei sicuro di voler eliminare questo evento?" %}');">🗑️</a>
+                </div>
             </div>
             {% empty %}
-            <p style="color: #94a3b8; text-align: center; padding: 2rem;">Nessun dato registrato</p>
+            <p style="color: #94a3b8; text-align: center; padding: 2rem;">Nessun evento medico registrato</p>
             {% endfor %}
+        </div>
         </div>
 
         <!-- LOGS -->
         <div style="background: white; border: 1px solid #e2e8f0; padding: 2rem; border-radius: 8px;">
-            <h3 style="font-family: 'Outfit'; text-transform: uppercase; font-weight: 800; color: #0f172a; margin-bottom: 2rem;">⏱️ Diario Routine</h3>
+            <h3 style="font-family: 'Outfit'; text-transform: uppercase; font-weight: 800; color: #0f172a; margin-bottom: 2rem;">⏱️ {% trans "Diario Routine" %}</h3>
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
                     <thead>
                         <tr style="border-bottom: 2px solid #0f172a; text-align: left;">
-                            <th style="padding: 10px; color: #64748b;">DATA</th>
-                            <th style="padding: 10px; color: #64748b;">WALK</th>
-                            <th style="padding: 10px; color: #64748b;">SLEEP</th>
+                            <th style="padding: 10px; color: #64748b;">{% trans "DATA" %}</th>
+                            <th style="padding: 10px; color: #64748b;">{% trans "WALK" %}</th>
+                            <th style="padding: 10px; color: #64748b;">{% trans "PLAY" %}</th>
+                            <th style="padding: 10px; color: #64748b;">{% trans "SLEEP" %}</th>
+                            <th style="padding: 10px; color: #64748b;">{% trans "AZIONI" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,7 +188,18 @@
                         <tr style="border-bottom: 1px solid #f1f5f9;">
                             <td style="padding: 10px; font-weight: 700;">{{ log.date|date:"d/m" }}</td>
                             <td style="padding: 10px;">{{ log.walk_minutes }}m</td>
-                            <td style="padding: 10px; color: #e11d48;">{{ log.sleep_hours }}h</td>
+                            <td style="padding: 10px;">{{ log.play_minutes }}m</td>
+                            <td style="padding: 10px; color: #3b82f6;">{{ log.sleep_hours }}h</td>
+                            <td style="padding: 10px;">
+                                <div style="display: flex; gap: 0.25rem;">
+                                    <a href="{% url 'log_edit' profile.id log.id %}" class="btn" style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.75rem; text-decoration: none;">✏️</a>
+                                    <a href="{% url 'log_delete' profile.id log.id %}" class="btn" style="background: #dc2626; color: white; padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.75rem; text-decoration: none;" onclick="return confirm('{% trans "Sei sicuro di voler eliminare questo log?" %}');">🗑️</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" style="padding: 2rem; text-align: center; color: #94a3b8;">{% trans "Nessun log registrato" %}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

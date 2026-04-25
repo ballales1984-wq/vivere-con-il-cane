@@ -130,6 +130,72 @@ def profile_add_log(request, profile_id):
 
 
 @login_required
+def log_edit(request, profile_id, log_id):
+    """Edit an existing health log."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
+    log = get_object_or_404(HealthLog, id=log_id, dog=profile)
+
+    if request.method == "POST":
+        log_date = request.POST.get("date", log.date)
+        log.date = log_date
+        log.sleep_hours = request.POST.get("sleep_hours") or None
+        log.play_minutes = request.POST.get("play_minutes") or None
+        log.walk_minutes = request.POST.get("walk_minutes") or None
+        log.food_grams = request.POST.get("food_grams") or None
+        log.description = request.POST.get("notes", log.description)
+        log.save()
+        cache.delete(f"daily_coach_{profile.id}_{date.today()}")
+        return redirect("profile_detail", profile_id=profile.id)
+
+    return render(request, "dog_profile/log_form.html", {"profile": profile, "log": log, "default_date": log.date})
+
+
+@login_required
+def log_delete(request, profile_id, log_id):
+    """Delete a health log."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
+    log = get_object_or_404(HealthLog, id=log_id, dog=profile)
+    
+    if request.method == "POST":
+        log.delete()
+        cache.delete(f"daily_coach_{profile.id}_{date.today()}")
+        return redirect("profile_detail", profile_id=profile.id)
+    
+    return render(request, "dog_profile/log_confirm_delete.html", {"profile": profile, "log": log})
+
+
+@login_required
+def event_edit(request, profile_id, event_id):
+    """Edit an existing medical event."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
+    event = get_object_or_404(MedicalEvent, id=event_id, dog=profile)
+
+    if request.method == "POST":
+        event_date = request.POST.get("date", event.date)
+        event.event_type = request.POST.get("event_type", event.event_type)
+        event.title = request.POST.get("title", event.title)
+        event.description = request.POST.get("description", event.description)
+        event.date = event_date
+        event.save()
+        return redirect("profile_detail", profile_id=profile.id)
+
+    return render(request, "dog_profile/event_form.html", {"profile": profile, "event": event, "default_date": event.date})
+
+
+@login_required
+def event_delete(request, profile_id, event_id):
+    """Delete a medical event."""
+    profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
+    event = get_object_or_404(MedicalEvent, id=event_id, dog=profile)
+    
+    if request.method == "POST":
+        event.delete()
+        return redirect("profile_detail", profile_id=profile.id)
+    
+    return render(request, "dog_profile/event_confirm_delete.html", {"profile": profile, "event": event})
+
+
+@login_required
 def my_dog(request):
     """Quick view for the first dog profile of the logged user."""
     profile = DogProfile.objects.filter(owner=request.user).first()

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; padding-top: 2rem;">
+    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h2 style="color: #dc2626; margin-bottom: 1rem;">⚠️ {% trans "Elimina Log Sanitario" %}</h2>
+        
+        <p style="margin-bottom: 1.5rem; color: var(--text);">
+            {% trans "Sei sicuro di voler eliminare questo log?" %}
+        </p>
+        
+        <div style="background: #fef2f2; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="margin: 0; font-weight: 600;">{{ log.date }}</p>
+            {% if log.sleep_hours %}<p style="margin: 0.25rem 0;">💤 {{ log.sleep_hours }}h sonno</p>{% endif %}
+            {% if log.walk_minutes %}<p style="margin: 0.25rem 0;">🦮 {{ log.walk_minutes }}min passeggiata</p>{% endif %}
+            {% if log.play_minutes %}<p style="margin: 0.25rem 0;">🎾 {{ log.play_minutes }}min gioco</p>{% endif %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <a href="{% url 'profile_detail' profile.id %}" class="btn btn-secondary">
+                    ❌ {% trans "Annulla" %}
+                </a>
+                <button type="submit" class="btn" style="background: #dc2626; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 700;">
+                    🗑️ {% trans "Elimina Definitivamente" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
