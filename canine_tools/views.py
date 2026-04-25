@@ -336,6 +336,13 @@ def heart_analyze_ai(request, recording_id):
     
     try:
         analysis = analyze_heart_sound(tmp_path)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({
+            "success": False,
+            "error": f"Errore nell'analisi audio: {str(e)}"
+        }, status=500)
     finally:
         os.unlink(tmp_path)
     
