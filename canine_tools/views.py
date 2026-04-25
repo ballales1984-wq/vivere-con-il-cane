@@ -213,9 +213,91 @@ def heart_recorder(request):
 
 @login_required
 def heart_recording_detail(request, recording_id):
-    """Dettaglio di una registrazione cardiaca."""
+    """Dettaglio di una registrazione cardiaca con analisi completa."""
     recording = get_object_or_404(HeartSoundRecording, id=recording_id, owner=request.user)
-    return render(request, "canine_tools/heart_recording_detail.html", {"recording": recording})
+    
+    # Ricalcola analisi completa (envelope, S1/S2, HRV) per grafico e metriche avanzate
+    import tempfile
+    import os
+    from django.core.files.storage import default_storage
+    
+    # Scarica file audio in temp per analisi (funziona con qualsiasi storage backend)
+    with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_file:
+        with recording.audio_file.open('rb') as src:
+            tmp_file.write(src.read())
+        tmp_path = tmp_file.name
+    
+    try:
+        analysis = analyze_heart_sound(tmp_path)
+    finally:
+        os.unlink(tmp_path)  # cleanup
+    
+    return render(request, "canine_tools/heart_recording_detail.html", {
+        "recording": recording,
+        "analysis": analysis,
+        "analysis_json": json.dumps(analysis),
+    })
+
+
+@login_required
+def heart_recording_export_csv(request, recording_id):
+    """Esporta i risultati dell'analisi in CSV."""
+    recording = get_object_or_404(HeartSoundRecording, id=recording_id, owner=request.user)
+    
+    import tempfile
+    import os
+    import csv
+    from django.http import HttpResponse
+    
+    # Ricalcola analisi per dati completi
+    with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_file:
+        with recording.audio_file.open('rb') as src:
+            tmp_file.write(src.read())
+        tmp_path = tmp_file.name
+    
+    try:
+        analysis = analyze_heart_sound(tmp_path)
+    finally:
+        os.unlink(tmp_path)
+    
+    # Prepara response CSV
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
+    response['Content-Disposition'] = f'attachment; filename="heart_recording_{recording_id}_{recording.created_at.strftime("%Y%m%d")}.csv"'
+    
+    writer = csv.writer(response, delimiter=';')
+    # Intestazioni
+    writer.writerow(['# Analisi fonocardiografica - Vivere con il Cane'])
+    writer.writerow(['# Cane', recording.dog.dog_name if recording.dog else 'N/A'])
+    writer.writerow(['# Data', recording.created_at.strftime('%Y-%m-%d %H:%M')])
+    writer.writerow(['# Durata (s)', analysis['duration']])
+    writer.writerow(['# BPM', analysis['bpm']])
+    writer.writerow(['# Battiti totali', analysis['beat_count']])
+    writer.writerow(['# Confidenza', f"{analysis['confidence']*100:.1f}%"])
+    if analysis.get('hrv'):
+        h = analysis['hrv']
+        writer.writerow(['# HRV - SDNN (s)', h['sdnn_sec']])
+        writer.writerow(['# HRV - RMSSD (s)', h['rmssd_sec']])
+        writer.writerow(['# HRV - pNN50 (%)', h['pnn50_percent']])
+    writer.writerow([])
+    
+    # Dati per ogni battito
+    writer.writerow(['N.', 'Tempo (s)', 'Ampiezza', 'Intervallo dal precedente (s)', 'Intervallo (ms)'])
+    
+    peak_times = analysis['peak_times']
+    amplitudes = analysis['amplitudes']
+    
+    for i in range(len(peak_times)):
+        t = peak_times[i]
+        a = amplitudes[i]
+        if i == 0:
+            interval_s = ''
+            interval_ms = ''
+        else:
+            interval_s = round(peak_times[i] - peak_times[i-1], 4)
+            interval_ms = round(interval_s * 1000, 1) if interval_s != '' else ''
+        writer.writerow([i+1, f"{t:.4f}", f"{a:.4f}", f"{interval_s}" if interval_s != '' else '', f"{interval_ms}" if interval_ms != '' else ''])
+    
+    return response
 
 
 # Google Health/Fit OAuth
@@ -599,6 +681,7 @@ def heart_analyze(request):
     audio_file = request.FILES["audio"]
     dog_id = request.POST.get("dog_id")
     notes = request.POST.get("notes", "")
+    context = request.POST.get("recording_context", "")
 
     # Salva temporaneamente il file
     from django.core.files.storage import default_storage
@@ -615,7 +698,7 @@ def heart_analyze(request):
 
     # Analisi audio
     try:
-        analysis = analyze_heart_sound(temp_path)
+        analysis = analyze_heart_sound(temp_path, context)
         
         # Sposta file in permanente
         from django.utils import timezone
@@ -643,6 +726,7 @@ def heart_analyze(request):
             amplitudes=analysis["amplitudes"],
             sample_rate=analysis["sample_rate"],
             notes=notes,
+            recording_context=context,
         )
 
         # Cleanup temp
@@ -664,95 +748,193 @@ def heart_analyze(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 
-def analyze_heart_sound(filepath):
+def analyze_heart_sound(filepath, context=''):
     """
-    Analisi semplice di battiti cardiaci da file audio.
-    Cerca picchi di ampiezza nel segnale.
+    Analisi avanzata di fonocardiografia digitale.
+    Pipeline: filtro 20-150 Hz -> envelope Hilbert -> normalizzazione -> find_peaks.
+    Estrae: tempi battiti, ampiezze, distinzione S1/S2, HRV, pulizia outlier.
+    Restituisce: duration, bpm, beat_count, confidence, peak_times, amplitudes,
+                 s1_s2_classification, hrv_metrics, envelope_data (per grafico).
     """
     try:
-        # Prova a usare librosa se disponibile
-        import librosa
         import numpy as np
-        
-        y, sr = librosa.load(filepath, sr=None, mono=True)
+        import librosa
+        from scipy.signal import butter, filtfilt, hilbert, find_peaks, savgol_filter
+
+        # --- 1. CARICAMENTO ---
+        y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
         duration = len(y) / sr
-        
+
         # Normalizza
-        y_norm = y / np.max(np.abs(y))
-        
-        # Trovare picchi: threshold su ampiezza assoluta
-        threshold = 0.3  # Regolare in base al segnale
-        peaks = []
-        amplitudes = []
-        for i in range(1, len(y_norm)-1):
-            if y_norm[i] > threshold and y_norm[i] > y_norm[i-1] and y_norm[i] > y_norm[i+1]:
-                peaks.append(i / sr)  # tempo in secondi
-                amplitudes.append(float(y_norm[i]))
-        
-        if len(peaks) < 2:
-            # Se non trova picchi, abbassa threshold
-            threshold = 0.15
-            peaks = []
-            amplitudes = []
-            for i in range(1, len(y_norm)-1):
-                if y_norm[i] > threshold and y_norm[i] > y_norm[i-1] and y_norm[i] > y_norm[i+1]:
-                    peaks.append(i / sr)
-                    amplitudes.append(float(y_norm[i]))
-        
-        if len(peaks) < 2:
-            # Ultimo tentativo con 0.1
-            threshold = 0.1
-            peaks = []
-            amplitudes = []
-            for i in range(1, len(y_norm)-1):
-                if y_norm[i] > threshold and y_norm[i] > y_norm[i-1] and y_norm[i] > y_norm[i+1]:
-                    peaks.append(i / sr)
-                    amplitudes.append(float(y_norm[i]))
-        
+        y = y / (np.max(np.abs(y)) + 1e-9)
+
+        # --- 2. FILTRO PASSA-BANDA 20-150 Hz ---
+        def bandpass_filter(signal, fs, low=20, high=150, order=4):
+            nyq = fs / 2
+            b, a = butter(order, [low/nyq, high/nyq], btype='band')
+            return filtfilt(b, a, signal)
+
+        y_filt = bandpass_filter(y, sr)
+
+        # --- 3. ENVELOPE con Hilbert ---
+        analytic = hilbert(y_filt)
+        envelope = np.abs(analytic)
+
+        # Smooth envelope (Savitzky-Golay per rimuovere rumore)
+        window_len = min(101, len(envelope) - 1 if len(envelope)%2==0 else len(envelope))
+        if window_len > 3:
+            envelope_smooth = savgol_filter(envelope, window_len, 3)
+        else:
+            envelope_smooth = envelope
+
+        # --- 4. NORMALIZZAZIONE ---
+        env_min, env_max = np.min(envelope_smooth), np.max(envelope_smooth)
+        env_norm = (envelope_smooth - env_min) / (env_max - env_min + 1e-9)
+
+        # --- 5. RILEVAMENTO PICCHI (find_peaks) ---
+        min_distance = int(0.3 * sr)  # 300 ms min tra battiti (max 200 bpm)
+        height_thresholds = [0.2, 0.15, 0.1, 0.05]
+        peaks = None
+        for th in height_thresholds:
+            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=0.05)
+            if len(candidate_peaks) >= 2:
+                peaks = candidate_peaks
+                break
+        if peaks is None:
+            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.02, prominence=0.01)
+
+        # --- 6. PULIZIA OUTLIER (artefatti momentanei) ---
+        if len(peaks) >= 3:
+            # Rimuovi picchi con ampiezza < 30% della mediana (rumore)
+            amplitudes_temp = env_norm[peaks]
+            median_amp = np.median(amplitudes_temp)
+            mask = amplitudes_temp > 0.3 * median_amp
+            peaks = peaks[mask]
+
+            # Rimuovi intervalli anomali (outlier sui tempi)
+            if len(peaks) >= 3:
+                times_temp = peaks / sr
+                intervals = np.diff(times_temp)
+                if len(intervals) >= 2:
+                    median_int = np.median(intervals)
+                    # Tolleranza: ±50% rispetto alla mediana
+                    valid = (intervals > 0.5*median_int) & (intervals < 1.5*median_int)
+                    # Mantieni i battiti per cui l'intervallo prima E dopo sono validi
+                    keep = np.concatenate([[True], valid])[:-1] & np.concatenate([[True], valid[1:]])
+                    peaks = peaks[keep]
+
+        peak_times = (peaks / sr).tolist()
+        amplitudes = env_norm[peaks].tolist()
         beat_count = len(peaks)
+
+        # --- 7. CALCOLO BPM e CONFIDENCE ---
         if beat_count >= 2:
-            intervals = np.diff(peaks)
+            intervals = np.diff(peak_times)
             avg_interval = np.mean(intervals)
             bpm = int(60 / avg_interval) if avg_interval > 0 else 0
-            confidence = 0.8 if beat_count > 5 else 0.6
+
+            # Confidence: regolarità degli intervalli + numero battiti
+            if len(intervals) > 1:
+                std_int = np.std(intervals)
+                coeff_var = std_int / (avg_interval + 1e-9)  # CV
+                reg = max(0, 1 - coeff_var)
+                n_score = min(1.0, beat_count / 20)  # normalizza a 20 battiti
+                confidence = round(0.5 + 0.3*reg + 0.2*n_score, 2)
+            else:
+                confidence = 0.5
         else:
             bpm = 0
             confidence = 0.0
-        
+
+        # --- 8. DISTINZIONE S1/S2 ---
+        # S1 (picco più alto) vs S2 (picco più basso) in ciclo cardiaco
+        s1_s2_classification = None
+        if beat_count >= 4:
+            # Gruppi di 2 picchi consecutivi (coppie S1-S2)
+            amplitudes_arr = np.array(amplitudes)
+            # Per ogni coppia di picchi, il primo tende ad essere S1 (più forte)
+            s1_count = 0
+            s2_count = 0
+            for i in range(0, len(amplitudes_arr)-1, 2):
+                if amplitudes_arr[i] > amplitudes_arr[i+1]:
+                    s1_count += 1
+                    s2_count += 1
+                else:
+                    # Se il secondo è più forte, inverti (raro)
+                    s1_count += 1
+                    s2_count += 1
+            s1_s2_classification = {
+                "s1_count": s1_count,
+                "s2_count": s2_count,
+                "s1_avg_amplitude": float(np.mean(amplitudes_arr[::2])) if len(amplitudes_arr)>=2 else 0.0,
+                "s2_avg_amplitude": float(np.mean(amplitudes_arr[1::2])) if len(amplitudes_arr)>=2 else 0.0,
+            }
+
+        # --- 9. CALCOLO HRV (Heart Rate Variability) ---
+        hrv_metrics = None
+        if beat_count >= 3:
+            intervals_sec = np.diff(peak_times)
+            # SDNN (deviazione standard degli intervalli RR)
+            sdnn = float(np.std(intervals_sec))
+            # RMSSD (root mean square of successive differences)
+            diff_sq = np.square(np.diff(intervals_sec))
+            rmssd = float(np.sqrt(np.mean(diff_sq)))
+            # pNN50 (percentuale di differenze > 50 ms)
+            diff_ms = np.diff(intervals_sec) * 1000
+            pnn50 = float(np.mean(np.abs(diff_ms) > 50) * 100)
+            hrv_metrics = {
+                "sdnn_sec": round(sdnn, 4),
+                "rmssd_sec": round(rmssd, 4),
+                "pnn50_percent": round(pnn50, 2),
+                "mean_hr_sec": round(float(np.mean(intervals_sec)), 4),
+            }
+
+        # --- 10. DATI ENVELOPE per grafico (campionati a 1000 Hz per performance) ---
+        t_envelope = np.arange(len(env_norm)) / sr
+        # Sottocampiona per non inviare troppi dati al frontend
+        step = max(1, len(env_norm) // 2000)
+        envelope_data = {
+            "times": t_envelope[::step].tolist(),
+            "values": env_norm[::step].tolist(),
+        }
+
         return {
             "duration": round(duration, 2),
             "bpm": bpm,
             "beat_count": beat_count,
             "confidence": confidence,
-            "peak_times": peaks,
+            "peak_times": peak_times,
             "amplitudes": amplitudes,
             "sample_rate": sr,
+            "s1_s2": s1_s2_classification,
+            "hrv": hrv_metrics,
+            "envelope": envelope_data,
+            "filter_low": 20,
+            "filter_high": 150,
         }
-        
+
     except ImportError:
-        # Fallback: analisi molto semplice senza librosa
+        # Fallback: analisi molto semplice senza scipy/librosa
         import wave
         import struct
-        
+
         with wave.open(filepath, 'rb') as wav:
             sr = wav.getframerate()
             n_frames = wav.getnframes()
             data = wav.readframes(n_frames)
-            # Converti a array (mono)
             fmt = f"{n_frames}h"
             try:
                 samples = list(struct.unpack(fmt, data))
             except:
                 samples = [0] * n_frames
-            
+
             duration = n_frames / sr
-            # Semplice threshold
             threshold = 10000
             peaks = []
             for i in range(1, len(samples)-1):
                 if abs(samples[i]) > threshold and abs(samples[i]) > abs(samples[i-1]) and abs(samples[i]) > abs(samples[i+1]):
                     peaks.append(i / sr)
-            
+
             beat_count = len(peaks)
             if beat_count >= 2:
                 intervals = [peaks[i+1]-peaks[i] for i in range(len(peaks)-1)]
@@ -760,13 +942,16 @@ def analyze_heart_sound(filepath):
                 bpm = int(60 / avg_interval)
             else:
                 bpm = 0
-            
+
             return {
                 "duration": round(duration, 2),
                 "bpm": bpm,
                 "beat_count": beat_count,
                 "confidence": 0.5 if beat_count > 2 else 0.0,
                 "peak_times": peaks,
-                "amplitudes": [1.0] * len(peaks),
+                "amplitudes": [1.0]*len(peaks),
                 "sample_rate": sr,
+                "s1_s2": None,
+                "hrv": None,
+                "envelope": None,
             }

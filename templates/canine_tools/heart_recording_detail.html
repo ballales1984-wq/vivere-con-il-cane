@@ -16,32 +16,66 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
         <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #dc2626;">
             <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Battiti al Minuto" %}</div>
-            <div style="font-size: 3.5rem; font-weight: 800; color: #dc2626; margin: 0.5rem 0;">{{ recording.estimated_bpm }}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #dc2626; margin: 0.5rem 0;">{{ analysis.bpm }}</div>
             <div style="font-size: 0.85rem; color: #9ca3af;">BPM</div>
         </div>
         
         <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #2563eb;">
             <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Battiti Totali" %}</div>
-            <div style="font-size: 3.5rem; font-weight: 800; color: #2563eb; margin: 0.5rem 0;">{{ recording.beat_count }}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #2563eb; margin: 0.5rem 0;">{{ analysis.beat_count }}</div>
             <div style="font-size: 0.85rem; color: #9ca3af;">{% trans "picchi rilevati" %}</div>
         </div>
         
         <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #059669;">
             <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Confidenza" %}</div>
-            <div style="font-size: 3.5rem; font-weight: 800; color: #059669; margin: 0.5rem 0;">{{ recording.confidence_score|floatformat:2 }}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #059669; margin: 0.5rem 0;">{{ analysis.confidence|floatformat:2 }}</div>
             <div style="font-size: 0.85rem; color: #9ca3af;">0-1 scale</div>
         </div>
         
         <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #7c3aed;">
             <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Durata" %}</div>
-            <div style="font-size: 3.5rem; font-weight: 800; color: #7c3aed; margin: 0.5rem 0;">{{ recording.duration_seconds }}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #7c3aed; margin: 0.5rem 0;">{{ analysis.duration }}</div>
             <div style="font-size: 0.85rem; color: #9ca3af;">secondi</div>
         </div>
     </div>
 
+    <!-- Metriche avanzate: HRV e S1/S2 -->
+    {% if analysis.hrv or analysis.s1_s2 %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        {% if analysis.hrv %}
+        <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-radius: 12px; padding: 1.5rem; border: 1px solid #a7f3d0;">
+            <h4 style="margin: 0 0 1rem 0; color: #047857;">❤️‍🩹 {% trans "Variabilità Cardiaca (HRV)" %}</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.95rem;">
+                <div><strong>SDNN:</strong> {{ analysis.hrv.sdnn_sec }} s</div>
+                <div><strong>RMSSD:</strong> {{ analysis.hrv.rmssd_sec }} s</div>
+                <div><strong>pNN50:</strong> {{ analysis.hrv.pnn50_percent }}%</div>
+                <div><strong>Media RR:</strong> {{ analysis.hrv.mean_hr_sec }} s</div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if analysis.s1_s2 %}
+        <div style="background: linear-gradient(135deg, #fef2f2, #fecaca); border-radius: 12px; padding: 1.5rem; border: 1px solid #fca5a5;">
+            <h4 style="margin: 0 0 1rem 0; color: #b91c1c;">🔬 {% trans "Classificazione S1/S2" %}</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.95rem;">
+                <div><strong>S1 conteggio:</strong> {{ analysis.s1_s2.s1_count }}</div>
+                <div><strong>S2 conteggio:</strong> {{ analysis.s1_s2.s2_count }}</div>
+                <div><strong>Ampiezza media S1:</strong> {{ analysis.s1_s2.s1_avg_amplitude|floatformat:3 }}</div>
+                <div><strong>Ampiezza media S2:</strong> {{ analysis.s1_s2.s2_avg_amplitude|floatformat:3 }}</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
     <!-- Grafico principale -->
     <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
-        <h3 style="margin-top: 0; color: #dc2626;">📈 {% trans "Grafico dei Picchi Cardiaci" %}</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="margin: 0; color: #dc2626;">📈 {% trans "Cardiogramma Sonoro" %}</h3>
+            <a href="{% url 'canine_tools:heart_recording_export_csv' recording.id %}" class="btn" style="background: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">
+                📥 {% trans "Esporta CSV" %}
+            </a>
+        </div>
         <div style="height: 400px;">
             <canvas id="heartbeat-full-chart"></canvas>
         </div>
@@ -69,88 +103,90 @@
         <div style="color: #6b7280; font-size: 0.9rem;">
             {% trans "Registrato il" %} {{ recording.created_at|date:"d/m/Y H:i" }}
             {% if recording.dog %}| {% trans "Cane" %}: {{ recording.dog.dog_name }}{% endif %}
+            {% if recording.recording_context %}| {% trans "Contesto" %}: {{ recording.get_recording_context_display }}{% endif %}
         </div>
-        <a href="{% url 'heart_recorder' %}" class="btn btn-secondary">🔄 {% trans "Nuova Registrazione" %}</a>
+        <a href="{% url 'canine_tools:heart_recorder' %}" class="btn btn-secondary">🔄 {% trans "Nuova Registrazione" %}</a>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const peakTimes = {{ recording.peak_times|safe }};
-    const amplitudes = {{ recording.amplitudes|safe }};
-
-    if (peakTimes.length === 0) {
+    const analysis = {{ analysis_json|safe }};
+    const envelopeData = analysis.envelope;
+    const peakTimes = analysis.peak_times;
+    const amplitudes = analysis.amplitudes;
+    
+    if (!envelopeData || !peakTimes || peakTimes.length === 0) {
+        console.warn('Dati envelope o picchi mancanti');
         return;
     }
 
     const ctx = document.getElementById('heartbeat-full-chart').getContext('2d');
     
-    // Crea array per grafico line chart completo (linea che connette i picchi)
-    // Aggiungi punto iniziale e finale a zero per renderlo come onda
-    const labels = [];
-    const dataPoints = [];
-    const step = 0.05;  // 50ms tra campioni per smooth
+    // Prepara dati envelope come array di punti {x, y}
+    const envelopePoints = envelopeData.times.map((t, i) => ({ x: parseFloat(t), y: envelopeData.values[i] }));
     
-    // Interpola linearmente tra i picchi
-    let currentTime = 0;
-    for (let i = 0; i < peakTimes.length; i++) {
-        // punti fino al picco
-        while (currentTime < peakTimes[i] - 0.01) {
-            labels.push(currentTime.toFixed(2));
-            dataPoints.push(0);
-            currentTime += step;
-        }
-        // picco
-        labels.push(peakTimes[i].toFixed(2));
-        dataPoints.push(amplitudes[i]);
-        currentTime = peakTimes[i] + step;
-    }
-    // Aggiungi ultimo punto a zero
-    const totalDuration = {{ recording.duration_seconds }};
-    while (currentTime < totalDuration) {
-        labels.push(currentTime.toFixed(2));
-        dataPoints.push(0);
-        currentTime += step;
-    }
-    labels.push(totalDuration.toFixed(2));
-    dataPoints.push(0);
-
+    // Prepara dati picchi come array di punti {x, y}
+    const beatPoints = peakTimes.map((t, i) => ({ x: parseFloat(t), y: amplitudes[i] }));
+    
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
-            datasets: [{
-                label: 'Ampiezza segnale',
-                data: dataPoints,
-                borderColor: '#dc2626',
-                backgroundColor: 'rgba(220, 38, 38, 0.1)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 0,
-                borderWidth: 2
-            }]
+            datasets: [
+                {
+                    label: 'Cardiogramma',
+                    data: envelopePoints,
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    showLine: true
+                },
+                {
+                    label: 'Battiti',
+                    data: beatPoints,
+                    backgroundColor: '#2563eb',
+                    pointRadius: 8,
+                    pointHoverRadius: 10,
+                    pointStyle: 'circle',
+                    showLine: false,
+                    type: 'scatter'
+                }
+            ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
             plugins: {
-                legend: { display: false },
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: { usePointStyle: true }
+                },
                 tooltip: {
                     callbacks: {
-                        label: (ctx) => `Ampiezza: ${ctx.raw.toFixed(2)}`
+                        label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.y.toFixed(3)} (${ctx.raw.x.toFixed(2)}s)`
                     }
                 }
             },
             scales: {
                 x: {
+                    type: 'linear',
                     title: { display: true, text: 'Tempo (secondi)' },
-                    ticks: { maxTicksLimit: 15 }
+                    min: 0,
+                    max: envelopePoints.length ? envelopePoints[envelopePoints.length-1].x : 10
                 },
                 y: {
-                    title: { display: true, text: 'Ampiezza (normalizzata)' },
                     min: 0,
-                    max: 1.1
+                    max: 1.1,
+                    title: { display: true, text: 'Ampiezza normalizzata' }
                 }
             }
         }

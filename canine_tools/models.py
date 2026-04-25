@@ -65,6 +65,15 @@ class HealthDataPoint(models.Model):
 
 class HeartSoundRecording(models.Model):
     """Registrazione audio dei battiti cardiaci del cane con analisi."""
+    RECORDING_CONTEXT_CHOICES = [
+        ('rest', 'A riposo'),
+        ('after_activity', 'Dopo attività'),
+        ('before_meal', 'Prima del pasto'),
+        ('after_meal', 'Dopo il pasto'),
+        ('during_sleep', 'Durante il sonno'),
+        ('stress', 'Situazione di stress'),
+    ]
+    
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="heart_recordings", null=True, blank=True
     )
@@ -74,6 +83,14 @@ class HeartSoundRecording(models.Model):
     
     # File audio registrato
     audio_file = models.FileField(upload_to="heart_recordings/%Y/%m/")
+    
+    # Contesto della registrazione
+    recording_context = models.CharField(
+        max_length=20,
+        choices=RECORDING_CONTEXT_CHOICES,
+        blank=True,
+        help_text="Contesto in cui è stata effettuata la registrazione"
+    )
     
     # Risultati analisi
     duration_seconds = models.FloatField(help_text="Durata registrazione in secondi")

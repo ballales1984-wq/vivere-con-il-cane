@@ -14,18 +14,35 @@
 <div style="max-width: 800px; margin: 0 auto; padding: 0 1.5rem 5rem;">
     <!-- Selezione cane (se loggato) -->
     {% if dogs %}
-    <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
-        <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Seleziona il Cane (opzionale)" %}</h3>
-        <select id="dog-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-            <option value="">{% trans "Nessun cane selezionato" %}</option>
-            {% for dog in dogs %}
-            <option value="{{ dog.id }}">{{ dog.dog_name }} ({{ dog.breed }})</option>
-            {% endfor %}
-        </select>
-        <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
-            {% trans "Puoi associare la registrazione a un cane per tenerne traccia." %}
-        </p>
-    </div>
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+            <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Seleziona il Cane (opzionale)" %}</h3>
+            <select id="dog-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                <option value="">{% trans "Nessun cane selezionato" %}</option>
+                {% for dog in dogs %}
+                <option value="{{ dog.id }}">{{ dog.dog_name }} ({{ dog.breed }})</option>
+                {% endfor %}
+            </select>
+            <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+                {% trans "Puoi associare la registrazione a un cane per tenerne traccia." %}
+            </p>
+        </div>
+        
+        <!-- Selezione contesto registrazione -->
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+            <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Contesto Registrazione" %}</h3>
+            <select id="context-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                <option value="">{% trans "Seleziona contesto (opzionale)" %}</option>
+                <option value="rest">{% trans "A riposo" %}</option>
+                <option value="after_activity">{% trans "Dopo attività" %}</option>
+                <option value="before_meal">{% trans "Prima del pasto" %}</option>
+                <option value="after_meal">{% trans "Dopo il pasto" %}</option>
+                <option value="during_sleep">{% trans "Durante il sonno" %}</option>
+                <option value="stress">{% trans "Situazione di stress" %}</option>
+            </select>
+            <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+                {% trans "Seleziona il contesto in cui è stata effettuata la registrazione per migliorare l'analisi." %}
+            </p>
+        </div>
     {% endif %}
 
     <!-- Recorder -->
@@ -63,27 +80,35 @@
         <h3 style="margin-top: 0;">{% trans "Registrazioni Precedenti" %}</h3>
         <div style="overflow-x: auto;">
             <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="border-bottom: 2px solid #f1f5f9;">
-                        <th style="padding: 10px; text-align: left;">{% trans "Data" %}</th>
-                        <th style="padding: 10px; text-align: left;">{% trans "Cane" %}</th>
-                        <th style="padding: 10px; text-align: center;">BPM</th>
-                        <th style="padding: 10px; text-align: center;">{% trans "Battiti" %}</th>
-                        <th style="padding: 10px; text-align: center;">{% trans "Conf." %}</th>
-                        <th style="padding: 10px; text-align: left;">{% trans "Azioni" %}</th>
-                    </tr>
-                </thead>
+<thead>
+<tr style="border-bottom: 2px solid #f1f5f9;">
+<th style="padding: 10px; text-align: left;">{% trans "Data" %}</th>
+<th style="padding: 10px; text-align: left;">{% trans "Cane" %}</th>
+<th style="padding: 10px; text-align: center;">BPM</th>
+<th style="padding: 10px; text-align: center;">{% trans "Battiti" %}</th>
+<th style="padding: 10px; text-align: center;">{% trans "Conf." %}</th>
+<th style="padding: 10px; text-align: center;">{% trans "Contesto" %}</th>
+<th style="padding: 10px; text-align: left;">{% trans "Azioni" %}</th>
+</tr>
+</thead>
                 <tbody>
                     {% for rec in recordings %}
                     <tr style="border-bottom: 1px solid #f1f5f9;">
-                        <td style="padding: 10px;">{{ rec.created_at|date:"d/m/Y H:i" }}</td>
-                        <td style="padding: 10px;">{{ rec.dog.dog_name|default:"—" }}</td>
-                        <td style="padding: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; color: #dc2626;">{{ rec.estimated_bpm }}</td>
-                        <td style="padding: 10px; text-align: center;">{{ rec.beat_count }}</td>
-                        <td style="padding: 10px; text-align: center;">{{ rec.confidence_score|floatformat:2 }}</td>
-                        <td style="padding: 10px;">
-                            <a href="{% url 'canine_tools:heart_recording_detail' rec.id %}" class="btn" style="background: #3b82f6; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem;">👁️ {% trans "Vedi" %}</a>
-                        </td>
+                    <td style="padding: 10px;">{{ rec.created_at|date:"d/m/Y H:i" }}</td>
+                    <td style="padding: 10px;">{{ rec.dog.dog_name|default:"—" }}</td>
+                    <td style="padding: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; color: #dc2626;">{{ rec.estimated_bpm }}</td>
+                    <td style="padding: 10px; text-align: center;">{{ rec.beat_count }}</td>
+                    <td style="padding: 10px; text-align: center;">{{ rec.confidence_score|floatformat:2 }}</td>
+                    <td style="padding: 10px; text-align: center;">
+                        {% if rec.recording_context %}
+                            {{ rec.get_recording_context_display }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px;">
+                        <a href="{% url 'canine_tools:heart_recording_detail' rec.id %}" class="btn" style="background: #3b82f6; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem;">👁️ {% trans "Vedi" %}</a>
+                    </td>
                     </tr>
                     {% empty %}
                     <tr><td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-muted);">{% trans "Nessuna registrazione" %}</td></tr>
@@ -205,6 +230,10 @@ async function analyzeAudio(blob) {
     const dogSelect = document.getElementById('dog-select');
     if (dogSelect && dogSelect.value) {
         formData.append('dog_id', dogSelect.value);
+    }
+    const contextSelect = document.getElementById('context-select');
+    if (contextSelect && contextSelect.value) {
+        formData.append('recording_context', contextSelect.value);
     }
     // CSRF token da cookie
     const csrf = getCookie('csrftoken');
