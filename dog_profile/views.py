@@ -105,23 +105,38 @@ def profile_add_event(request, profile_id):
 
 @login_required
 def profile_add_log(request, profile_id):
-    """Add routine health log (daily metrics)."""
+    """Add or update routine health log (daily metrics)."""
     profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
 
     if request.method == "POST":
         log_date = request.POST.get("date")
         if not log_date:
             log_date = date.today()
-        
-        HealthLog.objects.create(
+
+        # Estrai valori con safe conversion
+        def safe_int(val):
+            try:
+                return int(val) if val else None
+            except (ValueError, TypeError):
+                return None
+
+        def safe_float(val):
+            try:
+                return float(val) if val else None
+            except (ValueError, TypeError):
+                return None
+
+        HealthLog.objects.update_or_create(
             dog=profile,
             date=log_date,
-            log_type="routine",
-            sleep_hours=request.POST.get("sleep_hours") or None,
-            play_minutes=request.POST.get("play_minutes") or None,
-            walk_minutes=request.POST.get("walk_minutes") or None,
-            food_grams=request.POST.get("food_grams") or None,
-            description=request.POST.get("notes", ""),
+            log_type='routine',
+            defaults={
+                'sleep_hours': safe_float(request.POST.get("sleep_hours")),
+                'play_minutes': safe_int(request.POST.get("play_minutes")),
+                'walk_minutes': safe_int(request.POST.get("walk_minutes")),
+                'food_grams': safe_int(request.POST.get("food_grams")),
+                'description': request.POST.get("notes", ""),
+            }
         )
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
@@ -343,42 +358,37 @@ def log_daily_routine(request, profile_id):
     """Handle daily habit check-in submission from dashboard."""
     if request.method == "POST":
         profile = get_object_or_404(DogProfile, id=profile_id, owner=request.user)
-        walk_minutes = request.POST.get("walk_minutes")
-        sleep_hours = request.POST.get("sleep_hours")
-        play_minutes = request.POST.get("play_minutes")
-        food_grams = request.POST.get("food_grams")
 
-        # Safe conversion with defaults
-        try:
-            walk_minutes = int(walk_minutes) if walk_minutes else None
-        except (ValueError, TypeError):
-            walk_minutes = None
+        # Safe conversion helpers
+        def safe_int(val):
+            try:
+                return int(val) if val else None
+            except (ValueError, TypeError):
+                return None
 
-        try:
-            sleep_hours = float(sleep_hours) if sleep_hours else None
-        except (ValueError, TypeError):
-            sleep_hours = None
+        def safe_float(val):
+            try:
+                return float(val) if val else None
+            except (ValueError, TypeError):
+                return None
 
-        try:
-            play_minutes = int(play_minutes) if play_minutes else None
-        except (ValueError, TypeError):
-            play_minutes = None
+        walk_minutes = safe_int(request.POST.get("walk_minutes"))
+        sleep_hours = safe_float(request.POST.get("sleep_hours"))
+        play_minutes = safe_int(request.POST.get("play_minutes"))
+        food_grams = safe_int(request.POST.get("food_grams"))
 
-        try:
-            food_grams = int(food_grams) if food_grams else None
-        except (ValueError, TypeError):
-            food_grams = None
-
-        # Create health log for today
-        HealthLog.objects.create(
+        today = date.today()
+        HealthLog.objects.update_or_create(
             dog=profile,
-            date=date.today(),
-            log_type="routine",
-            walk_minutes=walk_minutes,
-            sleep_hours=sleep_hours,
-            play_minutes=play_minutes,
-            food_grams=food_grams,
-            description="Check-in giornaliero (tramite Dashboard)",
+            date=today,
+            log_type='routine',
+            defaults={
+                'walk_minutes': walk_minutes,
+                'sleep_hours': sleep_hours,
+                'play_minutes': play_minutes,
+                'food_grams': food_grams,
+                'description': 'Check-in giornaliero (tramite Dashboard)',
+            }
         )
         return redirect("dashboard")
     return redirect("dashboard")
