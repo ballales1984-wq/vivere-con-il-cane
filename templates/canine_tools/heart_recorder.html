@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Registratore Cardiaco" %} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #fef2f2, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: #dc2626; font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">❤️ {% trans "Registratore Battiti Cardiaci" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">
+        {% trans "Registra il cuore del tuo cane per 10-15 secondi. Il sistema analizza e visualizza il grafico." %}
+    </p>
+</section>
+
+<div style="max-width: 800px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    <!-- Selezione cane (se loggato) -->
+    {% if dogs %}
+    <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Seleziona il Cane (opzionale)" %}</h3>
+        <select id="dog-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+            <option value="">{% trans "Nessun cane selezionato" %}</option>
+            {% for dog in dogs %}
+            <option value="{{ dog.id }}">{{ dog.dog_name }} ({{ dog.breed }})</option>
+            {% endfor %}
+        </select>
+        <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+            {% trans "Puoi associare la registrazione a un cane per tenerne traccia." %}
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- Recorder -->
+    <div style="background: white; padding: 2.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-premium); border: 2px solid #dc2626; text-align: center;">
+        <h2 style="margin-top: 0; color: #dc2626;">{% trans "Registrazione Audio" %}</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+            {% trans "Posiziona il microfono vicino al cuore del cane (zione torace sinistro). Registra per 10-15 secondi." %}
+        </p>
+        
+        <div style="margin: 2rem 0;">
+            <button id="record-btn" class="btn" style="background: #dc2626; color: white; padding: 1rem 2.5rem; font-size: 1.2rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                🎤 {% trans "Inizia Registrazione" %}
+            </button>
+            <button id="stop-btn" class="btn" style="background: #6b7280; color: white; padding: 1rem 2rem; font-size: 1rem; border-radius: 50px; border: none; cursor: pointer; display: none; margin-left: 1rem;">
+                ⏹️ {% trans "Ferma" %}
+            </button>
+        </div>
+
+        <div id="status" style="font-size: 1.1rem; margin: 1rem 0; color: var(--text); font-weight: 600;">
+            {% trans "Premi il pulsante per iniziare." %}
+        </div>
+
+        <div id="timer" style="font-size: 3rem; font-weight: 800; color: #dc2626; margin: 1.5rem 0; font-family: monospace; display: none;">
+            00:00
+        </div>
+
+        <div id="waveform-container" style="height: 120px; background: #f8fafc; border-radius: 8px; margin: 1.5rem 0; overflow: hidden; border: 1px solid #e5e7eb; display: none;">
+            <canvas id="waveform" width="800" height="120"></canvas>
+        </div>
+    </div>
+
+    <!-- Storico registrazioni -->
+    {% if recordings %}
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0;">{% trans "Registrazioni Precedenti" %}</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #f1f5f9;">
+                        <th style="padding: 10px; text-align: left;">{% trans "Data" %}</th>
+                        <th style="padding: 10px; text-align: left;">{% trans "Cane" %}</th>
+                        <th style="padding: 10px; text-align: center;">BPM</th>
+                        <th style="padding: 10px; text-align: center;">{% trans "Battiti" %}</th>
+                        <th style="padding: 10px; text-align: center;">{% trans "Conf." %}</th>
+                        <th style="padding: 10px; text-align: left;">{% trans "Azioni" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in recordings %}
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 10px;">{{ rec.created_at|date:"d/m/Y H:i" }}</td>
+                        <td style="padding: 10px;">{{ rec.dog.dog_name|default:"—" }}</td>
+                        <td style="padding: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; color: #dc2626;">{{ rec.estimated_bpm }}</td>
+                        <td style="padding: 10px; text-align: center;">{{ rec.beat_count }}</td>
+                        <td style="padding: 10px; text-align: center;">{{ rec.confidence_score|floatformat:2 }}</td>
+                        <td style="padding: 10px;">
+                            <a href="{% url 'canine_tools:heart_recording_detail' rec.id %}" class="btn" style="background: #3b82f6; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem;">👁️ {% trans "Vedi" %}</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-muted);">{% trans "Nessuna registrazione" %}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+const recordBtn = document.getElementById('record-btn');
+const stopBtn = document.getElementById('stop-btn');
+const statusDiv = document.getElementById('status');
+const timerDiv = document.getElementById('timer');
+const waveformCanvas = document.getElementById('waveform');
+const waveformContainer = document.getElementById('waveform-container');
+
+let mediaRecorder;
+let audioChunks = [];
+let startTime;
+let timerInterval;
+let audioContext;
+let analyser;
+let dataArray;
+let source;
+let animationId;
+
+// Inizializza canvas
+const ctx = waveformCanvas.getContext('2d');
+ctx.fillStyle = '#e5e7eb';
+ctx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+
+recordBtn.addEventListener('click', async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+            audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            await analyzeAudio(audioBlob);
+            stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        recordBtn.style.display = 'none';
+        stopBtn.style.display = 'inline-block';
+        timerDiv.style.display = 'block';
+        waveformContainer.style.display = 'block';
+        statusDiv.textContent = "🎙️ Registrazione in corso...";
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 1000);
+        
+        setupWaveform(stream);
+    } catch (err) {
+        alert("Errore accesso microfono: " + err.message);
+    }
+});
+
+stopBtn.addEventListener('click', () => {
+    mediaRecorder.stop();
+    clearInterval(timerInterval);
+    stopBtn.style.display = 'none';
+    recordBtn.style.display = 'inline-block';
+    statusDiv.textContent = "⏳ Analisi in corso...";
+    timerDiv.style.display = 'none';
+    waveformContainer.style.display = 'none';
+    cancelAnimationFrame(animationId);
+});
+
+function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const secs = String(elapsed % 60).padStart(2, '0');
+    timerDiv.textContent = `${mins}:${secs}`;
+}
+
+function setupWaveform(stream) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    source = audioContext.createMediaStreamSource(stream);
+    source.connect(analyser);
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+    drawWaveform();
+}
+
+function drawWaveform() {
+    analyser.getByteTimeDomainData(dataArray);
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#dc2626';
+    ctx.beginPath();
+    const sliceWidth = waveformCanvas.width / dataArray.length;
+    let x = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+        const v = dataArray[i] / 128.0;
+        const y = v * waveformCanvas.height / 2;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+        x += sliceWidth;
+    }
+    ctx.lineTo(waveformCanvas.width, waveformCanvas.height/2);
+    ctx.stroke();
+    animationId = requestAnimationFrame(drawWaveform);
+}
+
+async function analyzeAudio(blob) {
+    const formData = new FormData();
+    formData.append('audio', blob);
+    const dogSelect = document.getElementById('dog-select');
+    if (dogSelect && dogSelect.value) {
+        formData.append('dog_id', dogSelect.value);
+    }
+
+    try {
+        const response = await fetch("{% url 'canine_tools:heart_analyze' %}", {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            // Reindirizza alla pagina di dettaglio
+            window.location.href = data.redirect_url;
+        } else {
+            statusDiv.textContent = "❌ Errore: " + (data.error || "Analisi fallita");
+            recordBtn.style.display = 'inline-block';
+            recordBtn.textContent = "🎤 Riprova";
+        }
+    } catch (err) {
+        statusDiv.textContent = "❌ Errore: " + err.message;
+        recordBtn.style.display = 'inline-block';
+        recordBtn.textContent = "🎤 Riprova";
+    }
+}
+</script>
+
+<style>
+#waveform-container {
+    border: 2px solid #fca5a5;
+    border-radius: 8px;
+}
+.btn {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+</style>
+{% endblock %}

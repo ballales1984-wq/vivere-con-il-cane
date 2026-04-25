@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Dettaglio Registrazione" %} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #fef2f2, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: #dc2626; font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">❤️ {% trans "Analisi Battito Cardiaco" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">
+        {% trans "Risultati della registrazione del" %} <strong>{{ recording.created_at|date:"d M Y, H:i" }}</strong>
+    </p>
+</section>
+
+<div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    <!-- Metriche principali -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #dc2626;">
+            <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Battiti al Minuto" %}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #dc2626; margin: 0.5rem 0;">{{ recording.estimated_bpm }}</div>
+            <div style="font-size: 0.85rem; color: #9ca3af;">BPM</div>
+        </div>
+        
+        <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #2563eb;">
+            <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Battiti Totali" %}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #2563eb; margin: 0.5rem 0;">{{ recording.beat_count }}</div>
+            <div style="font-size: 0.85rem; color: #9ca3af;">{% trans "picchi rilevati" %}</div>
+        </div>
+        
+        <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #059669;">
+            <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Confidenza" %}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #059669; margin: 0.5rem 0;">{{ recording.confidence_score|floatformat:2 }}</div>
+            <div style="font-size: 0.85rem; color: #9ca3af;">0-1 scale</div>
+        </div>
+        
+        <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #7c3aed;">
+            <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Durata" %}</div>
+            <div style="font-size: 3.5rem; font-weight: 800; color: #7c3aed; margin: 0.5rem 0;">{{ recording.duration_seconds }}</div>
+            <div style="font-size: 0.85rem; color: #9ca3af;">secondi</div>
+        </div>
+    </div>
+
+    <!-- Grafico principale -->
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0; color: #dc2626;">📈 {% trans "Grafico dei Picchi Cardiaci" %}</h3>
+        <div style="height: 400px;">
+            <canvas id="heartbeat-full-chart"></canvas>
+        </div>
+    </div>
+
+    <!-- Audio player -->
+    <div style="background: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+        <h3 style="margin-top: 0;">🔊 {% trans "Registrazione Audio Originale" %}</h3>
+        <audio controls style="width: 100%; margin-top: 1rem;">
+            <source src="{{ recording.audio_file.url }}" type="audio/webm">
+            {% trans "Il tuo browser non supporta l'audio HTML5." %}
+        </audio>
+    </div>
+
+    <!-- Note -->
+    {% if recording.notes %}
+    <div style="background: #f8fafc; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; border-left: 4px solid #3b82f6;">
+        <h4 style="margin-top: 0; color: #1e40af;">📝 {% trans "Note" %}</h4>
+        <p style="margin: 0; white-space: pre-line;">{{ recording.notes }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Info aggiuntive -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border);">
+        <div style="color: #6b7280; font-size: 0.9rem;">
+            {% trans "Registrato il" %} {{ recording.created_at|date:"d/m/Y H:i" }}
+            {% if recording.dog %}| {% trans "Cane" %}: {{ recording.dog.dog_name }}{% endif %}
+        </div>
+        <a href="{% url 'heart_recorder' %}" class="btn btn-secondary">🔄 {% trans "Nuova Registrazione" %}</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const peakTimes = {{ recording.peak_times|safe }};
+    const amplitudes = {{ recording.amplitudes|safe }};
+
+    if (peakTimes.length === 0) {
+        return;
+    }
+
+    const ctx = document.getElementById('heartbeat-full-chart').getContext('2d');
+    
+    // Crea array per grafico line chart completo (linea che connette i picchi)
+    // Aggiungi punto iniziale e finale a zero per renderlo come onda
+    const labels = [];
+    const dataPoints = [];
+    const step = 0.05;  // 50ms tra campioni per smooth
+    
+    // Interpola linearmente tra i picchi
+    let currentTime = 0;
+    for (let i = 0; i < peakTimes.length; i++) {
+        // punti fino al picco
+        while (currentTime < peakTimes[i] - 0.01) {
+            labels.push(currentTime.toFixed(2));
+            dataPoints.push(0);
+            currentTime += step;
+        }
+        // picco
+        labels.push(peakTimes[i].toFixed(2));
+        dataPoints.push(amplitudes[i]);
+        currentTime = peakTimes[i] + step;
+    }
+    // Aggiungi ultimo punto a zero
+    const totalDuration = {{ recording.duration_seconds }};
+    while (currentTime < totalDuration) {
+        labels.push(currentTime.toFixed(2));
+        dataPoints.push(0);
+        currentTime += step;
+    }
+    labels.push(totalDuration.toFixed(2));
+    dataPoints.push(0);
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ampiezza segnale',
+                data: dataPoints,
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => `Ampiezza: ${ctx.raw.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Tempo (secondi)' },
+                    ticks: { maxTicksLimit: 15 }
+                },
+                y: {
+                    title: { display: true, text: 'Ampiezza (normalizzata)' },
+                    min: 0,
+                    max: 1.1
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
