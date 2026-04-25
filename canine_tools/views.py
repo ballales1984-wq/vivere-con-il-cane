@@ -317,99 +317,125 @@ def heart_recording_export_csv(request, recording_id):
 
 
 
+@login_required
 def heart_analyze_ai(request, recording_id):
-    """DEPRECATED: mantengo per retrocompatibilità, ridirigo a nuova versione."""
-    return heart_analyze_ai_complete(request, recording_id)
-
-
-
-
-
-
+    """Analizza una registrazione cardiaca con LLM (Groq/OpenAI)."""
+    import tempfile, os, json, requests
+    from django.http import JsonResponse
+    from django.shortcuts import get_object_or_404
+    
     recording = get_object_or_404(HeartSoundRecording, id=recording_id, owner=request.user)
-    
-    # Ricalcola analisi completa
-    with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_file:
-        with recording.audio_file.open('rb') as src:
-            tmp_file.write(src.read())
-        tmp_path = tmp_file.name
+    tmp_path = None
     
     try:
+        # Salva audio in file temporaneo
+        with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as tmp_file:
+            with recording.audio_file.open('rb') as src:
+                tmp_file.write(src.read())
+            tmp_path = tmp_file.name
+        
+        # Analisi audio
         analysis = analyze_heart_sound(tmp_path)
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return JsonResponse({
-            "success": False,
-            "error": f"Errore nell'analisi audio: {str(e)}"
-        }, status=500)
-    finally:
-        os.unlink(tmp_path)
-    
-    # Prepara dati per LLM
-    subject_type = recording.get_subject_type()
-    subject_name = recording.dog.dog_name if recording.dog else "l'utente"
-    subject_weight = f"{recording.dog.weight} kg" if recording.dog and recording.dog.weight else "N/A"
-    context = recording.get_recording_context_display() if recording.recording_context else "N/A"
-    
-    # Prompt da veterinario cardiologo
-    prompt = f"""Sei un veterinario specializzato in cardiologia animale. Analizza questi dati di fonocardiografia e fornisci una valutazione dettagliata.
+        
+        # Prepara prompt LLM
+        subject_type = recording.get_subject_type()
+        subject_name = recording.dog.dog_name if recording.dog else "l'utente"
+        subject_weight = f"{recording.dog.weight} kg" if recording.dog and recording.dog.weight else "N/A"
+        context_display = recording.get_recording_context_display() if recording.recording_context else "N/A"
+        
+        # Rapporto S1/S2 safe
+        s1_s2_ratio = "N/A"
+        if analysis.get('s1_s2'):
+            s1 = analysis['s1_s2']['s1_avg_amplitude']
+            s2 = analysis['s1_s2']['s2_avg_amplitude']
+            if s2 and s2 > 0:
+                s1_s2_ratio = f"{s1/s2:.2f}"
+        
+        prompt = f"""Sei un veterinario specializzato in cardiologia animale. Analizza questi dati di fonocardiografia.
 
-**Datiregistrazione:**
-- Soggetto: {subject_name} ({'cane' if subject_type == 'dog' else 'essere umano'})
+**Dati:**
+- Soggetto: {subject_name} ({'cane' if subject_type=='dog' else 'umano'})
 - Peso: {subject_weight}
-- Contesto: {context}
-- Durata: {analysis['duration']} secondi
-
-**Metriche cardiache:**
+- Contesto: {context_display}
+- Durata: {analysis['duration']} s
 - BPM: {analysis['bpm']}
-- Battiti (cicli S1): {analysis['beat_count']}
-- Confidenza algoritmo: {analysis['confidence']:.2f}/1.0
+- Battiti (S1): {analysis['beat_count']}
+- Confidenza: {analysis['confidence']:.2f}
 
-**Variabilità cardiaca (HRV):**
-"""
-    
-    if analysis.get('hrv'):
-        h = analysis['hrv']
+**HRV:**"""
+        if analysis.get('hrv'):
+            h = analysis['hrv']
+            prompt += f" SDNN={h['sdnn_sec']}s, RMSSD={h['rmssd_sec']}s, pNN50={h['pnn50_percent']}%"
+        else:
+            prompt += " Non disp."
+        
         prompt += f"""
-- SDNN: {h['sdnn_sec']} s
-- RMSSD: {h['rmssd_sec']} s
-- pNN50: {h['pnn50_percent']}%
-- Intervallo RR medio: {h['mean_hr_sec']} s
-"""
-    else:
-        prompt += "- Non disponibile (troppi pochi battiti)\n"
-    
-    prompt += f"""
-**Classificazione suoni cardiaci (S1/S2):**
-- S1 conteggio: {analysis['s1_s2']['s1_count'] if analysis.get('s1_s2') else 'N/A'}
-- S2 conteggio: {analysis['s1_s2']['s2_count'] if analysis.get('s1_s2') else 'N/A'}
-- Rapporto ampiezza S1/S2: {analysis['s1_s2']['s1_avg_amplitude']/analysis['s1_s2']['s2_avg_amplitude']:.2f} {'(normale)' if analysis.get('s1_s2') and analysis['s1_s2']['s1_avg_amplitude'] > analysis['s1_s2']['s2_avg_amplitude']*1.2 else ' anomalo'} se S1/S2 è molto basso
+**S1/S2:** S1={analysis['s1_s2']['s1_count'] if analysis.get('s1_s2') else 'N/A'}, S2={analysis['s1_s2']['s2_count'] if analysis.get('s1_s2') else 'N/A'}, Rapporto={s1_s2_ratio}
 
-**Richiesta:**
-Fornisci un'analisi strutturata in 4 punti:
+Fornisci 4 punti:
+1. Stato attuale (normale/stressato/anomalo)
+2. Confronto BPM con range normale ({'cane '+subject_weight if subject_type=='dog' else 'umano'})
+3. Cosa indicano HRV e S1/S2
+4. Consigli pratici
 
-1. **Stato attuale** — Il cuore è in condizioni normali, stressato, o qualcosa non va? (basati su BPM, HRV, S1/S2)
-2. **Confronto con range normale** — Per un {subject_type} {'di '+subject_weight if subject_type=='dog' else ''}, il BPM di {analysis['bpm']} è?
-3. **Indicatori di salute** — Cosa indicano l'HRV (SDNN, RMSSD, pNN50) e il rapporto S1/S2?
-4. **Consigli pratici** — Che fare? (riposo, visita veterinaria, ulteriori test)
-
-Rispondi in italiano, conciso (max 200 parole), professionale ma accessibile."""
-    
-    # Chiama LLM via Groq (o OpenAI fallback)
-    try:
-        llm_response = call_groq_llm(prompt)
-        analysis_text = llm_response
+Max 150 parole, italiano chiaro."""
+        
+        # Chiama LLM
+        grok_key = os.environ.get("GROK_API_KEY", "")
+        openai_key = os.environ.get("OPENAI_API_KEY", "")
+        analysis_text = None
+        
+        if grok_key and len(grok_key) > 20:
+            try:
+                resp = requests.post(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {grok_key}"},
+                    json={"model": "llama-3.3-70b-versatile", "messages": [
+                        {"role": "system", "content": "Sei un veterinario cardio esperto. Rispondi in italiano, conciso, max 150 parole."},
+                        {"role": "user", "content": prompt}
+                    ], "temperature": 0.7, "max_tokens": 400},
+                    timeout=25,
+                )
+                if resp.status_code == 200:
+                    analysis_text = resp.json()["choices"][0]["message"]["content"]
+            except Exception:
+                pass
+        
+        if not analysis_text and openai_key and len(openai_key) > 20:
+            try:
+                resp = requests.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {openai_key}"},
+                    json={"model": "gpt-4o-mini", "messages": [
+                        {"role": "system", "content": "Sei un veterinario cardio esperto. Rispondi in italiano, conciso, max 150 parole."},
+                        {"role": "user", "content": prompt}
+                    ], "temperature": 0.7, "max_tokens": 400},
+                    timeout=25,
+                )
+                if resp.status_code == 200:
+                    analysis_text = resp.json()["choices"][0]["message"]["content"]
+            except Exception:
+                pass
+        
+        if not analysis_text:
+            analysis_text = "⚠️ IA non disponibile. Verifica le API keys nel .env."
+        
+        return JsonResponse({
+            "success": True,
+            "recording_id": recording.id,
+            "analysis_text": analysis_text,
+            "subject": subject_name,
+            "bpm": analysis['bpm'],
+        })
+        
     except Exception as e:
-        analysis_text = f"Errore nell'analisi IA: {str(e)}"
-    
-    return JsonResponse({
-        "success": True,
-        "recording_id": recording.id,
-        "analysis_text": analysis_text,
-        "subject": subject_name,
-        "bpm": analysis['bpm'],
-    })
+        import traceback; traceback.print_exc()
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
+    finally:
+        if tmp_path and os.path.exists(tmp_path):
+            try: os.unlink(tmp_path)
+            except: pass
+
 
 
 # Google Health/Fit OAuth
@@ -924,16 +950,17 @@ def analyze_heart_sound(filepath, context=''):
         analytic = hilbert(y_filt)
         envelope = np.abs(analytic)
 
-        # Smooth envelope (Savitzky-Golay per rimuovere rumore)
-        window_len = min(101, len(envelope) - 1 if len(envelope)%2==0 else len(envelope))
+        # Smooth envelope: usa finestra più piccola per segnali deboli
+        max_window = 101
+        window_len = min(max_window, len(envelope) - 1 if len(envelope)%2==0 else len(envelope))
         if window_len > 3:
-            # Handle potential NaNs/infs in envelope before smoothing
-            if np.any(np.isnan(envelope)) or np.any(np.isinf(envelope)):
-                envelope = np.nan_to_num(envelope, nan=0.0, posinf=0.0, neginf=0.0)
+            # Se segnale debole (env_max < 0.05), riduci finestra per non smussare troppo
+            env_max_val = np.max(envelope)
+            if env_max_val < 0.05:
+                window_len = min(31, window_len)  # finestra piccola per segnali deboli
             envelope_smooth = savgol_filter(envelope, window_len, 3)
         else:
             envelope_smooth = envelope
-        # Sostituisci NaN/inf generati dai filtri ai bordi
         envelope_smooth = np.nan_to_num(envelope_smooth, nan=0.0, posinf=0.0, neginf=0.0)
 
         # --- 4. NORMALIZZAZIONE ---
@@ -958,34 +985,38 @@ def analyze_heart_sound(filepath, context=''):
         # --- 5. RILEVAMENTO PICCHI (find_peaks) ---
         min_distance = int(0.3 * sr)  # 300 ms min tra battiti (max 200 bpm)
         
-        # Calcola threshold dinamiche basate sulla distribuzione dell'envelope
         env_std = np.std(env_norm)
         env_median = np.median(env_norm)
-        env_max = np.max(env_norm)
-        dynamic_threshold = max(0.05, env_median + 0.3 * env_std)
+        env_max_val = np.max(env_norm)
         
-        # Soglieprogressivamente più basse, adattive al segnale debole
+        # Threshold dinamiche: più basse per segnali deboli
+        # Partiamo da una frazione del massimo, con minimi assoluti
         height_thresholds = [
-            max(0.2, 0.3 * env_max),
-            max(0.15, 0.25 * env_max),
-            max(0.1, 0.2 * env_max),
-            max(0.08, 0.15 * env_max),
-            max(0.06, 0.1 * env_max),
-            max(0.04, 0.08 * env_max),
-            max(0.02, 0.05 * env_max),
+            max(0.25, 0.35 * env_max_val),
+            max(0.20, 0.30 * env_max_val),
+            max(0.15, 0.25 * env_max_val),
+            max(0.12, 0.20 * env_max_val),
+            max(0.10, 0.15 * env_max_val),
+            max(0.08, 0.12 * env_max_val),
+            max(0.06, 0.10 * env_max_val),
+            max(0.05, 0.08 * env_max_val),
+            max(0.03, 0.06 * env_max_val),
+            max(0.02, 0.04 * env_max_val),
+            max(0.01, 0.02 * env_max_val),
         ]
         
         peaks = None
         for i, th in enumerate(height_thresholds):
-            # Prominence dinamico: più basso man mano che scende la threshold
-            prom = max(0.005, th * 0.3)
+            # Prominence dinamica: più bassa per threshold basse
+            prom = max(0.0005, th * 0.2)  # 20% di th, minimo 0.0005
             candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prom)
             if len(candidate_peaks) >= 2:
                 peaks = candidate_peaks
                 break
-        if peaks is None:
-            # Ultimo tentativo: threshold bassissima, prominence minima
-            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.01, prominence=0.001)
+        
+        if peaks is None or len(peaks) < 2:
+            # Ultimo tentativo: threshold bassissima, quasi nessuna prominence
+            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.005, prominence=0.0001)
 
         # --- 6. PULIZIA OUTLIER (artefatti momentanei) ---
         if len(peaks) >= 3:
