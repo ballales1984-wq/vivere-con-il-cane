@@ -72,6 +72,15 @@
                                     borderDash: [5, 5],
                                     tension: 0.3,
                                     yAxisID: 'y'
+                                },
+                                {
+                                    label: 'Sonno (ore)',
+                                    data: data.sleep,
+                                    borderColor: '#3b82f6',
+                                    borderWidth: 2,
+                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                    tension: 0.3,
+                                    yAxisID: 'y1'
                                 }
                             ]
                         },
@@ -80,7 +89,21 @@
                             maintainAspectRatio: false,
                             plugins: { legend: { display: false } },
                             scales: {
-                                y: { type: 'linear', position: 'left', grid: { color: '#f1f5f9' } }
+                                y: { 
+                                    type: 'linear', 
+                                    position: 'left', 
+                                    grid: { color: '#f1f5f9' },
+                                    min: 0,
+                                    title: { display: true, text: 'Minuti', font: { size: 9 } }
+                                },
+                                y1: {
+                                    type: 'linear',
+                                    position: 'right',
+                                    grid: { drawOnChartArea: false },
+                                    min: 0,
+                                    max: 24,
+                                    title: { display: true, text: 'Ore', font: { size: 9 } }
+                                }
                             }
                         }
                     });
