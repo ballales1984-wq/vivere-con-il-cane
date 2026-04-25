@@ -208,9 +208,9 @@ class DogProfile(models.Model):
                 
         return {
             "total_days_tracked": total_days_logged,
-            "total_km": total_km,
+            "total_km": float(total_km),
             "averages": {
-                "sleep_hours": round(avgs['avg_sleep'] or 0, 1),
+                "sleep_hours": float(round(avgs['avg_sleep'] or 0, 1)),
                 "walk_minutes": int(avgs['avg_walk'] or 0),
                 "play_minutes": int(avgs['avg_play'] or 0),
                 "food_grams": int(avgs['avg_food'] or 0)

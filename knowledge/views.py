@@ -15,6 +15,7 @@ from dog_profile.models import DogProfile
 from blog.models import BlogPost
 import requests
 import os
+from datetime import date
 from xhtml2pdf import pisa
 from django.template.loader import get_template
 
@@ -659,17 +660,21 @@ def generate_lifetime_macro_analysis(profile):
     stats = profile.get_lifetime_stats()
 
     # Costruzione del "Context Snapshot"
+    medical_events_data = list(
+        profile.medical_events.values("date", "event_type", "title", "description")[:15]
+    )
+    # Convert date objects to strings for JSON serialization
+    for event in medical_events_data:
+        if isinstance(event.get("date"), date):
+            event["date"] = event["date"].isoformat()
+    
     context_data = {
         "dog_name": profile.dog_name,
         "breed": profile.breed,
         "age": profile.get_age(),
         "weight": str(profile.weight) if profile.weight else "N/D",
         "stats": stats,
-        "medical_events": list(
-            profile.medical_events.values("date", "event_type", "title", "description")[
-                :15
-            ]
-        ),  # ultimi 15 eventi
+        "medical_events": medical_events_data,
     }
 
     system_msg = """Sei un Esperto Veterinario Analista e Comportamentalista.

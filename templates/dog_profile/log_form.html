@@ -13,9 +13,9 @@
     <form method="post" class="calculator-form">
         {% csrf_token %}
         
-        <div class="form-group">
+         <div class="form-group">
             <label>{% trans "Data" %}</label>
-            <input type="date" name="date" required>
+            <input type="date" name="date" value="{{ default_date|date:'Y-m-d' }}" required>
         </div>
         
         <div class="form-group">

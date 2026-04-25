@@ -100,7 +100,7 @@ def profile_add_event(request, profile_id):
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
 
-    return render(request, "dog_profile/event_form.html", {"profile": profile})
+    return render(request, "dog_profile/event_form.html", {"profile": profile, "default_date": date.today()})
 
 
 @login_required
@@ -126,7 +126,7 @@ def profile_add_log(request, profile_id):
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
         return redirect("profile_detail", profile_id=profile.id)
 
-    return render(request, "dog_profile/log_form.html", {"profile": profile})
+    return render(request, "dog_profile/log_form.html", {"profile": profile, "default_date": date.today()})
 
 
 @login_required

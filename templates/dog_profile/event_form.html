@@ -41,10 +41,10 @@
                 <textarea name="description" rows="4" placeholder="{% trans "Dettagli sulla visita o prescrizioni..." %}" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
             </div>
             
-            <div style="margin-bottom: 2.5rem;">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Data" %}</label>
-                <input type="date" name="date" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc;">
-            </div>
+             <div style="margin-bottom: 2.5rem;">
+                 <label style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary); font-size: 0.95rem;">{% trans "Data" %}</label>
+                 <input type="date" name="date" value="{{ default_date|date:'Y-m-d' }}" required style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background-color: #f8fafc;">
+             </div>
             
             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.15rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);">
                 💾 {% trans "Salva Evento" %}
