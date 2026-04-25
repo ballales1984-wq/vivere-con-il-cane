@@ -900,6 +900,7 @@ def analyze_heart_sound(filepath, context=''):
         hrv_metrics = None
         bpm = 0
         confidence = 0.0
+        s1_intervals = None  # Inizializza
         
         # Organizza picchi in coppie S1 (forte) e S2 (debole)
         if beat_count >= 2:
@@ -927,7 +928,6 @@ def analyze_heart_sound(filepath, context=''):
                         s2_times.append(times_arr[idx2])
                         s2_amplitudes.append(amp2)
                     else:
-                        # Inversione rara: S2 più forte di S1, scambia
                         s1_times.append(times_arr[idx2])
                         s1_amplitudes.append(amp2)
                         s2_times.append(times_arr[idx1])
@@ -965,8 +965,8 @@ def analyze_heart_sound(filepath, context=''):
                     "s2_avg_amplitude": float(np.mean(s2_amplitudes)) if len(s2_amplitudes) > 0 else 0.0,
                 }
                 
-                # --- HRV basato su intervalli S1 ---
-                if len(s1_intervals) >= 2:
+                # --- HRV basato su intervalli S1 (solo se abbiamo intervalli) ---
+                if s1_intervals is not None and len(s1_intervals) >= 2:
                     sdnn = float(np.std(s1_intervals))
                     diff_sq = np.square(np.diff(s1_intervals))
                     rmssd = float(np.sqrt(np.mean(diff_sq)))
