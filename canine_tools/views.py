@@ -867,7 +867,36 @@ def analyze_heart_sound(filepath, context=''):
         from scipy.signal import butter, filtfilt, hilbert, find_peaks, savgol_filter
 
         # --- 1. CARICAMENTO ---
-        y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
+        ext = os.path.splitext(filepath)[1].lower()
+        
+        # Per file WebM/OGG/MP3 etc: usa pydub (richiede ffmpeg)
+        if ext in ('.webm', '.ogg', '.mp3', '.m4a', '.flac', '.wma', '.aac'):
+            try:
+                from pydub import AudioSegment
+                audio = AudioSegment.from_file(filepath)
+                # Converti a mono
+                if audio.channels == 2:
+                    audio = audio.set_channels(1)
+                # Converti a 16-bit per consistenza (se non lo è)
+                if audio.sample_width != 2:
+                    audio = audio.set_sample_width(2)
+                # Ottieni array di campioni
+                samples = np.array(audio.get_array_of_samples(), dtype=np.float32)
+                # Normalizza a [-1, 1] per 16-bit
+                samples = samples / 32768.0
+                y = samples
+                sr = audio.frame_rate
+            except ImportError:
+                raise ImportError("pydub non installato. pip install pydub (e installa ffmpeg nel sistema)")
+            except Exception as e:
+                # Se pydub fallisce, prova con librosa come fallback (ma probabilmente fallirà)
+                import librosa
+                y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
+        else:
+            # WAV o altri formati supportati da librosa/soundfile
+            import librosa
+            y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
+        
         duration = len(y) / sr
 
         # Normalizza
