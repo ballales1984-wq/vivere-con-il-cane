@@ -922,23 +922,34 @@ def analyze_heart_sound(filepath, context=''):
         # --- 5. RILEVAMENTO PICCHI (find_peaks) ---
         min_distance = int(0.3 * sr)  # 300 ms min tra battiti (max 200 bpm)
         
-        # Calcola soglia dinamica basata sulla distribuzione dell'envelope
+        # Calcola threshold dinamiche basate sulla distribuzione dell'envelope
         env_std = np.std(env_norm)
         env_median = np.median(env_norm)
-        dynamic_threshold = max(0.02, env_median + 0.5 * env_std)
+        env_max = np.max(env_norm)
+        dynamic_threshold = max(0.05, env_median + 0.3 * env_std)
         
-        height_thresholds = [0.2, 0.15, 0.1, dynamic_threshold, 0.05, 0.03, 0.02]
+        # Soglieprogressivamente più basse, adattive al segnale debole
+        height_thresholds = [
+            max(0.2, 0.3 * env_max),
+            max(0.15, 0.25 * env_max),
+            max(0.1, 0.2 * env_max),
+            max(0.08, 0.15 * env_max),
+            max(0.06, 0.1 * env_max),
+            max(0.04, 0.08 * env_max),
+            max(0.02, 0.05 * env_max),
+        ]
+        
         peaks = None
-        for th in height_thresholds:
-            if th > 1.0:  # Normalizza threshold se > 1
-                th = min(th, 1.0)
-            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=max(0.01, th*0.5))
+        for i, th in enumerate(height_thresholds):
+            # Prominence dinamico: più basso man mano che scende la threshold
+            prom = max(0.005, th * 0.3)
+            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prom)
             if len(candidate_peaks) >= 2:
                 peaks = candidate_peaks
                 break
         if peaks is None:
-            # Ultimo tentativo con threshold molto basso
-            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.01, prominence=0.005)
+            # Ultimo tentativo: threshold bassissima, prominence minima
+            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.01, prominence=0.001)
 
         # --- 6. PULIZIA OUTLIER (artefatti momentanei) ---
         if len(peaks) >= 3:
