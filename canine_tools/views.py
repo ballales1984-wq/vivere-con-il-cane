@@ -232,10 +232,24 @@ def heart_recording_detail(request, recording_id):
     finally:
         os.unlink(tmp_path)  # cleanup
     
+    # Interpretazione BPM in base al soggetto (cane vs umano) e taglia
+    subject_type = recording.get_subject_type()
+    normal_range = recording.get_normal_bpm_range()
+    is_normal = normal_range[0] <= analysis['bpm'] <= normal_range[1] if analysis['bpm'] > 0 else None
+    
+    interpretation = {
+        'subject_type': subject_type,
+        'normal_range': normal_range,
+        'normal_range_display': recording.get_normal_bpm_range_display(),
+        'is_normal': is_normal,
+        'bpm': analysis['bpm'],
+    }
+    
     return render(request, "canine_tools/heart_recording_detail.html", {
         "recording": recording,
         "analysis": analysis,
         "analysis_json": json.dumps(analysis),
+        "interpretation": interpretation,
     })
 
 

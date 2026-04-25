@@ -18,12 +18,17 @@
             <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Battiti al Minuto" %}</div>
             <div style="font-size: 3.5rem; font-weight: 800; color: #dc2626; margin: 0.5rem 0;">{{ analysis.bpm }}</div>
             <div style="font-size: 0.85rem; color: #9ca3af;">BPM</div>
+            {% if interpretation and interpretation.bpm > 0 %}
+            <div style="font-size: 0.8rem; margin-top: 0.5rem; padding: 0.3rem 0.6rem; border-radius: 4px; background: {{ interpretation.is_normal|yesno:'#dcfce7,#fef2f2' }}; color: {{ interpretation.is_normal|yesno:'#166534,#991b1b' }};">
+                {{ interpretation.normal_range_display }} {% trans "normale" %}
+            </div>
+            {% endif %}
         </div>
         
         <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #2563eb;">
             <div style="font-size: 0.9rem; color: #6b7280; text-transform: uppercase; font-weight: 700;">{% trans "Battiti Totali" %}</div>
             <div style="font-size: 3.5rem; font-weight: 800; color: #2563eb; margin: 0.5rem 0;">{{ analysis.beat_count }}</div>
-            <div style="font-size: 0.85rem; color: #9ca3af;">{% trans "picchi rilevati" %}</div>
+            <div style="font-size: 0.85rem; color: #9ca3af;">{% trans "cicli cardiaci" %}</div>
         </div>
         
         <div style="background: white; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm); border-left: 4px solid #059669;">
@@ -38,6 +43,34 @@
             <div style="font-size: 0.85rem; color: #9ca3af;">secondi</div>
         </div>
     </div>
+
+    <!-- Interpretazione BPM -->
+    {% if interpretation and interpretation.bpm > 0 %}
+    <div style="background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--border);">
+        <h4 style="margin-top: 0; color: #374151;">📊 {% trans "Interpretazione" %}</h4>
+        <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+            <div>
+                <strong>{% trans "Soggetto" %}:</strong>
+                {% if interpretation.subject_type == 'dog' %}
+                    🐕 {% trans "Cane" %}
+                    {% if recording.dog %} ({{ recording.dog.dog_name }}{% if recording.dog.weight %}, {{ recording.dog.weight }} kg{% endif %}){% endif %}
+                {% else %}
+                    👤 {% trans "Essere umano" %}
+                {% endif %}
+            </div>
+            <div>
+                <strong>{% trans "Range normale" %}:</strong> {{ interpretation.normal_range_display }}
+            </div>
+            {% if interpretation.is_normal == true %}
+                <div style="color: #059669; font-weight: bold; font-size: 1.1rem;">✅ {% trans "BPM nel range normale" %}</div>
+            {% elif interpretation.is_normal == false %}
+                <div style="color: #dc2626; font-weight: bold; font-size: 1.1rem;">⚠️ {% trans "BPM fuori dal range normale" %}</div>
+            {% else %}
+                <div style="color: #6b7280;">{% trans "Range non disponibile" %}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
 
     <!-- Metriche avanzate: HRV e S1/S2 -->
     {% if analysis.hrv or analysis.s1_s2 %}

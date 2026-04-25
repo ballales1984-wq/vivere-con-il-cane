@@ -112,3 +112,22 @@ class HeartSoundRecording(models.Model):
         dog_name = self.dog.dog_name if self.dog else "Senza cane"
         return f"Battiti {dog_name} - {self.estimated_bpm} BPM ({self.created_at.date()})"
 
+    def get_normal_bpm_range(self):
+        """Restituisce (min, max) BPM normale per un cane in base al peso."""
+        if not self.dog or not self.dog.weight:
+            return (60, 100)  # default per cane adulto medio
+        weight_kg = float(self.dog.weight)
+        if weight_kg < 10:
+            return (100, 140)
+        elif weight_kg < 25:
+            return (80, 120)
+        else:
+            return (60, 100)
+
+    def get_subject_type(self):
+        return 'dog' if self.dog else 'human'
+
+    def get_normal_bpm_range_display(self):
+        rng = self.get_normal_bpm_range()
+        return f"{rng[0]}-{rng[1]} BPM"
+
