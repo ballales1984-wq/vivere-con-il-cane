@@ -201,13 +201,13 @@ def cookie_policy(request):
     return render(request, "canine_tools/cookie_policy.html")
 
 
+@login_required
 def heart_recorder(request):
     """Pagina principale per registrare i battiti cardiaci."""
     dogs = []
     recordings = []
-    if request.user.is_authenticated:
-        dogs = DogProfile.objects.filter(owner=request.user)
-        recordings = HeartSoundRecording.objects.filter(owner=request.user).order_by("-created_at")[:10]
+    dogs = DogProfile.objects.filter(owner=request.user)
+    recordings = HeartSoundRecording.objects.filter(owner=request.user).order_by("-created_at")[:10]
     return render(request, "canine_tools/heart_recorder.html", {"dogs": dogs, "recordings": recordings})
 
 
@@ -775,6 +775,9 @@ def analyze_heart_sound(filepath, context=''):
             return filtfilt(b, a, signal)
 
         y_filt = bandpass_filter(y, sr)
+        # Ensure no NaNs/infs from filter (can happen with pathological signals)
+        if np.any(np.isnan(y_filt)) or np.any(np.isinf(y_filt)):
+            y_filt = y  # fallback to normalized signal
 
         # --- 3. ENVELOPE con Hilbert ---
         analytic = hilbert(y_filt)
@@ -783,6 +786,9 @@ def analyze_heart_sound(filepath, context=''):
         # Smooth envelope (Savitzky-Golay per rimuovere rumore)
         window_len = min(101, len(envelope) - 1 if len(envelope)%2==0 else len(envelope))
         if window_len > 3:
+            # Handle potential NaNs/infs in envelope before smoothing
+            if np.any(np.isnan(envelope)) or np.any(np.isinf(envelope)):
+                envelope = np.nan_to_num(envelope, nan=0.0, posinf=0.0, neginf=0.0)
             envelope_smooth = savgol_filter(envelope, window_len, 3)
         else:
             envelope_smooth = envelope
@@ -846,7 +852,10 @@ def analyze_heart_sound(filepath, context=''):
                     # Tolleranza: ±50% rispetto alla mediana
                     valid = (intervals > 0.5*median_int) & (intervals < 1.5*median_int)
                     # Mantieni i battiti per cui l'intervallo prima E dopo sono validi
-                    keep = np.concatenate([[True], valid])[:-1] & np.concatenate([[True], valid[1:]])
+                    # Build keep mask: first and last always True initially, interior based on valid intervals
+                    keep = np.ones(len(peaks), dtype=bool)
+                    if len(keep) > 2:
+                        keep[1:-1] = valid[:-1] & valid[1:]
                     peaks = peaks[keep]
 
         peak_times = (peaks / sr).tolist()

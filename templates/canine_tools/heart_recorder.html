@@ -247,8 +247,18 @@ async function analyzeAudio(blob) {
             method: 'POST',
             body: formData,
             headers: {'X-CSRFToken': csrf},
+            credentials: 'include',
         });
-        const data = await response.json();
+        
+        let data;
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            const text = await response.text();
+            console.error('Non-JSON response:', response.status, text.substring(0, 200));
+            throw new Error(`Server error ${response.status}: ${text.substring(0, 100)}...`);
+        }
 
         if (data.success) {
             window.location.href = "{% url 'canine_tools:heart_recording_detail' 0 %}".replace('0/', data.recording_id + '/');
@@ -258,6 +268,7 @@ async function analyzeAudio(blob) {
             recordBtn.textContent = "🎤 Riprova";
         }
     } catch (err) {
+        console.error('Fetch error:', err);
         statusDiv.textContent = "❌ Errore: " + err.message;
         recordBtn.style.display = 'inline-block';
         recordBtn.textContent = "🎤 Riprova";
