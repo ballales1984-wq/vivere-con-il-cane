@@ -989,30 +989,38 @@ def analyze_heart_sound(filepath, context=''):
         # Clamp a [0, 1] per sicurezza
         env_norm = np.clip(env_norm, 0.0, 1.0)
 
-        # --- 5. RILEVAMENTO PICCHI con threshold molto basse ---
-        min_distance = int(0.3 * sr)  # 300 ms minimo tra picchi
-        env_max_val = np.max(env_norm)
-
-        thresholds = [
-            0.4*env_max_val, 0.35*env_max_val, 0.3*env_max_val, 0.25*env_max_val,
-            0.2*env_max_val, 0.15*env_max_val, 0.12*env_max_val, 0.10*env_max_val,
-            0.08*env_max_val, 0.06*env_max_val, 0.04*env_max_val, 0.02*env_max_val,
-            0.01*env_max_val, 0.005*env_max_val
+        # --- 5. RILEVAMENTO PICCHI ---
+        min_distance = int(0.3 * sr)  # 300 ms min
+        # Threshold FISSE e BASSE per catturare tutti i picchi (forti e deboli)
+        height_thresholds = [
+            0.30,   # picchi forti
+            0.25,
+            0.20,
+            0.15,
+            0.10,
+            0.08,
+            0.06,
+            0.04,
+            0.02,
+            0.01,
+            0.005,
+            0.002,
+            0.001,
+            0.0005,
         ]
-        # Clamp ogni threshold almeno a 0.0005
-        thresholds = [max(0.0005, th) for th in thresholds]
-
+        
         peaks = None
-        for th in thresholds:
-            prominence_val = max(0.0001, th * 0.1)
-            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prominence_val)
+        for th in height_thresholds:
+            # Prominence molto bassa: cattura anche picchi piccoli
+            prom = max(0.00005, th * 0.05)  # 5% di th, minimo 0.00005
+            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prom)
             if len(candidate_peaks) >= 2:
                 peaks = candidate_peaks
                 break
-
-        # Fallback finale: thresholds molto basse
+        
+        # Fallback finale: quasi nessuna restrizione
         if peaks is None or len(peaks) < 2:
-            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.0002, prominence=0)
+            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.0001, prominence=0)
 
         peak_times = (peaks / sr).tolist()
         amplitudes = env_norm[peaks].tolist()
