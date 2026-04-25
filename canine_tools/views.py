@@ -881,48 +881,97 @@ def analyze_heart_sound(filepath, context=''):
             bpm = 0
             confidence = 0.0
 
-        # --- 8. DISTINZIONE S1/S2 ---
-        # S1 (picco più alto) vs S2 (picco più basso) in ciclo cardiaco
+        # --- 8. CLASSIFICAZIONE S1/S2 e CALCOLO BPM/HRV CORRETTO ---
         s1_s2_classification = None
-        if beat_count >= 4:
-            # Gruppi di 2 picchi consecutivi (coppie S1-S2)
-            amplitudes_arr = np.array(amplitudes)
-            # Per ogni coppia di picchi, il primo tende ad essere S1 (più forte)
-            s1_count = 0
-            s2_count = 0
-            for i in range(0, len(amplitudes_arr)-1, 2):
-                if amplitudes_arr[i] > amplitudes_arr[i+1]:
-                    s1_count += 1
-                    s2_count += 1
-                else:
-                    # Se il secondo è più forte, inverti (raro)
-                    s1_count += 1
-                    s2_count += 1
-            s1_s2_classification = {
-                "s1_count": s1_count,
-                "s2_count": s2_count,
-                "s1_avg_amplitude": float(np.mean(amplitudes_arr[::2])) if len(amplitudes_arr)>=2 else 0.0,
-                "s2_avg_amplitude": float(np.mean(amplitudes_arr[1::2])) if len(amplitudes_arr)>=2 else 0.0,
-            }
-
-        # --- 9. CALCOLO HRV (Heart Rate Variability) ---
         hrv_metrics = None
-        if beat_count >= 3:
-            intervals_sec = np.diff(peak_times)
-            # SDNN (deviazione standard degli intervalli RR)
-            sdnn = float(np.std(intervals_sec))
-            # RMSSD (root mean square of successive differences)
-            diff_sq = np.square(np.diff(intervals_sec))
-            rmssd = float(np.sqrt(np.mean(diff_sq)))
-            # pNN50 (percentuale di differenze > 50 ms)
-            diff_ms = np.diff(intervals_sec) * 1000
-            pnn50 = float(np.mean(np.abs(diff_ms) > 50) * 100)
-            hrv_metrics = {
-                "sdnn_sec": round(sdnn, 4),
-                "rmssd_sec": round(rmssd, 4),
-                "pnn50_percent": round(pnn50, 2),
-                "mean_hr_sec": round(float(np.mean(intervals_sec)), 4),
-            }
+        bpm = 0
+        confidence = 0.0
+        
+        # Organizza picchi in coppie S1 (forte) e S2 (debole)
+        if beat_count >= 2:
+            amplitudes_arr = np.array(amplitudes)
+            times_arr = np.array(peak_times)
+            
+            # Se numero dispari, ignora l'ultimo picco (incompleto)
+            n_pairs = len(amplitudes_arr) // 2
+            
+            if n_pairs >= 1:
+                s1_times = []
+                s1_amplitudes = []
+                s2_times = []
+                s2_amplitudes = []
+                
+                for i in range(n_pairs):
+                    idx1 = i * 2
+                    idx2 = i * 2 + 1
+                    amp1 = amplitudes_arr[idx1]
+                    amp2 = amplitudes_arr[idx2]
+                    
+                    if amp1 >= amp2:
+                        s1_times.append(times_arr[idx1])
+                        s1_amplitudes.append(amp1)
+                        s2_times.append(times_arr[idx2])
+                        s2_amplitudes.append(amp2)
+                    else:
+                        # Inversione rara: S2 più forte di S1, scambia
+                        s1_times.append(times_arr[idx2])
+                        s1_amplitudes.append(amp2)
+                        s2_times.append(times_arr[idx1])
+                        s2_amplitudes.append(amp1)
+                
+                s1_times = np.array(s1_times)
+                s1_amplitudes = np.array(s1_amplitudes)
+                s2_times = np.array(s2_times)
+                s2_amplitudes = np.array(s2_amplitudes)
+                
+                # --- BPM basato su S1 (cicli cardiaci) ---
+                if len(s1_times) >= 2:
+                    s1_intervals = np.diff(s1_times)
+                    avg_s1_interval = np.mean(s1_intervals)
+                    bpm = int(60 / avg_s1_interval) if avg_s1_interval > 0 else 0
+                    
+                    # --- Confidence basata su regolarità S1 ---
+                    if len(s1_intervals) > 1:
+                        std_s1 = np.std(s1_intervals)
+                        coeff_var = std_s1 / (avg_s1_interval + 1e-9)
+                        reg = max(0, 1 - coeff_var)
+                        n_score = min(1.0, len(s1_times) / 20)
+                        confidence = round(0.5 + 0.3*reg + 0.2*n_score, 2)
+                    else:
+                        confidence = 0.5
+                else:
+                    bpm = 0
+                    confidence = 0.0
+                
+                # --- Classificazione S1/S2 ---
+                s1_s2_classification = {
+                    "s1_count": len(s1_times),
+                    "s2_count": len(s2_times),
+                    "s1_avg_amplitude": float(np.mean(s1_amplitudes)) if len(s1_amplitudes) > 0 else 0.0,
+                    "s2_avg_amplitude": float(np.mean(s2_amplitudes)) if len(s2_amplitudes) > 0 else 0.0,
+                }
+                
+                # --- HRV basato su intervalli S1 ---
+                if len(s1_intervals) >= 2:
+                    sdnn = float(np.std(s1_intervals))
+                    diff_sq = np.square(np.diff(s1_intervals))
+                    rmssd = float(np.sqrt(np.mean(diff_sq)))
+                    diff_ms = np.diff(s1_intervals) * 1000
+                    pnn50 = float(np.mean(np.abs(diff_ms) > 50) * 100)
+                    hrv_metrics = {
+                        "sdnn_sec": round(sdnn, 4),
+                        "rmssd_sec": round(rmssd, 4),
+                        "pnn50_percent": round(pnn50, 2),
+                        "mean_hr_sec": round(float(np.mean(s1_intervals)), 4),
+                    }
+                
+                # Aggiorna beat_count come numero di cicli (S1)
+                beat_count = len(s1_times)
+            else:
+                # Nessuna coppia completa, fallback a tutti i picchi
+                beat_count = len(peaks)
+        else:
+            beat_count = len(peaks)
 
         # --- 10. DATI ENVELOPE per grafico (campionati a 1000 Hz per performance) ---
         t_envelope = np.arange(len(env_norm)) / sr
