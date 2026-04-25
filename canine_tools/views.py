@@ -938,236 +938,213 @@ def analyze_heart_sound(filepath, context=''):
         # Normalizza
         y = y / (np.max(np.abs(y)) + 1e-9)
 
-        # --- 2. FILTRO PASSA-BANDA 20-150 Hz ---
+        # --- 2. FILTRO PASSA-BANDA 20-150 Hz Butterworth 4° ordine ---
         def bandpass_filter(signal, fs, low=20, high=150, order=4):
             nyq = fs / 2
             b, a = butter(order, [low/nyq, high/nyq], btype='band')
             return filtfilt(b, a, signal)
 
         y_filt = bandpass_filter(y, sr)
-        # Ensure no NaNs/infs from filter (can happen with pathological signals)
+        # Safe guard: sostituisci NaN/inf con segnale originale normalizzato
         if np.any(np.isnan(y_filt)) or np.any(np.isinf(y_filt)):
-            y_filt = y  # fallback to normalized signal
+            y_filt = y
 
-        # --- 3. ENVELOPE con Hilbert ---
+        # --- 3. ENVELOPE Hilbert + Smoothing Savitzky-Golay ---
         analytic = hilbert(y_filt)
         envelope = np.abs(analytic)
 
-        # Smooth envelope: usa finestra più piccola per segnali deboli
+        # Smoothing: window length dipende da ampiezza envelope
         max_window = 101
-        window_len = min(max_window, len(envelope) - 1 if len(envelope)%2==0 else len(envelope))
-        if window_len > 3:
-            # Se segnale debole (env_max < 0.05), riduci finestra per non smussare troppo
+        # Determina window_len: deve essere dispari e < len(envelope)
+        win_len = min(max_window, len(envelope) - 1 if len(envelope) % 2 == 0 else len(envelope))
+        if win_len > 3:
             env_max_val = np.max(envelope)
             if env_max_val < 0.05:
-                window_len = min(31, window_len)  # finestra piccola per segnali deboli
-            envelope_smooth = savgol_filter(envelope, window_len, 3)
+                win_len = min(31, win_len)
+            # Assicura che window sia dispari
+            if win_len % 2 == 0:
+                win_len = max(3, win_len - 1)
+            envelope_smooth = savgol_filter(envelope, win_len, 3)
         else:
             envelope_smooth = envelope
+
         envelope_smooth = np.nan_to_num(envelope_smooth, nan=0.0, posinf=0.0, neginf=0.0)
 
-        # --- 4. NORMALIZZAZIONE ---
+        # --- 4. NORMALIZZAZIONE envelope a [0, 1] ---
         env_min, env_max = np.min(envelope_smooth), np.max(envelope_smooth)
         env_range = env_max - env_min
-        if env_range < 1e-6:  # Segnale piatto o troppo debole
-            # Crea envelope artificiale basato sui picchi del segnale filtrato
-            # Cerca variazioni nel segnale filtrato
-            abs_signal = np.abs(y_filt)
-            if np.max(abs_signal) < 1e-6:  # Segnale quasi nullo
-                # Usa envelope costante per evitare crash
+        if env_range < 1e-6:
+            # Fallback: normalizza segnale assoluto filtrato
+            abs_sig = np.abs(y_filt)
+            max_abs = np.max(abs_sig)
+            if max_abs < 1e-6:
                 env_norm = np.zeros_like(envelope_smooth)
             else:
-                # Normalizza il segnale assoluto come envelope alternativo
-                env_norm = abs_signal / (np.max(abs_signal) + 1e-9)
+                env_norm = abs_sig / (max_abs + 1e-9)
         else:
             env_norm = (envelope_smooth - env_min) / (env_range + 1e-9)
-        
-        # Sostituisci definitivamente qualsiasi NaN/inf residuo
-        env_norm = np.nan_to_num(env_norm, nan=0.0, posinf=0.0, neginf=0.0)
 
-        # --- 5. RILEVAMENTO PICCHI (find_peaks) ---
-        min_distance = int(0.3 * sr)  # 300 ms min tra battiti (max 200 bpm)
-        
-        env_std = np.std(env_norm)
-        env_median = np.median(env_norm)
+        # Safe guard: sostituisci NaN/inf con 0
+        env_norm = np.nan_to_num(env_norm, nan=0.0, posinf=0.0, neginf=0.0)
+        # Clamp a [0, 1] per sicurezza
+        env_norm = np.clip(env_norm, 0.0, 1.0)
+
+        # --- 5. RILEVAMENTO PICCHI con threshold molto basse ---
+        min_distance = int(0.3 * sr)  # 300 ms minimo tra picchi
         env_max_val = np.max(env_norm)
-        
-        # Threshold dinamiche: più basse per segnali deboli
-        # Partiamo da una frazione del massimo, con minimi assoluti
-        height_thresholds = [
-            max(0.25, 0.35 * env_max_val),
-            max(0.20, 0.30 * env_max_val),
-            max(0.15, 0.25 * env_max_val),
-            max(0.12, 0.20 * env_max_val),
-            max(0.10, 0.15 * env_max_val),
-            max(0.08, 0.12 * env_max_val),
-            max(0.06, 0.10 * env_max_val),
-            max(0.05, 0.08 * env_max_val),
-            max(0.03, 0.06 * env_max_val),
-            max(0.02, 0.04 * env_max_val),
-            max(0.01, 0.02 * env_max_val),
+
+        thresholds = [
+            0.4*env_max_val, 0.35*env_max_val, 0.3*env_max_val, 0.25*env_max_val,
+            0.2*env_max_val, 0.15*env_max_val, 0.12*env_max_val, 0.10*env_max_val,
+            0.08*env_max_val, 0.06*env_max_val, 0.04*env_max_val, 0.02*env_max_val,
+            0.01*env_max_val, 0.005*env_max_val
         ]
-        
+        # Clamp ogni threshold almeno a 0.0005
+        thresholds = [max(0.0005, th) for th in thresholds]
+
         peaks = None
-        for i, th in enumerate(height_thresholds):
-            # Prominence dinamica: più bassa per threshold basse
-            prom = max(0.0005, th * 0.2)  # 20% di th, minimo 0.0005
-            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prom)
+        for th in thresholds:
+            prominence_val = max(0.0001, th * 0.1)
+            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prominence_val)
             if len(candidate_peaks) >= 2:
                 peaks = candidate_peaks
                 break
-        
+
+        # Fallback finale: thresholds molto basse
         if peaks is None or len(peaks) < 2:
-            # Ultimo tentativo: threshold bassissima, quasi nessuna prominence
-            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.005, prominence=0.0001)
-
-        # --- 6. PULIZIA OUTLIER (artefatti momentanei) ---
-        if len(peaks) >= 3:
-            # Rimuovi picchi con ampiezza < 30% della mediana (rumore)
-            amplitudes_temp = env_norm[peaks]
-            median_amp = np.median(amplitudes_temp)
-            mask = amplitudes_temp > 0.3 * median_amp
-            peaks = peaks[mask]
-
-            # Rimuovi intervalli anomali (outlier sui tempi)
-            if len(peaks) >= 3:
-                times_temp = peaks / sr
-                intervals = np.diff(times_temp)
-                if len(intervals) >= 2:
-                    median_int = np.median(intervals)
-                    # Tolleranza: ±50% rispetto alla mediana
-                    valid = (intervals > 0.5*median_int) & (intervals < 1.5*median_int)
-                    # Mantieni i battiti per cui l'intervallo prima E dopo sono validi
-                    # Build keep mask: first and last always True initially, interior based on valid intervals
-                    keep = np.ones(len(peaks), dtype=bool)
-                    if len(keep) > 2:
-                        keep[1:-1] = valid[:-1] & valid[1:]
-                    peaks = peaks[keep]
+            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.0002, prominence=0)
 
         peak_times = (peaks / sr).tolist()
         amplitudes = env_norm[peaks].tolist()
         beat_count = len(peaks)
 
-        # --- 7. CALCOLO BPM e CONFIDENCE ---
-        if beat_count >= 2:
-            intervals = np.diff(peak_times)
-            avg_interval = np.mean(intervals)
-            bpm = int(60 / avg_interval) if avg_interval > 0 else 0
+        # --- 6. PULIZIA OUTLIER (solo se >= 5 picchi) ---
+        if len(peaks) >= 5:
+            # Rimuovi picchi con ampiezza < 30% della mediana
+            amplitudes_arr = np.array(amplitudes)
+            median_amp = np.median(amplitudes_arr)
+            amp_mask = amplitudes_arr >= 0.3 * median_amp
+            peaks = peaks[amp_mask]
 
-            # Confidence: regolarità degli intervalli + numero battiti
-            if len(intervals) > 1:
-                std_int = np.std(intervals)
-                coeff_var = std_int / (avg_interval + 1e-9)  # CV
-                reg = max(0, 1 - coeff_var)
-                n_score = min(1.0, beat_count / 20)  # normalizza a 20 battiti
-                confidence = round(0.5 + 0.3*reg + 0.2*n_score, 2)
-            else:
-                confidence = 0.5
-        else:
-            bpm = 0
-            confidence = 0.0
+            # Rimuovi intervalli anomali: ±50% della mediana
+            if len(peaks) >= 5:
+                peak_times_arr = peaks / sr
+                intervals = np.diff(peak_times_arr)
+                if len(intervals) >= 2:
+                    median_int = np.median(intervals)
+                    # Maschera: entrambi gli intervalli adiacenti devono essere dentro ±50%
+                    valid_mask = (intervals >= 0.5 * median_int) & (intervals <= 1.5 * median_int)
+                    keep = np.ones(len(peaks), dtype=bool)
+                    if len(keep) > 2:
+                        keep[1:-1] = valid_mask[:-1] & valid_mask[1:]
+                    peaks = peaks[keep]
 
-        # --- 8. CLASSIFICAZIONE S1/S2 e CALCOLO BPM/HRV CORRETTO ---
+            # Ri-calcola dopo pulizia
+            peak_times = (peaks / sr).tolist()
+            amplitudes = env_norm[peaks].tolist()
+            beat_count = len(peaks)
+
+        # --- 7. CLASSIFICAZIONE S1/S2 (coppie consecutive, più forte è S1) ---
         s1_s2_classification = None
         hrv_metrics = None
         bpm = 0
         confidence = 0.0
-        s1_intervals = None  # Inizializza
-        
-        # Organizza picchi in coppie S1 (forte) e S2 (debole)
+        s1_intervals = None
+
         if beat_count >= 2:
-            amplitudes_arr = np.array(amplitudes)
             times_arr = np.array(peak_times)
-            
-            # Se numero dispari, ignora l'ultimo picco (incompleto)
-            n_pairs = len(amplitudes_arr) // 2
-            
+            amps_arr = np.array(amplitudes)
+
+            # Crea coppie consecutive (picco 0-1, 2-3, ...)
+            n_pairs = beat_count // 2
+
             if n_pairs >= 1:
                 s1_times = []
-                s1_amplitudes = []
+                s1_amps = []
                 s2_times = []
-                s2_amplitudes = []
-                
+                s2_amps = []
+
                 for i in range(n_pairs):
                     idx1 = i * 2
                     idx2 = i * 2 + 1
-                    amp1 = amplitudes_arr[idx1]
-                    amp2 = amplitudes_arr[idx2]
-                    
-                    if amp1 >= amp2:
-                        s1_times.append(times_arr[idx1])
-                        s1_amplitudes.append(amp1)
-                        s2_times.append(times_arr[idx2])
-                        s2_amplitudes.append(amp2)
+                    a1 = amps_arr[idx1]
+                    a2 = amps_arr[idx2]
+                    t1 = times_arr[idx1]
+                    t2 = times_arr[idx2]
+
+                    if a1 >= a2:
+                        s1_times.append(t1)
+                        s1_amps.append(a1)
+                        s2_times.append(t2)
+                        s2_amps.append(a2)
                     else:
-                        s1_times.append(times_arr[idx2])
-                        s1_amplitudes.append(amp2)
-                        s2_times.append(times_arr[idx1])
-                        s2_amplitudes.append(amp1)
-                
+                        s1_times.append(t2)
+                        s1_amps.append(a2)
+                        s2_times.append(t1)
+                        s2_amps.append(a1)
+
                 s1_times = np.array(s1_times)
-                s1_amplitudes = np.array(s1_amplitudes)
+                s1_amps = np.array(s1_amps)
                 s2_times = np.array(s2_times)
-                s2_amplitudes = np.array(s2_amplitudes)
-                
-                # --- BPM basato su S1 (cicli cardiaci) ---
+                s2_amps = np.array(s2_amps)
+
+                # --- 8. BPM e CONFIDENCE da S1 ---
                 if len(s1_times) >= 2:
                     s1_intervals = np.diff(s1_times)
-                    avg_s1_interval = np.mean(s1_intervals)
-                    bpm = int(60 / avg_s1_interval) if avg_s1_interval > 0 else 0
-                    
-                    # --- Confidence basata su regolarità S1 ---
+                    avg_s1_int = np.mean(s1_intervals)
+                    bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+
+                    # Confidence: regolarità intervalli S1 + numero cicli
                     if len(s1_intervals) > 1:
                         std_s1 = np.std(s1_intervals)
-                        coeff_var = std_s1 / (avg_s1_interval + 1e-9)
-                        reg = max(0, 1 - coeff_var)
-                        n_score = min(1.0, len(s1_times) / 20)
-                        confidence = round(0.5 + 0.3*reg + 0.2*n_score, 2)
+                        cv = std_s1 / (avg_s1_int + 1e-9)
+                        reg_score = max(0.0, 1.0 - cv)
+                        n_score = min(1.0, len(s1_times) / 20.0)
+                        confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
                     else:
                         confidence = 0.5
                 else:
-                    bpm = 0
                     confidence = 0.0
-                
-                # --- Classificazione S1/S2 ---
-                s1_s2_classification = {
-                    "s1_count": len(s1_times),
-                    "s2_count": len(s2_times),
-                    "s1_avg_amplitude": float(np.mean(s1_amplitudes)) if len(s1_amplitudes) > 0 else 0.0,
-                    "s2_avg_amplitude": float(np.mean(s2_amplitudes)) if len(s2_amplitudes) > 0 else 0.0,
-                }
-                
-                # --- HRV basato su intervalli S1 (solo se abbiamo intervalli) ---
-                if s1_intervals is not None and len(s1_intervals) >= 2:
+
+                # --- 9. HRV (solo se >= 3 cicli S1) ---
+                if s1_intervals is not None and len(s1_intervals) >= 2:  # >=3 S1 => >=2 intervalli
                     sdnn = float(np.std(s1_intervals))
                     diff_sq = np.square(np.diff(s1_intervals))
-                    rmssd = float(np.sqrt(np.mean(diff_sq)))
-                    diff_ms = np.diff(s1_intervals) * 1000
-                    pnn50 = float(np.mean(np.abs(diff_ms) > 50) * 100)
+                    rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
+                    diff_ms = np.diff(s1_intervals) * 1000.0
+                    pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
+
                     hrv_metrics = {
                         "sdnn_sec": round(sdnn, 4),
                         "rmssd_sec": round(rmssd, 4),
                         "pnn50_percent": round(pnn50, 2),
                         "mean_hr_sec": round(float(np.mean(s1_intervals)), 4),
                     }
-                
-                # Aggiorna beat_count come numero di cicli (S1)
+
+                s1_s2_classification = {
+                    "s1_count": int(len(s1_times)),
+                    "s2_count": int(len(s2_times)),
+                    "s1_avg_amplitude": float(np.mean(s1_amps)) if len(s1_amps) > 0 else 0.0,
+                    "s2_avg_amplitude": float(np.mean(s2_amps)) if len(s2_amps) > 0 else 0.0,
+                }
+
+                # beat_count diventa numero di cicli S1
                 beat_count = len(s1_times)
             else:
-                # Nessuna coppia completa, fallback a tutti i picchi
+                # Se non ci sono coppie complete, usa tutti i picchi
                 beat_count = len(peaks)
         else:
             beat_count = len(peaks)
 
-        # --- 10. DATI ENVELOPE per grafico (campionati a 1000 Hz per performance) ---
-        t_envelope = np.arange(len(env_norm)) / sr
-        # Sottocampiona per non inviare troppi dati al frontend
+        # --- 10. ENVELOPE DATA per grafico (max 2000 punti) ---
+        t_env = np.arange(len(env_norm)) / sr
         step = max(1, len(env_norm) // 2000)
         envelope_data = {
-            "times": t_envelope[::step].tolist(),
+            "times": t_env[::step].tolist(),
             "values": env_norm[::step].tolist(),
         }
 
+        # --- 11. RETURN ---
         return {
             "duration": round(duration, 2),
             "bpm": bpm,
@@ -1182,6 +1159,7 @@ def analyze_heart_sound(filepath, context=''):
             "filter_low": 20,
             "filter_high": 150,
         }
+
 
     except ImportError:
         # Fallback: analisi molto semplice senza scipy/librosa
