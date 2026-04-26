@@ -176,6 +176,9 @@ SITE_ID = 1
 LANGUAGE_SESSION_KEY = "_language"
 LANGUAGE_COOKIE_NAME = "django_language"
 
+# ASGI application for Vercel deployment
+ASGI_APPLICATION = "config.asgi.application"
+
 # Email configuration
 # Development: console backend (prints to stdout)
 # Production: SMTP from environment variables
