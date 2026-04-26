@@ -1,5 +1,4 @@
 {
-  "buildCommand": "bash -c 'dnf install -y cairo-devel pkg-config python3-devel glib2 && python -m pip install --upgrade pip && pip install -r requirements.txt'",
   "installCommand": "bash -c 'dnf install -y cairo-devel pkg-config python3-devel glib2'",
   "framework": "django",
   "env": {
