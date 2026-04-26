@@ -61,6 +61,57 @@ graph TD
 
 ---
 
+## 🏥 Funzionalità di Analisi Cardiaca (Heart Sound Analysis)
+
+La piattaforma include strumenti avanzati per l'analisi dei suoni cardiaci dei cani:
+
+### 🔬 Cardiac Analysis Tool
+- **Rilevamento BPM**: Frequenza cardiaca automatica da file audio (WAV, WebM, OGG)
+- **S1/S2 Classification**: Identifica i battiti cardiaci (chiusura/apertura valvole)
+- **HRV Metrics**: Heart Rate Variability (SDNN, RMSSD, pNN50%)
+- **Peak Detection**: Algoritmi adattivi per segnali deboli
+- **Noise Filtering**: Filtro passabanda 20-150 Hz e pulizia artefatti
+
+### 📊 Utilizzo
+
+1. **Registra un audio cardiaco**:
+   - Vai su `Cuore → Registratore Fonocardiografico`
+   - Seleziona il **tipo di soggetto** (Cane 🐕 o Umano 👤)
+   - Carica un file WAV o registra direttamente
+   
+2. **Analisi automatica**:
+   ```bash
+   # Test locale con file WAV
+   python test_cuore_tool.py
+   ```
+
+3. **Risultati**:
+   - BPM stimato (con correzione per cani o umani)
+   - Conteggio battiti
+   - Confidenza (0-1)
+   - Tempi picchi S1/S2 (separazione valvole)
+   - Metriche HRV (variabilità cardiaca)
+
+### 🧪 Test Suite
+
+```bash
+# Testa TUTTI i file audio disponibili
+python test_all_audio_files.py
+
+# Test con diversi tipi di soggetto
+python test_final_subject_type.py
+```
+
+Funzionalità testate:
+- ✅ Analisi audio multi-formato (WAV, WebM)
+- ✅ Rilevamento picchi adattivo (algoritmo MAD)
+- ✅ Classificazione S1/S2 con accoppiamento intelligente
+- ✅ Calcolo BPM differenziato (cane vs umano)
+- ✅ Metriche HRV (SDNN, RMSSD, pNN50)
+- ✅ Gestione segnali deboli e rumore
+
+---
+
 ## 🚀 Guida all'Avvio Rapido (Quick Start)
 
 ### Prerequisiti

@@ -15,6 +15,7 @@ from knowledge.views import generate_lifetime_macro_analysis
 from datetime import date
 import json
 import os
+import requests
 from django.core.cache import cache
 from xhtml2pdf import pisa
 from django.template.loader import get_template
@@ -652,14 +653,14 @@ def vet_request_detail(request, dog_id, request_id):
 @login_required
 def vet_request_list(request):
     """List all veterinary requests for the user's dogs."""
-    requests = VeterinaryRequest.objects.filter(dog__owner=request.user).order_by(
+    vet_requests = VeterinaryRequest.objects.filter(dog__owner=request.user).order_by(
         "-created_at"
     )
     return render(
         request,
         "dog_profile/vet_request_list.html",
         {
-            "requests": requests,
+            "requests": vet_requests,
         },
     )
 

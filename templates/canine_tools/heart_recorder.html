@@ -12,22 +12,40 @@
 </section>
 
 <div style="max-width: 800px; margin: 0 auto; padding: 0 1.5rem 5rem;">
-    <!-- Selezione cane (se loggato) -->
-    {% if dogs %}
-        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
-            <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Seleziona il Cane (opzionale)" %}</h3>
-            <select id="dog-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-                <option value="">{% trans "Nessun cane selezionato" %}</option>
-                {% for dog in dogs %}
-                <option value="{{ dog.id }}">{{ dog.dog_name }} ({{ dog.breed }})</option>
-                {% endfor %}
-            </select>
-            <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
-                {% trans "Puoi associare la registrazione a un cane per tenerne traccia." %}
-            </p>
-        </div>
-        
-        <!-- Selezione contesto registrazione -->
+     <!-- Selettore Specie (Umano/Cane) -->
+     <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); border-left: 4px solid #dc2626;">
+         <h3 style="margin-top: 0; margin-bottom: 1rem; color: #dc2626;">{% trans "Tipo di Soggetto" %}</h3>
+         <div style="display: flex; gap: 1rem; align-items: center;">
+             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                 <input type="radio" name="subject_type" value="dog" checked style="width: 18px; height: 18px;">
+                 <span style="font-size: 1.1rem;">🐕 {% trans "Cane" %}</span>
+             </label>
+             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                 <input type="radio" name="subject_type" value="human" style="width: 18px; height: 18px;">
+                 <span style="font-size: 1.1rem;">👤 {% trans "Umano" %}</span>
+             </label>
+         </div>
+         <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+             {% trans "Seleziona il tipo di soggetto per calcolare correttamente i BPM." %}
+         </p>
+     </div>
+    
+     <!-- Selezione cane (se loggato) -->
+     {% if dogs %}
+         <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+             <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Seleziona il Cane (opzionale)" %}</h3>
+             <select id="dog-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                 <option value="">{% trans "Nessun cane selezionato" %}</option>
+                 {% for dog in dogs %}
+                 <option value="{{ dog.id }}">{{ dog.dog_name }} ({{ dog.breed }})</option>
+                 {% endfor %}
+             </select>
+             <p style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+                 {% trans "Puoi associare la registrazione a un cane per tenerne traccia." %}
+             </p>
+         </div>
+         
+         <!-- Selezione contesto registrazione -->
         <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
             <h3 style="margin-top: 0; margin-bottom: 1rem;">{% trans "Contesto Registrazione" %}</h3>
             <select id="context-select" style="padding: 0.75rem; width: 100%; max-width: 300px; border-radius: var(--radius-md); border: 1px solid var(--border);">
@@ -224,17 +242,20 @@ function drawWaveform() {
     animationId = requestAnimationFrame(drawWaveform);
 }
 
-async function analyzeAudio(blob) {
-    const formData = new FormData();
-    formData.append('audio', blob);
-    const dogSelect = document.getElementById('dog-select');
-    if (dogSelect && dogSelect.value) {
-        formData.append('dog_id', dogSelect.value);
-    }
-    const contextSelect = document.getElementById('context-select');
-    if (contextSelect && contextSelect.value) {
-        formData.append('recording_context', contextSelect.value);
-    }
+    async function analyzeAudio(blob) {
+        const formData = new FormData();
+        formData.append('audio', blob);
+        const dogSelect = document.getElementById('dog-select');
+        if (dogSelect && dogSelect.value) {
+            formData.append('dog_id', dogSelect.value);
+        }
+        const contextSelect = document.getElementById('context-select');
+        if (contextSelect && contextSelect.value) {
+            formData.append('recording_context', contextSelect.value);
+        }
+        // Aggiungi il tipo di soggetto
+        const subjectType = document.querySelector('input[name="subject_type"]:checked').value;
+        formData.append('subject_type', subjectType);
     // CSRF token da cookie
     const csrf = getCookie('csrftoken');
     if (!csrf) {

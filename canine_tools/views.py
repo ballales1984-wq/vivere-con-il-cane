@@ -228,7 +228,7 @@ def heart_recording_detail(request, recording_id):
         tmp_path = tmp_file.name
     
     try:
-        analysis = analyze_heart_sound(tmp_path)
+        analysis = analyze_heart_sound(tmp_path, subject_type=recording.get_subject_type())
     finally:
         os.unlink(tmp_path)  # cleanup
     
@@ -270,7 +270,7 @@ def heart_recording_export_csv(request, recording_id):
         tmp_path = tmp_file.name
     
     try:
-        analysis = analyze_heart_sound(tmp_path)
+        analysis = analyze_heart_sound(tmp_path, subject_type=recording.get_subject_type())
     finally:
         os.unlink(tmp_path)
     
@@ -316,8 +316,6 @@ def heart_recording_export_csv(request, recording_id):
 
 
 
-
-@login_required
 @login_required
 def heart_analyze_ai(request, recording_id):
     """Analizza una registrazione cardiaca con LLM (Groq/OpenAI)."""
@@ -336,10 +334,10 @@ def heart_analyze_ai(request, recording_id):
             tmp_path = tmp_file.name
         
         # Analisi audio
-        analysis = analyze_heart_sound(tmp_path)
+        subject_type = recording.get_subject_type()
+        analysis = analyze_heart_sound(tmp_path, subject_type=subject_type)
         
         # Prepara prompt LLM
-        subject_type = recording.get_subject_type()
         subject_name = recording.dog.dog_name if recording.dog else "l'utente"
         subject_weight = f"{recording.dog.weight} kg" if recording.dog and recording.dog.weight else "N/A"
         context_display = recording.get_recording_context_display() if recording.recording_context else "N/A"
@@ -433,12 +431,6 @@ Max 150 parole, italiano chiaro."""
         if tmp_path and os.path.exists(tmp_path):
             try: os.unlink(tmp_path)
             except: pass
-
-    finally:
-        if tmp_path and os.path.exists(tmp_path):
-            try: os.unlink(tmp_path)
-            except: pass
-
 
 
 # Google Health/Fit OAuth
@@ -823,6 +815,7 @@ def heart_analyze(request):
     dog_id = request.POST.get("dog_id")
     notes = request.POST.get("notes", "")
     context = request.POST.get("recording_context", "")
+    subject_type = request.POST.get("subject_type", "dog")  # dog o human
 
     # Salva temporaneamente il file
     from django.core.files.storage import default_storage
@@ -839,7 +832,7 @@ def heart_analyze(request):
 
     # Analisi audio
     try:
-        analysis = analyze_heart_sound(temp_path, context)
+        analysis = analyze_heart_sound(temp_path, context, subject_type=subject_type)
         
         # Sposta file in permanente
         from django.utils import timezone
@@ -889,7 +882,7 @@ def heart_analyze(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 
-def analyze_heart_sound(filepath, context=''):
+def analyze_heart_sound(filepath, context='', subject_type='dog'):
     """
     Analisi avanzata di fonocardiografia digitale.
     Pipeline: filtro 20-150 Hz -> envelope Hilbert -> normalizzazione -> find_peaks.
@@ -989,160 +982,527 @@ def analyze_heart_sound(filepath, context=''):
         # Clamp a [0, 1] per sicurezza
         env_norm = np.clip(env_norm, 0.0, 1.0)
 
-        # --- 5. RILEVAMENTO PICCHI ---
-        min_distance = int(0.3 * sr)  # 300 ms min
-        # Threshold FISSE e BASSE per catturare tutti i picchi (forti e deboli)
-        height_thresholds = [
-            0.30,   # picchi forti
-            0.25,
-            0.20,
-            0.15,
-            0.10,
-            0.08,
-            0.06,
-            0.04,
-            0.02,
-            0.01,
-            0.005,
-            0.002,
-            0.001,
-            0.0005,
-        ]
+        # --- 5. RILEVAMENTO PICCHI - Robustezza e sensibilità ---
+        # Fase 1: detection permissiva iniziale per candidati
+        # Soglia bassa basata su percentile (60) + offset minimo
+        threshold_low = max(np.percentile(env_norm, 60), 0.04)
+        threshold_low = min(threshold_low, 0.5)
         
-        peaks = None
-        for th in height_thresholds:
-            # Prominence molto bassa: cattura anche picchi piccoli
-            prom = max(0.00005, th * 0.05)  # 5% di th, minimo 0.00005
-            candidate_peaks, _ = find_peaks(env_norm, distance=min_distance, height=th, prominence=prom)
-            if len(candidate_peaks) >= 2:
-                peaks = candidate_peaks
-                break
+        # Distanza minima corta (100 ms) per non perdere S1/S2 ravvicinati
+        min_distance_initial = int(0.10 * sr)
         
-        # Fallback finale: quasi nessuna restrizione
-        if peaks is None or len(peaks) < 2:
-            peaks, _ = find_peaks(env_norm, distance=min_distance, height=0.0001, prominence=0)
+        peaks_initial, _ = find_peaks(env_norm, distance=min_distance_initial, height=threshold_low, prominence=0.0005)
+        
+        # Fase 2: stima BPM per threshold adattivo (min_distance rimane corta)
+        if len(peaks_initial) >= 3:
+            peak_times_initial = peaks_initial / sr
+            intervals_initial = np.diff(peak_times_initial)
+            median_interval = np.median(intervals_initial)
+            # Filtra intervalli anomali per stima più pulita
+            valid_mask = (intervals_initial >= 0.5 * median_interval) & (intervals_initial <= 1.5 * median_interval)
+            if np.any(valid_mask):
+                median_interval = np.median(intervals_initial[valid_mask])
+            estimated_bpm = int(60.0 / median_interval) if median_interval > 0 else 0
+            # Non adattiamo min_distance in base a BPM — teniamo 100-150ms per rilevare sia S1 che S2
+            # Se BPM è alto (intervallo piccolo), min_distance 100ms va bene; se BPM basso, va bene lo stesso
+            min_distance = int(0.12 * sr)  # 120 ms fixed — sufficiente a separare rumore, lascia passare S1+S2
+        else:
+            min_distance = int(0.12 * sr)
+        
+        # Fase 3: threshold principale — robusto ma sensibile
+        if len(peaks_initial) >= 5:
+            initial_amplitudes = env_norm[peaks_initial]
+            median_amp = np.median(initial_amplitudes)
+            mad = np.median(np.abs(initial_amplitudes - median_amp))
+            # Usa 1.2×MAD per essere più sensibile (avevamo 1.5)
+            threshold_main = median_amp + 1.2 * mad
+            # Limiti: floor 0.06 (per picchi deboli), ceiling 0.75
+            threshold_main = np.clip(threshold_main, 0.06, 0.75)
+        else:
+            # Pochi candidati: usa percentile diretto
+            threshold_main = max(np.percentile(env_norm, 65), 0.05)
+            threshold_main = min(threshold_main, 0.70)
+        
+        # Fase 4: prominence adattiva ma bassa
+        peak_to_peak_var = np.std(env_norm[peaks_initial]) if len(peaks_initial) >= 3 else 0.02
+        prom = max(0.0005, 0.03 * threshold_main + 0.2 * peak_to_peak_var)
+        prom = min(prom, threshold_main * 0.4)
+        
+        # Rilevazione principale
+        peaks, properties = find_peaks(env_norm, distance=min_distance, height=threshold_main, prominence=prom)
+        
+        # Fase 5: fallback gerarchico se pochi picchi
+        if len(peaks) < 2 and len(peaks_initial) >= 2:
+            fallback_levels = [
+                (0.9, 0.002),
+                (0.75, 0.001),
+                (0.55, 0.0005),
+                (0.4, 0.0002),
+            ]
+            for mult, p in fallback_levels:
+                lower_thresh = threshold_main * mult
+                if lower_thresh < 0.03:
+                    lower_thresh = 0.03
+                peaks, properties = find_peaks(env_norm, distance=min_distance, height=lower_thresh, prominence=p)
+                if len(peaks) >= 2:
+                    break
+        
+        # Fallback finale: threshold molto bassa, distance ridotta
+        if len(peaks) < 2:
+            peaks, properties = find_peaks(env_norm, distance=int(0.08 * sr), height=0.02, prominence=0.0002)
+        
+        # Fase 5: fallback gerarchico se pochi picchi
+        if len(peaks) < 2 and len(peaks_initial) >= 2:
+            # Threshold più bassa ma non permissiva all'estremo
+            fallback_levels = [
+                (0.85, 0.003),   # 85% della threshold originale, prominence minima
+                (0.7, 0.002),
+                (0.5, 0.001),
+                (0.35, 0.0005),
+            ]
+            for mult, p in fallback_levels:
+                lower_thresh = threshold_main * mult
+                if lower_thresh < 0.06:
+                    lower_thresh = 0.06
+                peaks, properties = find_peaks(
+                    env_norm,
+                    distance=min_distance,
+                    height=lower_thresh,
+                    prominence=p
+                )
+                if len(peaks) >= 2:
+                    break
+        
+        # --- 5. RILEVAMENTO PICCHI - Parametri ottimizzati per sensibilità ---
+        # Fase 1: detection permissiva iniziale
+        threshold_low = max(np.percentile(env_norm, 55), 0.03)  # più permissivo
+        threshold_low = min(threshold_low, 0.45)
+        
+        min_distance_initial = int(0.08 * sr)  # 80 ms per non perdere S1/S2 ravvicinati
+        peaks_initial, _ = find_peaks(env_norm, distance=min_distance_initial, height=threshold_low, prominence=0.0002)
+        
+        # Min distance per detection principale: 80 ms (basso, per permettere sia S1 che S2)
+        min_distance = int(0.08 * sr)
+        
+        # Threshold principale: mediana + 1.0 MAD (più sensibile), floor 0.04
+        if len(peaks_initial) >= 5:
+            initial_amplitudes = env_norm[peaks_initial]
+            median_amp = np.median(initial_amplitudes)
+            mad = np.median(np.abs(initial_amplitudes - median_amp))
+            threshold_main = median_amp + 1.0 * mad
+            threshold_main = np.clip(threshold_main, 0.04, 0.70)
+        else:
+            threshold_main = max(np.percentile(env_norm, 60), 0.03)
+            threshold_main = min(threshold_main, 0.60)
+        
+        # Prominence molto bassa
+        peak_to_peak_var = np.std(env_norm[peaks_initial]) if len(peaks_initial) >= 3 else 0.015
+        prom = max(0.0002, 0.02 * threshold_main + 0.1 * peak_to_peak_var)
+        prom = min(prom, threshold_main * 0.3)
+        
+        peaks, properties = find_peaks(env_norm, distance=min_distance, height=threshold_main, prominence=prom)
+        
+        # Fallback gerarchico
+        if len(peaks) < 2 and len(peaks_initial) >= 2:
+            fallback_levels = [
+                (0.95, 0.0015),
+                (0.8, 0.001),
+                (0.6, 0.0005),
+                (0.4, 0.0002),
+            ]
+            for mult, p in fallback_levels:
+                lower_thresh = threshold_main * mult
+                if lower_thresh < 0.02:
+                    lower_thresh = 0.02
+                peaks, properties = find_peaks(env_norm, distance=min_distance, height=lower_thresh, prominence=p)
+                if len(peaks) >= 2:
+                    break
+        
+        if len(peaks) < 2:
+            peaks, properties = find_peaks(env_norm, distance=int(0.06 * sr), height=0.015, prominence=0.0001)
 
+        # Calcola tempi e ampiezze dei picchi (prima della pulizia artefatti)
         peak_times = (peaks / sr).tolist()
         amplitudes = env_norm[peaks].tolist()
         beat_count = len(peaks)
 
-        # --- 6. PULIZIA OUTLIER (solo se >= 5 picchi) ---
-        if len(peaks) >= 5:
-            # Rimuovi picchi con ampiezza < 30% della mediana
-            amplitudes_arr = np.array(amplitudes)
-            median_amp = np.median(amplitudes_arr)
-            amp_mask = amplitudes_arr >= 0.3 * median_amp
-            peaks = peaks[amp_mask]
+        # --- RIMOZIONE ARTEFATTI INIZIALI ---
+        # Se il primo picco è troppo vicino all'inizio (<0.35s) e il secondo intervallo è normale (>0.5s),
+        # probabilmente è un transitorio/rumore: rimuovilo
+        if len(peaks) >= 3:
+            first_time = peak_times[0]
+            second_interval = peak_times[1] - peak_times[0]
+            if first_time < 0.35 and second_interval > 0.5:
+                peaks = peaks[1:]
+                peak_times = peak_times[1:]
+                amplitudes = amplitudes[1:]
+                beat_count = len(peaks)
 
-            # Rimuovi intervalli anomali: ±50% della mediana
-            if len(peaks) >= 5:
+        # --- 6. VALIDAZIONE FISIOLOGICA (post-detection) ---
+        # Controlla se i BPM stimati sono in range fisiologico
+        # Nota: qui misuriamo BPM basato su tutti i picchi (S1+S2), quindi atteso ~2× BPM reale se entrambi rilevati
+        physiological_bpm_estimate = 0
+        if beat_count >= 2:
+            times_arr = np.array(peak_times)
+            intervals = np.diff(times_arr)
+            avg_interval = np.mean(intervals)
+            candidate_bpm = int(60.0 / avg_interval) if avg_interval > 0 else 0
+            
+            # Se candidate_bpm > 300, è probabilmente rumore o artefatti (troppo alto per qualsiasi soggetto)
+            # Se 200-300, potrebbe essere S1+S2 separati di un BPM reale 100-150 (accettabile)
+            # Se < 30, potrebbe essere artefatti a bassa frequenza
+            if candidate_bpm > 350:
+                # Probabile falso positivo da rumore ad alta frequenza
+                #Applica threshold più severa e riduci numero di picchi
+                high_freq_mask = amplitudes >= np.percentile(amplitudes, 60)
+                peaks = peaks[high_freq_mask]
+                peak_times = (peaks / sr).tolist()
+                amplitudes = env_norm[peaks].tolist()
+                beat_count = len(peaks)
+            elif candidate_bpm < 25 and beat_count > 5:
+                # BPM troppo basso → probabilmente artefatti lenti o baseline wander
+                # Mantieni solo picchi con ampiezza sopra soglia relativa
+                amp_threshold = 0.15 * np.max(amplitudes)
+                keep_mask = np.array(amplitudes) >= amp_threshold
+                peaks = peaks[keep_mask]
+                peak_times = (peaks / sr).tolist()
+                amplitudes = env_norm[peaks].tolist()
+                beat_count = len(peaks)
+
+        # --- 6. PULIZIA OUTLIER ROBUSTA (conservativa) ---
+        # Solo se abbiamo un numero sufficiente di picchi (>=7) per evitare over-cleaning
+        if len(peaks) >= 7:
+            peak_times_arr = peaks / sr
+            intervals = np.diff(peak_times_arr)
+            
+            # PASS 1: Rimuovi solo outlier evidenti di ampiezza (usando MAD, ma più permissiva)
+            amplitudes_arr = env_norm[peaks]
+            median_amp = np.median(amplitudes_arr)
+            mad_amp = np.median(np.abs(amplitudes_arr - median_amp))
+            # Soglia: entro 3.5 MAD (invece di 3) per essere più conservativi
+            amp_lower = median_amp - 3.5 * (mad_amp + 1e-9)
+            amp_upper = median_amp + 3.5 * (mad_amp + 1e-9)
+            amp_mask = (amplitudes_arr >= amp_lower) & (amplitudes_arr <= amp_upper)
+            peaks_filtered = peaks[amp_mask]
+            
+            # Se abbiamo rimosso troppi picchi (>20%), annulla la pulizia
+            if len(peaks_filtered) < 0.8 * len(peaks):
+                peaks_filtered = peaks
+            
+            peaks = peaks_filtered
+            
+            # PASS 2: Pulizia intervalli — solo se rimangono >=7 picchi
+            if len(peaks) >= 7:
                 peak_times_arr = peaks / sr
                 intervals = np.diff(peak_times_arr)
-                if len(intervals) >= 2:
-                    median_int = np.median(intervals)
-                    # Maschera: entrambi gli intervalli adiacenti devono essere dentro ±50%
-                    valid_mask = (intervals >= 0.5 * median_int) & (intervals <= 1.5 * median_int)
+                median_int = np.median(intervals)
+                mad_int = np.median(np.abs(intervals - median_int))
+                
+                # Soglia più permissiva: 3×MAD (invece di 2.5×)
+                if mad_int < 0.01:
+                    int_lower = 0.5 * median_int
+                    int_upper = 1.5 * median_int
+                else:
+                    int_lower = median_int - 3.0 * mad_int
+                    int_upper = median_int + 3.0 * mad_int
+                
+                # Assicura limiti ragionevoli
+                int_lower = max(int_lower, 0.5 * median_int)
+                int_upper = min(int_upper, 1.5 * median_int)
+                
+                if len(intervals) >= 3:
+                    valid_mask_intervals = (intervals >= int_lower) & (intervals <= int_upper)
                     keep = np.ones(len(peaks), dtype=bool)
-                    if len(keep) > 2:
-                        keep[1:-1] = valid_mask[:-1] & valid_mask[1:]
-                    peaks = peaks[keep]
-
+                    if len(valid_mask_intervals) > 0:
+                        keep[0] = valid_mask_intervals[0]
+                    if len(valid_mask_intervals) >= 2:
+                        keep[1:-1] = valid_mask_intervals[:-1] & valid_mask_intervals[1:]
+                    if len(valid_mask_intervals) > 0:
+                        keep[-1] = valid_mask_intervals[-1]
+                    
+                    # Controlla quanti picchi verrebbero rimossi
+                    if np.sum(keep) >= 0.8 * len(peaks):
+                        peaks = peaks[keep]
+                    # altrimenti mantieni tutti
+            
             # Ri-calcola dopo pulizia
             peak_times = (peaks / sr).tolist()
             amplitudes = env_norm[peaks].tolist()
             beat_count = len(peaks)
 
-        # --- 7. CLASSIFICAZIONE S1/S2 (coppie consecutive, più forte è S1) ---
+        # --- 7. ANALISI BPM E CLASSIFICAZIONE ---
         s1_s2_classification = None
         hrv_metrics = None
         bpm = 0
         confidence = 0.0
-        s1_intervals = None
-
+        
+        # Per grafico: di default mostriamo tutti i picchi rilevati
+        # Se classifichiamo S1/S2, mostriamo solo S1 per coerenza con beat_count
+        display_peak_times = peak_times
+        display_amplitudes = amplitudes
+        
         if beat_count >= 2:
             times_arr = np.array(peak_times)
             amps_arr = np.array(amplitudes)
+            intervals_all = np.diff(times_arr)
+            
+            # Se è un umano e il BPM calcolato direttamente è troppo basso (<45),
+            # potrebbe essere che l'algoritmo ha perso metà dei picchi.
+            # In tal caso, usa i picchi diretti.
+            candidate_bpm_direct = int(60.0 / np.mean(intervals_all)) if np.mean(intervals_all) > 0 else 0
+            
+            # Rileva presenza di componenti S1 e S2
+            if len(intervals_all) >= 3:
+                short_ratio = np.mean(intervals_all < 0.2)
+                has_dual_components = short_ratio >= 0.2
+            else:
+                has_dual_components = False
+            
+            # Per umani: se i BPM diretti sono molto bassi (<50), forziamo la modalità senza accoppiamento
+            if subject_type == 'human' and candidate_bpm_direct > 0 and candidate_bpm_direct < 50:
+                has_dual_components = False
+            
+            if has_dual_components and subject_type != 'human':
+                # Accorpa picchi consecutivi come S1/S2
+                n_pairs = beat_count // 2
+                if n_pairs >= 1:
+                    s1_times_list = []
+                    s1_amps_list = []
+                    s2_times_list = []
+                    s2_amps_list = []
 
-            # Crea coppie consecutive (picco 0-1, 2-3, ...)
-            n_pairs = beat_count // 2
-
-            if n_pairs >= 1:
-                s1_times = []
-                s1_amps = []
-                s2_times = []
-                s2_amps = []
-
-                for i in range(n_pairs):
-                    idx1 = i * 2
-                    idx2 = i * 2 + 1
-                    a1 = amps_arr[idx1]
-                    a2 = amps_arr[idx2]
-                    t1 = times_arr[idx1]
-                    t2 = times_arr[idx2]
-
-                    if a1 >= a2:
-                        s1_times.append(t1)
-                        s1_amps.append(a1)
-                        s2_times.append(t2)
-                        s2_amps.append(a2)
+                    for i in range(n_pairs):
+                        idx1 = i * 2
+                        idx2 = i * 2 + 1
+                        a1 = amps_arr[idx1]
+                        a2 = amps_arr[idx2]
+                        t1 = times_arr[idx1]
+                        t2 = times_arr[idx2]
+                        if a1 >= a2:
+                            s1_times_list.append(t1)
+                            s1_amps_list.append(a1)
+                            s2_times_list.append(t2)
+                            s2_amps_list.append(a2)
+                        else:
+                            s1_times_list.append(t2)
+                            s1_amps_list.append(a2)
+                            s2_times_list.append(t1)
+                            s2_amps_list.append(a1)
+                    
+                    s1_times_arr = np.array(s1_times_list)
+                    s1_amps_arr = np.array(s1_amps_list)
+                    s2_times_arr = np.array(s2_times_list)
+                    s2_amps_arr = np.array(s2_amps_list)
+                    
+                    # BPM da S1 (per umani: intervallo tra S1)
+                    # Per cani: S1-S1 = 1 battito, ma se accoppiamo S1/S2,
+                    # l'intervallo S1-S1 già rappresenta i battiti corretti
+                    if len(s1_times_arr) >= 2:
+                        s1_intervals = np.diff(s1_times_arr)
+                        avg_s1_int = np.mean(s1_intervals)
+                        bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+                        # Per umani (sempre accoppiati), i BPM da S1 sono corretti
+                        # Per cani, S1-S1 = battito completo, già OK
+                        if len(s1_intervals) > 1:
+                            std_s1 = np.std(s1_intervals)
+                            cv = std_s1 / (avg_s1_int + 1e-9)
+                            reg_score = max(0.0, 1.0 - cv)
+                            n_score = min(1.0, len(s1_times_arr) / 20.0)
+                            confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
+                        else:
+                            confidence = 0.5
                     else:
-                        s1_times.append(t2)
-                        s1_amps.append(a2)
-                        s2_times.append(t1)
-                        s2_amps.append(a1)
-
-                s1_times = np.array(s1_times)
-                s1_amps = np.array(s1_amps)
-                s2_times = np.array(s2_times)
-                s2_amps = np.array(s2_amps)
-
-                # --- 8. BPM e CONFIDENCE da S1 ---
-                if len(s1_times) >= 2:
-                    s1_intervals = np.diff(s1_times)
-                    avg_s1_int = np.mean(s1_intervals)
-                    bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
-
-                    # Confidence: regolarità intervalli S1 + numero cicli
-                    if len(s1_intervals) > 1:
-                        std_s1 = np.std(s1_intervals)
-                        cv = std_s1 / (avg_s1_int + 1e-9)
-                        reg_score = max(0.0, 1.0 - cv)
-                        n_score = min(1.0, len(s1_times) / 20.0)
-                        confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
-                    else:
-                        confidence = 0.5
+                        confidence = 0.0
+                    
+                    # HRV (>=3 S1)
+                    if len(s1_times_arr) >= 3:
+                        sdnn = float(np.std(s1_intervals))
+                        diff_sq = np.square(np.diff(s1_intervals))
+                        rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
+                        diff_ms = np.diff(s1_intervals) * 1000.0
+                        pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
+                        hrv_metrics = {
+                            "sdnn_sec": round(sdnn, 4),
+                            "rmssd_sec": round(rmssd, 4),
+                            "pnn50_percent": round(pnn50, 2),
+                            "mean_hr_sec": round(float(np.mean(s1_intervals)), 4),
+                        }
+                    
+                    s1_s2_classification = {
+                        "s1_count": int(len(s1_times_arr)),
+                        "s2_count": int(len(s2_times_arr)),
+                        "s1_avg_amplitude": float(np.mean(s1_amps_arr)) if len(s1_amps_arr) > 0 else 0.0,
+                        "s2_avg_amplitude": float(np.mean(s2_amps_arr)) if len(s2_amps_arr) > 0 else 0.0,
+                    }
+                    
+                    # Per grafico: mostra solo S1 (coerenza con beat_count)
+                    display_peak_times = s1_times_list
+                    display_amplitudes = s1_amps_list
+                    
+                    # beat_count = numero di cicli S1
+                    beat_count = len(s1_times_arr)
                 else:
-                    confidence = 0.0
-
-                # --- 9. HRV (solo se >= 3 cicli S1) ---
-                if s1_intervals is not None and len(s1_intervals) >= 2:  # >=3 S1 => >=2 intervalli
-                    sdnn = float(np.std(s1_intervals))
-                    diff_sq = np.square(np.diff(s1_intervals))
+                    bpm = int(60.0 / np.mean(intervals_all)) if np.mean(intervals_all) > 0 else 0
+                    confidence = 0.5
+            else:
+                # Tutti i picchi sono S1 (o singola componente)
+                s1_times_arr = times_arr
+                intervals_s1 = intervals_all
+                avg_s1_int = np.mean(intervals_s1)
+                bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+                if len(intervals_s1) > 1:
+                    std_s1 = np.std(intervals_s1)
+                    cv = std_s1 / (avg_s1_int + 1e-9)
+                    reg_score = max(0.0, 1.0 - cv)
+                    n_score = min(1.0, len(s1_times_arr) / 20.0)
+                    confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
+                else:
+                    confidence = 0.5
+                if len(intervals_s1) >= 2:
+                    sdnn = float(np.std(intervals_s1))
+                    diff_sq = np.square(np.diff(intervals_s1))
                     rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
-                    diff_ms = np.diff(s1_intervals) * 1000.0
+                    diff_ms = np.diff(intervals_s1) * 1000.0
                     pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
-
                     hrv_metrics = {
                         "sdnn_sec": round(sdnn, 4),
                         "rmssd_sec": round(rmssd, 4),
                         "pnn50_percent": round(pnn50, 2),
-                        "mean_hr_sec": round(float(np.mean(s1_intervals)), 4),
+                        "mean_hr_sec": round(float(np.mean(intervals_s1)), 4),
                     }
-
-                s1_s2_classification = {
-                    "s1_count": int(len(s1_times)),
-                    "s2_count": int(len(s2_times)),
-                    "s1_avg_amplitude": float(np.mean(s1_amps)) if len(s1_amps) > 0 else 0.0,
-                    "s2_avg_amplitude": float(np.mean(s2_amps)) if len(s2_amps) > 0 else 0.0,
-                }
-
-                # beat_count diventa numero di cicli S1
-                beat_count = len(s1_times)
-            else:
-                # Se non ci sono coppie complete, usa tutti i picchi
-                beat_count = len(peaks)
+                # display_peak_times rimane tutti i picchi (che sono tutti S1)
+                # beat_count rimane len(peaks)
         else:
-            beat_count = len(peaks)
+            bpm = 0
+            confidence = 0.0
+            # display_peak_times rimane vuoto se nessun picco
+        
+        if beat_count >= 2:
+            times_arr = np.array(peak_times)
+            amps_arr = np.array(amplitudes)
+            intervals_all = np.diff(times_arr)
+            
+            # Rileva presenza di componenti S1 e S2: cerca mix di intervalli brevi (<0.2s) e lunghi
+            # In un segnale cardiaco, S1-S2 distano 0.08-0.20s, mentre S1-S1 (o S2-S2) >0.3s
+            if len(intervals_all) >= 3:
+                short_ratio = np.mean(intervals_all < 0.2)
+                has_dual_components = short_ratio >= 0.2  # almeno 20% intervalli brevi
+            else:
+                has_dual_components = False
+            
+            if has_dual_components:
+                # Componente duale: accorpa picchi consecutivi come S1/S2
+                n_pairs = beat_count // 2
+                if n_pairs >= 1:
+                    s1_times = []
+                    s1_amps = []
+                    s2_times = []
+                    s2_amps = []
+                    
+                    for i in range(n_pairs):
+                        idx1 = i * 2
+                        idx2 = i * 2 + 1
+                        a1 = amps_arr[idx1]
+                        a2 = amps_arr[idx2]
+                        t1 = times_arr[idx1]
+                        t2 = times_arr[idx2]
+                        
+                        if a1 >= a2:
+                            s1_times.append(t1)
+                            s1_amps.append(a1)
+                            s2_times.append(t2)
+                            s2_amps.append(a2)
+                        else:
+                            s1_times.append(t2)
+                            s1_amps.append(a2)
+                            s2_times.append(t1)
+                            s2_amps.append(a1)
+                    
+                    s1_times = np.array(s1_times)
+                    s1_amps = np.array(s1_amps)
+                    s2_times = np.array(s2_times)
+                    s2_amps = np.array(s2_amps)
+                    
+                    # BPM da intervalli S1
+                    if len(s1_times) >= 2:
+                        s1_intervals = np.diff(s1_times)
+                        avg_s1_int = np.mean(s1_intervals)
+                        bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+                        
+                        # Confidence: regolarità intervalli + numero cicli
+                        if len(s1_intervals) > 1:
+                            std_s1 = np.std(s1_intervals)
+                            cv = std_s1 / (avg_s1_int + 1e-9)
+                            reg_score = max(0.0, 1.0 - cv)
+                            n_score = min(1.0, len(s1_times) / 20.0)
+                            confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
+                        else:
+                            confidence = 0.5
+                    else:
+                        confidence = 0.0
+                    
+                    # HRV (solo se >= 3 cicli S1 → >=2 intervalli)
+                    if len(s1_times) >= 3:
+                        sdnn = float(np.std(s1_intervals))
+                        diff_sq = np.square(np.diff(s1_intervals))
+                        rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
+                        diff_ms = np.diff(s1_intervals) * 1000.0
+                        pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
+                        hrv_metrics = {
+                            "sdnn_sec": round(sdnn, 4),
+                            "rmssd_sec": round(rmssd, 4),
+                            "pnn50_percent": round(pnn50, 2),
+                            "mean_hr_sec": round(float(np.mean(s1_intervals)), 4),
+                        }
+                    
+                    s1_s2_classification = {
+                        "s1_count": int(len(s1_times)),
+                        "s2_count": int(len(s2_times)),
+                        "s1_avg_amplitude": float(np.mean(s1_amps)) if len(s1_amps) > 0 else 0.0,
+                        "s2_avg_amplitude": float(np.mean(s2_amps)) if len(s2_amps) > 0 else 0.0,
+                    }
+                    
+                    # beat_count = numero di cicli S1 (coppie complete)
+                    beat_count = len(s1_times)
+                else:
+                    # Non ci sono coppie complete (improbabile con beat_count>=2), usa tutti i picchi
+                    bpm = int(60.0 / np.mean(intervals_all)) if np.mean(intervals_all) > 0 else 0
+                    confidence = 0.5
+                    # beat_count rimane il numero totale di picchi
+            else:
+                # Componente singola: tutti i picchi considerati S1
+                s1_times = times_arr
+                intervals_s1 = intervals_all
+                avg_s1_int = np.mean(intervals_s1)
+                bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+                
+                if len(intervals_s1) >= 1:
+                    std_s1 = np.std(intervals_s1)
+                    cv = std_s1 / (avg_s1_int + 1e-9)
+                    reg_score = max(0.0, 1.0 - cv)
+                    n_score = min(1.0, len(s1_times) / 20.0)
+                    confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
+                else:
+                    confidence = 0.5
+                
+                if len(intervals_s1) >= 2:
+                    sdnn = float(np.std(intervals_s1))
+                    diff_sq = np.square(np.diff(intervals_s1))
+                    rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
+                    diff_ms = np.diff(intervals_s1) * 1000.0
+                    pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
+                    hrv_metrics = {
+                        "sdnn_sec": round(sdnn, 4),
+                        "rmssd_sec": round(rmssd, 4),
+                        "pnn50_percent": round(pnn50, 2),
+                        "mean_hr_sec": round(float(np.mean(intervals_s1)), 4),
+                    }
+                # s1_s2_classification rimane None
+                # beat_count rimane il numero totale di picchi (tutti S1)
+        else:
+            bpm = 0
+            confidence = 0.0
+            # beat_count already set to len(peaks)
 
         # --- 10. ENVELOPE DATA per grafico (max 2000 punti) ---
         t_env = np.arange(len(env_norm)) / sr
@@ -1158,8 +1518,8 @@ def analyze_heart_sound(filepath, context=''):
             "bpm": bpm,
             "beat_count": beat_count,
             "confidence": confidence,
-            "peak_times": peak_times,
-            "amplitudes": amplitudes,
+            "peak_times": display_peak_times,
+            "amplitudes": display_amplitudes,
             "sample_rate": sr,
             "s1_s2": s1_s2_classification,
             "hrv": hrv_metrics,

@@ -1,5 +1,34 @@
 ## 🧪 Development & Testing
 
+### Heart Sound Analysis Tool
+
+The platform includes an advanced digital phonocardiography analysis tool for analyzing heart sounds:
+
+**Features:**
+- BPM detection (beats per minute) with species-aware algorithms
+- S1/S2 classification (heart sound separation)
+- HRV metrics (SDNN, RMSSD, pNN50)
+- Adaptive peak detection for weak signals
+- Noise filtering (20-150 Hz bandpass)
+
+**Test Scripts:**
+
+```bash
+# Test with available WAV files
+python test_cuore_tool.py
+
+# Batch test all audio files
+python test_all_audio_files.py
+
+# Compare subject type effects
+python test_final_subject_type.py
+```
+
+**Subject Type (Dog vs Human):**
+- Dogs typically have higher heart rates (60-180 BPM)
+- Humans typically have lower heart rates (50-100 BPM)
+- Algorithm adapts threshold and S1/S2 pairing based on species
+
 ### Generating Realistic Test Data
 
 The platform includes a management command to generate realistic dog profiles with historically accurate data:
@@ -15,23 +44,6 @@ The generator creates:
 - **Medical event histories**: Correlated to breed predispositions and age
 - **Diverse population**: Multiple breeds, ages (puppy to senior), and activity patterns
 
-### Generated Data Statistics (100 Dogs)
-
-- **Breeds**: 10 different breeds (10 dogs each)
-- **Ages**: 1-14 years (realistic distribution)
-- **Weight ranges**: Chihuahua (2.1 kg) to Pastore Tedesco (28.9 kg)
-- **Health logs**: 3,000 daily entries
-- **Medical events**: 270 events across breeds
-- **Activity correlation**: Food intake (295-1,115g/day) correlates with activity level
-
-### Data Validation
-
-The generated data follows veterinary norms:
-- ✅ **Weight-to-breed ratios**: Matched to AKC standards
-- ✅ **Activity-to-caloric intake**: Proportional relationships
-- ✅ **Breed health predispositions**: Bulldogs (respiratory), Labs (weight), etc.
-- ✅ **Age-appropriate patterns**: Seniors sleep more, puppies play more
-
 ### Using Test Data
 
 1. Login as `test_user_dog_data` (password: `test123456`)
@@ -39,13 +51,3 @@ The generated data follows veterinary norms:
 3. Test AI diagnosis with different breeds and conditions
 4. Run analytics on historical health patterns
 5. Export veterinary dossiers for PDF/WhatsApp
-
-### Reset Test Data
-
-```bash
-# Remove generated profiles
-python manage.py shell -c "from dog_profile.models import DogProfile; DogProfile.objects.filter(owner__username='test_user_dog_data').delete()"
-
-# Regenerate
-python manage.py generate_real_dog_data --num-dogs 100 --days 30
-```
