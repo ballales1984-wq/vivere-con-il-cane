@@ -1,3 +1,4 @@
 VERCEL_PYTHON_IGNORE_POETRY=1
 VERCEL_PYTHON_IGNORE_PIPENV=1
 VERCEL_PYTHON_VERSION=3.12
+VERCEL_INSTALL_COMMAND="bash -c 'dnf install -y cairo-devel pkg-config python3-devel glib2'"
