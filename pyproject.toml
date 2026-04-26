@@ -25,6 +25,12 @@ dependencies = [
     "pydub>=0.25.0",
 ]
 
+[tool.vercel]
+framework = "django"
+
+[tool.vercel.django]
+module = "config.asgi:application"
+
 [project.optional-dependencies]
 dev = [
     "pytest",
