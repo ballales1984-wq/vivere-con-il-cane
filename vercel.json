@@ -1,6 +1,6 @@
 {
-  "buildCommand": "bash -c 'apt-get update -y && apt-get install -y libcairo2-dev pkg-config python3-dev libglib2.0-0 && python -m pip install --upgrade pip && pip install -r requirements.txt'",
-  "installCommand": "bash -c 'apt-get update -y && apt-get install -y libcairo2-dev pkg-config python3-dev libglib2.0-0'",
+  "buildCommand": "bash -c 'dnf install -y cairo-devel pkg-config python3-devel glib2 && python -m pip install --upgrade pip && pip install -r requirements.txt'",
+  "installCommand": "bash -c 'dnf install -y cairo-devel pkg-config python3-devel glib2'",
   "framework": "django",
   "env": {
     "VERCEL_PYTHON_IGNORE_POETRY": "1",

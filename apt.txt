@@ -1,7 +1,7 @@
-libcairo2-dev
+cairo-devel
 pkg-config
-python3-dev
-libglib2.0-0
-libglib2.0-dev
-libjpeg-dev
-zlib1g-dev
+python3-devel
+glib2
+glib2-devel
+libjpeg-devel
+zlib-devel
