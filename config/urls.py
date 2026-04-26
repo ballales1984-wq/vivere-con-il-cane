@@ -64,6 +64,7 @@ urlpatterns += i18n_patterns(
     path("cane/", include("dog_profile.urls")),
     path("knowledge/", include("knowledge.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/", include("allauth.urls")),
     path("signup/", tools_views.signup, name="signup"),
     path(
         "newsletter/subscribe/",

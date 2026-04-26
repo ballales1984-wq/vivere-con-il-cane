@@ -1,5 +1,23 @@
 ## 🧪 Development & Testing
 
+### Google OAuth Authentication
+
+The platform includes Google OAuth2 authentication for easy login.
+
+**Setup:**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a project and enable **People API**  
+3. Create OAuth 2.0 Credentials (Web application type)
+4. Add redirect URI: `http://localhost:8000/accounts/google/login/callback/`
+5. Copy **Client ID** and **Client Secret**
+6. Set environment variables:
+```bash
+export GOOGLE_OAUTH_CLIENT_ID="your_client_id"
+export GOOGLE_OAUTH_CLIENT_SECRET="your_client_secret"
+```
+
+See [GOOGLE_AUTH_SETUP.md](GOOGLE_AUTH_SETUP.md) for detailed instructions.
+
 ### Heart Sound Analysis Tool
 
 The platform includes an advanced digital phonocardiography analysis tool for analyzing heart sounds:

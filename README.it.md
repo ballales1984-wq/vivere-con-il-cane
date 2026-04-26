@@ -117,6 +117,20 @@ Funzionalità testate:
 ### Prerequisiti
 - Python 3.8+
 - Git
+- Account Google (per autenticazione OAuth)
+
+### Google OAuth Setup
+
+1. Vai su [Google Cloud Console](https://console.cloud.google.com/)
+2. Crea un progetto e abilita **Google+ API** o **People API**
+3. Crea OAuth 2.0 Credentials (tipo "Web application")
+4. Imposta redirect URI: `http://localhost:8000/accounts/google/login/callback/`
+5. Copia **Client ID** e **Client Secret**
+6. Crea file `.env` nella root:
+```env
+GOOGLE_OAUTH_CLIENT_ID=tuo_client_id
+GOOGLE_OAUTH_CLIENT_SECRET=tuo_client_secret
+```
 
 ### Istruzioni di Installazione
 

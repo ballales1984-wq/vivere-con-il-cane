@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Disconnesso" %} - Vivere con il Cane{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem 2rem; text-align: center; background: radial-gradient(circle at bottom right, #fef2f2, #f8fafc); border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 3rem;">
+    <h1 style="color: #059669; font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">✓ {% trans "Disconnesso correttamente" %}</h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">{% trans "Grazie per aver visitato Vivere con il Cane. A presto!" %}</p>
+</section>
+
+<div style="max-width: 500px; margin: 0 auto; padding: 0 1.5rem 5rem; text-align: center;">
+    <a href="{% url 'home' %}" class="btn" style="
+        background: #059669;
+        color: white;
+        padding: 0.875rem 2rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+    " onmouseover="this.style.background='#047857';" onmouseout="this.style.background='#059669';">
+        🐕 {% trans "Torna alla Home" %}
+    </a>
+</div>
+{% endblock %}

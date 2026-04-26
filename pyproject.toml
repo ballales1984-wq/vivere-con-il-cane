@@ -23,6 +23,7 @@ dependencies = [
     "scipy>=1.10.0",
     "librosa>=0.10.0",
     "pydub>=0.25.0",
+    "django-allauth>=65.0",
 ]
 
 [tool.vercel]
