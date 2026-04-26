@@ -1,0 +1,10 @@
+{
+  "buildCommand": "bash -c 'apt-get update -y && apt-get install -y libcairo2-dev pkg-config python3-dev libglib2.0-0 && python -m pip install --upgrade pip && pip install -r requirements.txt'",
+  "installCommand": "bash -c 'apt-get update -y && apt-get install -y libcairo2-dev pkg-config python3-dev libglib2.0-0'",
+  "framework": "django",
+  "env": {
+    "VERCEL_PYTHON_IGNORE_POETRY": "1",
+    "VERCEL_PYTHON_IGNORE_PIPENV": "1",
+    "VERCEL_PYTHON_VERSION": "3.12"
+  }
+}
