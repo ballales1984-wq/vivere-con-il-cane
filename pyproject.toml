@@ -12,11 +12,4 @@ dependencies = [
     "gunicorn>=21.0",
     "python-dotenv>=1.0.0",
     "django-allauth>=65.0",
-    "psycopg2-binary>=2.9.9; platform_system != \"Windows\"",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pytest-django",
 ]
