@@ -2,35 +2,18 @@
 requires = ["setuptools"]
 build-backend = "setuptools.backends._legacy:_Backend"
 
-[tool.uv]
-dev-dependencies = []
-
-[tool.uv.sources]
-
 [project]
 name = "vivere-con-il-cane"
 version = "0.1.0"
 dependencies = [
-    "Django>=5.0,<6.0",
+    "Django>=4.2,<6.1",
     "Pillow>=10.0,<11.0",
     "whitenoise>=6.0",
-    "requests>=2.31",
     "gunicorn>=21.0",
     "python-dotenv>=1.0.0",
-    "xhtml2pdf>=0.2.11",
-    "psycopg2-binary>=2.9.9",
-    "matplotlib>=3.8.0",
-    "scipy>=1.10.0",
-    "librosa>=0.10.0",
-    "pydub>=0.25.0",
     "django-allauth>=65.0",
+    "psycopg2-binary>=2.9.9; platform_system != \"Windows\"",
 ]
-
-[tool.vercel]
-framework = "django"
-
-[tool.vercel.django]
-module = "config.asgi:application"
 
 [project.optional-dependencies]
 dev = [
