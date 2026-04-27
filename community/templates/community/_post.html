@@ -1,0 +1,175 @@
+{% load i18n %}
+<article class="post-card {% if post.is_solution %}solution{% endif %}" id="post-{{ post.id }}">
+    <div class="post-header">
+        <div class="user-avatar">{{ post.author.username|slice:':1'|upper }}</div>
+        <div class="post-author-info">
+            <div class="post-author-name">{{ post.author.username }}</div>
+            <div class="post-date">
+                {{ post.created_at|date:"d M Y H:i" }}
+                {% if post.is_edited %}
+                • {% trans "modificato" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% if post.is_solution %}
+        <span class="post-badge">✅ {% trans "Soluzione" %}</span>
+        {% endif %}
+    </div>
+
+    <div class="post-content">
+        {{ post.content|linebreaks }}
+    </div>
+
+    <div class="post-actions">
+        {% if user.is_authenticated %}
+        <!-- Like button -->
+        {% with post_id=post.id %}
+        <button
+            class="action-btn like-btn{% if post_id in user_liked_posts %} active{% endif %}"
+            data-type="post"
+            data-id="{{ post_id }}"
+            onclick="toggleLike(this)"
+        >
+            ❤️ <span class="like-count">{{ post.like_count }}</span> <span class="like-text">{% trans "Mi piace" %}</span>
+        </button>
+        {% endwith %}
+
+        <!-- Upvote button -->
+        <button
+            class="action-btn vote-up-btn{% if user_votes.get post.id == 'up' %} up{% endif %}"
+            data-post-id="{{ post.id }}"
+            data-vote="up"
+            onclick="votePost(this)"
+        >
+            👍 <span id="score-{{ post.id }}">{{ post.score }}</span> {% trans "utile" %}
+        </button>
+
+        <button
+            class="action-btn vote-down-btn{% if user_votes.get post.id == 'down' %} down{% endif %}"
+            data-post-id="{{ post.id }}"
+            data-vote="down"
+            onclick="votePost(this)"
+        >
+            👎
+        </button>
+
+        <!-- Mark as solution (only author of discussion) -->
+        {% if discussion.author == user and not post.is_solution and not discussion.status == 'closed' %}
+        <button
+            class="action-btn solution-btn"
+            onclick="markAsSolution({{ post.id }})"
+            title="{% trans "Segna come soluzione" %}"
+        >
+            ✅ {% trans "Soluzione" %}
+        </button>
+        {% endif %}
+
+        <!-- Reply to this post -->
+        <button class="action-btn" onclick="showReplyForm({{ post.id }})">
+            ↩️ {% trans "Rispondi" %}
+        </button>
+
+        {% else %}
+        <a href="{% url 'login' %}" class="action-btn">❤️ {{ post.like_count }} {% trans "Mi piace" %}</a>
+        <a href="{% url 'login' %}" class="action-btn">👍 {{ post.score_display|default:0 }} {% trans "utile" %}</a>
+        {% endif %}
+    </div>
+
+    <!-- Nested replies container -->
+    <div class="replies-container" id="replies-{{ post.id }}" style="margin-left: 2rem; margin-top: 1rem; display: none;">
+        <!-- Loaded via HTMX or JS -->
+    </div>
+</article>
+
+{% block extra_scripts %}
+<script>
+// Funzione per votare
+function votePost(btn) {
+    const postId = btn.dataset.postId;
+    const voteType = btn.dataset.vote;
+    const scoreEl = document.getElementById('score-' + postId);
+
+    fetch(`{% url 'community:vote_post' 0 %}`.replace('0', postId), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: `vote=${voteType}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        if (scoreEl) {
+            scoreEl.textContent = data.score;
+        }
+
+        // Update button states
+        const upBtn = document.querySelector(`button[data-post-id="${postId}"][data-vote="up"]`);
+        const downBtn = document.querySelector(`button[data-post-id="${postId}"][data-vote="down"]`);
+
+        if (data.voted === "up") {
+            upBtn.classList.add("up");
+            downBtn.classList.remove("down");
+        } else if (data.voted === "down") {
+            downBtn.classList.add("down");
+            upBtn.classList.remove("up");
+        } else {
+            upBtn.classList.remove("up");
+            downBtn.classList.remove("down");
+        }
+    })
+    .catch(err => console.error("Vote error:", err));
+}
+
+// Funzione per marcare come soluzione
+function markAsSolution(postId) {
+    if (!confirm("{% trans "Sei sicuro di voler segnare questo post come soluzione?" %}")) {
+        return;
+    }
+
+    fetch(`{% url 'community:mark_solution' discussion.slug %}/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: `post_id=${postId}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert(data.error || "{% trans "Errore" %}");
+        }
+    });
+}
+
+function showReplyForm(postId) {
+    // Could load a form via HTMX or show inline
+    alert("{% trans "Funzione risposta in arrivo!" %}");
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}
+

@@ -28,11 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
-    "SECRET_KEY", "django-insecure-t$#)abip=u61xutu7%+ycsj44#%c^6_uqndve^v)zyyao2_rt!"
+    "SECRET_KEY",
+    "django-insecure-cambiare-in-produzione-impostare-variabile-env",
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = [
     "vivere-con-il-cane.onrender.com",
@@ -128,6 +129,7 @@ INSTALLED_APPS = [
     # Proprie app
     "blog",
     "canine_tools",
+    "community.apps.CommunityConfig",
     "dog_profile",
     "knowledge",
     "marketing",
@@ -159,6 +161,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "community.context_processors.community_stats",
             ],
         },
     },

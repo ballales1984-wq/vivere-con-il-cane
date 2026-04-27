@@ -1,0 +1,194 @@
+{% extends 'community/base_community.html' %}
+{% load static i18n %}
+
+{% block page_title %}{{ discussion.title }} - {% trans "Community" %}{% endblock %}
+
+{% block community_content %}
+<div class="community-hero" style="padding: 2rem; margin-bottom: 2rem;">
+    <a href="{% url 'community:discussion_list' %}" style="color: var(--primary); text-decoration: none; margin-bottom: 1rem; display: inline-block;">
+        ← {% trans "Torna alla lista" %}
+    </a>
+
+    <div class="discussion-detail-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <span class="badge-category">{{ discussion.category.name }}</span>
+            <span class="badge-status {% if discussion.status == 'open' %}open{% else %}closed{% endif %}">
+                {% if discussion.status == 'open' %}🟢{% else %}🔴{% endif %} {{ discussion.get_status_display }}
+            </span>
+            {% if discussion.dog %}
+            <span class="dog-badge">🐕 {{ discussion.dog.dog_name }}</span>
+            {% endif %}
+        </div>
+
+        <h1 class="discussion-detail-title">{{ discussion.title }}</h1>
+
+        <div class="discussion-detail-meta">
+            <div class="author-info">
+                <div class="user-avatar">{{ discussion.author.username|slice:':1'|upper }}</div>
+                <div>
+                    <div class="post-author-name">{{ discussion.author.username }}</div>
+                    <div class="post-date">
+                        {% trans "Creato il" %} {{ discussion.created_at|date:"d M Y H:i" }}
+                        • {% trans "Ultima attività" %} {{ discussion.last_activity|date:"d M Y H:i" }}
+                    </div>
+                </div>
+            </div>
+            <span>👁️ {{ discussion.view_count }} {% trans "visualizzazioni" %}</span>
+            <span>💬 {{ discussion.reply_count }} {% trans "risposte" %}</span>
+            <span>❤️ {{ discussion.like_count }} {% trans "mi piace" %}</span>
+        </div>
+    </div>
+
+    <div class="discussion-content">
+        {{ discussion.content|linebreaks }}
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+        {% if user.is_authenticated %}
+        <button class="action-btn like-btn{% if user_liked %} active{% endif %}" data-type="discussion" data-id="{{ discussion.id }}" onclick="toggleLike(this)">
+            ❤️ <span id="like-count-discussion">{{ discussion.like_count }}</span> <span id="like-text-discussion">{% if user_liked %}{% trans "Mi piace" %}{% else %}{% trans "Mi piace" %}{% endif %}</span>
+        </button>
+        {% else %}
+        <a href="{% url 'login' %}" class="action-btn">❤️ <span>{{ discussion.like_count }}</span> {% trans "Accedi per mettere mi piace" %}</a>
+        {% endif %}
+
+        <!-- Share button -->
+        <button class="action-btn" onclick="copyLink()">
+            📋 {% trans "Condividi" %}
+        </button>
+
+        <!-- Report button -->
+        <button class="action-btn" onclick="alert('{% trans "Funzione segnalazione in arrivo!" %}')">
+            🚩 {% trans "Segnala" %}
+        </button>
+    </div>
+</div>
+
+<!-- Posts/Replies Section -->
+<section style="max-width: 900px; margin: 0 auto; padding: 0 2rem 4rem;">
+    <h2 style="margin-bottom: 1.5rem; color: var(--secondary);">
+        💬 {{ discussion.reply_count }} {% trans "Risposte" %}
+    </h2>
+
+    {% if posts %}
+        {% for post in posts %}
+            {% include "community/_post.html" with post=post %}
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">💭</div>
+            <h3>{% trans "Nessuna risposta ancora" %}</h3>
+            <p>{% trans "Sii il primo a rispondere a questa discussione!" %}</p>
+        </div>
+    {% endif %}
+
+    <!-- Reply Form -->
+    {% if user.is_authenticated %}
+    <div class="reply-form-container">
+        <h3 style="margin-bottom: 1rem;">✍️ {% trans "La tua risposta" %}</h3>
+        <form method="post" action="{% url 'community:post_create' slug=discussion.slug %}" id="reply-form">
+            {% csrf_token %}
+            {{ post_form.content }}
+            <input type="hidden" name="parent" value="">
+            <div style="margin-top: 1rem;">
+                <button type="submit" class="btn btn-primary">📤 {% trans "Invia Risposta" %}</button>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div class="reply-form-container" style="text-align: center;">
+        <p style="margin-bottom: 1rem;">{% trans "Devi effettuare il login per rispondere." %}</p>
+        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">🔑 {% trans "Accedi" %}</a>
+        <a href="{% url 'signup' %}" class="btn btn-outline">📝 {% trans "Registrati" %}</a>
+    </div>
+    {% endif %}
+</section>
+
+{% endblock %}
+
+{% block extra_head %}
+{{ block.super }}
+<style>
+    .post-actions .action-btn {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function toggleLike(btn) {
+    const postId = btn.dataset.id;
+    const type = btn.dataset.type;
+
+    fetch("{% url 'community:like_toggle' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: `type=${type}&target_id=${postId}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        const countEl = document.getElementById("like-count-" + type);
+        const textEl = document.getElementById("like-text-" + type);
+
+        if (countEl) {
+            countEl.textContent = data.count;
+        }
+
+        if (data.liked) {
+            btn.classList.add("active");
+            if (textEl) textEl.textContent = "❤️ Mi piace";
+        } else {
+            btn.classList.remove("active");
+            if (textEl) textEl.textContent = "🤍 Mi piace";
+        }
+    })
+    .catch(err => {
+        console.error("Error:", err);
+        alert("{% trans "Errore durante l'operazione" %}");
+    });
+}
+
+function copyLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        showToast("🔗 {% trans "Link copiato negli appunti!" %}");
+    });
+}
+
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

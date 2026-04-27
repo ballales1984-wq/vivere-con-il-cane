@@ -1,0 +1,224 @@
+{% extends 'community/base_community.html' %}
+{% load static i18n %}
+
+{% block page_title %}{% trans "Community" %}{% endblock %}
+
+{% block community_content %}
+<section class="community-hero">
+    <h1>🐕 {% trans "Community Vivere con il Cane" %}</h1>
+    <p>{% trans "Condividi esperienze, domande e consigli con altri appassionati di cani." %}</p>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value">{{ stats.total|default:0 }}</div>
+            <div class="stat-label">{% trans "Discussioni" %}</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">{{ stats.posts|default:0 }}</div>
+            <div class="stat-label">{% trans "Risposte" %}</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">{{ stats.users|default:0 }}</div>
+            <div class="stat-label">{% trans "Membri" %}</div>
+        </div>
+    </div>
+</section>
+
+<div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem 4rem; display: grid; grid-template-columns: 1fr 320px; gap: 2rem;">
+    <!-- Main Content -->
+    <div>
+        <!-- Header with search and filters -->
+        <div style="background: white; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 2rem;">
+            <!-- Current filter info -->
+            {% if current_category %}
+            <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; background: {{ current_category.color }}15; border-left: 4px solid {{ current_category.color }}; border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 1.5rem;">{{ current_category.icon|default:'📁' }}</span>
+                <div>
+                    <strong style="color: var(--secondary);">{% trans "Categoria" %}: {{ current_category.name }}</strong>
+                    <div style="font-size: 0.9rem; color: var(--text-muted);">{{ current_category.description|truncatewords:15 }}</div>
+                </div>
+                <a href="{% url 'community:discussion_list' %}" style="margin-left: auto; color: var(--primary); text-decoration: none; font-weight: 600;">✕ {% trans "Reset" %}</a>
+            </div>
+            {% endif %}
+
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <form method="get" action="{% url 'community:discussion_list' %}" style="flex: 1; min-width: 250px; display: flex; gap: 0.5rem;">
+                    <input
+                        type="text"
+                        name="query"
+                        value="{{ search_form.query.value|default:'' }}"
+                        placeholder="{% trans "Cerca nelle discussioni..." %}"
+                        class="form-control"
+                        style="margin-bottom: 0;"
+                    >
+                    <button type="submit" class="btn btn-primary btn-sm">🔍</button>
+                </form>
+
+                <select name="sort" onchange="window.location.href=this.value" class="form-control" style="width: auto; min-width: 150px;">
+                    <option value="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}sort=recent" {% if sort == 'recent' %}selected{% endif %}>📅 {% trans "Più recenti" %}</option>
+                    <option value="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}sort=popular" {% if sort == 'popular' %}selected{% endif %}>❤️ {% trans "Più popolari" %}</option>
+                    <option value="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}sort=disscussed" {% if sort == 'discussed' %}selected{% endif %}>💬 {% trans "Più discusse" %}</option>
+                    <option value="?{% if request.GET.query %}query={{ request.GET.query }}&{% endif %}sort=views" {% if sort == 'views' %}selected{% endif %}>👁️ {% trans "Più viste" %}</option>
+                </select>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'community:discussion_create' %}" class="btn btn-primary">
+                    ➕ {% trans "Nuova Discussione" %}
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Advanced filters -->
+            <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; align-items: center;">
+                <form method="get" action="{% url 'community:discussion_list' %}" style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; flex: 1;">
+                    {{ search_form.category }}
+                    {{ search_form.status }}
+
+                    {% if user.is_authenticated %}
+                    <label style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.9rem; color: var(--text-muted);">
+                        {{ search_form.my_dogs }} {% trans "Miei cani" %}
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.9rem; color: var(--text-muted);">
+                        {{ search_form.my_posts }} {% trans "Miei post" %}
+                    </label>
+                    {% endif %}
+
+                    {% if request.GET.query or request.GET.category or request.GET.status or request.GET.my_dogs or request.GET.my_posts %}
+                    <a href="{% url 'community:discussion_list' %}" class="btn btn-outline btn-sm">❌ {% trans "Reset" %}</a>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary btn-sm">🔍</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Discussions List -->
+        {% if discussions %}
+            {% for discussion in discussions %}
+            <article class="discussion-card {% if discussion.priority == 'pinned' %}pinned{% elif discussion.priority == 'important' %}important{% endif %}" style="margin-bottom: 1.5rem;">
+                <div class="discussion-header">
+                    <h2 class="discussion-title">
+                        <a href="{% url 'community:discussion_detail' slug=discussion.slug %}">
+                            {% if discussion.priority == 'pinned' %}📌 {% endif %}
+                            {% if discussion.priority == 'important' %}⚠️ {% endif %}
+                            {{ discussion.title }}
+                        </a>
+                    </h2>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        {% if discussion.priority == 'pinned' %}
+                        <span class="badge-status">{% trans "Fissa" %}</span>
+                        {% endif %}
+                        <span class="badge-category">{{ discussion.category.name }}</span>
+                        <span class="badge-status {% if discussion.status == 'open' %}open{% else %}closed{% endif %}">
+                            {% if discussion.status == 'open' %}🟢{% else %}🔴{% endif %} {{ discussion.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="discussion-meta">
+                    <span class="author-info">
+                        <div class="user-avatar">{{ discussion.author.username|slice:':1'|upper }}</div>
+                        <span>{{ discussion.author.username }}</span>
+                    </span>
+                    <span>📅 {{ discussion.created_at|date:"d M Y" }}</span>
+                    {% if discussion.dog %}
+                    <span class="dog-badge">🐕 {{ discussion.dog.dog_name }}</span>
+                    {% endif %}
+                    <span>👁️ {{ discussion.view_count }}</span>
+                    <span>💬 {{ discussion.reply_count }}</span>
+                    <span>❤️ {{ discussion.like_count }}</span>
+                </div>
+
+                <p class="discussion-excerpt">
+                    {{ discussion.content|truncatewords:50 }}
+                </p>
+            </article>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if discussions.has_other_pages %}
+            <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem;">
+                {% if discussions.has_previous %}
+                    <a href="?page={{ discussions.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="btn btn-outline btn-sm">◀</a>
+                {% endif %}
+
+                <span style="display: flex; align-items: center; padding: 0.5rem 1rem; color: var(--text-muted);">
+                    {% trans "Pagina" %} {{ discussions.number }} {% trans "di" %} {{ discussions.paginator.num_pages }}
+                </span>
+
+                {% if discussions.has_next %}
+                    <a href="?page={{ discussions.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="btn btn-outline btn-sm">▶</a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">💬</div>
+                <h3>{% trans "Nessuna discussione trovata" %}</h3>
+                <p>{% trans "Sii il primo a iniziare una conversazione!" %}</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'community:discussion_create' %}" class="btn btn-primary" style="margin-top: 1rem;">➕ {% trans "Crea Discussione" %}</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary" style="margin-top: 1rem;">🔑 {% trans "Accedi per creare" %}</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <aside>
+        <div class="community-sidebar">
+            <div class="sidebar-section">
+                <h3>📂 {% trans "Categorie" %}</h3>
+                <div class="category-list">
+                    <div class="category-item">
+                        <a href="{% url 'community:discussion_list' %}">
+                            🌐 {% trans "Tutte le categorie" %}
+                        </a>
+                        <span class="category-count">{{ stats.total|default:0 }}</span>
+                    </div>
+                    {% for category in categories %}
+                    <div class="category-item">
+                        <a href="{% url 'community:discussions_by_category' category_slug=category.slug %}">
+                            {{ category.icon|default:'📁' }} {{ category.name }}
+                        </a>
+                        <span class="category-count">{{ category.discussion_count }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-top: 1rem;">
+                    <a href="{% url 'community:category_list' %}" class="btn btn-outline btn-sm" style="width: 100%;">📋 {% trans "Tutte le categorie" %}</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>🏆 {% trans "Top Contributors" %}</h3>
+                <div class="category-list">
+                    {% for user in top_users %}
+                    <div class="category-item">
+                        <div class="author-info">
+                            <div class="user-avatar" style="width: 28px; height: 28px; font-size: 0.75rem;">{{ user.username|slice:':1'|upper }}</div>
+                            <span>{{ user.username }}</span>
+                        </div>
+                        <span class="category-count">{{ user.posts_count }} 💬</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="sidebar-section">
+                <h3>🔔 {% trans "Notifiche" %}</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">
+                        {% trans "Hai" %} <strong>{{ unread_count|default:0 }}</strong> {% trans "notifiche non lette" %}
+                    </span>
+                    <a href="{% url 'community:notifications' %}" class="btn btn-outline btn-sm">{% trans "Vedi tutte" %}</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </aside>
+</div>
+{% endblock %}

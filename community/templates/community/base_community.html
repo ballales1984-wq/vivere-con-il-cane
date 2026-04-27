@@ -1,0 +1,668 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% block page_title %}{% endblock %} - {% trans "Community" %} | {% trans "Vivere con il Cane" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Community specific styles */
+    .community-hero {
+        background: radial-gradient(ellipse at top left, rgba(5, 150, 105, 0.08), transparent 50%),
+                    radial-gradient(ellipse at bottom right, rgba(245, 158, 11, 0.06), transparent 50%);
+        padding: 4rem 2rem 3rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    }
+
+    .community-hero h1 {
+        font-size: 3rem;
+        color: var(--secondary);
+        margin-bottom: 0.5rem;
+    }
+
+    .community-hero p {
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .stats-bar {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        font-family: 'Outfit', sans-serif;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.5rem;
+    }
+
+    /* Discussion Card */
+    .discussion-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        padding: 1.5rem;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .discussion-card:hover {
+        border-color: var(--primary-light);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-4px);
+    }
+
+    .discussion-card.pinned {
+        border-left: 4px solid var(--accent);
+    }
+
+    .discussion-card.important {
+        border-left: 4px solid #ef4444;
+    }
+
+    .discussion-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .discussion-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--secondary);
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .discussion-title a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .discussion-title a:hover {
+        color: var(--primary);
+    }
+
+    .discussion-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .discussion-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .badge-category {
+        background: var(--primary-light);
+        color: #064e3b;
+        padding: 2px 10px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-status {
+        background: #e2e8f0;
+        color: #475569;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+
+    .badge-status.open {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .badge-status.closed {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .discussion-excerpt {
+        color: var(--text-muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    /* Sidebar */
+    .community-sidebar {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        position: sticky;
+        top: 100px;
+    }
+
+    .sidebar-section {
+        margin-bottom: 2rem;
+    }
+
+    .sidebar-section h3 {
+        font-size: 1rem;
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .category-list .category-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .category-item:last-child {
+        border-bottom: none;
+    }
+
+    .category-item a {
+        color: var(--text-main);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .category-item a:hover {
+        color: var(--primary);
+    }
+
+    .category-count {
+        background: var(--bg-main);
+        padding: 2px 8px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    /* Discussion Detail */
+    .discussion-detail-header {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+    }
+
+    .discussion-detail-title {
+        font-size: 2rem;
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .discussion-detail-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        flex-wrap: wrap;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .author-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: var(--primary-dark);
+    }
+
+    .discussion-content {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+        line-height: 1.8;
+        font-size: 1.05rem;
+    }
+
+    /* Post/Reply */
+    .post-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        margin-bottom: 1rem;
+        transition: var(--transition);
+    }
+
+    .post-card:hover {
+        border-color: var(--primary-light);
+    }
+
+    .post-card.solution {
+        border: 2px solid var(--accent);
+        background: linear-gradient(to bottom right, #fffbeb, #ffffff);
+    }
+
+    .post-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .post-author-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post-author-name {
+        font-weight: 700;
+        color: var(--secondary);
+    }
+
+    .post-date {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .post-badge {
+        margin-left: auto;
+        background: var(--accent);
+        color: white;
+        padding: 2px 10px;
+        border-radius: 100px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .post-content {
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+
+    .post-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.85rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        transition: var(--transition);
+    }
+
+    .action-btn:hover {
+        background: rgba(5, 150, 105, 0.08);
+        color: var(--primary);
+    }
+
+    .action-btn.active {
+        background: rgba(5, 150, 105, 0.1);
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    .action-btn.up {
+        color: #059669;
+        background: rgba(5, 150, 105, 0.1);
+    }
+
+    .action-btn.down {
+        color: #dc2626;
+        background: rgba(220, 38, 38, 0.1);
+    }
+
+    .vote-up-btn {
+        color: var(--text-muted);
+    }
+
+    .vote-up-btn.up {
+        color: #059669;
+        font-weight: 700;
+    }
+
+    .vote-down-btn {
+        color: var(--text-muted);
+    }
+
+    .vote-down-btn.down {
+        color: #dc2626;
+    }
+
+    .solution-btn {
+        color: var(--accent);
+    }
+
+    .solution-btn.active {
+        background: var(--accent);
+        color: white;
+    }
+
+    /* Status badges */
+    .badge-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    /* Scoreboard */
+    .post-score {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--secondary);
+    }
+
+    .post-score.positive {
+        color: var(--primary);
+    }
+
+    .post-score.negative {
+        color: #dc2626;
+    }
+
+    .action-btn.solution-btn.active {
+        color: var(--accent);
+    }
+
+    /* Reply Form */
+    .reply-form-container {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+    }
+
+    .reply-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        font-family: inherit;
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: var(--transition);
+        border: none;
+        font-size: 0.95rem;
+    }
+
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 2px solid var(--border);
+        color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-success {
+        background: var(--accent);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: var(--accent-dark);
+    }
+
+    /* Create Discussion Form */
+    .create-form {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 2rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--secondary);
+    }
+
+    .form-help {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-top: 0.25rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    /* Notifications */
+    .notification-item {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 1rem 1.5rem;
+        border: 1px solid var(--border);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: var(--transition);
+    }
+
+    .notification-item.unread {
+        background: #f0fdf4;
+        border-left: 4px solid var(--primary);
+    }
+
+    .notification-icon {
+        font-size: 1.5rem;
+    }
+
+    .notification-content {
+        flex: 1;
+    }
+
+    .notification-message {
+        color: var(--text-main);
+        margin-bottom: 0.25rem;
+    }
+
+    .notification-time {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    /* Dog Badge */
+    .dog-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: #fef3c7;
+        color: #92400e;
+        padding: 2px 8px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* User Avatar */
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    /* Toast notification */
+    .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--secondary);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: var(--radius-lg);
+        border: 2px dashed var(--border);
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+        color: var(--secondary);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .community-hero h1 {
+            font-size: 2rem;
+        }
+
+        .discussion-detail-title {
+            font-size: 1.5rem;
+        }
+
+        .discussion-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .post-actions {
+            flex-wrap: wrap;
+        }
+
+        .community-sidebar {
+            position: static;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main>
+    {% block community_content %}{% endblock %}
+</main>
+{% endblock %}

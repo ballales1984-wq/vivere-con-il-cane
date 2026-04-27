@@ -1,0 +1,94 @@
+{% extends 'community/base_community.html' %}
+{% load static i18n %}
+
+{% block page_title %}{% trans "Nuova Discussione" %} - {% trans "Community" %}{% endblock %}
+
+{% block community_content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <div class="create-form">
+        <h1 style="margin-bottom: 1.5rem; color: var(--secondary);">
+            ➕ {% trans "Crea Nuova Discussione" %}
+        </h1>
+
+        <form method="post" action="{% url 'community:discussion_create_submit' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label" for="id_title">
+                    📝 {% trans "Titolo" %} <span style="color: #ef4444;">*</span>
+                </label>
+                <input
+                    type="text"
+                    name="title"
+                    id="id_title"
+                    class="form-control"
+                    placeholder="{% trans "Es: Il mio cane è ansioso quando lascio casa" %}"
+                    required
+                    maxlength="200"
+                >
+                <div class="form-help">{% trans "Sii specifico – questo aiuterà gli altri a capire subito il problema." %}</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="id_category">
+                    📂 {% trans "Categoria" %} <span style="color: #ef4444;">*</span>
+                </label>
+                <select name="category" id="id_category" class="form-control" required>
+                    <option value="">{% trans "Seleziona una categoria..." %}</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}">
+                        {{ cat.icon|default:'📁' }} {{ cat.name }}
+                        {% if cat.description %} - {{ cat.description|truncatewords:10 }}{% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% if dogs %}
+            <div class="form-group">
+                <label class="form-label" for="id_dog">
+                    🐕 {% trans "Cane collegato (opzionale)" %}
+                </label>
+                <select name="dog" id="id_dog" class="form-control">
+                    <option value="">{% trans "Nessun cane specifico" %}</option>
+                    {% for dog in dogs %}
+                    <option value="{{ dog.id }}">
+                        {{ dog.dog_name }} ({{ dog.breed|default:'- ' }})
+                    </option>
+                    {% endfor %}
+                </select>
+                <div class="form-help">{% trans "Collega questa discussione ad uno dei tuoi cani per un contesto migliore." %}</div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label class="form-label" for="id_content">
+                    📄 {% trans "Descrizione" %} <span style="color: #ef4444;">*</span>
+                </label>
+                <textarea
+                    name="content"
+                    id="id_content"
+                    class="form-control"
+                    rows="12"
+                    placeholder="{% trans "Descrivi la situazione, la domanda o condividi la tua esperienza... Includi dettagli come età, razza, sintomi, ecc." %}"
+                    required
+                ></textarea>
+                <div class="form-help">
+                    {% trans "Suggerimenti:" %}
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li>{% trans "Descrivi il problema in modo chiaro e dettagliato" %}</li>
+                        <li>{% trans "Inserisci informazioni rilevanti (età, razza, peso)" %}</li>
+                        <li>{% trans "Se è un problema di comportamento, descrivi il contesto" %}</li>
+                        <li>{% trans "Se hai già provato delle soluzioni, elencale" %}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'community:discussion_list' %}" class="btn btn-outline">❌ {% trans "Annulla" %}</a>
+                <button type="submit" class="btn btn-primary">✅ {% trans "Pubblica Discussione" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

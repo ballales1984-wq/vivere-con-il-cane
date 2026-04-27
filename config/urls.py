@@ -54,29 +54,30 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    path("", blog_views.home_page, name="home"),
-    path("chi-sono/", blog_views.about_page, name="about"),
-    path("blog/", include("blog.urls")),
-    path("tool/", include("canine_tools.urls", namespace="canine_tools")),
-    path("privacy/", tools_views.privacy_policy, name="privacy_policy"),
-    path("terms/", tools_views.terms_of_service, name="terms_of_service"),
-    path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
-    path("cane/", include("dog_profile.urls")),
-    path("knowledge/", include("knowledge.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/", include("allauth.urls")),
-    path("signup/", tools_views.signup, name="signup"),
-    path(
-        "newsletter/subscribe/",
-        marketing_views.subscribe_newsletter,
-        name="subscribe_newsletter",
-    ),
-    path(
-        "unsubscribe/<uuid:token>/",
-        marketing_views.unsubscribe_newsletter,
-        name="unsubscribe_newsletter",
-    ),
-)
+     path("", blog_views.home_page, name="home"),
+     path("chi-sono/", blog_views.about_page, name="about"),
+     path("blog/", include("blog.urls")),
+     path("tool/", include("canine_tools.urls", namespace="canine_tools")),
+     path("privacy/", tools_views.privacy_policy, name="privacy_policy"),
+     path("terms/", tools_views.terms_of_service, name="terms_of_service"),
+     path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
+     path("cane/", include("dog_profile.urls")),
+     path("knowledge/", include("knowledge.urls")),
+     path("community/", include("community.urls", namespace="community")),
+     path("accounts/", include("django.contrib.auth.urls")),
+     path("accounts/", include("allauth.urls")),
+     path("signup/", tools_views.signup, name="signup"),
+     path(
+         "newsletter/subscribe/",
+         marketing_views.subscribe_newsletter,
+         name="subscribe_newsletter",
+     ),
+     path(
+         "unsubscribe/<uuid:token>/",
+         marketing_views.unsubscribe_newsletter,
+         name="unsubscribe_newsletter",
+     ),
+ )
 
 if settings.DEBUG:
     urlpatterns += static(

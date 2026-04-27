@@ -1,0 +1,160 @@
+{% extends 'community/base_community.html' %}
+{% load static i18n %}
+
+{% block page_title %}{% trans "Notifiche" %} - {% trans "Community" %}{% endblock %}
+
+{% block community_content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--secondary);">
+            🔔 {% trans "Notifiche" %}
+            {% if unread_count > 0 %}
+            <span style="background: var(--accent); color: white; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.8rem; margin-left: 0.5rem;">
+                {{ unread_count }}
+            </span>
+            {% endif %}
+        </h1>
+
+        {% if notifications %}
+        <button class="btn btn-outline btn-sm" onclick="markAllRead()">
+            ✓ {% trans "Segna tutte come lette" %}
+        </button>
+        {% endif %}
+    </div>
+
+    {% if notifications %}
+        <div id="notifications-list">
+            {% for notification in notifications %}
+            <div class="notification-item {% if not notification.is_read %}unread{% endif %}" id="notification-{{ notification.id }}">
+                <div class="notification-icon">
+                    {% if notification.notification_type == 'reply' %}💬
+                    {% elif notification.notification_type == 'like' %}❤️
+                    {% elif notification.notification_type == 'mention' %}👤
+                    {% elif notification.notification_type == 'solution' %}✅
+                    {% elif notification.notification_type == 'badge'}🏆
+                    {% else %}🔔
+                    {% endif %}
+                </div>
+                <div class="notification-content">
+                    <div class="notification-message">
+                        {{ notification.message }}
+                    </div>
+                    <div class="notification-time">
+                        {{ notification.created_at|timesince }} {% trans "fa" %}
+
+                        {% if notification.sender %}
+                        • <strong>{{ notification.sender.username }}</strong>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if not notification.is_read %}
+                <button class="action-btn" onclick="markRead({{ notification.id }})" title="{% trans "Segna come letta" %}">
+                    ✓
+                </button>
+                {% endif %}
+
+                <a href="{% url 'community:discussion_detail' slug=notification.discussion.slug %}" class="action-btn" title="{% trans "Vai alla discussione" %}">
+                    →
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination se serve -->
+        {% if notifications.has_other_pages %}
+        <div style="display: flex; justify-content: center; margin-top: 2rem;">
+            <a href="?page={{ notifications.next_page_number }}" class="btn btn-outline">Carica altre</a>
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">🔔</div>
+            <h3>{% trans "Nessuna notifica" %}</h3>
+            <p>{% trans "Quando qualcuno risponde o interagisce con le tue discussioni, riceverai una notifica qui." %}</p>
+            <a href="{% url 'community:discussion_list' %}" class="btn btn-primary" style="margin-top: 1rem;">
+                💬 {% trans "Vai alla Community" %}
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function markRead(notificationId) {
+    fetch("{% url 'community:notification_mark_read' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: `notification_id=${notificationId}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const el = document.getElementById("notification-" + notificationId);
+            if (el) {
+                el.classList.remove("unread");
+                el.querySelector(".action-btn").remove();
+                updateUnreadCount(-1);
+            }
+        }
+    });
+}
+
+function markAllRead() {
+    fetch("{% url 'community:notification_mark_read' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: "mark_all=true",
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.querySelectorAll(".notification-item.unread").forEach(el => {
+                el.classList.remove("unread");
+                const btn = el.querySelector(".action-btn");
+                if (btn && btn.onclick && btn.onclick.toString().includes("markRead")) {
+                    btn.remove();
+                }
+            });
+            updateUnreadCount(-999); // Reset
+        }
+    });
+}
+
+function updateUnreadCount(delta) {
+    const badge = document.querySelector(".nav-notifications .notification-badge");
+    if (badge) {
+        let count = parseInt(badge.textContent) || 0;
+        count = Math.max(0, count + delta);
+        badge.textContent = count;
+        if (count === 0) {
+            badge.style.display = "none";
+        }
+    }
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% load i18n %}
+<form method="post" action="{% url 'community:discussion_create_submit' %}" id="discussion-form">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div style="background: #fee2e2; color: #991b1b; padding: 0.75rem 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label class="form-label" for="id_title">
+            📝 {% trans "Titolo" %} <span style="color: #ef4444;">*</span>
+        </label>
+        {{ form.title }}
+        {% if form.title.errors %}
+        <div class="form-help" style="color: #ef4444;">{{ form.title.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="id_category">
+            📂 {% trans "Categoria" %} <span style="color: #ef4444;">*</span>
+        </label>
+        {{ form.category }}
+        {% if form.category.errors %}
+        <div class="form-help" style="color: #ef4444;">{{ form.category.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="id_dog">
+            🐕 {% trans "Cane collegato (opzionale)" %}
+        </label>
+        {{ form.dog }}
+        {% if form.dog.errors %}
+        <div class="form-help" style="color: #ef4444;">{{ form.dog.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="id_content">
+            📄 {% trans "Descrizione" %} <span style="color: #ef4444;">*</span>
+        </label>
+        {{ form.content }}
+        {% if form.content.errors %}
+        <div class="form-help" style="color: #ef4444;">{{ form.content.errors }}</div>
+        {% endif %}
+    </div>
+
+    <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeForm()">❌ {% trans "Annulla" %}</button>
+        <button type="submit" class="btn btn-primary">✅ {% trans "Pubblica" %}</button>
+    </div>
+</form>
+
+<script>
+function closeForm() {
+    document.getElementById('create-discussion-modal').style.display = 'none';
+}
+</script>

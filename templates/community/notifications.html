@@ -1,0 +1,23 @@
+{% extends "community/base_community.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Notifiche {% if unread_count %}<span class="badge bg-danger">{{ unread_count }}</span>{% endif %}</h2>
+  
+  {% if notifications %}
+  <div class="list-group">
+    {% for n in notifications %}
+    <div class="list-group-item {% if not n.is_read %}list-group-item-primary{% endif %}">
+      <div class="d-flex w-100 justify-content-between">
+        <p class="mb-1">{{ n.message }}</p>
+        <small class="text-muted">{{ n.created_at|timesince }} fa</small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-info">Nessuna notifica.</div>
+  {% endif %}
+</div>
+{% endblock %}

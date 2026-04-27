@@ -2,11 +2,23 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Installa dipendenze di sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copia requirements e installa
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia il codice
 COPY . .
 
-EXPOSE 10000
+# Raccogli static files (fallisce silenziosamente se mancano permessi)
+RUN python manage.py collectstatic --noinput || true
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:10000"]
+EXPOSE 8000
+
+# Usa gunicorn per la produzione
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120"]

@@ -1,0 +1,46 @@
+{% extends "community/base_community.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2>{{ profile_user.username }}</h2>
+          <p class="text-muted">Livello {{ reputation.level }} - {{ reputation.points }} punti</p>
+          <p>Discussioni: {{ reputation.discussions_created }} | Post: {{ reputation.posts_created }} | Like ricevuti: {{ reputation.likes_received }}</p>
+        </div>
+      </div>
+
+      <h4>Ultime discussioni</h4>
+      {% for d in recent_discussions %}
+      <div class="card mb-2">
+        <div class="card-body p-3">
+          <a href="{% url 'community:discussion_detail' slug=d.slug %}" class="text-decoration-none">
+            <h6>{{ d.title }}</h6>
+          </a>
+          <small class="text-muted">{{ d.created_at|date:"d M Y" }}</small>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">Nessuna discussione pubblicata.</p>
+      {% endfor %}
+
+      <h4 class="mt-4">Ultime risposte</h4>
+      {% for p in recent_posts %}
+      <div class="card mb-2">
+        <div class="card-body p-3">
+          <a href="{% url 'community:discussion_detail' slug=p.discussion.slug %}" class="text-decoration-none">
+            <p class="mb-1">{{ p.content|truncatechars:100 }}</p>
+            <small class="text-muted">in: {{ p.discussion.title }}</small>
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">Nessuna risposta pubblicata.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

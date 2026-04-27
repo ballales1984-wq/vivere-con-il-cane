@@ -1,0 +1,106 @@
+{% extends "community/base_community.html" %}
+{% load static community_tags %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Discussioni</h2>
+        {% if user.is_authenticated %}
+          <a href="{% url 'community:discussion_create' %}" class="btn btn-primary">Nuova Discussione</a>
+        {% endif %}
+      </div>
+
+      <!-- Filtri -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <form method="get" class="row g-3">
+            <div class="col-md-4">
+              <input type="text" name="query" class="form-control" placeholder="Cerca..." value="{{ request.GET.query }}">
+            </div>
+            <div class="col-md-3">
+              <select name="category" class="form-select">
+                <option value="">Tutte le categorie</option>
+                {% for cat in categories %}
+                  <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select name="status" class="form-select">
+                <option value="">Tutti gli stati</option>
+                <option value="open" {% if request.GET.status == 'open' %}selected{% endif %}>Aperte</option>
+                <option value="closed" {% if request.GET.status == 'closed' %}selected{% endif %}>Chiuse</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-primary w-100">Cerca</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Discussioni -->
+      {% for d in discussions %}
+      <div class="discussion-card card p-3">
+        <div class="d-flex justify-content-between">
+          <div>
+            <h5 class="mb-1"><a href="{% url 'community:discussion_detail' slug=d.slug %}" class="text-decoration-none">{{ d.title }}</a></h5>
+            <p class="text-muted mb-1">
+              <small>di {{ d.author.username }} in 
+                <span class="badge bg-info badge-category">{{ d.category.name }}</span>
+                {% if d.dog %}
+                  - <i class="bi bi-dog"></i> {{ d.dog.dog_name }}
+                {% endif %}
+              </small>
+            </p>
+            <p class="text-truncate" style="max-width: 600px;">{{ d.content|truncatechars:150 }}</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3 text-muted mt-2">
+          <span><i class="bi bi-chat"></i> {{ d.replies_count }}</span>
+          <span><i class="bi bi-hand-thumbs-up"></i> {{ d.likes_count }}</span>
+          <span><i class="bi bi-eye"></i> {{ d.view_count }}</span>
+          <span class="ms-auto">{{ d.last_activity|timesince }} fa</span>
+        </div>
+      </div>
+      {% empty %}
+      <div class="alert alert-info">Nessuna discussione trovata.</div>
+      {% endfor %}
+
+      <!-- Paginazione -->
+      <nav class="mt-4">
+        <ul class="pagination">
+          {% if discussions.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ discussions.previous_page_number }}">Precedente</a></li>
+          {% endif %}
+          <li class="page-item disabled"><span class="page-link">Pagina {{ discussions.number }} di {{ discussions.paginator.num_pages }}</span></li>
+          {% if discussions.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ discussions.next_page_number }}">Successiva</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="community-sidebar mb-4">
+        <h5>Categorie</h5>
+        <ul class="list-unstyled">
+          {% for cat in categories %}
+          <li><a href="{% url 'community:discussions_by_category' cat.slug %}">{{ cat.name }} ({{ cat.discussion_count }})</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="community-sidebar">
+        <h5>Top Contributori</h5>
+        <ul class="list-unstyled">
+          {% for u in top_users %}
+          <li><a href="{% url 'community:user_profile' u.user.username %}">{{ u.user.username }}</a> - {{ u.points }} punti</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

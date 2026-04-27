@@ -1,0 +1,46 @@
+{% extends 'community/base_community.html' %}
+{% load static i18n %}
+
+{% block page_title %}{% trans "Categorie" %} - {% trans "Community" %}{% endblock %}
+
+{% block community_content %}
+<div style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 0.5rem;">
+            📂 {% trans "Categorie Community" %}
+        </h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+            {% trans "Esplora le discussioni per argomento. Trova aiuto e condividi esperienze nella categoria che ti interessa." %}
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+        {% for category in categories %}
+        <a href="{% url 'community:discussions_by_category' category_slug=category.slug %}"
+           style="background: white; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--border); text-decoration: none; color: inherit; transition: var(--transition); display: block;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem;">
+                <span style="font-size: 2.5rem;">{{ category.icon|default:'📁' }}</span>
+                <span class="badge-category" style="background: {{ category.color }}20; color: {{ category.color }};">{{ category.discussion_count }} {% trans "discussioni" %}</span>
+            </div>
+            <h3 style="font-size: 1.25rem; color: var(--secondary); margin-bottom: 0.5rem;">
+                {{ category.name }}
+            </h3>
+            {% if category.description %}
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5;">
+                {{ category.description|truncatewords:30 }}
+            </p>
+            {% endif %}
+            <div style="margin-top: 1rem; color: var(--primary); font-weight: 600; font-size: 0.9rem;">
+                {% trans "Esplora" %} →
+            </div>
+        </a>
+        {% empty %}
+        <div class="empty-state" style="grid-column: 1/-1;">
+            <div class="empty-state-icon">📂</div>
+            <h3>{% trans "Nessuna categoria disponibile" %}</h3>
+            <p>{% trans "Le categorie verranno aggiunte presto." %}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
