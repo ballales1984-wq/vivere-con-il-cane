@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n community_tags %}
 <article class="post-card {% if post.is_solution %}solution{% endif %}" id="post-{{ post.id }}">
     <div class="post-header">
         <div class="user-avatar">{{ post.author.username|slice:':1'|upper }}</div>
@@ -37,7 +37,7 @@
 
         <!-- Upvote button -->
         <button
-            class="action-btn vote-up-btn{% if user_votes.get post.id == 'up' %} up{% endif %}"
+            class="action-btn vote-up-btn{% if user_votes|get_item:post.id == 'up' %} up{% endif %}"
             data-post-id="{{ post.id }}"
             data-vote="up"
             onclick="votePost(this)"
@@ -46,7 +46,7 @@
         </button>
 
         <button
-            class="action-btn vote-down-btn{% if user_votes.get post.id == 'down' %} down{% endif %}"
+            class="action-btn vote-down-btn{% if user_votes|get_item:post.id == 'down' %} down{% endif %}"
             data-post-id="{{ post.id }}"
             data-vote="down"
             onclick="votePost(this)"
