@@ -554,7 +554,7 @@ Rispondi in italiano in modo chiaro e pratico."""
             )
             if response.status_code == 200:
                 return response.json()["choices"][0]["message"]["content"]
-        except:
+        except Exception:
             pass
 
     # No API key - return generic response

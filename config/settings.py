@@ -27,10 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    "django-insecure-cambiare-in-produzione-impostare-variabile-env",
-)
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY and not DEBUG:
+    from django.core.exceptions import ImproperlyConfigured
+    raise ImproperlyConfigured(
+        "SECRET_KEY environment variable must be set in production (DEBUG=False)."
+    )
+# Fallback for development only
+SECRET_KEY = SECRET_KEY or "django-insecure-cambiare-in-produzione-impostare-variabile-env"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes")
@@ -39,7 +43,6 @@ ALLOWED_HOSTS = [
     "vivere-con-il-cane.onrender.com",
     "localhost",
     "127.0.0.1",
-    "*",
     "vivere-con-il-cane-9107.d.kiloapps.io",
     "tonita-deposable-manneristically.ngrok-free.dev",
 ]
@@ -50,6 +53,17 @@ CSRF_TRUSTED_ORIGINS = [
     "https://tonita-deposable-manneristically.ngrok-free.dev",
 ]
 
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Google OAuth / Health Connect Configuration
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")

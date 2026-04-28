@@ -427,10 +427,12 @@ Max 150 parole, italiano chiaro."""
     except Exception as e:
         import traceback; traceback.print_exc()
         return JsonResponse({"success": False, "error": str(e)}, status=500)
-    finally:
-        if tmp_path and os.path.exists(tmp_path):
-            try: os.unlink(tmp_path)
-            except: pass
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                try:
+                    os.unlink(tmp_path)
+                except OSError:
+                    pass
 
 
 # Google Health/Fit OAuth
@@ -537,7 +539,6 @@ def health_sync(request):
 
 
 @login_required
-@csrf_exempt
 def sync_health_data(request):
     """
     Endpoint API per sincronizzare i dati da Google Health/Fit.
@@ -802,7 +803,6 @@ def health_data_history(request, dog_id, source_type=None):
 
 
 @login_required
-@csrf_exempt
 def heart_analyze(request):
     """
     Analizza un file audio e restituisce BPM, picchi, waveform.
@@ -1541,7 +1541,7 @@ def analyze_heart_sound(filepath, context='', subject_type='dog'):
             fmt = f"{n_frames}h"
             try:
                 samples = list(struct.unpack(fmt, data))
-            except:
+            except struct.error:
                 samples = [0] * n_frames
 
             duration = n_frames / sr
