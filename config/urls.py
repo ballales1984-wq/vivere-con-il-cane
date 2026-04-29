@@ -13,6 +13,7 @@ from blog.sitemap import (
     StaticViewSitemap,
 )
 from django.contrib.sitemaps.views import sitemap
+from django.utils.translation import gettext_lazy as _
 from marketing import views as marketing_views
 
 sitemaps = {
@@ -47,10 +48,6 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    path(
-        "robots.txt",
-        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
-    ),
 ]
 
 urlpatterns += i18n_patterns(
@@ -79,13 +76,7 @@ urlpatterns += i18n_patterns(
      ),
  )
 
-# URL diretta per la landing page marketing
+# URL dirette per landing page - accessibili senza prefisso lingua
 urlpatterns += [
     path("landing/", marketing_views.landing_page, name="landing_page"),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]
-    )
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
