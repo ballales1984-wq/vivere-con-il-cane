@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from blog import views as blog_views
 from canine_tools import views as tools_views
+from knowledge import views as knowledge_views
 from blog.sitemap import (
     BlogPostSitemap,
     ProblemSitemap,
@@ -13,7 +14,6 @@ from blog.sitemap import (
     StaticViewSitemap,
 )
 from django.contrib.sitemaps.views import sitemap
-from django.utils.translation import gettext_lazy as _
 from marketing import views as marketing_views
 
 sitemaps = {
@@ -76,7 +76,8 @@ urlpatterns += i18n_patterns(
      ),
  )
 
-# URL dirette per landing page - accessibili senza prefisso lingua
+# URL non localizzati per landing page e pagine chiave
 urlpatterns += [
     path("landing/", marketing_views.landing_page, name="landing_page"),
+    path("analizza/", knowledge_views.analyze_problem, name="analyze_problem_public"),
 ]

@@ -1,13 +1,37 @@
-{% extends 'base.html' %}
-{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'it' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="ca-pub-2145959534306055">
+    <meta name="description" content="Scopri consigli esperti, strumenti gratuiti e risorse per comprendere e migliorare la vita del tuo cane. Unisciti alla nostra community.">
+    <title>Vivere con il Cane - Consigli Esperti per il Tuo Cane</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4a7c59">
+    <link rel="apple-touch-icon" href="/static/images/icon-192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-{% block title %}{% trans "Vivere con il Cane - Consigli Esperti per il Tuo Cane" %}{% endblock %}
-{% block meta_description %}{% trans "Scopri consigli esperti, strumenti gratuiti e risorse per comprendere e migliorare la vita del tuo cane. Unisciti alla nostra community." %}{% endblock %}
-
-{% block extra_head %}
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+</script>
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055"
+     crossorigin="anonymous"></script>
+    
 <style>
     :root {
-        --hero-pattern: url('{% static "images/pattern.svg" %}');
+        --hero-pattern: url('/static/images/pattern.svg');
     }
     .btn-primary {
         background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%);
@@ -96,9 +120,33 @@
         animation: float 3s ease-in-out infinite;
     }
 </style>
-{% endblock %}
+</head>
+<body>
+<amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-2145959534306055">
+</amp-auto-ads>
+    <header>
+        <nav style="max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <a href="/" class="logo" style="font-size: 1.5rem; font-weight: 800; color: #2d5a3d; text-decoration: none;">
+                🐕 Vivere con il Cane
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; display: none;">☰</button>
+            <ul class="nav-links" id="navLinks" style="display: flex; list-style: none; gap: 1.5rem; align-items: center; margin: 0; padding: 0;">
+                <li><a href="/it/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Home</a></li>
+                <li><a href="/it/chi-sono/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Chi Sono</a></li>
+                <li><a href="/it/blog/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Blog</a></li>
+                <li><a href="/it/problemi/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Problemi</a></li>
+                <li><a href="/it/community/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Community</a></li>
+                <li><a href="/it/cane/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Il mio Cane</a></li>
+                <li><a href="/landing/" style="text-decoration: none; color: #a7f3d0; font-weight: 700; background: rgba(45, 90, 61, 0.1); padding: 0.5rem 1rem; border-radius: 8px;">
+                    🌟 Risorse
+                </a></li>
+            </ul>
+        </nav>
+    </header>
 
-{% block content %}
+    <main>
+        
 <!-- HERO SECTION -->
 <section style="background: linear-gradient(135deg, #1a4d3a 0%, #2d5a3d 50%, #4a7c59 100%); color: white; padding: 5rem 2rem; position: relative; overflow: hidden;">
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--hero-pattern); opacity: 0.1; pointer-events: none;"></div>
@@ -106,32 +154,32 @@
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4rem;">
             <div style="flex: 1; min-width: 300px;">
                 <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
-                    🐕 {% trans "Guida Completa per Proprietari di Cani" %}
+                    🐕 Guida Completa per Proprietari di Cani
                 </div>
                 <h1 style="font-size: 3.5rem; color: white; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 800; line-height: 1.1;">
-                    {% trans "Tutto ciò che serve per" %}<br>
-                    <span style="color: #a7f3d0;">{% trans "il tuo migliore amico" %}</span>
+                    Tutto ciò che serve per<br>
+                    <span style="color: #a7f3d0;">il tuo migliore amico</span>
                 </h1>
                 <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9); margin-bottom: 2rem; line-height: 1.7;">
-                    {% trans "Risorse gratuite, strumenti interattivi, consulenza esperta e una community di amanti dei cani pronta ad aiutarti." %}
+                    Risorse gratuite, strumenti interattivi, consulenza esperta e una community di amanti dei cani pronta ad aiutarti.
                 </p>
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-                    <a href="/analizza/" class="btn-primary">
-                        🎯 {% trans "Analizza Comportamento"
+                    <a href="/analizza/" class="btn-primary" style="text-decoration: none;">
+                        🎯 Analizza Comportamento
                     </a>
-                    <a href="#strumenti" class="btn-secondary">
-                        🛠️ {% trans "Scopri Strumenti"
+                    <a href="#strumenti" class="btn-secondary" style="text-decoration: none;">
+                        🛠️ Scopri Strumenti
                     </a>
                 </div>
             </div>
             <div style="flex: 1; min-width: 300px; display: flex; justify-content: center;">
                 <div style="position: relative;">
-                    <img src="{% static 'images/alessio.jpg' %}" alt="{% trans 'Alessio con il suo cane' %}" style="width: 100%; max-width: 400px; border-radius: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); border: 5px solid rgba(255,255,255,0.2); object-fit: cover; aspect-ratio: 1/1;">
+                    <img src="/static/images/alessio.jpg" alt="Alessio con il suo cane" style="width: 100%; max-width: 400px; border-radius: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); border: 5px solid rgba(255,255,255,0.2); object-fit: cover; aspect-ratio: 1/1;">
                     <div style="position: absolute; bottom: -20px; right: -20px; background: #2d5a3d; padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px;">
                         <div style="background: #a7f3d0; color: #1a4d3a; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🐕</div>
                         <div>
                             <div style="font-weight: 800; color: white; font-size: 1.2rem;">+10,000</div>
-                            <div style="font-size: 0.8rem; color: #d1fae5;">{% trans "Cani aiutati" %}</div>
+                            <div style="font-size: 0.8rem; color: #d1fae5;">Cani aiutati</div>
                         </div>
                     </div>
                 </div>
@@ -146,22 +194,22 @@
         <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; gap: 2rem;">
             <div style="text-align: center;">
                 <div style="font-size: 2.5rem; font-weight: 800; color: #2d5a3d;">500+</div>
-                <div style="color: #4a7c59; font-weight: 600;">{% trans "Casi gestiti" %}</div>
+                <div style="color: #4a7c59; font-weight: 600;">Casi gestiti</div>
             </div>
             <div style="width: 1px; height: 50px; background: #a7f3d0;"></div>
             <div style="text-align: center;">
                 <div style="font-size: 2.5rem; font-weight: 800; color: #2d5a3d;">10+</div>
-                <div style="color: #4a7c59; font-weight: 600;">{% trans "Anni esperienza" %}</div>
+                <div style="color: #4a7c59; font-weight: 600;">Anni esperienza</div>
             </div>
             <div style="width: 1px; height: 50px; background: #a7f3d0;"></div>
             <div style="text-align: center;">
                 <div style="font-size: 2.5rem; font-weight: 800; color: #2d5a3d;">98%</div>
-                <div style="color: #4a7c59; font-weight: 600;">{% trans "Soddisfazione" %}</div>
+                <div style="color: #4a7c59; font-weight: 600;">Soddisfazione</div>
             </div>
             <div style="width: 1px; height: 50px; background: #a7f3d0;"></div>
             <div style="text-align: center;">
                 <div style="font-size: 2.5rem; font-weight: 800; color: #2d5a3d;">5000+</div>
-                <div style="color: #4a7c59; font-weight: 600;">{% trans "Consigli dati" %}</div>
+                <div style="color: #4a7c59; font-weight: 600;">Consigli dati</div>
             </div>
         </div>
     </div>
@@ -171,38 +219,35 @@
 <section id="risorse" style="padding: 5rem 2rem; background: white;">
     <div style="max-width: 1200px; margin: 0 auto;">
         <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="font-size: 2.5rem; color: #2d5a3d; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">{% trans "Risorse Complete per Te e il Tuo Cane" %}</h2>
+            <h2 style="font-size: 2.5rem; color: #2d5a3d; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">Risorse Complete per Te e il Tuo Cane</h2>
             <p style="color: #6b7280; font-size: 1.15rem; max-width: 600px; margin: 0 auto;">
-                {% trans "Tutto ciò che serve per comprendere, educare e vivere al meglio con il tuo compagno a quattro zampe" %}
+                Tutto ciò che serve per comprendere, educare e vivere al meglio con il tuo compagno a quattro zampe
             </p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-            <!-- Feature 1 -->
             <div class="feature-card">
                 <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 1rem; font-size: 1.3rem;">{% trans "Analisi IA Comportamento" %}</h3>
+                <h3 style="color: #2d5a3d; margin-bottom: 1rem; font-size: 1.3rem;">Analisi IA Comportamento</h3>
                 <p style="color: #6b7280; line-height: 1.6; margin-bottom: 1.5rem;">
-                    {% trans "Descrivi il problema e ottieni consigli personalizzati basati sull'intelligenza artificiale e conoscenze veterinarie." %}
+                    Descrivi il problema e ottieni consigli personalizzati basati sull'intelligenza artificiale e conoscenze veterinarie.
                 </p>
-                <a href="/analizza/" style="color: #2d5a3d; font-weight: 700; text-decoration: none;">{% trans "Prova ora →" %}</a>
+                <a href="/analizza/" style="color: #2d5a3d; font-weight: 700; text-decoration: none;">Prova ora →</a>
             </div>
-            <!-- Feature 2 -->
             <div class="feature-card">
                 <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 1rem; font-size: 1.3rem;">{% trans "Learning Hub" %}</h3>
+                <h3 style="color: #2d5a3d; margin-bottom: 1rem; font-size: 1.3rem;">Learning Hub</h3>
                 <p style="color: #6b7280; line-height: 1.6; margin-bottom: 1.5rem;">
-                    {% trans "Articoli, guide e approfondimenti su educazione, salute, nutrizione e benessere del cane." %}
+                    Articoli, guide e approfondimenti su educazione, salute, nutrizione e benessere del cane.
                 </p>
-                <a href="/knowledge/" style="color: #2d5a3d; font-weight: 700; text-decoration: none;">{% trans "Leggi articoli →" %}</a>
+                <a href="/knowledge/" style="color: #2d5a3d; font-weight: 700; text-decoration: none;">Leggi articoli →</a>
             </div>
-            <!-- Feature 3 -->
             <div class="feature-card">
                 <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 1rem; font-size: 1.3rem;">{% trans "Community Attiva" %}</h3>
+                <h3 style="color: #2d5a3d; margin-bottom: 1rem; font-size: 1.3rem;">Community Attiva</h3>
                 <p style="color: #6b7280; line-height: 1.6; margin-bottom: 1.5rem;">
-                    {% trans "Unisciti alla nostra community, condividi esperienze e ricevi supporto da altri proprietari." %}
+                    Unisciti alla nostra community, condividi esperienze e ricevi supporto da altri proprietari.
                 </p>
-                <a href="/community/" style="color: #2d5a3d; font-weight: 700; text-decoration: none;">{% trans "Entra in community →" %}</a>
+                <a href="/community/" style="color: #2d5a3d; font-weight: 700; text-decoration: none;">Entra in community →</a>
             </div>
         </div>
     </div>
@@ -212,39 +257,35 @@
 <section id="strumenti" style="padding: 5rem 2rem; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
     <div style="max-width: 1200px; margin: 0 auto;">
         <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="font-size: 2.5rem; color: #2d5a3d; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">{% trans "Strumenti Gratuiti" %}</h2>
+            <h2 style="font-size: 2.5rem; color: #2d5a3d; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">Strumenti Gratuiti</h2>
             <p style="color: #4a7c59; font-size: 1.15rem; max-width: 600px; margin: 0 auto;">
-                {% trans "Calcolatori, quiz e strumenti interattivi per gestire al meglio il tuo cane" %}
+                Calcolatori, quiz e strumenti interattivi per gestire al meglio il tuo cane
             </p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-            <!-- Food Calculator -->
             <div class="tool-card">
                 <div style="font-size: 3rem; margin-bottom: 0.5rem;">🍖</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">{% trans "Calcolatore Cibo" %}</h3>
-                <p style="color: #4a7c59; font-size: 0.95rem;">{% trans "Quanto deve mangiare il tuo cane?" %}</p>
+                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">Calcolatore Cibo</h3>
+                <p style="color: #4a7c59; font-size: 0.95rem;">Quanto deve mangiare il tuo cane?</p>
             </div>
-            <!-- Age Calculator -->
             <div class="tool-card">
                 <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎂</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">{% trans "Età in Anni Umani" %}</h3>
-                <p style="color: #4a7c59; font-size: 0.95rem;">{% trans "Scopri quanti anni ha il tuo cane" %}</p>
+                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">Età in Anni Umani</h3>
+                <p style="color: #4a7c59; font-size: 0.95rem;">Scopri quanti anni ha il tuo cane</p>
             </div>
-            <!-- Dog Quiz -->
             <div class="tool-card">
                 <div style="font-size: 3rem; margin-bottom: 0.5rem;">🧠</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">{% trans "Quiz Linguaggio" %}</h3>
-                <p style="color: #4a7c59; font-size: 0.95rem;">{% trans "Quanto conosci il tuo cane?" %}</p>
+                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">Quiz Linguaggio</h3>
+                <p style="color: #4a7c59; font-size: 0.95rem;">Quanto conosci il tuo cane?</p>
             </div>
-            <!-- Heart Recorder -->
             <div class="tool-card">
                 <div style="font-size: 3rem; margin-bottom: 0.5rem;">❤️</div>
-                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">{% trans "Registratore Cardiaco" %}</h3>
-                <p style="color: #4a7c59; font-size: 0.95rem;">{% trans "Monitora i battiti del cuore" %}</p>
+                <h3 style="color: #2d5a3d; margin-bottom: 0.5rem;">Registratore Cardiaco</h3>
+                <p style="color: #4a7c59; font-size: 0.95rem;">Monitora i battiti del cuore</p>
             </div>
         </div>
         <div style="text-align: center;">
-            <a href="/tool/" class="btn-primary">{% trans "Esplora tutti gli strumenti" %}</a>
+            <a href="/tool/" style="text-decoration: none;"><button style="background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%); color: white; padding: 1rem 2.5rem; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-block; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">Esplora tutti gli strumenti</button></a>
         </div>
     </div>
 </section>
@@ -253,46 +294,43 @@
 <section style="padding: 5rem 2rem; background: white;">
     <div style="max-width: 1000px; margin: 0 auto;">
         <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="font-size: 2.5rem; color: #2d5a3d; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">{% trans "Cosa Dicono i Nostri Utenti" %}</h2>
-            <p style="color: #6b7280; font-size: 1.15rem;">{% trans "Storie reali di chi ha migliorato la vita del proprio cane" %}</p>
+            <h2 style="font-size: 2.5rem; color: #2d5a3d; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">Cosa Dicono i Nostri Utenti</h2>
+            <p style="color: #6b7280; font-size: 1.15rem;">Storie reali di chi ha migliorato la vita del proprio cane</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <!-- Testimonial 1 -->
             <div class="testimonial-card">
                 <p style="color: #4a7c59; font-style: italic; line-height: 1.7; margin-bottom: 1rem;">
-                    {% trans "Grazie all'analisi IA ho capito perché il mio Labrador abbaiava sempre. In 2 settimane abbiamo risolto il problema!" %}
+                    Grazie all'analisi IA ho capito perché il mio Labrador abbaiava sempre. In 2 settimane abbiamo risolto il problema!
                 </p>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="width: 50px; height: 50px; border-radius: 50%; background: #d1fae5; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #2d5a3d;">M</div>
                     <div>
                         <div style="font-weight: 700; color: #2d5a3d;">Marco</div>
-                        <div style="font-size: 0.85rem; color: #6b7280;">{% trans "Proprietario di Rocky (Labrador)" %}</div>
+                        <div style="font-size: 0.85rem; color: #6b7280;">Proprietario di Rocky (Labrador)</div>
                     </div>
                 </div>
             </div>
-            <!-- Testimonial 2 -->
             <div class="testimonial-card">
                 <p style="color: #4a7c59; font-style: italic; line-height: 1.7; margin-bottom: 1rem;">
-                    {% trans "Gli strumenti gratuiti sono fantastici. Il calcolatore del cibo mi ha salvato, finalmente dosi corrette!" %}
+                    Gli strumenti gratuiti sono fantastici. Il calcolatore del cibo mi ha salvato, finalmente dosi corrette!
                 </p>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="width: 50px; height: 50px; border-radius: 50%; background: #d1fae5; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #2d5a3d;">S</div>
                     <div>
                         <div style="font-weight: 700; color: #2d5a3d;">Sofia</div>
-                        <div style="font-size: 0.85rem; color: #6b7280;">{% trans "Proprietaria di Luna (Pincher)" %}</div>
+                        <div style="font-size: 0.85rem; color: #6b7280;">Proprietaria di Luna (Pincher)</div>
                     </div>
                 </div>
             </div>
-            <!-- Testimonial 3 -->
             <div class="testimonial-card">
                 <p style="color: #4a7c59; font-style: italic; line-height: 1.7; margin-bottom: 1rem;">
-                    {% trans "La community è un tesoro. Ho trovato supporto nei momenti difficili e consigli sempre utili." %}
+                    La community è un tesoro. Ho trovato supporto nei momenti difficili e consigli sempre utili.
                 </p>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="width: 50px; height: 50px; border-radius: 50%; background: #d1fae5; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #2d5a3d;">G</div>
                     <div>
                         <div style="font-weight: 700; color: #2d5a3d;">Giulia</div>
-                        <div style="font-size: 0.85rem; color: #6b7280;">{% trans "Membro attivo della community" %}</div>
+                        <div style="font-size: 0.85rem; color: #6b7280;">Membro attivo della community</div>
                     </div>
                 </div>
             </div>
@@ -303,15 +341,45 @@
 <!-- NEWSLETTER -->
 <section style="padding: 5rem 2rem; background: linear-gradient(135deg, #2d5a3d 0%, #1a4d3a 100%); color: white; text-align: center;">
     <div style="max-width: 600px; margin: 0 auto;">
-        <h2 style="font-size: 2rem; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">{% trans "Iscriviti alla Newsletter" %}</h2>
+        <h2 style="font-size: 2rem; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">Iscriviti alla Newsletter</h2>
         <p style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; line-height: 1.6;">
-            {% trans "Ricevi consigli settimanali, promozioni esclusive e anteprime sulle nuove funzionalità direttamente nella tua casella di posta." %}
+            Ricevi consigli settimanali, promozioni esclusive e anteprime sulle nuove funzionalità direttamente nella tua casella di posta.
         </p>
         <form action="/subscribe/" method="post" style="display: flex; gap: 0.5rem;">
-            {% csrf_token %}
-            <input type="email" name="email" required placeholder="{% trans 'La tua email' %}" style="flex: 1; padding: 1rem 1.5rem; border: none; border-radius: 12px; font-size: 1rem; outline: none;">
-            <button type="submit" class="btn-primary" style="padding: 1rem 2rem;">{% trans "Iscriviti" %}</button>
+            <input type="hidden" name="csrfmiddlewaretoken" value="placeholder">
+            <input type="email" name="email" required placeholder="La tua email" style="flex: 1; padding: 1rem 1.5rem; border: none; border-radius: 12px; font-size: 1rem; outline: none;">
+            <button type="submit" style="background: linear-gradient(135deg, #4a7c59 0%, #2d5a3d 100%); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-block; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">Iscriviti</button>
         </form>
     </div>
 </section>
-{% endblock %}
+
+    </main>
+
+    <footer style="background: #1e293b; color: white; padding: 3rem 2rem; margin-top: 4rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+            <p>&copy; 2026 Vivere con il Cane. Tutti i diritti riservati.</p>
+            <div style="display: flex; gap: 1.5rem;">
+                <a href="/it/privacy/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy Policy</a>
+                <a href="/it/terms/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Termini di Servizio</a>
+                <a href="/it/cookie/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Cookie Policy</a>
+            </div>
+        </div>
+        <div style="max-width: 1200px; margin: 1rem auto 0;">
+            <p style="text-align: center; color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+                Condividi: 
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://tonita-deposable-manneristically.ngrok-free.dev/landing/" target="_blank" style="color: #1877f2; margin-left: 0.5rem;">Facebook</a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tonita-deposable-manneristically.ngrok-free.dev/landing/" target="_blank" style="color: #0a66c2; margin-left: 0.5rem;">LinkedIn</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    function toggleMenu() {
+        const links = document.getElementById('navLinks');
+        if (window.innerWidth <= 768) {
+            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+        }
+    }
+    </script>
+</body>
+</html>
