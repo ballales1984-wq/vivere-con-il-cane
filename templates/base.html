@@ -49,13 +49,14 @@
         <nav>
             <a href="/" class="logo">🐕 {% trans "Vivere con il Cane" %}</a>
             <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-                <li><a href="{% url 'about' %}">{% trans "Chi Sono" %}</a></li>
-                 <li><a href="{% url 'blog_list' %}">{% trans "Blog" %}</a></li>
-                 <li><a href="{% url 'problem_list' %}">{% trans "Problemi" %}</a></li>
-                 <li><a href="{% url 'community:discussion_list' %}">{% trans "Community" %}</a></li>
-                 <li><a href="{% url 'dashboard' %}">{% trans "Il mio Cane" %}</a></li>
+             <ul class="nav-links" id="navLinks">
+                 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                 <li><a href="{% url 'about' %}">{% trans "Chi Sono" %}</a></li>
+                  <li><a href="{% url 'blog_list' %}">{% trans "Blog" %}</a></li>
+                  <li><a href="{% url 'problem_list' %}">{% trans "Problemi" %}</a></li>
+                  <li><a href="{% url 'community:discussion_list' %}">{% trans "Community" %}</a></li>
+                  <li><a href="{% url 'dashboard' %}">{% trans "Il mio Cane" %}</a></li>
+                  <li><a href="{% url 'landing_page' %}" style="color: #a7f3d0; font-weight: 700;">🌟 {% trans "Risorse" %}</a></li>
                 {% if user.is_authenticated %}
                     <li class="nav-user">
                         <span style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: white;">{{ user.username }}</strong></span>

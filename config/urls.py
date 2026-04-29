@@ -79,6 +79,11 @@ urlpatterns += i18n_patterns(
      ),
  )
 
+# URL diretta per la landing page marketing
+urlpatterns += [
+    path("landing/", marketing_views.landing_page, name="landing_page"),
+]
+
 if settings.DEBUG:
     urlpatterns += static(
         settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]

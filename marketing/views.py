@@ -8,6 +8,11 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 
+def landing_page(request):
+    """Landing page marketing WordPress."""
+    return render(request, "marketing/landing_page.html")
+
+
 def subscribe_newsletter(request):
     """Handles newsletter subscription via HTMX."""
     if request.method == "POST":

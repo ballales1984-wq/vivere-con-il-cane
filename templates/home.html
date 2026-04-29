@@ -183,6 +183,43 @@
     </div>
 </section>
 
+<!-- Risorse Marketing Section -->
+<section class="section-resources">
+    <div class="container">
+        <h2 class="section-heading">{% trans "Risorse Complete per Te e il Tuo Cane" %}</h2>
+        <p style="text-align: center; font-size: 1.2rem; color: var(--text-muted); margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+            {% trans "Guide, strumenti gratuiti, analisi AI e una community attiva per aiutarti a vivere al meglio con il tuo cane." %}
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            <div class="resource-card">
+                <div class="resource-icon">🤖</div>
+                <h3>{% trans "Analisi IA Comportamento" %}</h3>
+                <p>{% trans "Descrivi il problema e ottieni consigli personalizzati basati sull'IA." %}</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">📚</div>
+                <h3>{% trans "Learning Hub" %}</h3>
+                <p>{% trans "Articoli e guide su educazione, salute e benessere del tuo cane." %}</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">💬</div>
+                <h3>{% trans "Community Attiva" %}</h3>
+                <p>{% trans "Unisciti alla community e ricevi supporto da altri proprietari." %}</p>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">🛠️</div>
+                <h3>{% trans "Strumenti Gratuiti" %}</h3>
+                <p>{% trans "Calcolatori, quiz e strumenti interattivi per la gestione del cane." %}</p>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <a href="{% url 'landing_page' %}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;">
+                🌟 {% trans "Scopri Tutte le Risorse" %} &rarr;
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- Articoli Recenti -->
 <section class="section-articles">
     <h2 class="section-heading">{% trans "Guide e articoli" %}</h2>
