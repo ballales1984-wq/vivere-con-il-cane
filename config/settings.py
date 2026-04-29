@@ -14,10 +14,16 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+# Ensure DEBUG is always defined, even if .env fails to load
+DEBUG = False
+
 # Carica sempre il file .env dalla root del progetto, indipendentemente
 # dalla directory di lavoro corrente (fix per runserver e deploy)
 _BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(_BASE_DIR / ".env")
+
+# Override DEBUG from environment after loading .env
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "yes")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,6 +145,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "rest_framework",
     
     # Proprie app
     "blog",
@@ -160,7 +167,174 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",  # Allauth
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # WordPress redirect middleware
+    "marketing.middleware.wordpress_redirect.WordPressRedirectMiddleware",
 ]
+
+# Cache (Redis production-ready cache)
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/1")
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
+        "OPTIONS": {
+            "socket_connect_timeout": 5,
+            "socket_timeout": 5,
+            "retry_on_timeout": True,
+            "max_connections": 50,
+        },
+    }
+}
+
+# Fallback to local memory if Redis unavailable (development)
+try:
+    import redis
+    r = redis.from_url(REDIS_URL, socket_connect_timeout=2, socket_timeout=2)
+    r.ping()
+except Exception:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "vivere-cane-cache",
+        }
+    }
+
+LANGUAGE_CODE = "it"
+TIME_ZONE = "Europe/Rome"
+USE_I18N = True
+USE_TZ = True
+
+# Celery Configuration
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", REDIS_URL)
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", REDIS_URL)
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_DEFAULT_QUEUE = "default"
+CELERY_BEAT_SCHEDULE = {
+    "send-newsletter-followups": {
+        "task": "marketing.tasks.send_followup_emails",
+        "schedule": 3600,  # every hour
+    },
+    "expire-old-sessions": {
+        "task": "community.tasks.cleanup_expired_sessions",
+        "schedule": 86400,  # daily
+    },
+}
+
+# Rate limiting (global per IP)
+RATELIMIT_ENABLE = True
+RATELIMIT_REQUESTS = int(os.environ.get("RATELIMIT_REQUESTS", "100"))
+RATELIMIT_WINDOW = int(os.environ.get("RATELIMIT_WINDOW", "60"))  # per minute
+
+# Rate limiting per AI analysis
+ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))  # max 10
+ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))  # per hour
+
+# WordPress Integration (Marketing site)
+WP_BASE_URL = os.environ.get("WP_BASE_URL", "https://www.vivereconilcane.com")
+WP_API_URL = os.environ.get("WP_API_URL", "https://www.vivereconilcane.com/api")
+
+# WordPress ↔ Django CORS
+CORS_ALLOWED_ORIGINS = [
+    "https://www.vivereconilcane.com",
+    "https://vivereconilcane.com",
+]
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ]
+}
+
+SECURE_CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://fonts.googleapis.com")
+SECURE_CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
+SECURE_CSP_IMG_SRC = ("'self'", "data:", "https:")
+SECURE_CSP_SCRIPT_SRC = ("'self'", "https://www.googletagmanager.com", "https://www.google-analytics.com")
+SECURE_CSP_CONNECT_SRC = ("'self'", "https://fonts.googleapis.com")
+SECURE_CSP_FRAME_ANCESTORS = ("'none'",)
+SECURE_CSP_FORM_ACTION = ("'self'",)
+SECURE_REFERRER_POLICY = "same-origin"
+
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_HTTPONLY = False
+FILE_UPLOAD_PERMISSIONS = 0o644
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440  # 2.5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+
+# Logging - structured JSON in production
+if not DEBUG:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "json": {
+                "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
+                "fmt": "%(asctime)s %(levelname)s %(name)s %(message)s %(pathname)s %(lineno)d",
+            },
+            "verbose": {
+                "format": "{levelname} {asctime} {module} {message}",
+                "style": "{",
+            },
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "json" if not DEBUG else "verbose",
+            },
+            "file": {
+                "level": "ERROR",
+                "class": "logging.handlers.RotatingFileHandler",
+                "filename": BASE_DIR / "logs" / "django_errors.log",
+                "maxBytes": 10485760,  # 10MB
+                "backupCount": 10,
+                "formatter": "json",
+            },
+        },
+        "loggers": {
+            "django": {
+                "handlers": ["console", "file"],
+                "level": "INFO" if not DEBUG else "DEBUG",
+                "propagate": False,
+            },
+            "community": {
+                "handlers": ["console"],
+                "level": "INFO",
+            },
+            "canine_tools": {
+                "handlers": ["console"],
+                "level": "INFO",
+            },
+        },
+        "root": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+    }
+else:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+            },
+        },
+        "root": {
+            "handlers": ["console"],
+            "level": "DEBUG" if DEBUG else "INFO",
+        },
+    }
 
 ROOT_URLCONF = "config.urls"
 
@@ -201,23 +375,6 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
-LANGUAGE_CODE = "it"
-TIME_ZONE = "Europe/Rome"
-USE_I18N = True
-USE_TZ = True
-
-# Cache (LocMemCache per dev, in produzione sostituire con Redis)
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "vivere-cane-cache",
-    }
-}
-
-# Rate limiting per l'analisi IA: max richieste per IP per finestra temporale
-ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))  # max 10
-ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))  # per ora
 
 LANGUAGES = [
     ("it", "Italiano"),
@@ -272,20 +429,6 @@ def patch_gettext_for_utf8():
 
 
 patch_gettext_for_utf8()
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "INFO",
-    },
-}
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]

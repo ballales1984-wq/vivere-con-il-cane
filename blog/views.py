@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.utils import translation
+from django.conf import settings
 from datetime import datetime
 from .models import BlogPost, PostVote
 
@@ -14,6 +15,16 @@ def health(request):
 
 
 def blog_list(request):
+    """
+    Lista articoli - redirect a WordPress (marketing) se configurato.
+    Mantenuto Django per dettagli e funzionalità blog.
+    """
+    # Solo in produzione: redirect a WordPress per marketing
+    wp_base = getattr(settings, 'WP_BASE_URL', None)
+    if wp_base and not settings.DEBUG:
+        from django.http import HttpResponsePermanentRedirect
+        return HttpResponsePermanentRedirect(wp_base + '/blog/')
+    
     posts = []
     try:
         posts = list(BlogPost.objects.filter(published=True).order_by("-created_at"))

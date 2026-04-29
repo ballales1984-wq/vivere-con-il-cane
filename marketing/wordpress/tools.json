@@ -1,0 +1,28 @@
+{
+  "tools": [
+    {
+      "slug": "food-calculator",
+      "name": "Calcolatore Cibo",
+      "icon": "🍖",
+      "desc": "Quanto deve mangiare il tuo cane? Calcola la porzione giusta."
+    },
+    {
+      "slug": "age-calculator",
+      "name": "Età in Anni Umani",
+      "icon": "🎂",
+      "desc": "Scopri quanti anni ha il tuo cane in anni umani."
+    },
+    {
+      "slug": "dog-quiz",
+      "name": "Quiz Linguaggio",
+      "icon": "🧠",
+      "desc": "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova."
+    },
+    {
+      "slug": "heart-recorder",
+      "name": "Registratore Cardiaco",
+      "icon": "❤️",
+      "desc": "Registra e analizza i battiti del cuore del tuo cane"
+    }
+  ]
+}
