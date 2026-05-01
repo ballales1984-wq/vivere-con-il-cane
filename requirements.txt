@@ -12,3 +12,5 @@ psycopg2-binary>=2.9.0
 redis>=5.0.0
 celery>=5.3.0
 PyJWT>=2.8.0
+google-auth>=2.23.0
+google-auth-oauthlib>=1.0.0
