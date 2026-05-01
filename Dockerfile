@@ -17,6 +17,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia il codice
 COPY . .
 
+# Crea directory per i log
+RUN mkdir -p /app/logs
+
 # Raccogli static files (fallisce silenziosamente se mancano permessi)
 RUN python manage.py collectstatic --noinput || true
 
