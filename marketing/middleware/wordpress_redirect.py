@@ -7,6 +7,7 @@ Pattern:
 - Django: AI Analyzer, Blog Detail, Tools, Community (app)
 """
 
+import os
 import re
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
