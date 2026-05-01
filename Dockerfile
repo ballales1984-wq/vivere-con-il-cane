@@ -17,11 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia il codice
 COPY . .
 
-# Crea directory per i log
-RUN mkdir -p /app/logs
+# Crea directory per i log e staticfiles
+RUN mkdir -p /app/logs /app/staticfiles
 
-# Raccogli static files (fallisce silenziosamente se mancano permessi)
-RUN python manage.py collectstatic --noinput || true
+# Raccogli static files con una SECRET_KEY temporanea per la build
+RUN SECRET_KEY=build-time-dummy-secret-key-not-used-in-prod DEBUG=False \
+    python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
