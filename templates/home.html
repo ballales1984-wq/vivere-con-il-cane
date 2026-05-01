@@ -1,317 +1,51 @@
-{% extends 'base.html' %}
-{% load static i18n %}
+{% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}{% trans "Vivere con il Cane - Capisci e risolvi il comportamento del tuo cane" %}{% endblock %}
-{% block meta_description %}{% trans "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani." %}{% endblock %}
-
-{% block extra_head %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "{% trans 'Come funziona l\'analisi IA del cane?' %}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{% trans 'L\'IA analizza la descrizione del comportamento fornita dall\'utente incrociandola con dati di razza, età e conoscenze veterinarie per fornire consigli pratici.' %}"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "{% trans 'È un sostituto del veterinario?' %}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{% trans 'No, è uno strumento di supporto per capire meglio il cane. In caso di problemi di salute, consulta sempre un professionista.' %}"
-      }
-    }
-  ]
-}
-</script>
-{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
 
 {% block content %}
-<style>
-    :root {
-        --hero-pattern: url('{% static "images/pattern.svg" %}');
-    }
-</style>
-
-<!-- HERO: AI Input Centrale con Immagine -->
-<section class="animate-in" style="background: radial-gradient(circle at bottom right, #10b981, #065f46); color: white; padding: 6rem 2rem; border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 4rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--hero-pattern); opacity: 0.05; pointer-events: none;"></div>
-    
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4rem;">
-        <div style="flex: 1; min-width: 320px; z-index: 2;">
-            <div style="display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; backdrop-filter: blur(4px);">✨ {% trans "Nuova Analisi AI v2.0" %}</div>
-            <h1 style="font-size: 3.5rem; color: white; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 800; line-height: 1.1;">
-                {% trans "Capisci cosa ti sta dicendo il tuo cane." %}
-            </h1>
-            <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9); margin-bottom: 3rem; line-height: 1.6; max-width: 550px;">
-                {% trans "Descrivi un comportamento che ti preoccupa e ottieni subito una consulenza personalizzata basata sull'intelligenza artificiale." %}
-            </p>
-            
-            <form action="{% url 'analyze_problem' %}" method="get" style="background: white; padding: 0.75rem; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 10px;">
-                <textarea name="q" placeholder="{% trans 'Es: Il mio cane abbaia sempre quando resta solo a casa...' %}" rows="3" required style="border: none; padding: 1rem; font-size: 1.1rem; border-radius: 16px; resize: none; width: 100%; color: var(--secondary); outline: none;"></textarea>
-                <div style="display: flex; justify-content: flex-end;">
-                    <button type="submit" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);">
-                        {% trans "Analizza con l'IA" %} &rarr;
-                    </button>
-                </div>
-            </form>
-        </div>
-        
-        <div style="flex: 1; min-width: 320px; display: flex; justify-content: center; position: relative;" class="animate-float">
-            <div style="position: relative; z-index: 2;">
-                <img src="{% static 'images/hero_dog.png' %}" alt="{% trans 'Cane felice' %}" style="width: 100%; max-width: 500px; border-radius: 32px; box-shadow: var(--shadow-premium); border: 8px solid rgba(255,255,255,0.1); object-fit: cover; aspect-ratio: 1/1;">
-                <div style="position: absolute; bottom: -20px; right: -20px; background: white; padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; border: 1px solid var(--border);">
-                    <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🐕</div>
-                    <div>
-                        <div style="font-weight: 800; color: var(--secondary); font-size: 1.1rem;">+10,000</div>
-                        <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">{% trans "Cani aiutati" %}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Chi Sono / Breve intro -->
-<section class="animate-in" style="max-width: 1200px; margin: 0 auto 6rem; padding: 0 1.5rem; animation-delay: 0.1s;">
-    <div style="background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); padding: 4rem; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center; border: 1px solid var(--border); position: relative;">
-        <div style="position: absolute; top: 0; left: 0; width: 8px; height: 100%; background: var(--accent); border-radius: var(--radius-lg) 0 0 var(--radius-lg);"></div>
-        <div style="flex: 1; min-width: 300px;">
-            <h2 style="color: var(--secondary); font-size: 2.4rem; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif;">{% trans "Esperienza reale, non teoria." %}</h2>
-            <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem;">
-                {% blocktrans %}Mi chiamo <strong>Alessio</strong>. Vivo con i cani da oltre un decennio e ho gestito centinaia di caratteri diversi. La mia missione è unire l'empatia quotidiana alle migliori pratiche scientifiche per aiutarti a costruire un rapporto unico con il tuo cane.{% endblocktrans %}
-            </p>
-            <div style="display: flex; gap: 2rem; margin-bottom: 2.5rem;">
-                <div>
-                    <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">10+</div>
-                    <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">{% trans "Anni" %}</div>
-                </div>
-                <div>
-                    <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">500+</div>
-                    <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">{% trans "Casi risolti" %}</div>
-                </div>
-            </div>
-            <a href="{% url 'about' %}" style="display: inline-flex; align-items: center; color: var(--primary); font-weight: 700; text-decoration: none; font-size: 1.1rem; border-bottom: 2px solid rgba(5, 150, 105, 0.1);">
-                {% trans "Scopri di più sulla mia storia" %} <span style="margin-left: 8px;">&rarr;</span>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="display-4">{% trans "Benvenuti su Vivere con il Cane" %}</h1>
+            <p class="lead">{% trans "Il tuo assistente digitale per la cura del cane" %}</p>
+            <a href="{% url 'analizza' %}" class="btn btn-primary btn-lg mx-2">
+                {% trans "Analizza Cuore" %}
             </a>
-        </div>
-        <div style="flex: 0 0 auto; width: 280px; height: 350px; background: #f8fafc; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border);">
-             <img src="{% static 'images/alessio.jpg' %}" alt="Alessio" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-    </div>
-</section>
-
-<!-- Problemi Rapidi -->
-{% if problems %}
-<section class="section-problems">
-    <h2 class="section-heading">{% trans "Problemi più comuni" %}</h2>
-    <div class="problems-grid">
-        {% for problem in problems %}
-        <a href="{% url 'problem_detail' problem.slug %}" class="problem-card">
-            <span class="problem-icon">
-                {% if problem.slug == 'abbaia-troppo' %}🔊
-                {% elif problem.slug == 'tira-guinzaglio' %}🐕‍🦺
-                {% elif problem.slug == 'ansia-separazione' %}😟
-                {% elif problem.slug == 'cane-morde' %}🦷
-                {% elif problem.slug == 'non-mangia' %}🍽️
-                {% elif problem.slug == 'paura-rumori' %}⚡
-                {% else %}🐾
-                {% endif %}
-            </span>
-            <strong>{{ problem.get_title }}</strong>
-            <span class="problem-severity severity-{{ problem.severity }}">{{ problem.get_severity_display }}</span>
-        </a>
-        {% endfor %}
-    </div>
-    <div style="text-align: center; margin-top: 1.5rem;">
-        <a href="{% url 'problem_list' %}" class="btn btn-secondary">{% trans "Vedi tutti i problemi" %} &rarr;</a>
-    </div>
-</section>
-{% endif %}
-
-<!-- Come Funziona -->
-<section class="section-how animate-in" style="animation-delay: 0.2s;">
-    <h2 class="section-heading">{% trans "Come funziona" %}</h2>
-    <div class="steps-grid">
-        <div class="step-card">
-            <span class="step-number">1</span>
-            <h3>{% trans "Descrivi il problema" %}</h3>
-            <p>{% trans "Scrivi cosa fa il tuo cane: abbaia, morde, tira, non mangia..." %}</p>
-        </div>
-        <div class="step-card">
-            <span class="step-number">2</span>
-            <h3>{% trans "L'AI analizza" %}</h3>
-            <p>{% trans "Il sistema identifica le cause probabili in base al tuo cane" %}</p>
-        </div>
-        <div class="step-card">
-            <span class="step-number">3</span>
-            <h3>{% trans "Ricevi soluzioni" %}</h3>
-            <p>{% trans "Consigli pratici personalizzati per razza, età e situazione" %}</p>
-        </div>
-    </div>
-</section>
-
-<!-- Tool -->
-<section class="section-tools">
-    <h2 class="section-heading">{% trans "Strumenti gratuiti" %}</h2>
-    <div class="tools-grid">
-        <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card">
-            <span class="tool-icon">🍖</span>
-            <h3>{% trans "Calcolatore Cibo" %}</h3>
-            <p>{% trans "Quanto deve mangiare il tuo cane? Calcola la porzione giusta." %}</p>
-        </a>
-        <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
-            <span class="tool-icon">🎂</span>
-            <h3>{% trans "Età in Anni Umani" %}</h3>
-            <p>{% trans "Scopri quanti anni ha il tuo cane in anni umani." %}</p>
-        </a>
-        <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
-            <span class="tool-icon">🧠</span>
-            <h3>{% trans "Quiz Linguaggio" %}</h3>
-            <p>{% trans "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova." %}</p>
-        </a>
-        <a href="{% url 'canine_tools:heart_recorder' %}" class="tool-card">
-            <span class="tool-icon">❤️</span>
-            <h3>{% trans "Registratore Cardiaco" %}</h3>
-            <p>{% trans "Registra e analizza i battiti del cuore del tuo cane" %}</p>
-        </a>
-    </div>
-</section>
-
-<!-- Risorse Marketing Section -->
-<section class="section-resources">
-    <div class="container">
-        <h2 class="section-heading">{% trans "Risorse Complete per Te e il Tuo Cane" %}</h2>
-        <p style="text-align: center; font-size: 1.2rem; color: var(--text-muted); margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-            {% trans "Guide, strumenti gratuiti, analisi AI e una community attiva per aiutarti a vivere al meglio con il tuo cane." %}
-        </p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-            <div class="resource-card">
-                <div class="resource-icon">🤖</div>
-                <h3>{% trans "Analisi IA Comportamento" %}</h3>
-                <p>{% trans "Descrivi il problema e ottieni consigli personalizzati basati sull'IA." %}</p>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon">📚</div>
-                <h3>{% trans "Learning Hub" %}</h3>
-                <p>{% trans "Articoli e guide su educazione, salute e benessere del tuo cane." %}</p>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon">💬</div>
-                <h3>{% trans "Community Attiva" %}</h3>
-                <p>{% trans "Unisciti alla community e ricevi supporto da altri proprietari." %}</p>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon">🛠️</div>
-                <h3>{% trans "Strumenti Gratuiti" %}</h3>
-                <p>{% trans "Calcolatori, quiz e strumenti interattivi per la gestione del cane." %}</p>
-            </div>
-        </div>
-        <div style="text-align: center;">
-            <a href="{% url 'landing_page' %}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;">
-                🌟 {% trans "Scopri Tutte le Risorse" %} &rarr;
+            <a href="{% url 'community:home' %}" class="btn btn-outline-primary btn-lg mx-2">
+                {% trans "Comunità" %}
             </a>
         </div>
     </div>
-</section>
 
-<!-- Articoli Recenti -->
-<section class="section-articles">
-    <h2 class="section-heading">{% trans "Guide e articoli" %}</h2>
-    <div class="blog-list">
-    {% for post in recent_posts %}
-    <article class="post-card">
-        <a href="{% url 'blog_detail' post.slug %}">
-            <div class="post-image-container">
-                <img src="" alt="{{ post.get_title }}" class="post-img" data-index="{{ forloop.counter0 }}" loading="lazy" decoding="async" width="400" height="240">
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans "Analisi Cardiaca" %}</h5>
+                    <p class="card-text">{% trans "Strumenti AI per analizzare i battiti cardiaci del tuo cane." %}</p>
+                    <a href="{% url 'analizza' %}" class="btn btn-primary">{% trans "Vai allo strumento" %}</a>
+                </div>
             </div>
-        </a>
-        <div class="post-content">
-            <h2><a href="{% url 'blog_detail' post.slug %}">{{ post.get_title }}</a></h2>
-            <p class="post-meta">
-                {{ post.created_at|date:"d M Y" }}
-                {% if post.category %}
-                <span class="category">{{ post.category.get_name }}</span>
-                {% endif %}
-            </p>
-            <p>{{ post.get_content|truncatewords:25 }}</p>
-            <a href="{% url 'blog_detail' post.slug %}" class="read-more">{% trans "Leggi tutto" %} &rarr;</a>
         </div>
-    </article>
-    {% endfor %}
-    </div>
-    <div style="text-align: center; margin-top: 2rem;">
-        <a href="{% url 'blog_list' %}" class="btn btn-secondary">{% trans "Vedi tutti gli articoli" %} &rarr;</a>
-    </div>
-</section>
-
-<!-- FAQ Section -->
-<section class="animate-in" style="max-width: 900px; margin: 6rem auto; padding: 0 1.5rem;">
-    <h2 class="section-heading">{% trans "Domande Frequenti" %}</h2>
-    <div style="display: grid; gap: 1.5rem;">
-        <div style="background: white; padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-            <h3 style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">{% trans "Come funziona l'analisi IA del cane?" %}</h3>
-            <p style="color: var(--text-muted); line-height: 1.6;">{% trans "La nostra tecnologia analizza la tua descrizione e la confronta con database di razza e comportamento per darti suggerimenti immediati e personalizzati." %}</p>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans "Community" %}</h5>
+                    <p class="card-text">{% trans "Connettiti con altri proprietari di cani, condividi esperienze." %}</p>
+                    <a href="{% url 'community:home' %}" class="btn btn-primary">{% trans "Entra nella community" %}</a>
+                </div>
+            </div>
         </div>
-        <div style="background: white; padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-            <h3 style="color: var(--secondary); font-size: 1.25rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">{% trans "I consigli sono affidabili?" %}</h3>
-            <p style="color: var(--text-muted); line-height: 1.6;">{% trans "I consigli sono basati su best practice di educazione cinofila e dati veterinari, ma servono come supporto informativo e non sostituiscono un parere professionale." %}</p>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{% trans "Knowledge Base" %}</h5>
+                    <p class="card-text">{% trans "Articoli e guide sulla salute canina." %}</p>
+                    <a href="{% url 'knowledge:learning_hub' %}" class="btn btn-primary">{% trans "Esplora" %}</a>
+                </div>
+            </div>
         </div>
     </div>
-</section>
-
-<!-- Newsletter -->
-{% include 'marketing/newsletter_form.html' %}
-
-<!-- CTA Finale -->
-<section style="background: var(--secondary); color: white; padding: 6rem 2rem; text-align: center; border-radius: var(--radius-xl); margin: 6rem 1.5rem; position: relative; overflow: hidden; box-shadow: var(--shadow-premium);">
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);"></div>
-    <div style="max-width: 800px; margin: 0 auto; position: relative; z-index: 2;">
-        <h2 style="font-size: 2.8rem; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif;">{% trans "Inizia oggi gratuitamente" %}</h2>
-        <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 3rem; line-height: 1.6;">
-            {% trans "Non serve registrazione. Descrivi il problema del tuo cane e ricevi subito una consulenza professionale generata dalla nostra IA avanzata." %}
-        </p>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-            <a href="{% url 'analyze_problem' %}" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.1rem; border-radius: 16px; background: white; color: var(--secondary); box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                🚀 {% trans "Analizza ora" %}
-            </a>
-            <a href="{% url 'signup' %}" class="btn" style="padding: 1.2rem 3rem; font-size: 1.1rem; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2); color: white;">
-                {% trans "Crea account gratuito" %}
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- AdSense Footer Ad -->
-<div style="text-align: center; margin: 2rem auto; max-width: 100%;">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2145959534306055" data-ad-slot="3253375562" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 </div>
-
-<script>
-const images = [
-    'dog-training.jpg',
-    'puppy-play.jpg',
-    'dog-walking.jpg',
-    'dog-happy.jpg',
-    'dog-vet.jpg',
-    'dog-sleeping.jpg',
-    'dog-food.jpg',
-    'dog-cat.jpg',
-    'dog-barking.jpg',
-    'dog-training-2.jpg'
-];
-
-document.querySelectorAll('.post-img').forEach(img => {
-    const index = parseInt(img.dataset.index) || 0;
-    img.src = '/static/images/' + images[index % images.length];
-});
-</script>
 {% endblock %}
