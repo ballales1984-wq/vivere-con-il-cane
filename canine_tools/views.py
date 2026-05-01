@@ -16,11 +16,16 @@ import tempfile
 import os
 from datetime import datetime, timedelta, date
 
-# Google OAuth / Health Connect
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import Flow
-from googleapiclient.discovery import build
-from google.auth.transport.requests import Request
+# Google OAuth / Health Connect (opzionali - fallback graceful se non installate)
+try:
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import Flow
+    from googleapiclient.discovery import build as google_build
+    from google.auth.transport.requests import Request
+    GOOGLE_LIBS_AVAILABLE = True
+except ImportError:
+    GOOGLE_LIBS_AVAILABLE = False
+    Credentials = Flow = google_build = Request = None
 
 
 def signup(request):
