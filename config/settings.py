@@ -167,8 +167,8 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",  # Allauth
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # WordPress redirect middleware
-    "marketing.middleware.wordpress_redirect.WordPressRedirectMiddleware",
+    # WordPress redirect middleware - DISABLED for Render deployment
+    # "marketing.middleware.wordpress_redirect.WordPressRedirectMiddleware",
 ]
 
 # Cache (Redis production-ready cache)
@@ -232,15 +232,15 @@ RATELIMIT_WINDOW = int(os.environ.get("RATELIMIT_WINDOW", "60"))  # per minute
 ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))  # max 10
 ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))  # per hour
 
-# WordPress Integration (Marketing site)
-WP_BASE_URL = os.environ.get("WP_BASE_URL", "https://www.vivereconilcane.com")
-WP_API_URL = os.environ.get("WP_API_URL", "https://www.vivereconilcane.com/api")
+# WordPress Integration (Marketing site) - DISABLED for Render deployment
+# WP_BASE_URL = os.environ.get("WP_BASE_URL", "https://www.vivereconilcane.com")
+# WP_API_URL = os.environ.get("WP_API_URL", "https://www.vivereconilcane.com/api")
 
-# WordPress ↔ Django CORS
-CORS_ALLOWED_ORIGINS = [
-    "https://www.vivereconilcane.com",
-    "https://vivereconilcane.com",
-]
+# WordPress ↔ Django CORS - DISABLED
+# CORS_ALLOWED_ORIGINS = [
+#     "https://www.vivereconilcane.com",
+#     "https://vivereconilcane.com",
+# ]
 
 # Django REST Framework
 REST_FRAMEWORK = {
