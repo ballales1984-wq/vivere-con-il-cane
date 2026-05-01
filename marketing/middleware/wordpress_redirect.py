@@ -76,10 +76,10 @@ class WordPressRedirectMiddleware(MiddlewareMixin):
                 new_url = wp_base.rstrip('/') + self.WP_REDIRECTS[path]
                 return HttpResponsePermanentRedirect(new_url)
         
-        # 4. Homepage → WordPress
+        # 4. Homepage → WordPress (solo se WP_BASE_URL è esplicitamente configurato)
         if path in ['/', '/it/', '/en/', '/it', '/en']:
-            wp_base = getattr(settings, 'WP_BASE_URL', '')
-            if wp_base:
+            wp_base = os.environ.get('WP_BASE_URL', '')  # Solo da env, non default
+            if wp_base and 'vivereconilcane.com' in wp_base:
                 return HttpResponsePermanentRedirect(wp_base)
         
         # 5. Blog LIST → WordPress (ma DETAIL resta su Django)
