@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.models import Site
 from marketing.models import NewsletterSubscriber
 from datetime import timedelta
+from django.utils.translation import gettext as _
 
 
 class Command(BaseCommand):
@@ -55,9 +56,9 @@ class Command(BaseCommand):
 
     def send_onboarding_email(self, subscriber, step, site, protocol="https"):
         subjects = [
-            "Benvenuto in Vivere con il Cane! 🐕",
-            "Come usare al meglio l'IA per il tuo cane 🧠",
-            "Monitora la salute del tuo compagno 📊",
+            _("Benvenuto in Vivere con il Cane! 🐕"),
+            _("Come usare al meglio l'IA per il tuo cane 🧠"),
+            _("Monitora la salute del tuo compagno 📊"),
         ]
 
         templates = [

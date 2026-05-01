@@ -1,39 +1,85 @@
-*.pyc
+# Byte-compiled / optimized / DLL files
 __pycache__/
-db.sqlite3
-db.sqlite3.old
-media/
-.env
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
 *.egg-info/
-.pytest_cache/
-node_modules/
-resources/
-bin/
-tools/
-locales/
-*.dll
-*.exe
-*.pak
-*.dat
-appx/
-LICENSES.*
-chrome_*
-v8_*
-d3dcompiler*
-dxcompiler*
-dxil*
-ffmpeg*
-icudtl*
-libEGL*
-libGLES*
-snapshot_blob*
-vk_swiftshader*
-vulkan*
-Antigravity.*
+.installed.cfg
+*.egg
 
-# Django (no db or cache)
-staticfiles/
+# PyInstaller
+*.manifest
+*.spec
 
-# Keep images
-!static/images/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
 .coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Django
+*.log
+local_settings.py
+media/
+staticfiles/
+db.sqlite3
+gettext-temp/
+
+# Node / npm
+node_modules/
+
+# Mac OS X
+.DS_Store
+
+# Logs
+logs/
+
+# Backup files
+*~
+
+# Kilo
+.kilo/
+
+# Vscode workspace
+*.code-workspace
