@@ -26,5 +26,6 @@ RUN SECRET_KEY=build-time-dummy-secret-key-not-used-in-prod DEBUG=False \
 
 EXPOSE 8000
 
-# Usa gunicorn per la produzione
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120"]
+# Rende lo script di avvio eseguibile e lo usa come entrypoint
+RUN chmod +x /app/start.sh
+CMD ["/app/start.sh"]
