@@ -59,7 +59,7 @@ urlpatterns += i18n_patterns(
      path("terms/", tools_views.terms_of_service, name="terms_of_service"),
      path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
      path("cane/", include("dog_profile.urls")),
-     path("knowledge/", include("knowledge.urls")),
+      path("knowledge/", include("knowledge.urls", namespace="knowledge")),
      path("community/", include("community.urls", namespace="community")),
      path("accounts/", include("django.contrib.auth.urls")),
      path("accounts/", include("allauth.urls")),

@@ -89,13 +89,13 @@ class KnowledgeViewTest(TestCase):
         translation.activate('it')
 
     def test_problem_list_view(self):
-        response = self.client.get(reverse("problem_list"))
+        response = self.client.get(reverse("knowledge:problem_list"))
         self.assertEqual(response.status_code, 200)
 
     def test_analyze_form_view(self):
-        response = self.client.get(reverse("analyze_problem"))
+        response = self.client.get(reverse("knowledge:analyze_problem"))
         self.assertEqual(response.status_code, 200)
 
     def test_breed_list_view(self):
-        response = self.client.get(reverse("breed_list"))
+        response = self.client.get(reverse("knowledge:breed_list"))
         self.assertEqual(response.status_code, 200)

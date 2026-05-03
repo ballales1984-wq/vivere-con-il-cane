@@ -28,7 +28,7 @@ class ProblemSitemap(Sitemap):
         return Problem.objects.all()
 
     def location(self, obj):
-        return reverse("problem_detail", args=[obj.slug])
+        return reverse("knowledge:problem_detail", args=[obj.slug])
 
 
 class BreedSitemap(Sitemap):
@@ -40,7 +40,7 @@ class BreedSitemap(Sitemap):
         return BreedInsight.objects.all()
 
     def location(self, obj):
-        return reverse("breed_detail", args=[obj.slug])
+        return reverse("knowledge:breed_detail", args=[obj.slug])
 
 
 class StaticViewSitemap(Sitemap):
@@ -53,8 +53,8 @@ class StaticViewSitemap(Sitemap):
             "home",
             "blog_list",
             "tools_index",
-            "problem_list",
-            "breed_list",
+            "knowledge:problem_list",
+            "knowledge:breed_list",
             "about",
         ]
 

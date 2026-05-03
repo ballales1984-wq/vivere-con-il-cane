@@ -32,7 +32,7 @@ class ProblemDetailViewTest(TestCase):
 
     def test_problem_detail_view(self):
         response = self.client.get(
-            reverse("problem_detail", kwargs={"slug": self.problem.slug})
+            reverse("knowledge:problem_detail", kwargs={"slug": self.problem.slug})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.problem.title)
@@ -52,7 +52,7 @@ class BreedDetailViewTest(TestCase):
 
     def test_breed_detail_view(self):
         response = self.client.get(
-            reverse("breed_detail", kwargs={"slug": self.breed.slug})
+            reverse("knowledge:breed_detail", kwargs={"slug": self.breed.slug})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.breed.breed)
@@ -245,14 +245,14 @@ class AnalyzeProblemViewTest(TestCase):
         )
 
     def test_analyze_problem_get(self):
-        response = self.client.get(reverse("analyze_problem"))
+        response = self.client.get(reverse("knowledge:analyze_problem"))
         self.assertEqual(response.status_code, 200)
 
     @patch("knowledge.views.generate_ai_response")
     def test_analyze_problem_post_valid(self, mock_ai):
         mock_ai.return_value = "AI response text"
         response = self.client.post(
-            reverse("analyze_problem"),
+            reverse("knowledge:analyze_problem"),
             {
                 "dog_id": self.dog.id,
                 "problem_id": self.problem.id,
@@ -269,7 +269,7 @@ class AnalyzeProblemViewTest(TestCase):
     @patch("knowledge.views.generate_ai_response")
     def test_analyze_problem_post_no_description_shows_error(self, mock_ai):
         response = self.client.post(
-            reverse("analyze_problem"),
+            reverse("knowledge:analyze_problem"),
             {"dog_id": self.dog.id, "problem_id": self.problem.id, "description": ""},
         )
         self.assertEqual(response.status_code, 200)
@@ -279,14 +279,14 @@ class AnalyzeProblemViewTest(TestCase):
     def test_analyze_problem_auto_detects_problem(self, mock_ai):
         mock_ai.return_value = "AI response"
         response = self.client.post(
-            reverse("analyze_problem"),
+            reverse("knowledge:analyze_problem"),
             {"dog_id": self.dog.id, "description": "Il mio cane abbaia troppo"},
         )
         self.assertEqual(response.status_code, 200)
 
     def test_analyze_problem_rate_limit(self):
         # Simulate exceeding rate limit via cache? For simplicity, just check GET still works
-        response = self.client.get(reverse("analyze_problem"))
+        response = self.client.get(reverse("knowledge:analyze_problem"))
         self.assertEqual(response.status_code, 200)
 
 
@@ -304,7 +304,7 @@ class AnalysisHistoryViewTest(TestCase):
     def test_analysis_history_view(self):
         self.client.login(username="test", password="pass")
         response = self.client.get(
-            reverse("analysis_history", kwargs={"dog_id": self.dog.id})
+            reverse("knowledge:analysis_history", kwargs={"dog_id": self.dog.id})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test")
@@ -324,7 +324,7 @@ class UpdateAnalysisResultTest(TestCase):
     def test_update_analysis_result_post(self):
         self.client.login(username="test", password="pass")
         response = self.client.post(
-            reverse("update_analysis_result", kwargs={"analysis_id": self.analysis.id}),
+            reverse("knowledge:update_analysis_result", kwargs={"analysis_id": self.analysis.id}),
             {"result": "success"},
         )
         self.assertRedirects(response, reverse("dashboard"))
@@ -334,6 +334,6 @@ class UpdateAnalysisResultTest(TestCase):
     def test_update_analysis_result_get_returns_405(self):
         self.client.login(username="test", password="pass")
         response = self.client.get(
-            reverse("update_analysis_result", kwargs={"analysis_id": self.analysis.id})
+            reverse("knowledge:update_analysis_result", kwargs={"analysis_id": self.analysis.id})
         )
         self.assertEqual(response.status_code, 405)
