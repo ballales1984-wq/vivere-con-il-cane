@@ -11,7 +11,7 @@
 
 <section class="tools-grid">
     {% for problem in problems %}
-    <a href="{% url 'problem_detail' problem.slug %}" class="tool-card">
+    <a href="{% url 'knowledge:problem_detail' problem.slug %}" class="tool-card">
         <h3>{{ problem.get_title }}</h3>
         <p>{{ problem.get_description|truncatewords:15 }}</p>
         <span class="category-tag">{{ problem.get_category_display }}</span>

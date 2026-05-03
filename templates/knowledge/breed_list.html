@@ -11,7 +11,7 @@
 
 <section class="tools-grid">
     {% for breed in breeds %}
-    <a href="{% url 'breed_detail' breed.slug %}" class="tool-card" style="text-decoration: none;">
+    <a href="{% url 'knowledge:breed_detail' breed.slug %}" class="tool-card" style="text-decoration: none;">
         <span class="tool-icon">🐕</span>
         <h3>{{ breed.breed }}</h3>
         <p>
@@ -30,6 +30,6 @@
 <section class="cta-final" style="margin-top: 2rem;">
     <h2>Non sai che razza ha il tuo cane?</h2>
     <p>Descrivi il tuo cane e l'AI ti aiutera a capire la razza e le sue caratteristiche.</p>
-    <a href="{% url 'analyze_problem' %}" class="btn btn-white">Analizza il tuo cane</a>
+    <a href="{% url 'knowledge:analyze_problem' %}" class="btn btn-white">Analizza il tuo cane</a>
 </section>
 {% endblock %}

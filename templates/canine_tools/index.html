@@ -23,7 +23,7 @@
     <div class="related-tool" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow-md);">
         <h3>🤖 {% trans "Supporto AI" %}</h3>
         <p>{% trans "Descrivi un problema del tuo cane e ricevi un'analisi personalizzata." %}</p>
-        <a href="{% url 'analyze_problem' %}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Prova l'Analisi AI" %}</a>
+        <a href="{% url 'knowledge:analyze_problem' %}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Prova l'Analisi AI" %}</a>
     </div>
 </section>
 {% endblock %}

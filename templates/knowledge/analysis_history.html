@@ -214,7 +214,7 @@
     <h1 style="color: var(--secondary); font-size: 2.8rem; margin-bottom: 0.5rem;">{% trans "Storico Analisi AI" %}</h1>
     <p style="font-size: 1.2rem; color: var(--text-muted);">{% trans "Tutte le consulenze digitali per" %} <strong style="color: var(--primary-dark);">{{ dog.dog_name }}</strong></p>
     <div style="margin-top: 2rem;">
-        <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="padding: 0.8rem 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">{% trans "+ Nuova Analisi" %}</a>
+        <a href="{% url 'knowledge:analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="padding: 0.8rem 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">{% trans "+ Nuova Analisi" %}</a>
     </div>
 </section>
 
@@ -263,10 +263,10 @@
             </div>
 
             <div class="analysis-actions">
-                <a href="{% url 'analyze_problem' %}?analysis_id={{ analysis.id }}" class="btn btn-secondary btn-sm">📖 {% trans "Vedi Dettaglio Completo" %}</a>
+                <a href="{% url 'knowledge:analyze_problem' %}?analysis_id={{ analysis.id }}" class="btn btn-secondary btn-sm">📖 {% trans "Vedi Dettagio Completo" %}</a>
 
                 {% if analysis.result == 'pending' %}
-                <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display: inline;">
+                <form action="{% url 'knowledge:update_analysis_result' analysis.id %}" method="post" style="display: inline;">
                     {% csrf_token %}
                     <input type="hidden" name="result" value="improved">
                     <button type="submit" class="btn btn-success btn-sm">{% trans "Ha funzionato!" %} ✅</button>
@@ -275,17 +275,17 @@
                 <div class="dropdown">
                     <button class="btn btn-outline btn-sm dropdown-toggle" data-id="{{ analysis.id }}">⚙️ {% trans "Azioni" %}</button>
                     <div class="dropdown-menu" id="dropdown-{{ analysis.id }}">
-                        <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
+                        <form action="{% url 'knowledge:update_analysis_result' analysis.id %}" method="post" style="display:block;">
                             {% csrf_token %}
                             <input type="hidden" name="result" value="improved">
                             <button type="submit" class="dropdown-item" {% if analysis.result == 'improved' %}disabled{% endif %}>✅ {% trans "Segna come Migliorato" %}</button>
                         </form>
-                        <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
+                        <form action="{% url 'knowledge:update_analysis_result' analysis.id %}" method="post" style="display:block;">
                             {% csrf_token %}
                             <input type="hidden" name="result" value="no_change">
                             <button type="submit" class="dropdown-item" {% if analysis.result == 'no_change' %}disabled{% endif %}>➖ {% trans "Segna come Nessun Cambiamento" %}</button>
                         </form>
-                        <form action="{% url 'update_analysis_result' analysis.id %}" method="post" style="display:block;">
+                        <form action="{% url 'knowledge:update_analysis_result' analysis.id %}" method="post" style="display:block;">
                             {% csrf_token %}
                             <input type="hidden" name="result" value="worse">
                             <button type="submit" class="dropdown-item" {% if analysis.result == 'worse' %}disabled{% endif %}>❌ {% trans "Segna come Peggiorato" %}</button>
@@ -305,7 +305,7 @@
             <div class="emoji">🔍</div>
             <h3>{% trans "Nessuna analisi ancora effettuata" %}</h3>
             <p>{% blocktrans %}Le analisi AI per {{ dog.dog_name }} compariranno qui una volta completate.{% endblocktrans %}</p>
-            <a href="{% url 'analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Fai la prima analisi" %}</a>
+            <a href="{% url 'knowledge:analyze_problem' %}?dog_id={{ dog.id }}" class="btn btn-primary" style="margin-top: 1rem;">{% trans "Fai la prima analisi" %}</a>
         </div>
         {% endfor %}
     </div>

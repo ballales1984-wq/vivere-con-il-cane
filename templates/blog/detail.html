@@ -82,7 +82,7 @@
             <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px;">
                 {% trans "Il tuo cane ha un comportamento particolare? Descrivilo alla nostra AI e ricevi subito soluzioni pratiche basate sulla sua razza ed età." %}
             </p>
-            <a href="{% url 'analyze_problem' %}?description={{ post.get_title }}" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
+            <a href="{% url 'knowledge:analyze_problem' %}?description={{ post.get_title }}" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
                 {% trans "Analizza ora con l'AI" %} &rarr;
             </a>
         </div>

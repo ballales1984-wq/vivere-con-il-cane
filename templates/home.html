@@ -9,10 +9,10 @@
         <div class="col-12 text-center">
             <h1 class="display-4">{% trans "Benvenuti su Vivere con il Cane" %}</h1>
             <p class="lead">{% trans "Il tuo assistente digitale per la cura del cane" %}</p>
-            <a href="{% url 'analizza' %}" class="btn btn-primary btn-lg mx-2">
+            <a href="{% url 'analyze_problem_public' %}" class="btn btn-primary btn-lg mx-2">
                 {% trans "Analizza Cuore" %}
             </a>
-            <a href="{% url 'community:home' %}" class="btn btn-outline-primary btn-lg mx-2">
+            <a href="{% url 'community:discussion_list' %}" class="btn btn-outline-primary btn-lg mx-2">
                 {% trans "Comunità" %}
             </a>
         </div>
@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{% trans "Analisi Cardiaca" %}</h5>
                     <p class="card-text">{% trans "Strumenti AI per analizzare i battiti cardiaci del tuo cane." %}</p>
-                    <a href="{% url 'analizza' %}" class="btn btn-primary">{% trans "Vai allo strumento" %}</a>
+                    <a href="{% url 'analyze_problem_public' %}" class="btn btn-primary">{% trans "Vai allo strumento" %}</a>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{% trans "Community" %}</h5>
                     <p class="card-text">{% trans "Connettiti con altri proprietari di cani, condividi esperienze." %}</p>
-                    <a href="{% url 'community:home' %}" class="btn btn-primary">{% trans "Entra nella community" %}</a>
+                    <a href="{% url 'community:discussion_list' %}" class="btn btn-primary">{% trans "Entra nella community" %}</a>
                 </div>
             </div>
         </div>
