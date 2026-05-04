@@ -57,7 +57,7 @@
         <h3 style="color: var(--primary-dark); margin-bottom: 1.5rem; font-weight: 800;">📚 {% trans "Letture Consigliate" %}</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
             {% for article in suggested_articles %}
-            <a href="{% url 'blog_detail' article.slug %}" class="article-suggestion-card" style="text-decoration: none; display: flex; flex-direction: column; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; transition: 0.3s; border: 1px solid #f0f0f0;">
+            <a href="{% url 'blog:blog_detail' article.slug %}" class="article-suggestion-card" style="text-decoration: none; display: flex; flex-direction: column; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; transition: 0.3s; border: 1px solid #f0f0f0;">
                 <div style="padding: 1.5rem;">
                     <span class="category-badge" style="background: var(--primary-light); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; display: inline-block;">{{ article.category.name }}</span>
                      <h4 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 700;">{{ article.get_title }}</h4>

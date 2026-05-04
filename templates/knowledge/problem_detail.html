@@ -96,7 +96,7 @@
         <h3 style="color: var(--primary); margin-bottom: 1rem;">{% trans "Articoli correlati" %}</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
             {% for article in related_articles %}
-            <a href="{% url 'blog_detail' article.slug %}" style="text-decoration: none; color: var(--text);">
+            <a href="{% url 'blog:blog_detail' article.slug %}" style="text-decoration: none; color: var(--text);">
                 <div style="background: var(--light); padding: 1rem; border-radius: var(--radius-sm);">
                     <strong style="color: var(--primary);">{{ article.get_title }}</strong>
                     <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.25rem;">{{ article.get_content|truncatewords:12 }}</p>
