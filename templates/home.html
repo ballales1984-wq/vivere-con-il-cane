@@ -5,343 +5,6 @@
 {% block meta_description %}{% trans "Analisi AI del comportamento del cane. Descrivi il problema e ottieni soluzioni personalizzate. Strumenti gratuiti per proprietari di cani." %}{% endblock %}
 
 {% block extra_head %}
-<style>
-    :root {
-        --primary: #10b981;
-        --primary-light: #34d399;
-        --secondary: #1f2937;
-        --accent: #f59e0b;
-        --bg-main: #f8fafc;
-        --bg-card: #ffffff;
-        --text-muted: #6b7280;
-        --text-primary: #111827;
-        --border: #e5e7eb;
-        --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-        --shadow-premium: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-        --radius-sm: 0.375rem;
-        --radius-md: 0.5rem;
-        --radius-lg: 0.75rem;
-        --radius-xl: 1rem;
-        --transition: all 0.3s ease;
-        --hero-pattern: url('{% static "images/pattern.svg" %}');
-    }
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
-        transition: var(--transition);
-        border: 2px solid transparent;
-        font-size: 1rem;
-        gap: 0.5rem;
-    }
-    .btn-primary {
-        background: var(--primary);
-        color: white;
-        border-color: var(--primary);
-    }
-    .btn-primary:hover {
-        background: var(--primary-light);
-        border-color: var(--primary-light);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-        text-decoration: none;
-        color: white;
-    }
-    .btn-secondary {
-        background: white;
-        color: var(--secondary);
-        border-color: var(--border);
-    }
-    .btn-secondary:hover {
-        background: var(--bg-main);
-        border-color: var(--primary);
-        color: var(--primary);
-        text-decoration: none;
-    }
-    .btn-sm {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
-    .section-heading {
-        font-size: 2.5rem;
-        color: var(--secondary);
-        text-align: center;
-        margin-bottom: 3rem;
-        font-family: 'Outfit', sans-serif;
-        font-weight: 800;
-    }
-    .section-problems {
-        max-width: 1200px;
-        margin: 0 auto 6rem;
-        padding: 0 1.5rem;
-    }
-    .problems-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-    }
-    .problem-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-sm);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        text-decoration: none;
-        transition: var(--transition);
-    }
-    .problem-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--primary-light);
-    }
-    .problem-icon {
-        font-size: 2rem;
-        flex-shrink: 0;
-    }
-    .problem-card strong {
-        flex: 1;
-        color: var(--secondary);
-        font-size: 1.1rem;
-    }
-    .problem-severity {
-        font-size: 0.75rem;
-        padding: 4px 12px;
-        border-radius: 100px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .severity-low {
-        background: #d1fae5;
-        color: #065f46;
-    }
-    .severity-medium {
-        background: #fed7aa;
-        color: #9a3412;
-    }
-    .severity-high {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-    .section-how {
-        max-width: 1200px;
-        margin: 0 auto 6rem;
-        padding: 0 1.5rem;
-    }
-    .steps-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-    }
-    .step-card {
-        background: white;
-        padding: 2.5rem;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--border);
-        position: relative;
-        transition: var(--transition);
-    }
-    .step-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-premium);
-    }
-    .step-number {
-        position: absolute;
-        top: -20px;
-        left: 20px;
-        width: 50px;
-        height: 50px;
-        background: var(--primary);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        font-weight: 800;
-        box-shadow: var(--shadow-md);
-    }
-    .step-card h3 {
-        color: var(--secondary);
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        margin-top: 0.5rem;
-        font-weight: 700;
-    }
-    .step-card p {
-        color: var(--text-muted);
-        line-height: 1.7;
-    }
-    .section-tools {
-        max-width: 1200px;
-        margin: 0 auto 6rem;
-        padding: 0 1.5rem;
-    }
-    .tools-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 2rem;
-    }
-    .tool-card {
-        background: white;
-        padding: 2rem;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--border);
-        text-decoration: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        transition: var(--transition);
-    }
-    .tool-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-premium);
-        border-color: var(--primary-light);
-        text-decoration: none;
-    }
-    .tool-icon {
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
-    }
-    .tool-card h3 {
-        color: var(--secondary);
-        font-size: 1.25rem;
-        margin-bottom: 0.75rem;
-        font-weight: 700;
-    }
-    .tool-card p {
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-    .section-articles {
-        max-width: 1200px;
-        margin: 0 auto 6rem;
-        padding: 0 1.5rem;
-    }
-    .blog-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2.5rem;
-    }
-    .post-card {
-        background: white;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        overflow: hidden;
-        border: 1px solid var(--border);
-        transition: var(--transition);
-        display: flex;
-        flex-direction: column;
-    }
-    .post-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-premium);
-    }
-    .post-image-container {
-        width: 100%;
-        height: 240px;
-        overflow: hidden;
-        background: #f8fafc;
-    }
-    .post-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: var(--transition);
-    }
-    .post-card:hover .post-img {
-        transform: scale(1.05);
-    }
-    .post-content {
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
-    .post-content h2 {
-        font-size: 1.35rem;
-        margin-bottom: 0.75rem;
-        font-weight: 700;
-        color: var(--secondary);
-    }
-    .post-content h2 a {
-        color: inherit;
-        text-decoration: none;
-    }
-    .post-content h2 a:hover {
-        color: var(--primary);
-    }
-    .post-meta {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        margin-bottom: 1rem;
-    }
-    .category {
-        background: var(--primary);
-        color: white;
-        padding: 2px 10px;
-        border-radius: 100px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-    .post-content p {
-        color: var(--text-muted);
-        line-height: 1.7;
-        margin-bottom: 1.5rem;
-        flex: 1;
-    }
-    .read-more {
-        color: var(--primary);
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        transition: gap 0.2s ease;
-    }
-    .read-more:hover {
-        gap: 8px;
-    }
-    .animate-in {
-        animation: fadeInUp 0.8s ease-out forwards;
-        opacity: 0;
-    }
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-float {
-        animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
-    }
-    @media (max-width: 768px) {
-        .section-heading { font-size: 2rem; }
-        .step-card { padding: 2rem 1.5rem; }
-        .tool-card { padding: 1.5rem; }
-        .blog-list { grid-template-columns: 1fr; }
-    }
-</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -352,28 +15,28 @@
       "name": "{% trans 'Come funziona l\'analisi IA del cane?' %}",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "{% trans 'L\'IA analizza la descrizione del comportamento fornita dall\'utente incrociandola con dati di razza, et├á e conoscenze veterinarie per fornire consigli pratici.' %}"
+        "text": "{% trans 'L\'IA analizza la descrizione del comportamento fornita dall\'utente incrociandola con dati di razza, età e conoscenze veterinarie per fornire consigli pratici.' %}"
       }
     },
     {
       "@type": "Question",
-      "name": "{% trans '├ê un sostituto del veterinario?' %}",
+      "name": "{% trans 'È un sostituto del veterinario?' %}",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "{% trans 'No, ├¿ uno strumento di supporto per capire meglio il cane. In caso di problemi di salute, consulta sempre un professionista.' %}"
+        "text": "{% trans 'No, è uno strumento di supporto per capire meglio il cane. In caso di problemi di salute, consulta sempre un professionista.' %}"
       }
     }
   ]
 }
 </script>
-{% endblock %}
-
-{% block content %}
 <style>
     :root {
         --hero-pattern: url('{% static "images/pattern.svg" %}');
     }
 </style>
+{% endblock %}
+
+{% block content %}
 
 <!-- HERO: AI Input Centrale con Immagine -->
 <section class="animate-in" style="background: radial-gradient(circle at bottom right, #10b981, #065f46); color: white; padding: 6rem 2rem; border-radius: 0 0 var(--radius-xl) var(--radius-xl); margin-bottom: 4rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
@@ -403,7 +66,7 @@
             <div style="position: relative; z-index: 2;">
                 <img src="{% static 'images/hero_dog.png' %}" alt="{% trans 'Cane felice' %}" style="width: 100%; max-width: 500px; border-radius: 32px; box-shadow: var(--shadow-premium); border: 8px solid rgba(255,255,255,0.1); object-fit: cover; aspect-ratio: 1/1;">
                 <div style="position: absolute; bottom: -20px; right: -20px; background: white; padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; border: 1px solid var(--border);">
-                    <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">­ƒÉò</div>
+                    <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">۞</div>
                     <div>
                         <div style="font-weight: 800; color: var(--secondary); font-size: 1.1rem;">+10,000</div>
                         <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">{% trans "Cani aiutati" %}</div>
@@ -421,7 +84,7 @@
         <div style="flex: 1; min-width: 300px;">
             <h2 style="color: var(--secondary); font-size: 2.4rem; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif;">{% trans "Esperienza reale, non teoria." %}</h2>
             <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem;">
-                {% blocktrans %}Mi chiamo <strong>Alessio</strong>. Vivo con i cani da oltre un decennio e ho gestito centinaia di caratteri diversi. La mia missione ├¿ unire l'empatia quotidiana alle migliori pratiche scientifiche per aiutarti a costruire un rapporto unico con il tuo cane.{% endblocktrans %}
+                {% blocktrans %}Mi chiamo <strong>Alessio</strong>. Vivo con i cani da oltre un decennio e ho gestito centinaia di caratteri diversi. La mia missione è unire l'empatia quotidiana alle migliori pratiche scientifiche per aiutarti a costruire un rapporto unico con il tuo cane.{% endblocktrans %}
             </p>
             <div style="display: flex; gap: 2rem; margin-bottom: 2.5rem;">
                 <div>
@@ -434,7 +97,7 @@
                 </div>
             </div>
             <a href="{% url 'about' %}" style="display: inline-flex; align-items: center; color: var(--primary); font-weight: 700; text-decoration: none; font-size: 1.1rem; border-bottom: 2px solid rgba(5, 150, 105, 0.1);">
-                {% trans "Scopri di pi├╣ sulla mia storia" %} <span style="margin-left: 8px;">&rarr;</span>
+                {% trans "Scopri di più sulla mia storia" %} <span style="margin-left: 8px;">&rarr;</span>
             </a>
         </div>
         <div style="flex: 0 0 auto; width: 280px; height: 350px; background: #f8fafc; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border);">
@@ -446,18 +109,18 @@
 <!-- Problemi Rapidi -->
 {% if problems %}
 <section class="section-problems">
-    <h2 class="section-heading">{% trans "Problemi pi├╣ comuni" %}</h2>
+    <h2 class="section-heading">{% trans "Problemi più comuni" %}</h2>
     <div class="problems-grid">
         {% for problem in problems %}
         <a href="{% url 'knowledge:problem_detail' problem.slug %}" class="problem-card">
             <span class="problem-icon">
-                {% if problem.slug == 'abbaia-troppo' %}­ƒöè
-                {% elif problem.slug == 'tira-guinzaglio' %}­ƒÉòÔÇì­ƒª║
-                {% elif problem.slug == 'ansia-separazione' %}­ƒÿƒ
-                {% elif problem.slug == 'cane-morde' %}­ƒªÀ
-                {% elif problem.slug == 'non-mangia' %}­ƒì¢´©Å
-                {% elif problem.slug == 'paura-rumori' %}ÔÜí
-                {% else %}­ƒÉ¥
+                {% if problem.slug == 'abbaia-troppo' %}۞
+                {% elif problem.slug == 'tira-guinzaglio' %}۞
+                {% elif problem.slug == 'ansia-separazione' %}۞
+                {% elif problem.slug == 'cane-morde' %}۞
+                {% elif problem.slug == 'non-mangia' %}۞
+                {% elif problem.slug == 'paura-rumori' %}۞
+                {% else %}۞
                 {% endif %}
             </span>
             <strong>{{ problem.get_title }}</strong>
@@ -488,32 +151,32 @@
         <div class="step-card">
             <span class="step-number">3</span>
             <h3>{% trans "Ricevi soluzioni" %}</h3>
-            <p>{% trans "Consigli pratici personalizzati per razza, et├á e situazione" %}</p>
+            <p>{% trans "Consigli pratici personalizzati per razza, età e situazione" %}</p>
         </div>
     </div>
 </section>
 
-<!-- Tool -->
+<!-- Strumenti -->
 <section class="section-tools">
     <h2 class="section-heading">{% trans "Strumenti gratuiti" %}</h2>
     <div class="tools-grid">
         <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card">
-            <span class="tool-icon">­ƒìû</span>
+            <span class="tool-icon">۞</span>
             <h3>{% trans "Calcolatore Cibo" %}</h3>
             <p>{% trans "Quanto deve mangiare il tuo cane? Calcola la porzione giusta." %}</p>
         </a>
         <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
-            <span class="tool-icon">­ƒÄé</span>
-            <h3>{% trans "Et├á in Anni Umani" %}</h3>
+            <span class="tool-icon">۞</span>
+            <h3>{% trans "Età in Anni Umani" %}</h3>
             <p>{% trans "Scopri quanti anni ha il tuo cane in anni umani." %}</p>
         </a>
         <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
-            <span class="tool-icon">­ƒºá</span>
+            <span class="tool-icon">۞</span>
             <h3>{% trans "Quiz Linguaggio" %}</h3>
             <p>{% trans "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova." %}</p>
         </a>
         <a href="{% url 'canine_tools:heart_recorder' %}" class="tool-card">
-            <span class="tool-icon">ÔØñ´©Å</span>
+            <span class="tool-icon">۞</span>
             <h3>{% trans "Registratore Cardiaco" %}</h3>
             <p>{% trans "Registra e analizza i battiti del cuore del tuo cane" %}</p>
         </a>
@@ -529,29 +192,29 @@
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
             <div class="resource-card">
-                <div class="resource-icon">­ƒñû</div>
+                <div class="resource-icon">۞</div>
                 <h3>{% trans "Analisi IA Comportamento" %}</h3>
                 <p>{% trans "Descrivi il problema e ottieni consigli personalizzati basati sull'IA." %}</p>
             </div>
             <div class="resource-card">
-                <div class="resource-icon">­ƒôÜ</div>
+                <div class="resource-icon">۞</div>
                 <h3>{% trans "Learning Hub" %}</h3>
                 <p>{% trans "Articoli e guide su educazione, salute e benessere del tuo cane." %}</p>
             </div>
             <div class="resource-card">
-                <div class="resource-icon">­ƒÆ¼</div>
+                <div class="resource-icon">۞</div>
                 <h3>{% trans "Community Attiva" %}</h3>
                 <p>{% trans "Unisciti alla community e ricevi supporto da altri proprietari." %}</p>
             </div>
             <div class="resource-card">
-                <div class="resource-icon">­ƒøá´©Å</div>
+                <div class="resource-icon">۞</div>
                 <h3>{% trans "Strumenti Gratuiti" %}</h3>
                 <p>{% trans "Calcolatori, quiz e strumenti interattivi per la gestione del cane." %}</p>
             </div>
         </div>
         <div style="text-align: center;">
             <a href="{% url 'landing_page' %}" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;">
-                ­ƒîƒ {% trans "Scopri Tutte le Risorse" %} &rarr;
+                🏠 {% trans "Scopri Tutte le Risorse" %} &rarr;
             </a>
         </div>
     </div>
@@ -645,7 +308,6 @@ const images = [
     'dog-barking.jpg',
     'dog-training-2.jpg'
 ];
-
 document.querySelectorAll('.post-img').forEach(img => {
     const index = parseInt(img.dataset.index) || 0;
     img.src = '/static/images/' + images[index % images.length];
