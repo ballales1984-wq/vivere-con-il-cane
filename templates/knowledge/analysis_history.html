@@ -291,7 +291,7 @@
                             <button type="submit" class="dropdown-item" {% if analysis.result == 'worse' %}disabled{% endif %}>❌ {% trans "Segna come Peggiorato" %}</button>
                         </form>
                         <hr style="margin: 0.25rem 0; border: none; border-top: 1px solid #eee;">
-                        <form action="{% url 'delete_analysis' analysis.id %}" method="post" style="display:block;" class="delete-analysis-form">
+                        <form action="{% url 'knowledge:delete_analysis' analysis.id %}" method="post" style="display:block;" class="delete-analysis-form">
                             {% csrf_token %}
                             <button type="submit" class="dropdown-item" style="color: #ef4444;">🗑️ {% trans "Elimina" %}</button>
                         </form>
@@ -311,7 +311,7 @@
     </div>
 
     <div style="margin-top: 3rem; text-align: center;">
-        <a href="{% url 'profile_detail' dog.id %}" class="back-link">&larr; {% trans "Torna al profilo di" %} {{ dog.dog_name }}</a>
+        <a href="{% url 'dog_profile:profile_detail' dog.id %}" class="back-link">&larr; {% trans "Torna al profilo di" %} {{ dog.dog_name }}</a>
     </div>
 </div>
 

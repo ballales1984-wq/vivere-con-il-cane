@@ -85,7 +85,7 @@
             <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
                 <p style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">{% trans "Condividi con il Veterinario" %}</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-                    <a href="{% url 'export_dossier_pdf' profile.id %}" class="btn" style="background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">📄 {% trans "PDF Professionale" %}</a>
+                    <a href="{% url 'dog_profile:export_dossier_pdf' profile.id %}" class="btn" style="background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">📄 {% trans "PDF Professionale" %}</a>
                     <button onclick="window.print()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem;">🖨️ {% trans "Stampa" %}</button>
                     <button onclick="copyToClipboard()" class="btn btn-secondary" style="background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; font-size: 0.85rem; position: relative;">
                         📋 {% trans "Copia" %}

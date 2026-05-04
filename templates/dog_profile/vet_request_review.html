@@ -100,12 +100,12 @@
 
         <!-- Actions -->
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="{% url 'vet_request_upload' vet_request.dog.id vet_request.id %}" class="btn btn-secondary">
+            <a href="{% url 'dog_profile:vet_request_upload' vet_request.dog.id vet_request.id %}" class="btn btn-secondary">
                 ↩️ {% trans "Modifica Media" %}
             </a>
             
             <div style="display: flex; gap: 1rem;">
-                <a href="{% url 'vet_request_list' %}" class="btn btn-secondary">{% trans "Annulla" %}</a>
+                <a href="{% url 'dog_profile:vet_request_list' %}" class="btn btn-secondary">{% trans "Annulla" %}</a>
                 <button type="submit" class="btn-calculate" style="background: #4a7c59;">
                     ✅ {% trans "Invia al Veterinario" %}
                 </button>

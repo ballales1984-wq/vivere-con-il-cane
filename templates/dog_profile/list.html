@@ -11,17 +11,17 @@
 
 <section class="tools-grid">
     {% for profile in profiles %}
-    <a href="{% url 'profile_detail' profile.id %}" class="tool-card">
+    <a href="{% url 'dog_profile:profile_detail' profile.id %}" class="tool-card">
         <span class="tool-icon">🐕</span>
         <h3>{{ profile.dog_name }}</h3>
         <p>{{ profile.breed|default:"Razza non specificata" }}</p>
     </a>
     {% empty %}
-    <p>{% trans "Nessun cane registrato." %} <a href="{% url 'profile_new' %}">{% trans "Aggiungi il tuo cane!" %}</a></p>
+    <p>{% trans "Nessun cane registrato." %} <a href="{% url 'dog_profile:profile_new' %}">{% trans "Aggiungi il tuo cane!" %}</a></p>
     {% endfor %}
 </section>
 
 <div style="text-align: center; margin-top: 2rem;">
-    <a href="{% url 'profile_new' %}" class="btn-calculate">{% trans "Aggiungi Cane" %}</a>
+    <a href="{% url 'dog_profile:profile_new' %}" class="btn-calculate">{% trans "Aggiungi Cane" %}</a>
 </div>
 {% endblock %}

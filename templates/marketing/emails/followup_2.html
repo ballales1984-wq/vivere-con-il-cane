@@ -19,7 +19,7 @@
             <p style="color: #333; font-size: 15px; line-height: 1.6;">
                 {% trans "Genera un PDF completo con tutte le vaccinazioni, eventi medici e analisi. Perfetto da inviare al veterinario." %}
             </p>
-            <a href="{{ protocol }}://{{ domain }}{% url 'profile_dossier' profile_id=1 %}"
+            <a href="{{ protocol }}://{{ domain }}{% url 'dog_profile:profile_dossier' profile_id=1 %}"
                style="color: #059669; text-decoration: none; font-weight: bold;">{% trans "Genera Dossier PDF →" %}</a>
         </div>
 

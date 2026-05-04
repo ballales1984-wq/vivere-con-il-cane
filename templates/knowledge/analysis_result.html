@@ -76,7 +76,7 @@
     <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 3rem; border-radius: var(--radius-lg); color: white; text-align: center; margin-bottom: 4rem; box-shadow: var(--shadow-lg);">
         <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">{% trans "Sblocca Analisi Più Precise" %}</h3>
         <p style="font-size: 1.1rem; opacity: 0.8; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">{% trans "Crea il profilo del tuo cane per ottenere risposte personalizzate in base alla razza, età e predisposizioni genetiche." %}</p>
-        <a href="{% url 'profile_new' %}" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);">
+        <a href="{% url 'dog_profile:profile_new' %}" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.1rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);">
             ✨ {% trans "Crea profilo ora" %}
         </a>
     </div>
@@ -89,7 +89,7 @@
         <a href="{% url 'knowledge:download_analysis_pdf' analysis.id %}" class="btn btn-secondary" style="border: 1px solid #bfdbfe; background: #eff6ff; color: #1e40af;">
             📄 {% trans "Scarica PDF" %}
         </a>
-        <a href="{% url 'vet_request_start' dog.id %}?analysis_id={{ analysis.id }}" class="btn btn-primary" style="background: var(--primary-dark);">
+        <a href="{% url 'dog_profile:vet_request_start' dog.id %}?analysis_id={{ analysis.id }}" class="btn btn-primary" style="background: var(--primary-dark);">
             📤 {% trans "Invia al Veterinario" %}
         </a>
         {% endif %}

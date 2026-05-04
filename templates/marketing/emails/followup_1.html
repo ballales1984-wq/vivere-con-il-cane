@@ -19,7 +19,7 @@
             <p style="color: #333; font-size: 15px; line-height: 1.6;">
                 {% trans "Aggiungi razza, età, peso e caratteristiche. L'IA userà queste info per darti consigli su misura." %}
             </p>
-            <a href="{{ protocol }}://{{ domain }}{% url 'add_dog_profile' %}"
+            <a href="{{ protocol }}://{{ domain }}{% url 'dog_profile:profile_new' %}"
                style="color: #3b82f6; text-decoration: none; font-weight: bold;">{% trans "Crea profilo ora →" %}</a>
         </div>
 
@@ -28,7 +28,7 @@
             <p style="color: #333; font-size: 15px; line-height: 1.6;">
                 {% trans "Tieni traccia di passeggiate, sonno, gioco e cibo. L'IA analizzerà le tendenze e ti darà consigli daily." %}
             </p>
-            <a href="{{ protocol }}://{{ domain }}{% url 'dashboard' %}"
+            <a href="{{ protocol }}://{{ domain }}{% url 'dog_profile:dashboard' %}"
                style="color: #3b82f6; text-decoration: none; font-weight: bold;">{% trans "Vai alla Dashboard →" %}</a>
         </div>
 

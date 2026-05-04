@@ -53,14 +53,14 @@
             
             {% if log %}
             <div style="margin-top: 1rem; text-align: center;">
-                <a href="{% url 'log_delete' profile.id log.id %}" class="btn" style="background: #dc2626; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-size: 0.9rem; text-decoration: none;" onclick="return confirm('{% trans "Sei sicuro di voler eliminare questo log?" %}');">
+                <a href="{% url 'dog_profile:log_delete' profile.id log.id %}" class="btn" style="background: #dc2626; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-size: 0.9rem; text-decoration: none;" onclick="return confirm('{% trans "Sei sicuro di voler eliminare questo log?" %}');">
                     🗑️ {% trans "Elimina Log" %}
                 </a>
             </div>
             {% endif %}
             
             <div style="margin-top: 1.5rem; text-align: center;">
-                <a href="{% url 'profile_detail' profile.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">❌ {% trans "Annulla" %}</a>
+                <a href="{% url 'dog_profile:profile_detail' profile.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">❌ {% trans "Annulla" %}</a>
             </div>
         </form>
     </div>

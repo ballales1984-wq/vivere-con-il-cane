@@ -27,7 +27,7 @@
                 <p style="margin: 0.25rem 0 0; font-size: 0.9rem;">{{ req.problem_description|truncatewords:15 }}</p>
             </div>
             <div>
-                <a href="{% url 'vet_request_detail' req.dog.id req.id %}" class="btn btn-primary">{% trans "Vedi" %}</a>
+                <a href="{% url 'dog_profile:vet_request_detail' req.dog.id req.id %}" class="btn btn-primary">{% trans "Vedi" %}</a>
             </div>
         </div>
         {% endfor %}
@@ -35,7 +35,7 @@
     {% else %}
     <div style="text-align: center; padding: 3rem; color: var(--text-light);">
         <p style="font-size: 1.2rem; margin-bottom: 1rem;">{% trans "Nessuna richiesta inviata finora." %}</p>
-        <a href="{% url 'dashboard' %}" class="btn btn-primary">{% trans "Vai alla Dashboard" %}</a>
+        <a href="{% url 'dog_profile:dashboard' %}" class="btn btn-primary">{% trans "Vai alla Dashboard" %}</a>
     </div>
     {% endif %}
 </section>
