@@ -59,7 +59,7 @@
         
         <form method="post" action="{% url 'account_login' %}" style="display: flex; flex-direction: gap: 1rem;">
             {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.GET.next|default:'/dashboard/' }}" />
+            <input type="hidden" name="next" value="{{ request.GET.next|default:'/it/cane/' }}" />
             
             {% if form.non_field_errors %}
                 <div style="background: #fef2f2; color: #991b1b; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem;">

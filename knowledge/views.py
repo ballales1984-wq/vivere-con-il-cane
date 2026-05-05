@@ -605,7 +605,7 @@ def update_analysis_result(request, analysis_id):
         )
         analysis.result = request.POST.get("result", "pending")
         analysis.save()
-        return redirect("dashboard")
+        return redirect("dog_profile:dashboard")
     return JsonResponse({"error": "POST required"}, status=405)
 
 

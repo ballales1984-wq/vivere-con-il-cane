@@ -439,6 +439,6 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Auth Redirects
-LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "dog_profile:dashboard"
 LOGOUT_REDIRECT_URL = "home"
 # Trigger reload after i18n consolidation

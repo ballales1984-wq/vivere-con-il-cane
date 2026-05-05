@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.http import HttpResponse
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -47,8 +49,8 @@ def profile_new(request):
             birth_date=birth_date or None,
             weight=weight or None,
             gender=gender,
-        )
-        return redirect("profile_detail", profile_id=profile.id)
+         )
+        return redirect(reverse("dog_profile:profile_detail", kwargs={"profile_id": profile.id}))
 
     return render(request, "dog_profile/form.html", {})
 
@@ -99,7 +101,7 @@ def profile_add_event(request, profile_id):
             date=event_date,
         )
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
-        return redirect("profile_detail", profile_id=profile.id)
+        return redirect(reverse("dog_profile:profile_detail", kwargs={"profile_id": profile.id}))
 
     return render(request, "dog_profile/event_form.html", {"profile": profile, "default_date": date.today()})
 
@@ -140,7 +142,7 @@ def profile_add_log(request, profile_id):
             }
         )
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
-        return redirect("profile_detail", profile_id=profile.id)
+        return redirect(reverse("dog_profile:profile_detail", kwargs={"profile_id": profile.id}))
 
     return render(request, "dog_profile/log_form.html", {"profile": profile, "default_date": date.today()})
 
@@ -161,7 +163,7 @@ def log_edit(request, profile_id, log_id):
         log.description = request.POST.get("notes", log.description)
         log.save()
         cache.delete(f"daily_coach_{profile.id}_{date.today()}")
-        return redirect("profile_detail", profile_id=profile.id)
+        return redirect(reverse("dog_profile:profile_detail", kwargs={"profile_id": profile.id}))
 
     return render(request, "dog_profile/log_form.html", {"profile": profile, "log": log, "default_date": log.date})
 
@@ -193,7 +195,7 @@ def event_edit(request, profile_id, event_id):
         event.description = request.POST.get("description", event.description)
         event.date = event_date
         event.save()
-        return redirect("profile_detail", profile_id=profile.id)
+        return redirect(reverse("dog_profile:profile_detail", kwargs={"profile_id": profile.id}))
 
     return render(request, "dog_profile/event_form.html", {"profile": profile, "event": event, "default_date": event.date})
 
@@ -216,8 +218,8 @@ def my_dog(request):
     """Quick view for the first dog profile of the logged user."""
     profile = DogProfile.objects.filter(owner=request.user).first()
     if not profile:
-        return redirect("profile_new")
-    return redirect("profile_detail", profile_id=profile.id)
+        return redirect("dog_profile:profile_new")
+    return redirect(reverse("dog_profile:profile_detail", kwargs={"profile_id": profile.id}))
 
 
 def get_daily_coach_tips(profile):
@@ -391,8 +393,8 @@ def log_daily_routine(request, profile_id):
                 'description': 'Check-in giornaliero (tramite Dashboard)',
             }
         )
-        return redirect("dashboard")
-    return redirect("dashboard")
+        return redirect("dog_profile:dashboard")
+    return redirect("dog_profile:dashboard")
 
 
 @login_required
@@ -403,7 +405,7 @@ def lifetime_analytics(request, profile_id):
     if request.method == "POST":
         # Genera nuovo report IA
         generate_lifetime_macro_analysis(profile)
-        return redirect("lifetime_analytics", profile_id=profile.id)
+        return redirect(reverse("dog_profile:lifetime_analytics", kwargs={"profile_id": profile.id}))
 
     stats = profile.get_lifetime_stats()
     latest_macro = profile.macro_analyses.first()
@@ -544,7 +546,7 @@ def vet_request_start(request, dog_id):
         # Generate AI summary
         vet_request.ai_summary = generate_vet_summary(vet_request)
         vet_request.save()
-        return redirect("vet_request_upload", dog_id=dog.id, request_id=vet_request.id)
+        return redirect(reverse("dog_profile:vet_request_upload", kwargs={"dog_id": dog.id, "request_id": vet_request.id}))
 
     return render(
         request,
@@ -590,7 +592,7 @@ def vet_request_upload(request, dog_id, request_id):
 
         vet_request.status = "ready"
         vet_request.save()
-        return redirect("vet_request_review", dog_id=dog_id, request_id=vet_request.id)
+        return redirect(reverse("dog_profile:vet_request_review", kwargs={"dog_id": dog_id, "request_id": vet_request.id}))
 
     # AI suggests media types needed based on problem
     suggested_media = get_suggested_media_for_problem(
@@ -620,7 +622,7 @@ def vet_request_review(request, dog_id, request_id):
         vet_request.sent_at = timezone.now()
         vet_request.status = "sent"
         vet_request.save()
-        return redirect("vet_request_detail", dog_id=dog_id, request_id=vet_request.id)
+        return redirect(reverse("dog_profile:vet_request_detail", kwargs={"dog_id": dog_id, "request_id": vet_request.id}))
 
     # Generate WhatsApp message or email body
     vet_request.vet_contact_info = generate_vet_contact_info(vet_request)

@@ -327,7 +327,7 @@ class UpdateAnalysisResultTest(TestCase):
             reverse("knowledge:update_analysis_result", kwargs={"analysis_id": self.analysis.id}),
             {"result": "success"},
         )
-        self.assertRedirects(response, reverse("dashboard"))
+        self.assertRedirects(response, reverse("dog_profile:dashboard"))
         self.analysis.refresh_from_db()
         self.assertEqual(self.analysis.result, "success")
 

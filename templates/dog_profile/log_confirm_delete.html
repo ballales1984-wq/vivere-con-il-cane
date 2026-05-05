@@ -20,7 +20,7 @@
         <form method="post">
             {% csrf_token %}
             <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                <a href="{% url 'profile_detail' profile.id %}" class="btn btn-secondary">
+                <a href="{% url 'dog_profile:profile_detail' profile.id %}" class="btn btn-secondary">
                     ❌ {% trans "Annulla" %}
                 </a>
                 <button type="submit" class="btn" style="background: #dc2626; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 700;">

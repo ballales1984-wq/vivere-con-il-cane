@@ -55,7 +55,7 @@
                   <li><a href="{% url 'blog:blog_list' %}">{% trans "Blog" %}</a></li>
                   <li><a href="{% url 'knowledge:problem_list' %}">{% trans "Problemi" %}</a></li>
                   <li><a href="{% url 'community:discussion_list' %}">{% trans "Community" %}</a></li>
-                  <li><a href="{% url 'dashboard' %}">{% trans "Il mio Cane" %}</a></li>
+                  <li><a href="{% url 'dog_profile:dashboard' %}">{% trans "Il mio Cane" %}</a></li>
                   <li><a href="{% url 'landing_page' %}" style="color: #a7f3d0; font-weight: 700;">🌟 {% trans "Risorse" %}</a></li>
                 {% if user.is_authenticated %}
                     <li class="nav-user">

@@ -109,7 +109,7 @@
     <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
         <a href="{% url 'blog:blog_list' %}" style="color: var(--text-muted); text-decoration: none; font-weight: 600;">&larr; {% trans "Torna al blog" %}</a>
         <div style="display: flex; gap: 1rem;">
-            <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost({{ post.id }});" style="background: rgba(239, 68, 68, 0.05); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.6rem 1.2rem; border-radius: 100px; font-weight: 700; cursor: pointer; transition: var(--transition);">
+            <button class="vote-btn" data-post-id="{{ post.id }}" onclick="votePost(parseInt('{{ post.id }}', 10));" style="background: rgba(239, 68, 68, 0.05); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.6rem 1.2rem; border-radius: 100px; font-weight: 700; cursor: pointer; transition: var(--transition);">
                 ❤️ {% trans "Mi piace" %} <span class="vote-count">{{ post.votes_count }}</span>
             </button>
             <button onclick="sharePage()" style="background: rgba(5, 150, 105, 0.05); color: var(--primary); border: 1px solid rgba(5, 150, 105, 0.2); padding: 0.6rem 1.2rem; border-radius: 100px; font-weight: 700; cursor: pointer; transition: var(--transition);">
@@ -140,7 +140,7 @@ const images = [
     'dog-barking.jpg',
     'dog-training-2.jpg'
 ];
-const postId = {{ post.id }};
+const postId = parseInt("{{ post.id }}", 10);
 document.getElementById('post-image').src = '/static/images/' + images[(postId - 1) % images.length];
 </script>
 
