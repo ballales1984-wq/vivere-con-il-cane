@@ -62,7 +62,7 @@
                 <label for="id_email" style="display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
                     {% trans "Email" %}
                 </label>
-                {{ form.email }}
+                <input type="email" name="email" placeholder="{% trans 'La tua email' %}" autocomplete="email" required id="id_email" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;" />
                 {% if form.email.errors %}
                     <span style="color: #dc2626; font-size: 0.8rem;">{{ form.email.errors }}</span>
                 {% endif %}
@@ -73,7 +73,7 @@
                     <label for="id_password1" style="display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
                         {% trans "Password" %}
                     </label>
-                    {{ form.password1 }}
+                    <input type="password" name="password1" placeholder="{% trans 'Password' %}" autocomplete="new-password" required id="id_password1" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;" />
                     {% if form.password1.errors %}
                         <span style="color: #dc2626; font-size: 0.8rem;">{{ form.password1.errors }}</span>
                     {% endif %}
@@ -82,7 +82,7 @@
                     <label for="id_password2" style="display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem;">
                         {% trans "Conferma Password" %}
                     </label>
-                    {{ form.password2 }}
+                    <input type="password" name="password2" placeholder="{% trans 'Conferma Password' %}" autocomplete="new-password" required id="id_password2" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;" />
                     {% if form.password2.errors %}
                         <span style="color: #dc2626; font-size: 0.8rem;">{{ form.password2.errors }}</span>
                     {% endif %}

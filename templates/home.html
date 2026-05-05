@@ -44,7 +44,7 @@
     
     <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4rem;">
         <div style="flex: 1; min-width: 320px; z-index: 2;">
-            <div style="display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; backdrop-filter: blur(4px);">Ô£¿ {% trans "Nuova Analisi AI v2.0" %}</div>
+            <div style="display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; backdrop-filter: blur(4px);">🚀 {% trans "Nuova Analisi AI v2.0" %}</div>
             <h1 style="font-size: 3.5rem; color: white; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 800; line-height: 1.1;">
                 {% trans "Capisci cosa ti sta dicendo il tuo cane." %}
             </h1>
@@ -66,7 +66,7 @@
             <div style="position: relative; z-index: 2;">
                 <img src="{% static 'images/hero_dog.png' %}" alt="{% trans 'Cane felice' %}" style="width: 100%; max-width: 500px; border-radius: 32px; box-shadow: var(--shadow-premium); border: 8px solid rgba(255,255,255,0.1); object-fit: cover; aspect-ratio: 1/1;">
                 <div style="position: absolute; bottom: -20px; right: -20px; background: white; padding: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; border: 1px solid var(--border);">
-                    <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">۞</div>
+                    <div style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🐕</div>
                     <div>
                         <div style="font-weight: 800; color: var(--secondary); font-size: 1.1rem;">+10,000</div>
                         <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">{% trans "Cani aiutati" %}</div>
@@ -114,13 +114,13 @@
         {% for problem in problems %}
         <a href="{% url 'knowledge:problem_detail' problem.slug %}" class="problem-card">
             <span class="problem-icon">
-                {% if problem.slug == 'abbaia-troppo' %}۞
-                {% elif problem.slug == 'tira-guinzaglio' %}۞
-                {% elif problem.slug == 'ansia-separazione' %}۞
-                {% elif problem.slug == 'cane-morde' %}۞
-                {% elif problem.slug == 'non-mangia' %}۞
-                {% elif problem.slug == 'paura-rumori' %}۞
-                {% else %}۞
+                {% if problem.slug == 'abbaia-troppo' %}🐕
+                {% elif problem.slug == 'tira-guinzaglio' %}🐾
+                {% elif problem.slug == 'ansia-separazione' %}😟
+                {% elif problem.slug == 'cane-morde' %}⚠️
+                {% elif problem.slug == 'non-mangia' %}🍽️
+                {% elif problem.slug == 'paura-rumori' %}🔊
+                {% else %}🐕
                 {% endif %}
             </span>
             <strong>{{ problem.get_title }}</strong>
@@ -161,22 +161,22 @@
     <h2 class="section-heading">{% trans "Strumenti gratuiti" %}</h2>
     <div class="tools-grid">
         <a href="{% url 'canine_tools:food_calculator' %}" class="tool-card">
-            <span class="tool-icon">۞</span>
-            <h3>{% trans "Calcolatore Cibo" %}</h3>
-            <p>{% trans "Quanto deve mangiare il tuo cane? Calcola la porzione giusta." %}</p>
-        </a>
-        <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
-            <span class="tool-icon">۞</span>
-            <h3>{% trans "Età in Anni Umani" %}</h3>
-            <p>{% trans "Scopri quanti anni ha il tuo cane in anni umani." %}</p>
-        </a>
-        <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
-            <span class="tool-icon">۞</span>
-            <h3>{% trans "Quiz Linguaggio" %}</h3>
-            <p>{% trans "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova." %}</p>
-        </a>
-        <a href="{% url 'canine_tools:heart_recorder' %}" class="tool-card">
-            <span class="tool-icon">۞</span>
+<span class="tool-icon">🍖</span>
+             <h3>{% trans "Calcolatore Cibo" %}</h3>
+             <p>{% trans "Quanto deve mangiare il tuo cane? Calcola la porzione giusta." %}</p>
+         </a>
+         <a href="{% url 'canine_tools:age_calculator' %}" class="tool-card">
+             <span class="tool-icon">🎂</span>
+             <h3>{% trans "Età in Anni Umani" %}</h3>
+             <p>{% trans "Scopri quanti anni ha il tuo cane in anni umani." %}</p>
+         </a>
+         <a href="{% url 'canine_tools:dog_quiz' %}" class="tool-card">
+             <span class="tool-icon">🧠</span>
+             <h3>{% trans "Quiz Linguaggio" %}</h3>
+             <p>{% trans "Quanto conosci il linguaggio del tuo cane? Mettiti alla prova." %}</p>
+         </a>
+         <a href="{% url 'canine_tools:heart_recorder' %}" class="tool-card">
+             <span class="tool-icon">❤️</span>
             <h3>{% trans "Registratore Cardiaco" %}</h3>
             <p>{% trans "Registra e analizza i battiti del cuore del tuo cane" %}</p>
         </a>
@@ -192,22 +192,22 @@
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
             <div class="resource-card">
-                <div class="resource-icon">۞</div>
+                <div class="resource-icon">🤖</div>
                 <h3>{% trans "Analisi IA Comportamento" %}</h3>
                 <p>{% trans "Descrivi il problema e ottieni consigli personalizzati basati sull'IA." %}</p>
             </div>
             <div class="resource-card">
-                <div class="resource-icon">۞</div>
+                <div class="resource-icon">📚</div>
                 <h3>{% trans "Learning Hub" %}</h3>
                 <p>{% trans "Articoli e guide su educazione, salute e benessere del tuo cane." %}</p>
             </div>
             <div class="resource-card">
-                <div class="resource-icon">۞</div>
+                <div class="resource-icon">💬</div>
                 <h3>{% trans "Community Attiva" %}</h3>
                 <p>{% trans "Unisciti alla community e ricevi supporto da altri proprietari." %}</p>
             </div>
             <div class="resource-card">
-                <div class="resource-icon">۞</div>
+                <div class="resource-icon">🛠️</div>
                 <h3>{% trans "Strumenti Gratuiti" %}</h3>
                 <p>{% trans "Calcolatori, quiz e strumenti interattivi per la gestione del cane." %}</p>
             </div>

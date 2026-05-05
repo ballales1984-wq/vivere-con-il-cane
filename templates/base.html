@@ -33,12 +33,9 @@
 
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-</script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
     <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2145959534306055" crossorigin="anonymous"></script>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -58,13 +55,13 @@
                   <li><a href="{% url 'dog_profile:dashboard' %}">{% trans "Il mio Cane" %}</a></li>
                   <li><a href="{% url 'landing_page' %}" style="color: #a7f3d0; font-weight: 700;">🌟 {% trans "Risorse" %}</a></li>
                 {% if user.is_authenticated %}
-                    <li class="nav-user">
-                        <span style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: white;">{{ user.username }}</strong></span>
-                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" style="background: none; border: none; color: var(--accent); cursor: pointer; font-weight: 700; padding: 0 10px;">{% trans "Esci" %}</button>
-                        </form>
-                    </li>
+<li class="nav-user">
+                         <span style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: var(--secondary);">{{ user.username }}</strong></span>
+                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                             {% csrf_token %}
+                             <button type="submit" style="background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 700; padding: 0 10px;">{% trans "Esci" %}</button>
+                         </form>
+                     </li>
                 {% else %}
                     <li><a href="{% url 'login' %}">{% trans "Accedi" %}</a></li>
                     <li><a href="{% url 'signup' %}" class="btn btn-primary btn-sm" style="color: white !important;">{% trans "Registrati" %}</a></li>

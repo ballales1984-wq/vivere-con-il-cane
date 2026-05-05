@@ -12,7 +12,7 @@
     
     <form hx-post="{% url 'subscribe_newsletter' %}" hx-target="#newsletter-container" hx-swap="outerHTML" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; max-width: 600px; margin: 0 auto;">
         {% csrf_token %}
-        <input type="email" name="email" placeholder="{% trans 'La tua email migliore' %}" required 
+        <input type="email" name="email" placeholder="{% trans 'La tua email migliore' %}" required autocomplete="email"
                style="flex: 1; min-width: 280px; padding: 1.1rem 1.5rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1.05rem; outline: none; transition: var(--transition); box-shadow: var(--shadow-sm);"
                onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 4px rgba(5, 150, 105, 0.1)'" onblur="this.style.borderColor='var(--border)'; this.style.boxShadow='var(--shadow-sm)'">
         <button type="submit" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.05rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
