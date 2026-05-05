@@ -126,13 +126,13 @@
             </a>
             <button class="menu-toggle" onclick="toggleMenu()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; display: none;">☰</button>
             <ul class="nav-links" id="navLinks" style="display: flex; list-style: none; gap: 1.5rem; align-items: center; margin: 0; padding: 0;">
-                <li><a href="/it/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Home</a></li>
-                <li><a href="/it/chi-sono/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Chi Sono</a></li>
-                <li><a href="/it/blog/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Blog</a></li>
-                <li><a href="/it/problemi/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Problemi</a></li>
-                <li><a href="/it/community/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Community</a></li>
-                <li><a href="/it/cane/" style="text-decoration: none; color: #4a5568; font-weight: 600;">Il mio Cane</a></li>
-                <li><a href="/landing/" style="text-decoration: none; color: #a7f3d0; font-weight: 700; background: rgba(45, 90, 61, 0.1); padding: 0.5rem 1rem; border-radius: 8px;">
+                <li><a href="{% url 'home' %}" style="text-decoration: none; color: #4a5568; font-weight: 600;">Home</a></li>
+                <li><a href="{% url 'about' %}" style="text-decoration: none; color: #4a5568; font-weight: 600;">Chi Sono</a></li>
+                <li><a href="{% url 'blog:blog_list' %}" style="text-decoration: none; color: #4a5568; font-weight: 600;">Blog</a></li>
+                <li><a href="{% url 'knowledge:problem_list' %}" style="text-decoration: none; color: #4a5568; font-weight: 600;">Problemi</a></li>
+                <li><a href="{% url 'community:discussion_list' %}" style="text-decoration: none; color: #4a5568; font-weight: 600;">Community</a></li>
+                <li><a href="{% url 'dog_profile:profile_list' %}" style="text-decoration: none; color: #4a5568; font-weight: 600;">Il mio Cane</a></li>
+                <li><a href="{% url 'landing_page' %}" style="text-decoration: none; color: #a7f3d0; font-weight: 700; background: rgba(45, 90, 61, 0.1); padding: 0.5rem 1rem; border-radius: 8px;">
                     🌟 Risorse
                 </a></li>
             </ul>

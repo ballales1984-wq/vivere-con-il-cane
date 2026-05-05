@@ -70,7 +70,8 @@ document.querySelectorAll('.post-img').forEach(img => {
 
 <script>
 function votePost(postId, btn) {
-    fetch('/blog/vote/' + postId + '/')
+    const voteUrl = `{% url 'blog:vote_post' 0 %}`.replace('0', postId);
+    fetch(voteUrl)
         .then(r => r.json())
         .then(data => {
             if (data.voted) {
