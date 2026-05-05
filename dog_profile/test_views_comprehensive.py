@@ -42,7 +42,7 @@ class DogProfileBaseTestCase(TestCase):
 
 class ProfileListViewTest(DogProfileBaseTestCase):
     def test_profile_list_view(self):
-        response = self.client.get(reverse("profile_list"))
+        response = self.client.get(reverse("dog_profile:profile_list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Rex")
 
@@ -69,7 +69,7 @@ class ProfileDetailViewTest(DogProfileBaseTestCase):
 
     def test_profile_detail_view(self):
         response = self.client.get(
-            reverse("profile_detail", kwargs={"profile_id": self.dog.id})
+            reverse("dog_profile:profile_detail", kwargs={"profile_id": self.dog.id})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Rex")
@@ -80,16 +80,16 @@ class ProfileDetailViewTest(DogProfileBaseTestCase):
 
 class MyDogRedirectTest(DogProfileBaseTestCase):
     def test_my_dog_redirects_to_detail(self):
-        response = self.client.get(reverse("my_dog"))
+        response = self.client.get(reverse("dog_profile:my_dog"))
         self.assertRedirects(
-            response, reverse("profile_detail", kwargs={"profile_id": self.dog.id})
+            response, reverse("dog_profile:profile_detail", kwargs={"profile_id": self.dog.id})
         )
 
     def test_my_dog_redirects_to_new_if_no_profile(self):
         # Delete the dog and ensure redirect to profile_new
         self.dog.delete()
-        response = self.client.get(reverse("my_dog"))
-        self.assertRedirects(response, reverse("profile_new"))
+        response = self.client.get(reverse("dog_profile:my_dog"))
+        self.assertRedirects(response, reverse("dog_profile:profile_new"))
 
 
 class ProfileDossierViewTest(DogProfileBaseTestCase):
@@ -113,7 +113,7 @@ class ProfileDossierViewTest(DogProfileBaseTestCase):
 
     def test_profile_dossier_view(self):
         response = self.client.get(
-            reverse("profile_dossier", kwargs={"profile_id": self.dog.id})
+            reverse("dog_profile:profile_dossier", kwargs={"profile_id": self.dog.id})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Rex")
@@ -138,7 +138,7 @@ class ExportDossierPDFViewTest(DogProfileBaseTestCase):
         # Mock pisa to avoid actual PDF generation
         mock_createpdf.return_value = MagicMock(err=False, dest=io.BytesIO())
         response = self.client.get(
-            reverse("export_dossier_pdf", kwargs={"profile_id": self.dog.id})
+            reverse("dog_profile:export_dossier_pdf", kwargs={"profile_id": self.dog.id})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/pdf")
@@ -158,14 +158,14 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
 
     def test_vet_request_start_get(self):
         response = self.client.get(
-            reverse("vet_request_start", kwargs={"dog_id": self.dog.id})
+            reverse("dog_profile:vet_request_start", kwargs={"dog_id": self.dog.id})
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Invia al Veterinario")
 
     def test_vet_request_start_post_creates_request(self):
         response = self.client.post(
-            reverse("vet_request_start", kwargs={"dog_id": self.dog.id}),
+            reverse("dog_profile:vet_request_start", kwargs={"dog_id": self.dog.id}),
             {
                 "problem_description": "Il cane ha prurito intenso",
             },
@@ -178,7 +178,7 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
 
     def test_vet_request_start_with_analysis_id(self):
         response = self.client.get(
-            reverse("vet_request_start", kwargs={"dog_id": self.dog.id})
+            reverse("dog_profile:vet_request_start", kwargs={"dog_id": self.dog.id})
             + f"?analysis_id={self.analysis.id}"
         )
         self.assertEqual(response.status_code, 200)
@@ -193,7 +193,7 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
         )
         response = self.client.get(
             reverse(
-                "vet_request_upload",
+                "dog_profile:vet_request_upload",
                 kwargs={"dog_id": self.dog.id, "request_id": vet_req.id},
             )
         )
@@ -213,7 +213,7 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
         img = SimpleUploadedFile("test.jpg", b"filecontent", content_type="image/jpeg")
         response = self.client.post(
             reverse(
-                "vet_request_upload",
+                "dog_profile:vet_request_upload",
                 kwargs={"dog_id": self.dog.id, "request_id": vet_req.id},
             ),
             {"photos": [img], "photo_caption": "Test photo"},
@@ -232,7 +232,7 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
         )
         response = self.client.get(
             reverse(
-                "vet_request_review",
+                "dog_profile:vet_request_review",
                 kwargs={"dog_id": self.dog.id, "request_id": vet_req.id},
             )
         )
@@ -248,7 +248,7 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
         )
         response = self.client.get(
             reverse(
-                "vet_request_detail",
+                "dog_profile:vet_request_detail",
                 kwargs={"dog_id": self.dog.id, "request_id": vet_req.id},
             )
         )
