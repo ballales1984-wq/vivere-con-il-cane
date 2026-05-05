@@ -25,7 +25,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Navigation request - Network first, fallback to cache
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => {
@@ -35,10 +34,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets - Cache first, then network
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      return response || fetch(event.request).catch(() => {
+        return new Response('', { status: 504, statusText: 'Gateway Timeout' });
+      });
     })
   );
 });
