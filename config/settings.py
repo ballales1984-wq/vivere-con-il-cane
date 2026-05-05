@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv\r\nimport dj_database_url\r\n\r\n# Ensure DEBUG is always defined, even if .env fails to load
+from dotenv import load_dotenv
+import dj_database_url
+
+# Ensure DEBUG is always defined, even if .env fails to load
 DEBUG = False
 
 # Carica sempre il file .env dalla root del progetto, indipendentemente
@@ -138,7 +141,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
-    "django.contrib.sites",  # Required for Site framework and allauth
+    "django.contrib.sites",
     
     # Allauth apps
     "allauth",
@@ -164,11 +167,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "allauth.account.middleware.AccountMiddleware",  # Allauth
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # WordPress redirect middleware - DISABLED for Render deployment
-    # "marketing.middleware.wordpress_redirect.WordPressRedirectMiddleware",
 ]
 
 # Cache (Redis production-ready cache)
@@ -215,34 +216,25 @@ CELERY_TASK_DEFAULT_QUEUE = "default"
 CELERY_BEAT_SCHEDULE = {
     "send-newsletter-followups": {
         "task": "marketing.tasks.send_followup_emails",
-        "schedule": 3600,  # every hour
+        "schedule": 3600,
     },
     "expire-old-sessions": {
         "task": "community.tasks.cleanup_expired_sessions",
-        "schedule": 86400,  # daily
+        "schedule": 86400,
     },
 }
 
-# Rate limiting (global per IP)
+# Rate limiting
 RATELIMIT_ENABLE = True
 RATELIMIT_REQUESTS = int(os.environ.get("RATELIMIT_REQUESTS", "100"))
-RATELIMIT_WINDOW = int(os.environ.get("RATELIMIT_WINDOW", "60"))  # per minute
+RATELIMIT_WINDOW = int(os.environ.get("RATELIMIT_WINDOW", "60"))
 
-# Rate limiting per AI analysis
-ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))  # max 10
-ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))  # per hour
+ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))
+ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))
 
-# WordPress Integration (Marketing site) - DISABLED by default
-# Set USE_WORDPRESS_BLOG=True to redirect blog list to WordPress in production
 USE_WORDPRESS_BLOG_REDIRECT = os.environ.get("USE_WORDPRESS_BLOG_REDIRECT", "False").lower() == "true"
 WP_BASE_URL = os.environ.get("WP_BASE_URL", "")
 WP_API_URL = os.environ.get("WP_API_URL", "")
-
-# WordPress ↔ Django CORS - DISABLED
-# CORS_ALLOWED_ORIGINS = [
-#     "https://www.vivereconilcane.com",
-#     "https://vivereconilcane.com",
-# ]
 
 # Django REST Framework
 REST_FRAMEWORK = {
@@ -270,11 +262,11 @@ SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_HTTPONLY = False
 FILE_UPLOAD_PERMISSIONS = 0o644
-FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440  # 2.5MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
-# Logging - structured JSON in production
+# Logging
 if not DEBUG:
     LOGGING = {
         "version": 1,
@@ -284,36 +276,15 @@ if not DEBUG:
                 "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
                 "fmt": "%(asctime)s %(levelname)s %(name)s %(message)s %(pathname)s %(lineno)d",
             },
-            "verbose": {
-                "format": "{levelname} {asctime} {module} {message}",
-                "style": "{",
-            },
         },
         "handlers": {
             "console": {
                 "class": "logging.StreamHandler",
-                "formatter": "json" if not DEBUG else "verbose",
-            },
-            "file": {
-                "level": "ERROR",
-                "class": "logging.handlers.RotatingFileHandler",
-                "filename": BASE_DIR / "logs" / "django_errors.log",
-                "maxBytes": 10485760,  # 10MB
-                "backupCount": 10,
                 "formatter": "json",
             },
         },
         "loggers": {
             "django": {
-                "handlers": ["console", "file"],
-                "level": "INFO" if not DEBUG else "DEBUG",
-                "propagate": False,
-            },
-            "community": {
-                "handlers": ["console"],
-                "level": "INFO",
-            },
-            "canine_tools": {
                 "handlers": ["console"],
                 "level": "INFO",
             },
@@ -334,7 +305,7 @@ else:
         },
         "root": {
             "handlers": ["console"],
-            "level": "DEBUG" if DEBUG else "INFO",
+            "level": "DEBUG",
         },
     }
 
@@ -358,8 +329,6 @@ TEMPLATES = [
 ]
 
 # Database
-import dj_database_url
-
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
 if DATABASE_URL:
     DATABASES = {
@@ -382,18 +351,12 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
-# Django Sites framework (required for email templates with absolute URLs)
 SITE_ID = 1
-
 LANGUAGE_SESSION_KEY = "_language"
 LANGUAGE_COOKIE_NAME = "django_language"
 
-# ASGI application for Vercel deployment
 ASGI_APPLICATION = "config.asgi.application"
 
-# Email configuration
-# Development: console backend (prints to stdout)
-# Production: SMTP from environment variables
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
 )
@@ -409,10 +372,7 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 def patch_gettext_for_utf8():
     """Workaround for Python 3.14 gettext bug with UTF-8 MO files."""
     import gettext
-    import struct
-
     _original_init = gettext.GNUTranslations.__init__
-
     def patched_init(self, fp=None):
         if fp:
             try:
@@ -421,9 +381,7 @@ def patch_gettext_for_utf8():
                 pass
         else:
             _original_init(self, fp)
-
     gettext.GNUTranslations.__init__ = patched_init
-
 
 patch_gettext_for_utf8()
 
@@ -435,9 +393,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# Auth Redirects
 LOGIN_REDIRECT_URL = "dog_profile:dashboard"
 LOGOUT_REDIRECT_URL = "home"
-# Trigger reload after i18n consolidation
 
 
