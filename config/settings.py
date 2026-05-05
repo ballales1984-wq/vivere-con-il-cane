@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-
-# Ensure DEBUG is always defined, even if .env fails to load
+from dotenv import load_dotenv\r\nimport dj_database_url\r\n\r\n# Ensure DEBUG is always defined, even if .env fails to load
 DEBUG = False
 
 # Carica sempre il file .env dalla root del progetto, indipendentemente
@@ -360,17 +358,12 @@ TEMPLATES = [
 ]
 
 # Database
-RENDER_DATABASE_URL = os.environ.get("DATABASE_URL", "")
-if RENDER_DATABASE_URL and RENDER_DATABASE_URL.startswith("postgres"):
+import dj_database_url
+
+DATABASE_URL = os.environ.get("DATABASE_URL", "")
+if DATABASE_URL:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("DB_NAME", "vivere_con_cane"),
-            "USER": os.environ.get("DB_USER", "postgres"),
-            "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-            "HOST": os.environ.get("DB_HOST", "localhost"),
-            "PORT": os.environ.get("DB_PORT", "5432"),
-        }
+        "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, conn_health_checks=True)
     }
 else:
     DATABASES = {
@@ -446,3 +439,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 LOGIN_REDIRECT_URL = "dog_profile:dashboard"
 LOGOUT_REDIRECT_URL = "home"
 # Trigger reload after i18n consolidation
+
+

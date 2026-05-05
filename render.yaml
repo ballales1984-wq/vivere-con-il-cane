@@ -1,4 +1,12 @@
 services:
+  - type: postgresql
+    name: vivere-con-il-cane-db
+    plan: starter
+
+  - type: redis
+    name: vivere-con-il-cane-redis
+    plan: starter
+
   - type: web
     name: vivere-con-il-cane
     env: python
@@ -12,6 +20,30 @@ services:
         value: "false"
       - key: SECRET_KEY
         generateValue: true
+      - key: DATABASE_URL
+        fromService:
+          name: vivere-con-il-cane-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: vivere-con-il-cane-redis
+          property: connectionString
+      - key: GOOGLE_OAUTH_CLIENT_ID
+        value: ""
+      - key: GOOGLE_OAUTH_CLIENT_SECRET
+        value: ""
+      - key: EMAIL_HOST
+        value: ""
+      - key: EMAIL_HOST_USER
+        value: ""
+      - key: EMAIL_HOST_PASSWORD
+        value: ""
+      - key: DEFAULT_FROM_EMAIL
+        value: "noreply@vivereconilcane.com"
+      - key: ALLOWED_HOSTS
+        value: "vivere-con-il-cane.onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://vivere-con-il-cane.onrender.com"
     healthCheckPath: /
     healthCheckTimeout: 30
     healthCheckInterval: 10
