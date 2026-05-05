@@ -10,7 +10,6 @@ def community_stats(request):
     return {
         "community_stats": {
             "discussions_total": Discussion.objects.filter(is_approved=True).count(),
-            "posts_total": sum(d.reply_count for d in Discussion.objects.filter(is_approved=True)),
         },
         "top_contributors": UserReputation.objects.all().order_by("-points")[:5],
         "unread_notifications_count": unread_count,
