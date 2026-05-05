@@ -1,0 +1,233 @@
+import numpy as np
+import librosa
+from scipy.signal import butter, filtfilt, hilbert, find_peaks, savgol_filter
+
+def bandpass_filter(signal, fs, low=20, high=150, order=4):
+    nyq = fs / 2
+    b, a = butter(order, [low/nyq, high/nyq], btype='band')
+    return filtfilt(b, a, signal)
+
+def analyze(filepath):
+    y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
+    duration = len(y) / sr
+    y = y / (np.max(np.abs(y)) + 1e-9)
+    y_filt = bandpass_filter(y, sr)
+    if np.any(np.isnan(y_filt)) or np.any(np.isinf(y_filt)):
+        y_filt = y
+    analytic = hilbert(y_filt)
+    envelope = np.abs(analytic)
+    max_window = 101
+    win_len = min(max_window, len(envelope) - 1 if len(envelope) % 2 == 0 else len(envelope))
+    if win_len > 3:
+        if np.max(envelope) < 0.05:
+            win_len = min(31, win_len)
+        if win_len % 2 == 0:
+            win_len = max(3, win_len - 1)
+        envelope_smooth = savgol_filter(envelope, win_len, 3)
+    else:
+        envelope_smooth = envelope
+    envelope_smooth = np.nan_to_num(envelope_smooth, nan=0.0, posinf=0.0, neginf=0.0)
+    env_min, env_max = np.min(envelope_smooth), np.max(envelope_smooth)
+    env_range = env_max - env_min
+    if env_range < 1e-6:
+        abs_sig = np.abs(y_filt)
+        max_abs = np.max(abs_sig)
+        env_norm = abs_sig / (max_abs + 1e-9) if max_abs >= 1e-6 else np.zeros_like(envelope_smooth)
+    else:
+        env_norm = (envelope_smooth - env_min) / (env_range + 1e-9)
+    env_norm = np.nan_to_num(env_norm, nan=0.0, posinf=0.0, neginf=0.0)
+    env_norm = np.clip(env_norm, 0.0, 1.0)
+
+    # Nuova detection
+    threshold_low = np.percentile(env_norm, 70) + 0.05
+    threshold_low = min(max(threshold_low, 0.08), 0.6)
+    min_distance_initial = int(0.2 * sr)
+    peaks_initial, _ = find_peaks(env_norm, distance=min_distance_initial, height=threshold_low, prominence=0.001)
+
+    if len(peaks_initial) >= 3:
+        peak_times_initial = peaks_initial / sr
+        intervals_initial = np.diff(peak_times_initial)
+        median_interval = np.median(intervals_initial)
+        valid_intervals_mask = (intervals_initial >= 0.5 * median_interval) & (intervals_initial <= 1.5 * median_interval)
+        if np.any(valid_intervals_mask):
+            median_interval = np.median(intervals_initial[valid_intervals_mask])
+        estimated_bpm = int(60.0 / median_interval) if median_interval > 0 else 0
+        if 40 <= estimated_bpm <= 220:
+            min_distance = max(int(0.4 * median_interval * sr), int(0.15 * sr))
+        else:
+            min_distance = int(0.3 * sr)
+    else:
+        min_distance = int(0.3 * sr)
+
+    if len(peaks_initial) >= 5:
+        initial_amplitudes = env_norm[peaks_initial]
+        median_amp = np.median(initial_amplitudes)
+        mad = np.median(np.abs(initial_amplitudes - median_amp))
+        threshold_main = median_amp + 1.5 * mad
+        threshold_main = np.clip(threshold_main, 0.12, 0.85)
+    else:
+        mean_amp = np.mean(env_norm)
+        std_amp = np.std(env_norm)
+        threshold_main = np.clip(mean_amp + 0.4 * std_amp, 0.12, 0.85)
+
+    peak_to_peak_variation = np.std(env_norm[peaks_initial]) if len(peaks_initial) >= 3 else 0.05
+    prom = max(0.003, 0.08 * threshold_main + 0.5 * peak_to_peak_variation)
+    prom = min(prom, threshold_main * 0.6)
+
+    peaks, properties = find_peaks(env_norm, distance=min_distance, height=threshold_main, prominence=prom)
+
+    if len(peaks) < 2 and len(peaks_initial) >= 2:
+        fallback_levels = [(0.85, 0.003), (0.7, 0.002), (0.5, 0.001), (0.35, 0.0005)]
+        for mult, p in fallback_levels:
+            lower_thresh = threshold_main * mult
+            if lower_thresh < 0.06:
+                lower_thresh = 0.06
+            peaks, properties = find_peaks(env_norm, distance=min_distance, height=lower_thresh, prominence=p)
+            if len(peaks) >= 2:
+                break
+
+    if len(peaks) < 2:
+        peaks, properties = find_peaks(env_norm, distance=int(0.25 * sr), height=0.03, prominence=0.0005)
+
+    peak_times = (peaks / sr).tolist()
+    amplitudes = env_norm[peaks].tolist()
+    beat_count = len(peaks)
+
+    if beat_count >= 2:
+        times_arr = np.array(peak_times)
+        intervals = np.diff(times_arr)
+        avg_interval = np.mean(intervals)
+        candidate_bpm = int(60.0 / avg_interval) if avg_interval > 0 else 0
+        if candidate_bpm > 350:
+            high_freq_mask = amplitudes >= np.percentile(amplitudes, 60)
+            peaks = peaks[high_freq_mask]
+            peak_times = (peaks / sr).tolist()
+            amplitudes = env_norm[peaks].tolist()
+            beat_count = len(peaks)
+        elif candidate_bpm < 25 and beat_count > 5:
+            amp_threshold = 0.15 * np.max(amplitudes)
+            keep_mask = np.array(amplitudes) >= amp_threshold
+            peaks = peaks[keep_mask]
+            peak_times = (peaks / sr).tolist()
+            amplitudes = env_norm[peaks].tolist()
+            beat_count = len(peaks)
+
+    if len(peaks) >= 5:
+        peak_times_arr = peaks / sr
+        intervals = np.diff(peak_times_arr)
+        amplitudes_arr = env_norm[peaks]
+        median_amp = np.median(amplitudes_arr)
+        mad_amp = np.median(np.abs(amplitudes_arr - median_amp))
+        amp_lower = median_amp - 3 * (mad_amp + 1e-9)
+        amp_upper = median_amp + 3 * (mad_amp + 1e-9)
+        amp_mask = (amplitudes_arr >= amp_lower) & (amplitudes_arr <= amp_upper)
+        peaks = peaks[amp_mask]
+        if len(peaks) >= 5:
+            peak_times_arr = peaks / sr
+            intervals = np.diff(peak_times_arr)
+            median_int = np.median(intervals)
+            mad_int = np.median(np.abs(intervals - median_int))
+            if mad_int < 0.01:
+                int_lower = 0.5 * median_int
+                int_upper = 1.5 * median_int
+            else:
+                int_lower = median_int - 2.5 * mad_int
+                int_upper = median_int + 2.5 * mad_int
+            if len(intervals) >= 3:
+                valid_mask_intervals = (intervals >= int_lower) & (intervals <= int_upper)
+                keep = np.ones(len(peaks), dtype=bool)
+                if len(valid_mask_intervals) > 0:
+                    keep[0] = valid_mask_intervals[0]
+                if len(valid_mask_intervals) >= 2:
+                    keep[1:-1] = valid_mask_intervals[:-1] & valid_mask_intervals[1:]
+                if len(valid_mask_intervals) > 0:
+                    keep[-1] = valid_mask_intervals[-1]
+                peaks = peaks[keep]
+        peak_times = (peaks / sr).tolist()
+        amplitudes = env_norm[peaks].tolist()
+        beat_count = len(peaks)
+
+    # BPM calculation
+    bpm = 0
+    confidence = 0.0
+    s1_s2 = None
+    hrv = None
+
+    if beat_count >= 2:
+        times_arr = np.array(peak_times)
+        amps_arr = np.array(amplitudes)
+        intervals_all = np.diff(times_arr)
+        short_ratio = np.mean(intervals_all < 0.2) if len(intervals_all) >= 3 else 0
+        has_dual = short_ratio >= 0.2
+
+        if has_dual:
+            n_pairs = beat_count // 2
+            if n_pairs >= 1:
+                s1_times = []
+                s1_amps = []
+                s2_times = []
+                s2_amps = []
+                for i in range(n_pairs):
+                    idx1, idx2 = i*2, i*2+1
+                    a1, a2 = amps_arr[idx1], amps_arr[idx2]
+                    t1, t2 = times_arr[idx1], times_arr[idx2]
+                    if a1 >= a2:
+                        s1_times.append(t1); s1_amps.append(a1)
+                        s2_times.append(t2); s2_amps.append(a2)
+                    else:
+                        s1_times.append(t2); s1_amps.append(a2)
+                        s2_times.append(t1); s2_amps.append(a1)
+                s1_times = np.array(s1_times)
+                s1_amps = np.array(s1_amps)
+                if len(s1_times) >= 2:
+                    s1_intervals = np.diff(s1_times)
+                    avg_s1_int = np.mean(s1_intervals)
+                    bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+                    if len(s1_intervals) > 1:
+                        std_s1 = np.std(s1_intervals)
+                        cv = std_s1 / (avg_s1_int + 1e-9)
+                        reg_score = max(0.0, 1.0 - cv)
+                        n_score = min(1.0, len(s1_times) / 20.0)
+                        confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
+                    else:
+                        confidence = 0.5
+                if len(s1_times) >= 3:
+                    sdnn = float(np.std(s1_intervals))
+                    diff_sq = np.square(np.diff(s1_intervals))
+                    rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
+                    diff_ms = np.diff(s1_intervals) * 1000.0
+                    pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
+                    hrv = {'sdnn_sec': round(sdnn,4), 'rmssd_sec': round(rmssd,4), 'pnn50_percent': round(pnn50,2), 'mean_hr_sec': round(float(np.mean(s1_intervals)),4)}
+                s1_s2 = {'s1_count': int(len(s1_times)), 's2_count': int(len(s2_times)), 's1_avg_amplitude': float(np.mean(s1_amps)) if len(s1_amps) > 0 else 0.0, 's2_avg_amplitude': float(np.mean(s2_amps)) if len(s2_amps) > 0 else 0.0}
+                beat_count = len(s1_times)
+        else:
+            s1_times = times_arr
+            intervals_s1 = intervals_all
+            avg_s1_int = np.mean(intervals_s1)
+            bpm = int(60.0 / avg_s1_int) if avg_s1_int > 0 else 0
+            if len(intervals_s1) > 1:
+                std_s1 = np.std(intervals_s1)
+                cv = std_s1 / (avg_s1_int + 1e-9)
+                reg_score = max(0.0, 1.0 - cv)
+                n_score = min(1.0, len(s1_times) / 20.0)
+                confidence = round(0.5 + 0.3 * reg_score + 0.2 * n_score, 2)
+            else:
+                confidence = 0.5
+            if len(intervals_s1) >= 2:
+                sdnn = float(np.std(intervals_s1))
+                diff_sq = np.square(np.diff(intervals_s1))
+                rmssd = float(np.sqrt(np.mean(diff_sq))) if len(diff_sq) > 0 else 0.0
+                diff_ms = np.diff(intervals_s1) * 1000.0
+                pnn50 = float(np.mean(np.abs(diff_ms) > 50.0) * 100.0)
+                hrv = {'sdnn_sec': round(sdnn,4), 'rmssd_sec': round(rmssd,4), 'pnn50_percent': round(pnn50,2), 'mean_hr_sec': round(float(np.mean(intervals_s1)),4)}
+
+    return {'duration': round(duration,2), 'bpm': bpm, 'beat_count': beat_count, 'confidence': confidence, 'peak_times': peak_times, 'amplitudes': amplitudes, 'sample_rate': sr, 's1_s2': s1_s2, 'hrv': hrv}
+
+res = analyze('test_heart_weak.wav')
+print(f"BPM: {res['bpm']}, Conf: {res['confidence']}, Battiti: {res['beat_count']}")
+if res['s1_s2']:
+    print(f"S1/S2: S1={res['s1_s2']['s1_count']}, S2={res['s1_s2']['s2_count']}")
+intervals = np.diff(res['peak_times']).tolist() if len(res['peak_times']) > 1 else []
+print(f"Intervalli (s): {[round(x,3) for x in intervals]}")
+print(f"Picchi (s): {[round(t,3) for t in res['peak_times']]}")
+print(f"OK - Analisi completata senza errori")
