@@ -1,0 +1,630 @@
+[
+{
+  "model": "blog.category",
+  "pk": 1,
+  "fields": {
+    "name": "Educazione di Base",
+    "name_en": "",
+    "slug": "educazione-di-base",
+    "description": "Fondamenti dell'educazione cinofila gentile con rinforzo positivo. Comandi base, guinzaglio e buone abitudini quotidiane.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Cuccioli",
+    "name_en": "",
+    "slug": "cuccioli",
+    "description": "Tutto per i primi mesi di vita: socializzazione, dentizione, bisogni all'aperto e primi esercizi.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Problemi Comportamentali",
+    "name_en": "Behavioral Problems",
+    "slug": "problemi-comportamentali",
+    "description": "Soluzioni gentili e pratiche per tiro al guinzaglio, ansia da separazione, abbaio eccessivo e altri problemi comuni.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 4,
+  "fields": {
+    "name": "Attivazione Mentale e Giochi",
+    "name_en": "",
+    "slug": "attivazione-mentale",
+    "description": "Giochi fai-da-te e attività per stimolare la mente del cane e ridurre noia e stress.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 5,
+  "fields": {
+    "name": "Salute e Precauzioni",
+    "name_en": "",
+    "slug": "salute-e-precauzioni",
+    "description": "Attenzioni sanitarie base, sterilizzazione, antiparassitari, vaccinazioni e prevenzione.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 6,
+  "fields": {
+    "name": "Linguaggio del Cane",
+    "name_en": "Dog Language",
+    "slug": "linguaggio-del-cane",
+    "description": "Segnali calmanti, linguaggio corporeo e come migliorare la comunicazione con il tuo cane.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 7,
+  "fields": {
+    "name": "Vita Quotidiana",
+    "name_en": "",
+    "slug": "vita-quotidiana",
+    "description": "Routine, passeggiate di qualità, convivenza in casa e benessere giornaliero.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 8,
+  "fields": {
+    "name": "Relazioni e Convivenza",
+    "name_en": "",
+    "slug": "relazioni-e-convivenza",
+    "description": "Convivenza con bambini, gatti, altri animali e membri della famiglia.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 9,
+  "fields": {
+    "name": "Consigli",
+    "name_en": "Advice",
+    "slug": "consigli",
+    "description": "",
+    "created_at": "2026-04-20T10:49:14.015Z"
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 1,
+  "fields": {
+    "title": "Come Insegnare il Richiamo al Cane",
+    "slug": "come-insegnare-il-richiamo-al-cane",
+    "content": "Il richiamo è uno dei comandi più importanti per la sicurezza del tuo cane. Inizia in un ambiente senza distrazioni, usa un tono di voce allegro e premia sempre quando il cane arriva. Non richiamare mai per punire. Practica prima in casa, poi in giardino, infine in luoghi con più distrazioni. La chiave è la consistenza e la pazienza.",
+    "title_en": "Teaching Recall",
+    "content_en": "Recall is one of the most important commands for safety. Start in a low-distraction environment. Use a happy tone.",
+    "image": "dog-training.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Scopri come insegnare il richiamo al tuo cane passo per passo, dai primi esercizi in casa alle situazioni con molte distrazioni.",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-12T10:00:00Z",
+    "created_at": "2026-04-12T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.460Z",
+    "category": 1,
+    "published": true,
+    "votes_count": 5
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 2,
+  "fields": {
+    "title": "Socializzazione del Cucciolo: la Finestra Critica",
+    "slug": "socializzazione-del-cucciolo-finestra-critica",
+    "content": "Tra le 3 e le 14 settimane il cucciolo è più recettivo alle nuove esperienze. Esporlo gradualmente a persone, animali, ambienti e suoni diversi in modo positivo. Non forzare mai le interazioni. Limita le esperienze negative che potrebbero traumatizzarlo. Un cucciolo ben socializzato diventa un adulto equilibrato.",
+    "title_en": "Puppy Socialization: The Critical Window",
+    "content_en": "Between 3 and 14 weeks, puppies are more receptive. Expose gradually to different people and environments. Never force.",
+    "image": "puppy-play.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "La socializzazione tra 3 e 14 settimane e fondamentale per il carattere del cane adulto. Guida completa alla finestra critica.",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-11T10:00:00Z",
+    "created_at": "2026-04-11T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.470Z",
+    "category": 2,
+    "published": true,
+    "votes_count": 8
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 3,
+  "fields": {
+    "title": "Risolvere il Tiro al Guinzaglio",
+    "slug": "risolvere-il-tiro-al-guinzaglio",
+    "content": "Il cane tira perché è eccitato o perché ha imparato che farlo lo porta dove vuole. Smetti di camminare quando tira e riprendi solo quando il guinzaglio è lento. Usa ricompense frequenti quando il cane cammina vicino a te. Un cambio di direzione improvviso interrompe anche il comportamento di tiro.",
+    "title_en": "Resolving Leash Pulling",
+    "content_en": "The dog pulls because it works. Stop walking when pulling. Reward loose-leash walking. Consistency is key.",
+    "image": "dog-walking.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il cane tira al guinzaglio? Ecco il metodo passo per passo per insegnargli a camminare senza tirare in poche settimane.",
+    "length": "short",
+    "source": "manual",
+    "publish_date": "2026-04-10T10:00:00Z",
+    "created_at": "2026-04-10T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.477Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 12
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 4,
+  "fields": {
+    "title": "Giochi di Attivazione Mentale per il Cane",
+    "slug": "giochi-di-attivazione-mentale-per-il-cane",
+    "content": "I cani hanno bisogno di stimolo mentale oltre che fisico. Nascondere crocchette in casa, usare puzzle feeders, insegnare nuovi trick o giocare a 'trova il oggetto' sono ottime attività. Un cane mentalmente stimolato è più calmo in casa e meno propenso a comportamenti problematici.",
+    "title_en": "Mental Stimulation Games for Dogs",
+    "content_en": "Dogs need mental stimulation too. Hide treats in the house. Use puzzle feeders. Teach new tricks.",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "Un cane stimolato mentalmente e piu calmo. Scopri i migliori giochi di attivazione mentale fai-da-te per il tuo cane.",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-09T10:00:00Z",
+    "created_at": "2026-04-09T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.489Z",
+    "category": 4,
+    "published": true,
+    "votes_count": 6
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 5,
+  "fields": {
+    "title": "Vaccinazioni del Cane: il Calendario Essenziale",
+    "slug": "vaccinazioni-del-cane-calendario-essenziale",
+    "content": "Il cucciolo inizia i vaccini a 6-8 settimane con richiami ogni 3-4 settimane fino a 16 settimane. I vaccini core includono cimurro, parvovirosi, epatite e rabbia. La sterilizzazione è consigliata intorno ai 6-12 mesi. Consulta sempre il veterinario per un piano personalizzato.",
+    "title_en": "Dog Vaccinations: The Essential Schedule",
+    "content_en": "Puppies start vaccinations at 6-8 weeks. Core vaccines include distemper, parvovirus, hepatitis, and rabies.",
+    "image": "dog-vet.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Guida completa al calendario vaccinale del cane: vaccini del cucciolo, richiami annuali e quando consultare il veterinario.",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-08T10:00:00Z",
+    "created_at": "2026-04-08T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.498Z",
+    "category": 5,
+    "published": true,
+    "votes_count": 3
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 6,
+  "fields": {
+    "title": "I Segnali Calmanti del Cane",
+    "slug": "i-segnali-calmanti-del-cane",
+    "content": "I cani usano linguaggio corporeo per comunicare stress o disagio. Sbadigli, leccarsi il muso, voltare la testa, girarsi dall'altra parte sono segnali calmanti. Riconoscerli ti aiuta a capire quando il tuo cane sta male o ha bisogno di spazio. Rispetta questi segnali per costruire fiducia.",
+    "title_en": "Calming Signals in Dogs",
+    "content_en": "Dogs use body language to communicate stress. Yawning, lip licking, and looking away are calming signals.",
+    "image": "dog-sleeping.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "Sbadigli, leccarsi il muso, girare la testa: impara a leggere i segnali calmanti del cane e migliorare la vostra comunicazione.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-07T10:00:00Z",
+    "created_at": "2026-04-07T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.507Z",
+    "category": 6,
+    "published": true,
+    "votes_count": 9
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 7,
+  "fields": {
+    "title": "Passeggiate di Qualità: non Solo Distanza",
+    "slug": "passeggiate-di-qualita-non-solo-distanza",
+    "content": "Una buona passeggiata non si misura in km ma in qualità. Lascia che il cane annusi, esplori e interagisca con l'ambiente. Le passeggiate con guinzaglio lasco sono più rilassanti. Variate i percorsi per stimolare la curiosità. L'odore è il senso principale del cane.",
+    "title_en": "Quality Walks: Not Just Distance",
+    "content_en": "A good walk is not measured in km but in quality. Let your dog sniff, explore and interact with the environment. Walks with a loose leash are more relaxing. Vary the routes to stimulate curiosity. Smell is the dog main sense.",
+    "image": "dog-walking.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "Una buona passeggiata non si misura in km ma in qualita. Scopri come rendere le uscite con il cane piu ricche e soddisfacenti.",
+    "length": "short",
+    "source": "manual",
+    "publish_date": "2026-04-06T10:00:00Z",
+    "created_at": "2026-04-06T10:00:00Z",
+    "updated_at": "2026-04-19T14:45:49.687Z",
+    "category": 7,
+    "published": true,
+    "votes_count": 4
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 8,
+  "fields": {
+    "title": "Cane e Bambini: Convivenza Sicura",
+    "slug": "cane-e-bambini-convivenza-sicura",
+    "content": "La presenza di bambini richiede attenzione e supervisione costante. Insegna ai bambini a rispettare il cane e i suoi spazi. Mai lasciare soli cane e bambini. Segnali di fastido nel cane devono essere presi sul serio. Una corretta introduzione e abitudine reciproca crea un legame speciale.",
+    "title_en": "Dogs and Children: Safe Coexistence",
+    "content_en": "Children require constant attention. Teach respect for the dog. Never leave dogs and children alone together.",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Come garantire una convivenza sicura tra cane e bambini: regole pratiche, segnali di allarme e come educare entrambi.",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-05T10:00:00Z",
+    "created_at": "2026-04-05T10:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.521Z",
+    "category": 8,
+    "published": true,
+    "votes_count": 7
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 9,
+  "fields": {
+    "title": "Cane Abbaia Sempre: Cause e Soluzioni Efficaci",
+    "slug": "cane-abbaia-sempre-cause-soluzioni",
+    "content": "Se il tuo cane abbaia continuamente, soprattutto di notte o quando resta solo, la prima cosa da capire e che il cane non abbaia mai senza motivo. Ogni abbaio e un segnale.\n\nPerche il cane abbaia sempre?\n\n1. Noia ed energia accumulata: Se il cane non si muove abbastanza, accumula energia e sfoga tutto abbaiando. Molto comune in razze attive come Labrador, Border Collie e Jack Russell.\n\n2. Ansia da separazione: Il cane abbaia quando esci di casa o resta solo. E un segnale di stress, non di dispetto.\n\n3. Territorialita: Abbaia a persone che passano, altri cani o rumori. Sta proteggendo il territorio.\n\n4. Richiesta di attenzione: Se ogni volta che abbaia tu reagisci, il cane impara che funziona. Anche sgridarlo e attenzione.\n\n5. Stimoli esterni: Rumori, luci, movimenti possono attivarlo continuamente.\n\nQuando diventa un problema? E normale che un cane abbai. Diventa un problema quando abbaia per ore, disturba di notte, non riesci a fermarlo e peggiora nel tempo.\n\nSoluzioni efficaci:\n\n- Aumenta attivita fisica: Passeggiate piu lunghe e gioco quotidiano. Un cane stanco abbaia meno.\n- Crea una routine: I cani amano la prevedibilita. Orari fissi e abitudini stabili.\n- Ignora l'abbaio strategico: Se abbaia per attenzione, non reagire subito. Premialo quando smette.\n- Riduci stimoli esterni: Chiudi finestre e limita la visione della strada.\n- Addestramento base: Insegna il comando silenzio e premia quando smette.\n\nErrori da evitare: Non urlare al cane, non punire senza capire, non ignorare il problema a lungo. Peggiorano la situazione.\n\nOgni cane e diverso. Un Chihuahua e un Labrador non sono uguali: stessa situazione, cause diverse. Descrivi il problema del tuo cane e ottieni una soluzione personalizzata con la nostra analisi AI.",
+    "title_en": "Dog Barking Constantly: Solutions",
+    "content_en": "Dogs bark for a reason. Identify the cause: boredom, anxiety, or attention-seeking. A tired dog is a quiet dog. Teach the quiet command.",
+    "image": "dog-barking.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il cane abbaia continuamente? Scopri le 5 cause principali e le soluzioni pratiche per fermare l abbaio eccessivo.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-13T10:00:00Z",
+    "created_at": "2026-04-13T10:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.239Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 10,
+  "fields": {
+    "title": "Cane Tira al Guinzaglio: Come Risolvere Definitivamente",
+    "slug": "cane-tira-al-guinzaglio-come-risolvere",
+    "content": "Le passeggiate dovrebbero essere un momento piacevole, ma se il tuo cane tira costantemente diventano stressanti e faticose. Il cane non tira per dispetto: ha semplicemente imparato che funziona.\n\nPerche il cane tira al guinzaglio?\n\n1. Eccitazione: L'ambiente esterno e pieno di stimoli (odori, altri cani, persone). Il cane vuole esplorare tutto subito.\n\n2. Abitudine rinforzata: Se il cane tira e tu lo segui, lui impara che tirare lo porta dove vuole. Il comportamento si rinforza da solo.\n\n3. Mancanza di educazione: Il cane non ha mai imparato a camminare senza tirare. Nessuno glielo ha insegnato.\n\nIl metodo corretto (passo per passo):\n\n1. Fermati quando tira: Appena il guinzaglio si tende, fermati completamente. Non tirare indietro. Aspetta che il cane allenti la tensione, poi riprendi. Il cane capisce che tirare non funziona.\n\n2. Premia la camminata corretta: Ogni volta che il cane cammina vicino a te con il guinzaglio lento, premialo con cibo o lode. Usa premi di alto valore (formaggio, wurstel) soprattutto all'inizio.\n\n3. Cambio di direzione: Quando il cane tira, cambia direzione senza preavviso. Il cane impara a seguirti e prestare attenzione ai tuoi movimenti.\n\nEsercizi pratici:\n- Inizia in un ambiente tranquillo (corridoio di casa, giardino)\n- Sessioni brevi (5-10 minuti)\n- Aumenta gradualmente le distrazioni\n- Premia spesso, anche ogni 3-4 passi all'inizio\n\nErrori comuni:\n- Usare il guinzaglio avvolgibile (il cane impara che tirare allunga il guinzaglio)\n- Strattonare il cane (causa stress e dolore)\n- Perdere la pazienza (serve costanza, i risultati arrivano in 2-4 settimane)\n\nOgni cane e diverso. Se vuoi un consiglio specifico per il tuo cane, prova la nostra analisi AI personalizzata.",
+    "title_en": "Dog Pulling on Leash: How to Resolve",
+    "content_en": "The dog pulls because it works. Stop walking when the dog pulls. Use a front-clip harness. Reward loose-leash walking.",
+    "image": "dog-walking.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Come risolvere il tiro al guinzaglio definitivamente. Metodo step-by-step con errori da evitare e tempistiche reali.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-13T09:00:00Z",
+    "created_at": "2026-04-13T09:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.253Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 11,
+  "fields": {
+    "title": "Cane Morde: Perche Succede e Come Fermarlo Subito",
+    "slug": "cane-morde-perche-succede-come-fermarlo",
+    "content": "Se il tuo cane morde mani, oggetti o persone, la prima cosa da capire e che non tutti i morsi significano aggressivita. Molto spesso si tratta di comportamento normale, soprattutto nei cuccioli.\n\nPerche il cane morde?\n\n1. Gioco (cuccioli): I cuccioli esplorano il mondo con la bocca e non controllano ancora la forza del morso. E una fase normale di crescita.\n\n2. Dentizione: Quando cambiano i denti (3-6 mesi), mordono per alleviare il fastidio alle gengive.\n\n3. Eccitazione durante il gioco: Si eccitano troppo e perdono il controllo del morso. Frequente nei giovani adulti.\n\n4. Paura o difesa: Se il cane si sente minacciato, puo mordere per protezione. In questo caso serve attenzione massima.\n\n5. Mancanza di educazione: Non ha mai imparato i limiti di cosa e troppo.\n\nQuando e un problema serio? Devi preoccuparti se il cane morde forte e senza controllo, ringhia prima di mordere, o morde persone senza contesto di gioco. In questi casi serve un educatore cinofilo.\n\nCome fermare il comportamento:\n\n1. Interrompi subito il gioco quando morde: Fermati, non continuare a giocare. Il cane capisce che il morso chiude il gioco.\n\n2. Dai alternative: Offri giochi da mordere, Kong, ossi per cani. Il cane deve sfogarsi in modo corretto.\n\n3. Ignora il comportamento sbagliato: Non urlare, non reagire forte. Togli attenzione.\n\n4. Premia il comportamento corretto: Quando gioca senza mordere, premialo subito.\n\n5. Coerenza totale: Tutti in casa devono seguire le stesse regole.\n\nErrori da evitare: Giocare con le mani, punire fisicamente, urlare. Peggiorano il comportamento.\n\nCuccioli vs adulti: Nei cuccioli il morso e quasi sempre gioco. Negli adulti attenzione a paura o aggressivita: cambia completamente l'interpretazione.\n\nOgni cane e diverso. Scopri perche il tuo cane morde e come risolvere con la nostra analisi AI personalizzata.",
+    "title_en": "Dog Biting: Why and How to Stop",
+    "content_en": "Not all bites mean aggression. Often it is normal behavior, especially in puppies. Teach bite inhibition. If problematic, consult a professional.",
+    "image": "dog-training-2.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il cane morde mani o oggetti? Scopri se e normale o problematico e come insegnargli i limiti in modo gentile ed efficace.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-13T08:00:00Z",
+    "created_at": "2026-04-13T08:00:00Z",
+    "updated_at": "2026-04-19T14:43:12.450Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 12,
+  "fields": {
+    "title": "Ansia da Separazione nel Cane: Guida Completa per Aiutarlo",
+    "slug": "ansia-da-separazione-guida-completa",
+    "content": "L'ansia da separazione e uno dei problemi comportamentali piu comuni e dolorosi che un cane possa vivere. Non si tratta di capricci o dispetti: il cane sta soffrendo davvero, e quella sofferenza si manifesta in modi che spesso mettono a dura prova anche i proprietari piu pazienti.\n\nCos'e l'ansia da separazione?\n\nE uno stato di stress acuto che il cane vive quando si trova solo o separato dalla persona a cui e piu legato. Non basta definirla come 'abbaiare un po' dopo che esci': puo durare ore, intensificarsi nel tempo e diventare un circolo vizioso che danneggia sia il benessere del cane che la qualita della vita in casa.\n\nCome riconoscerla: i segnali tipici\n\nNon tutti i cani che abbaia quando restano soli hanno ansia da separazione vera. I segnali che indicano un problema reale sono:\n- Abbaia, ulula o piange nei primi 30-60 minuti dopo la tua uscita (o per tutta la tua assenza)\n- Distrugge oggetti, porte, infissi o arredi\n- Fa i bisogni in casa nonostante sia educato\n- Si agita gia prima che tu esca: reagisce alle chiavi, alle scarpe, alla borsa\n- Ti segue in ogni stanza quando sei a casa, non si allontana mai\n- Al tuo rientro e eccessivamente eccitato per 10-15 minuti o piu\n\nPerche succede: le cause principali\n\n1. Iperattaccamento. Il cane ha costruito una dipendenza emotiva intensa da una persona. Spesso accade quando il cucciolo e sempre stato accanto a qualcuno e poi improvvisamente si trova solo molte ore al giorno.\n\n2. Cambiamenti di routine. Un trasloco, un nuovo lavoro, il rientro a scuola dopo le vacanze estive o anche un semplice cambio di orari puo scatenare l'ansia. I cani sono animali abitudinari e molto sensibili alle variazioni dell'ambiente.\n\n3. Esperienze traumatiche passate. I cani adottati dopo un abbandono, un lungo periodo in canile o cambi frequenti di famiglia sono spesso piu predisposti a sviluppare ansia da separazione.\n\n4. Mancanza di indipendenza. Un cane che non ha mai imparato a stare solo, neanche per brevi periodi, sviluppa piu facilmente questo problema quando si presenta la necessita.\n\nIl protocollo di trattamento: passo per passo\n\nNon esistono soluzioni rapide per l'ansia da separazione. I risultati arrivano con un lavoro graduale, costante e rispettoso dei tempi del cane.\n\nPasso 1 - Insegna l'indipendenza quando sei in casa\nInizia a casa tua, con te presente. Chiudi il cane in un'altra stanza per 2-3 minuti, poi aumenta gradualmente. Usa un Kong riempito con crema di arachidi o pastellino per rendere il momento piacevole. L'obiettivo e che il cane impari che stare da solo non e una catastrofe, e che tu torni sempre.\n\nPasso 2 - Desensibilizza i segnali che anticipano l'uscita\nIl cane inizia ad agitarsi prima ancora che tu esca: quando prendi le chiavi, metti le scarpe o indossi il cappotto. Pratica questi gesti senza uscire. Prendi le chiavi, siediti sul divano. Metti le scarpe, guarda la TV. Ripeti piu volta al giorno finche il cane smette di reagire al gesto.\n\nPasso 3 - Uscite brevissime e progressive\nEsci per 30 secondi. Rientra calmamente. Non fare scene drammatiche ne all'uscita ne al rientro: ignora il cane per i primi 5 minuti. Se va bene, porta il tempo a 1 minuto, poi 2, poi 5, poi 15... sempre molto gradualmente. Se il cane si agita, fai un passo indietro e riparto da un tempo piu breve.\n\nPasso 4 - Non rientrare mai mentre abbaia\nSe rientri mentre il cane abbaia, gli insegni che abbaiare funziona. Aspetta un momento di silenzio, anche brevissimo, prima di aprire la porta.\n\nPasso 5 - Arricchisci l'ambiente\nLascia musica o la TV accesa a volume basso. Dagli un Kong o un osso prima di uscire. Un cane impegnato a masticare e un cane che non abbaia.\n\nCose da NON fare assolutamente\n- Non punire il cane per i danni trovati al rientro: non capisce il collegamento tra il danno e la punizione ora\n- Non fare rientri festosi ed euforici: aumenta il contrasto con la tua assenza\n- Non progredire troppo in fretta: ogni step va consolidato\n- Non lasciare un cane con ansia severa solo per ore senza aver fatto il lavoro graduale\n\nQuando serve l'aiuto di un professionista?\n\nSe dopo 6-8 settimane di lavoro regolare non vedi progressi, se il cane si autolesiona (lecca ossessivamente, si graffia), o se i comportamenti sono molto intensi e immediati, e il momento di coinvolgere un educatore cinofilo certificato o un veterinario comportamentalista.\n\nIn alcuni casi gravi, soprattutto quando l'ansia e di lunga data, si valuta anche un supporto farmacologico temporaneo in combinazione con l'educazione. Non e una sconfitta: e una scelta responsabile per il benessere del cane.\n\nRicorda: ogni cane e un individuo. Un Cocker con ansia lieve risponde diversamente da un Border Collie con iperattaccamento severo. La soluzione giusta dipende dalla storia, dalla razza e dalla personalita del tuo cane specifico.",
+    "title_en": "Separation Anxiety in Dogs: Complete Guide",
+    "content_en": "Separation anxiety is a common and painful problem. Signs include excessive barking and destructive behavior. Address with short departures and positive associations. Ensure your dog gets plenty of exercise. Consult a professional in severe cases.",
+    "image": "dog-sleeping.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il tuo cane abbaia o distrugge quando resti solo? Scopri le cause dell'ansia da separazione e un protocollo pratico passo per passo per risolverla.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T10:00:00Z",
+    "created_at": "2026-04-14T10:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.175Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 13,
+  "fields": {
+    "title": "Cane Distrugge Casa: Perche Succede e Come Fermarlo",
+    "slug": "cane-distrugge-casa-cause-soluzioni",
+    "content": "Tornare a casa e trovare il divano a pezzi, le scarpe masticate o la porta graffiata non e un'esperienza piacevole. Ma prima di arrabbiarti col tuo cane, e importante capire perche lo fa: quasi mai si tratta di vendetta o di cattiveria.\n\nPerche il cane distrugge gli oggetti?\n\n1. Noia e energia accumulata. E la causa piu frequente in assoluto. Un cane che non si muove abbastanza, che non ha stimoli mentali e che resta solo per molte ore non sa come gestire l'energia in eccesso. La distruzione diventa uno sfogo. Le razze piu colpite? Border Collie, Labrador, Husky, Jack Russell - tutte razze con alto bisogno di attivita.\n\n2. Ansia da separazione. Il cane non distrugge perche e arrabbiato che sei uscito: distrugge perche e in preda allo stress e all'agitazione. Spesso la distruzione avviene nei primi 30-45 minuti dall'uscita del proprietario. Se e questo il caso, il problema alla base e l'ansia da separazione.\n\n3. Dentizione nei cuccioli. I cuccioli tra i 3 e i 7 mesi attraversano il cambio dei denti: le gengive fanno male e masticare allevia il fastidio. E un comportamento normale che si risolve con le giuste alternative.\n\n4. Ricerca di attenzione. Alcuni cani imparano che distruggere porta il proprietario a reagire (anche se con urla o punizioni): qualunque reazione e attenzione. Se il comportamento viene rinforzato con attenzione, si ripete.\n\n5. Mancanza di alternative adeguate. Il cane ha bisogno di masticare. E un comportamento naturale, non eliminabile. Se non ha giochi da masticare adatti, trovera da solo su cosa farlo.\n\nCome capire la causa nel tuo caso?\n\nFatti queste domande:\n- La distruzione avviene solo quando sei assente? → Probabilmente ansia da separazione o noia.\n- Avviene anche quando sei presente? → Potrebbe essere ricerca di attenzione o ancora noia.\n- Il tuo cane e un cucciolo tra i 3 e i 7 mesi? → E quasi certamente la dentizione.\n- Hai fatto attivita fisica adeguata quel giorno? → La noia e la prima ipotesi da escludere.\n\nLe soluzioni che funzionano davvero\n\nSoluzione 1 - Aumenta drasticamente l'esercizio fisico e mentale\n30 minuti di fiuto stancano come un'ora di corsa. Prova i giochi olfattivi: nascondi crocchette in casa, usa tappeti di sniffing, gioca a 'trova'. Passeggiate piu lunghe, cambio di percorsi, sessioni di addestramento brevi (10 minuti) ma quotidiane. Un cane stanco non distrugge.\n\nSoluzione 2 - Fornisci alternative appropriate\nOssi naturali, giochi Kong riempiti, corde, puzzle feeder. Ogni volta che il cane mastica il gioco giusto, premialo. In questo modo impara su COSA sfogare l'istinto di masticare.\n\nSoluzione 3 - Gestisci lo spazio quando sei assente\nNei periodi iniziali di lavoro, limita lo spazio a disposizione del cane. Una stanza con il suo posto, i suoi giochi e il suo cibo e meglio che un appartamento intero dove tutto e a rischio. La liberta totale si conquista gradualmente quando il cane e affidabile.\n\nSoluzione 4 - Non punire a posteriori\nSe torni a casa e trovi danni, il momento per correggere e gia passato. Il cane non collegherebbe la punizione all'azione, anche se sembra 'senso di colpa': quella faccia abbassata e paura della tua reazione emotiva, non consapevolezza del danno. Pulisci, respira e lavora alla causa.\n\nSoluzione 5 - Cattura il comportamento corretto\nQuando il cane gioca con un suo oggetto senza toccare i tuoi, premialo. Quando si rilassa tranquillo, premialo. Rinforza attivamente tutto cio che vuoi vedere di piu.\n\nQuanto tempo ci vuole?\n\nDipende dalla causa. Se e noia, bastano pochi giorni di maggiore attivita fisica e mentale per vedere una differenza netta. Se e ansia da separazione, i tempi sono piu lunghi (4-8 settimane con un protocollo specifico). Se e dentizione, scompare da sola tra i 6 e i 9 mesi.\n\nIl comportamento di distruzione e quasi sempre risolvibile con il giusto approccio. La chiave e capire il perche specifico del tuo cane, non applicare soluzioni generiche.",
+    "title_en": "Dog Destroys House: Why and How to Stop",
+    "content_en": "Destructive behavior stems from anxiety, boredom, or lack of exercise. Address the cause, not the symptom. Increase exercise and mental stimulation. Provide appropriate outlets for chewing instinct.",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il cane mastica mobili, scarpe e cuscini? Scopri le vere cause della distruzione e come insegnargli a smettere con metodi efficaci.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T09:00:00Z",
+    "created_at": "2026-04-14T09:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.186Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 14,
+  "fields": {
+    "title": "Come Insegnare il Richiamo al Cane: Il Metodo che Funziona",
+    "slug": "insegnare-richiamo-cane-metodo",
+    "content": "Il richiamo e probabilmente il comando piu importante che puoi insegnare al tuo cane. Non e solo una questione di comodita: e una questione di sicurezza. Un cane che risponde al richiamo puo essere liberato in spazi aperti senza rischi, si evitano incidenti e il rapporto tra cane e proprietario migliora enormemente.\n\nPerche il cane non risponde al richiamo?\n\nPrima di lavorarci, e importante capire perche non funziona. Le cause piu comuni sono:\n\n1. Il richiamo e meno interessante delle alternative. Odori, altri cani, insetti, uccelli: il mondo e pieno di stimoli affascinanti. Se il richiamo non compete in termini di valore, il cane sceglie la distrazione. La colpa non e del cane: e una questione di motivazione.\n\n2. Il richiamo e stato danneggiato. Hai mai chiamato il tuo cane per mettergli il guinzaglio e andare via dal parco? O per sgridarlo per qualcosa? Se richiamare il cane ha portato conseguenze negative, il cane impara ad evitarlo. Il richiamo deve SEMPRE portare qualcosa di positivo.\n\n3. Non e stato mai insegnato con le distrazioni. Molti cani sanno venire quando chiamati in casa, ma in esterno con stimoli reali non riescono. L'addestramento deve essere progressivo: non si puo saltare dai livelli bassi alle distrazioni massime.\n\n4. Razze con istinti forti. Beagle, Husky, segugi, e razze da caccia in generale hanno istinti primari molto potenti. Questo non significa che non possono imparare il richiamo, ma richiede piu lavoro e premi di valore ancora piu alto.\n\nIl metodo graduale: step by step\n\nStep 1 - Costruisci il richiamo in casa\nInizia in un ambiente senza distrazioni. Usa un tono di voce allegro e caldo (mai di comando o irritato). Quando il cane arriva, festeggia come se avesse vinto al Superenalotto: premi di alto valore (pollo, formaggio, bresaola), carezze, gioco. L'arrivo al richiamo deve essere sempre la cosa piu bella della giornata.\n\nStep 2 - La regola d'oro: il richiamo e sempre positivo\nNon chiamare mai il cane per fare qualcosa che lui vive come negativo: bagno, guinzaglio per andare via, togliergli qualcosa. Se devi farlo, vai tu dal cane. Preserva il valore del richiamo.\n\nStep 3 - Aumenta gradualmente le distrazioni\nDopo che il richiamo funziona bene in casa, vai in giardino. Poi in un parco vuoto al mattino presto. Poi in un parco con qualche cane in lontananza. Poi con distrazioni reali. Ogni livello richiede sessioni di pratica, non si salta.\n\nStep 4 - La lunga linea\nPrima di liberare il cane in spazi aperti, usa una lunga linea da 10-15 metri. Ti permette di gestire la sicurezza mentre alleni il richiamo in condizioni reali. Se il cane non risponde, non rincorrerlo mai: stai fermo o muoviti nella direzione opposta.\n\nStep 5 - Varia i premi\nNon usare sempre lo stesso premio. A volte cibo, a volte un gioco con la pallina, a volte una corsa insieme. La variabilita della ricompensa mantiene alto l'interesse del cane.\n\nGli errori che distruggono il richiamo\n\n- Richiamare e poi mettere subito il guinzaglio per andare via: il cane capisce che venire = fine del gioco\n- Punire il cane che ci ha messo troppo ad arrivare: distrugge qualunque lavoro fatto\n- Ripetere il comando piu volte: 'Vieni, VIENI, ti ho detto VIENI' insegna al cane che puo ignorarti le prime volte\n- Rincorrere il cane: lo trasforma in un gioco divertente per lui\n\nDismettere l'abitudine dei richiami ripetuti\n\nIl principio e: dici il comando UNA volta sola, con tono positivo. Se non risponde, vai ad aiutarlo fisicamente (non sgridarlo), poi riprova in condizioni piu facili. La coerenza trasforma un richiamo debole in uno affidabile nel giro di settimane.\n\nQuanto tempo ci vuole?\n\nPer un richiamo di base in ambiente tranquillo: 1-2 settimane di pratica quotidiana. Per un richiamo affidabile con distrazioni reali in esterno: 2-4 mesi di lavoro progressivo. Razze particolari (segugi, nordici) possono richiedere piu tempo, ma arrivano.\n\nIl richiamo non si finisce mai di allenare: e un'abilita da mantenere con sessioni brevi ma continue durante tutta la vita del cane.",
+    "title_en": "Teaching Recall: The Method That Works",
+    "content_en": "Recall is the most important command. Start in a low-distraction environment. Use a happy tone. Always reward recall. Never call to punish.",
+    "image": "dog-training.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il tuo cane non torna quando lo chiami? Scopri il metodo graduale per insegnare un richiamo solido e affidabile anche con molte distrazioni.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T08:00:00Z",
+    "created_at": "2026-04-14T08:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.198Z",
+    "category": 1,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 15,
+  "fields": {
+    "title": "Alimentazione del Cucciolo: Quante Volte e Cosa Dargli",
+    "slug": "alimentazione-cucciolo-guida-completa",
+    "content": "I primi mesi di vita sono fondamentali per la crescita del cane. Un'alimentazione corretta in questa fase costruisce le basi per una vita adulta sana. Ma spesso i proprietari alle prime armi si trovano sommersi di informazioni contrastanti: quante volte al giorno? Crocchette o cibo fresco? Quanta quantita?\n\nPerche l'alimentazione del cucciolo e diversa dall'adulto?\n\nI cuccioli hanno un metabolismo piu veloce degli adulti, crescono rapidamente e hanno riserve energetiche piu limitate. Il loro stomaco e piccolo e non riesce a contenere grandi quantita di cibo in una sola volta. Per questo motivo hanno bisogno di pasti piccoli e frequenti distribuiti nell'arco della giornata.\n\nQuante volte al giorno deve mangiare un cucciolo?\n\n- 2-3 mesi: 4 pasti al giorno\n- 3-6 mesi: 3 pasti al giorno\n- 6-12 mesi: 2-3 pasti al giorno (dipende dalla taglia)\n- Oltre 12 mesi: 2 pasti al giorno come adulto\n\nI cani di taglia grande e gigante (Labrador, Pastore Tedesco, Rottweiler) devono mantenere i pasti divisi piu a lungo per ridurre il rischio di torsione gastrica, una condizione pericolosa per la vita.\n\nCrocchette, cibo umido o dieta casalinga?\n\nCrocchette di qualita (kibble). Sono la scelta piu pratica e bilanciata per la maggior parte dei proprietari. Le crocchette premium per cuccioli sono formulate con i nutrienti giusti per la crescita (calcio, fosforo, proteine, acidi grassi). Scegli prodotti con carne come primo ingrediente, senza coloranti e conservanti artificiali.\n\nCibo umido. Piu palatabile (il cucciolo lo ama di piu), ma spesso ha un contenuto idrico molto alto e meno densita calorica. Puo essere usato come complemento alle crocchette o in cuccioli con scarso appetito.\n\nBAM/BARF (dieta cruda). Richiede competenze specifiche per essere bilanciata correttamente. Se non viene formulata da un nutrizionista veterinario, rischia di creare carenze o eccessi nutrizionali nel periodo di crescita.\n\nDieta casalinga cotta. Come la cruda, richiede supervisione professionale. Una dieta fai-da-te senza consulenza veterinaria puo sembrare naturale ma e spesso squilibrata.\n\nQuanta quantita?\n\nSempre seguire le indicazioni sulla confezione come punto di partenza, dividendo la quantita giornaliera per il numero di pasti. Ma attenzione: quelle indicazioni sono medie. Il tuo cucciolo potrebbe aver bisogno di piu o meno in base a:\n- Livello di attivita\n- Metabolismo individuale\n- Se e sterilizzato o meno\n\nCome capire se sta mangiando la quantita giusta? Le costole devono essere palpabili ma non visibili. Se vedi le costole, mangia troppo poco. Se non riesci a sentirle, mangia troppo.\n\nCosa non deve MAI mangiare un cucciolo?\n\n- Cioccolato (tossico per i cani)\n- Uva e uvetta (tossiche)\n- Cipolle e aglio (danneggiano i globuli rossi)\n- Avocado\n- Xilitolo (dolcificante presente in molti prodotti)\n- Ossa cotte (si spezzano in schegge pericolose)\n- Macadamia\n\nIn caso di ingestione accidentale, contatta immediatamente il veterinario.\n\nQuando passare al cibo per adulti?\n\n- Razze piccole (sotto i 10 kg): intorno agli 8-10 mesi\n- Razze medie: intorno ai 12 mesi\n- Razze grandi: intorno ai 15-18 mesi\n- Razze giganti (Terranova, San Bernardo): anche fino ai 24 mesi\n\nIl passaggio deve essere graduale: mescola cibo per cuccioli e cibo per adulti in proporzioni crescenti nell'arco di 7-10 giorni per evitare disturbi gastrointestinali.\n\nL'acqua: fondamentale e spesso trascurata\n\nL'acqua fresca deve essere sempre disponibile e cambiata almeno due volte al giorno. Un cucciolo disidratato si stanca prima, mangia meno e ha funzioni cognitive ridotte. Controlla il pelo e la pelle: se la pelle rimane sollevata dopo un pizzico, il cane e disidratato.",
+    "title_en": "Puppy Feeding: How Often and What to Give",
+    "content_en": "The first months are crucial for growth. Puppies need more frequent meals. Choose quality puppy food. Fresh water should always be available.",
+    "image": "dog-food.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Quante volte mangia un cucciolo? Crocchette o cibo umido? Scopri la guida completa all'alimentazione corretta nei primi mesi di vita del tuo cane.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T07:00:00Z",
+    "created_at": "2026-04-14T07:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.208Z",
+    "category": 5,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 16,
+  "fields": {
+    "title": "Come Calmare un Cane Iperattivo: Soluzioni Pratiche",
+    "slug": "come-calmare-cane-iperattivo-eccitato",
+    "content": "Un cane sempre in movimento, che non riesce mai a stare fermo, che salta addosso a tutti, che abbaia e whine continuamente: convivere con un cane iperattivo e estenuante. Ma prima di rinunciare o di cercare soluzioni drastiche, e importante capire cosa c'e davvero dietro quel comportamento.\n\nIperattivita vera o energia non gestita?\n\nE una distinzione fondamentale. La vera iperattivita clinica (ADHD canino) esiste ma e rara. Nella grande maggioranza dei casi, quello che sembra iperattivita e semplicemente un cane con:\n- Tantissima energia non sfogata\n- Insufficiente stimolazione mentale\n- Nessun insegnamento del 'come stare calmo'\n- Un proprietario che involontariamente rinforza l'eccitazione\n\nLe razze naturalmente energetiche (Border Collie, Jack Russell, Labrador, Husky, Beagle, Springer Spaniel) hanno bisogno di molte piu attivita rispetto alla media. Non sono 'difettose': sono semplicemente razze selezionate per compiti fisicamente intensi.\n\nPerche il cane e sempre eccitato?\n\n1. Energia accumulata. E la causa numero uno. Un cane da lavoro in appartamento con due passeggiate brevi al giorno ha energia in eccesso che deve scaricare in qualche modo.\n\n2. Rinforzo involontario dell'eccitazione. Quando il cane si eccita e tu reagisci (parlandogli, accarezzandolo, urlando), lo stai premiando con la tua attenzione. Anche una reazione negativa e attenzione.\n\n3. Mancanza di autocontrollo. L'autocontrollo non e innato: si insegna. Un cane che non ha mai imparato a gestire le emozioni non sa come calmarsi da solo.\n\n4. Anticipazione di eventi eccitanti. Il cane impara i segnali che precedono attivita belle (il guinzaglio = passeggiata, la ciotola = pasto, la tua giacca = uscita). Inizia ad eccitarsi ancor prima che l'evento accada.\n\nStrategia 1: aumenta drasticamente l'esercizio fisico\n\nNon basta portarlo a fare i bisogni. Le razze energetiche hanno bisogno di almeno 1-2 ore di attivita vera al giorno: corsa, nuoto, gioco di riporto, agility, trekking. Un cane fisicamente soddisfatto e molto piu tranquillo in casa.\n\nStrategia 2: aggiungi attivazione mentale quotidiana\n\n30 minuti di attivazione mentale stancano quanto un'ora di corsa. Prova:\n- Giochi di fiuto (nascondi crocchette in casa)\n- Tappeto di sniffing\n- Kong riempito e congelato\n- Sessioni di addestramento di nuovi trick (10 minuti al giorno)\n- Puzzle feeder al posto della ciotola normale\n\nStrategia 3: insegna il 'posto' e il 'calmo'\n\nIl comando 'posto' (vai sul tuo tappetino e aspetta) e uno degli strumenti piu potenti per un cane eccitato. Inizia a insegnarlo in momenti di calma, premiando il cane quando rimane sul posto anche solo per pochi secondi. Aumenta gradualmente il tempo. Con costanza, il posto diventa il luogo dove il cane impara ad auto-regolarsi.\n\nStrategia 4: ignora l'eccitazione, premia la calma\n\nQuesta e la regola d'oro: non dare mai attenzione al cane quando e in uno stato di alta eccitazione. Girali le spalle, esci dalla stanza, ignora completamente. Quando si calma, anche solo per un secondo, premialo. Il cane impara che la calma porta cose belle, l'eccitazione non porta nulla.\n\nStrategia 5: routine e prevedibilita\n\nI cani equilibrati vivono in ambienti prevedibili. Orari fissi per i pasti, le passeggiate e il gioco riducono l'ansia anticipatoria che spesso alimenta l'iperattivita.\n\nQuanto tempo ci vuole per vedere i risultati?\n\nSe la causa e la carenza di esercizio, i miglioramenti si vedono in pochi giorni con piu attivita. Se il problema e l'autocontrollo, servono 3-6 settimane di lavoro costante. La coerenza di tutti i membri della famiglia e fondamentale: se uno premia l'eccitazione, il lavoro degli altri viene vanificato.\n\nUn cane calmo non e un cane triste o sottomesso: e un cane in equilibrio emotivo, in grado di godersi la vita e il rapporto con te in modo sereno.",
+    "title_en": "How to Calm a Hyperactive Dog",
+    "content_en": "Hyperactivity stems from lack of stimulation. Increase exercise and mental stimulation. Establish a routine. Teach the settle command.",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il tuo cane e sempre troppo eccitato e non riesci a calmarlo? Scopri le cause dell'iperattivita e le strategie pratiche per insegnargli la calma.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T06:00:00Z",
+    "created_at": "2026-04-14T06:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.219Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 17,
+  "fields": {
+    "title": "Secondo Cane in Casa: Come Introdurlo Senza Stress",
+    "slug": "secondo-cane-in-casa-introduzione",
+    "content": "Portare un secondo cane in casa e una decisione importante che richiede preparazione, pazienza e una buona dose di conoscenza del comportamento canino. Farlo nel modo sbagliato puo creare tensioni che durano mesi. Farlo nel modo giusto porta a una convivenza felice che arricchisce entrambi i cani e tutta la famiglia.\n\nPrima di prendere il secondo cane: le domande da farti\n\nNon tutti i cani vogliono o hanno bisogno di un compagno. Prima di procedere, chiediti onestamente:\n- Il mio cane attuale e socievole con altri cani durante le passeggiate?\n- Ha gia avuto esperienze positive con altri cani in casa (dog-sitting, visita di amici)?\n- Ho il tempo e lo spazio per gestire due cani?\n- Il mio cane attuale ha problemi comportamentali irrisolti? (se si, risolvi prima quelli)\n\nUn cane con ansia da separazione, reattivita o altri problemi comportamentali non vede migliorare la situazione con l'aggiunta di un secondo cane. Spesso peggiora.\n\nLa scelta del secondo cane: compatibilita di base\n\nNon tutte le combinazioni funzionano allo stesso modo. Alcuni principi di base:\n- Sesso opposto tende a funzionare meglio (maschio + femmina)\n- Taglie simili riducono i rischi di incidenti durante il gioco\n- Livelli di energia compatibili: un Border Collie iperattivo con un Bulldog anziano e pigro creera frustrazione in entrambi\n- L'eta: un cucciolo con un cane anziano puo essere stressante per l'adulto\n\nIl primo incontro: come farlo correttamente\n\nQuesto e il momento piu delicato di tutto il processo. L'errore piu comune? Portare il nuovo cane direttamente in casa del residente. Il territorio e del cane che gia vive li: un intruso che entra crea automaticamente tensione.\n\nIl metodo corretto e il cosiddetto 'incontro neutro':\n\n1. Scegli un luogo neutro che entrambi i cani non conoscono: un parchetto che non frequentate, una piazza tranquilla.\n\n2. Portali separatamente, ciascuno con il suo proprietario/accompagnatore.\n\n3. Inizia con passeggiate parallele a distanza (15-20 metri) nella stessa direzione. I cani si percepiscono ma non si toccano.\n\n4. Avvicinati gradualmente se entrambi i cani mostrano segnali di calma (sniffano a terra, corpo rilassato, coda non rigida).\n\n5. Lascia che si annusino liberamente quando si mostrano entrambi calmi. Non forzare il contatto.\n\n6. Torna a casa solo dopo che si sono incontrati con successo.\n\nI primi giorni a casa insieme\n\nLa convivenza domestica richiede attenzione nei primi 2-4 settimane:\n\n- Ciotole separate, in punti diversi della casa. La competizione sul cibo e una fonte primaria di conflitti.\n- Cucce separate: ciascun cane ha il suo spazio personale dove rifugiarsi.\n- Giocattoli: all'inizio, giocattoli separati o eliminarli temporaneamente. I conflitti su oggetti ad alto valore sono frequenti.\n- Non lasciare i due cani soli e senza supervisione per le prime settimane.\n- Attivita separate: passeggiate individuali con ciascun cane rafforzano il legame con il proprietario.\n\nSegnali di allarme da non ignorare\n\nNon tutta la tensione iniziale e normale. Intervieni subito se vedi:\n- Ringhio sordo e prolungato (non il ringhio da gioco, che e piu alto e alternato)\n- Fissazione del corpo (freeze), sguardo rigido e coda alta e ferma\n- Scatti veloci con contatto fisico duro\n- Un cane che tenta costantemente di evitare l'altro (stress da evitamento)\n\nIn questi casi, riduci i contatti, reintroduci le interazioni controllate e valuta il supporto di un educatore cinofilo.\n\nQuanto tempo prima che si abituino davvero?\n\nLe prime 2 settimane sono le piu critiche. Il 'vero' rapporto tra i due cani si stabilisce generalmente in 1-3 mesi. Alcuni cani diventano inseparabili in poche settimane, altri mantengono una coesistenza pacifica ma distante: entrambe le situazioni sono perfettamente valide.\n\nPatienza, struttura e rispetto dei tempi di entrambi i cani sono gli ingredienti fondamentali per una convivenza di successo.",
+    "title_en": "Second Dog: How to Introduce",
+    "content_en": "Bringing a second dog requires preparation. Start with neutral territory. Feed separately. Give equal attention to both dogs.",
+    "image": "dog-cat.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Vuoi prendere un secondo cane? Scopri come presentare i due cani nel modo giusto per evitare conflitti e costruire un rapporto armonioso.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T05:00:00Z",
+    "created_at": "2026-04-14T05:00:00Z",
+    "updated_at": "2026-04-19T14:42:50.231Z",
+    "category": 8,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 18,
+  "fields": {
+    "title": "Paura dei Rumori e Temporali nel Cane: Come Aiutarlo",
+    "slug": "paura-rumori-temporali-cane-soluzioni",
+    "content": "La paura dei rumori forti e uno dei problemi piu comuni e spesso sottovalutati nei cani. Petardi, temporali, fuochi d'artificio, aspirapolvere, motociclette: per molti cani questi suoni sono una fonte di terrore reale, non di semplice fastidio.\n\nPerche il cane ha paura dei rumori?\n\nNon tutti i cani reagiscono allo stesso modo. La paura acustica dipende da una combinazione di fattori:\n\n1. Genetica e sensibilita individuale. Alcune razze sono naturalmente piu sensibili ai suoni: Border Collie, Pastore Tedesco, Cocker Spaniel e molti meticci mostrano una predisposizione piu alta. E in parte carattere, non debolezza.\n\n2. Mancata socializzazione acustica. Il periodo critico per la socializzazione va dalle 3 alle 14 settimane. Un cucciolo esposto in modo positivo a suoni diversi (traffico, aspirapolvere, temporali, bici) sviluppa una soglia di tolleranza piu alta da adulto.\n\n3. Un singolo episodio traumatico. Una sola esperienza molto spaventosa associata a un rumore (un petardo vicino, un temporale violento) puo creare una fobia duratura. I cani generalizzano rapidamente: se un tuono era spaventoso, tutti i tuoni lo saranno.\n\n4. Rinforzamento involontario. Se ogni volta che il cane ha paura lo consoli eccessivamente (lo tieni in braccio, lo cullerai), puoi rinforzare quel stato emotivo. Non lo stai calmando: stai confermando che c'e davvero qualcosa di cui aver paura.\n\nCome si manifesta la paura acustica?\n\nI sintomi variano da cane a cane e da lieve a grave:\n- Tremore, ansimare, salivare\n- Nascondersi sotto il letto o in angoli della casa\n- Cercare freneticamente il proprietario\n- Abbaiare o ululare\n- Tentare di fuggire (attenzione: i cani fuggono e si perdono durante i temporali)\n- Distruggere oggetti per sfogare l'ansia\n- Perdere il controllo degli sfinteri\n- In casi gravi: autolesionismo (leccarsi compulsivamente, graffiarsi)\n\nCosa fare durante un episodio acuto\n\nL'obiettivo non e far finta che non stia succedendo niente, ne punire la paura. L'obiettivo e aiutare il cane a sentirsi piu sicuro.\n\n- Crea un rifugio: una cuccia coperta, un angolo con le sue coperte, una stanza interna piu silenziosa. Lascia che ci vada da solo. Non forzarlo a uscire dal suo rifugio.\n- Musica o rumore bianco a basso volume: puo coprire parzialmente i suoni esterni e abbassare l'arousal.\n- Rimani presente ma calmo: non ignorarlo completamente, ma non drammatizzare nemmeno. Comportati normalmente. La tua calma e contagiosa.\n- Giochi o Kong riempiti: se il cane accetta cibo durante l'evento, usarlo crea un'associazione positiva con il rumore.\n- Manteca di pressione (thunder shirt): una fascetta elastica che avvolge il corpo. Non funziona su tutti, ma alcuni cani mostrano un calo dell'ansia significativo.\n\nLa desensibilizzazione: il trattamento a lungo termine\n\nIl vero trattamento per la fobia acustica si chiama desensibilizzazione sistematica e controconditioning. Si lavora PRIMA degli episodi, non durante.\n\nCome funziona:\n1. Registra o scarica online il suono che spaventa (temporale, petardi).\n2. Fallo sentire a volume molto basso, quasi impercettibile, mentre il cane fa qualcosa di piacevole (mangia, gioca).\n3. Aumenta il volume molto gradualmente nel corso di settimane, sempre associandolo a esperienze positive.\n4. L'obiettivo e che il cane impari ad associare quel suono a qualcosa di neutro o piacevole, non a qualcosa di pericoloso.\n\nQuesto processo richiede mesi ma e l'unico che produce risultati stabili e duraturi.\n\nQuando serve il veterinario?\n\nSe la paura e grave (autolesionismo, fuga, perdita di controllo totale), un supporto farmacologico temporaneo puo essere necessario. Non e una sconfitta: e una scelta di benessere. Esistono farmaci ansiolitici situazionali (da somministrare prima degli eventi prevedibili come Capodanno o agosto) e terapie a lungo termine per le fobie croniche gravi.\n\nLa paura dei rumori non va minimizzata. Per il cane e reale quanto una fobia umana. Con il giusto approccio si riduce sensibilmente, anche se raramente scompare del tutto nelle razze piu predisposte.",
+    "title_en": "Fear of Noises and Storms in Dogs: How to Help",
+    "content_en": "Fear of loud noises is one of the most common problems in dogs. Create a safe space during noisy events. Consider calming aids. In severe cases, consult your veterinarian. Desensitization can help: gradually expose your dog to recorded sounds.",
+    "image": "dog-sleeping.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il cane ha paura dei temporali, petardi o rumori forti? Scopri perche succede e come aiutarlo con tecniche pratiche e rispettose.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": null,
+    "created_at": "2026-04-16T18:39:19.780Z",
+    "updated_at": "2026-04-19T14:42:50.165Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 19,
+  "fields": {
+    "title": "I Primi 30 Giorni del Cucciolo a Casa: Cosa Fare e Cosa Evitare",
+    "slug": "primi-30-giorni-cucciolo-casa-guida",
+    "content": "I primi 30 giorni con un cucciolo sono intensi, meravigliosi e a volte disorientanti. Sono anche i piu importanti: le abitudini, i confini e le relazioni che si costruiscono in questo periodo avranno un impatto enorme sul carattere del cane adulto.\n\nIl primo giorno: arrivo a casa\n\nIl cucciolo e appena stato strappato da tutto cio che conosceva: la mamma, i fratelli, gli odori familiari. E normale che sia disorientato, silenzioso o anche che pianga.\n\nCosa fare:\n- Mostragli la casa gradualmente, una stanza alla volta\n- Mostragli subito dove si trovano la sua cuccia, la ciotola dell'acqua e il posto per fare i bisogni\n- Lascialo esplorare a modo suo, senza obbligarlo a interazioni\n- Visite e abbracci dei bambini: con calma, senza sopraffarlo\n\nCosa NON fare:\n- Non invitare immediatamente amici e parenti per vederlo: e stressante\n- Non lasciarlo solo per ore il primo giorno\n- Non cambiare immediatamente il suo cibo: usa lo stesso del precedente proprietario per almeno una settimana, poi eventualmente cambia gradualmente\n\nLa prima notte\n\nLa prima notte e spesso la piu difficile. Il cucciolo e solo per la prima volta nella sua vita, senza i fratelli. Puo piangere per ore.\n\nOpzione 1 - Cuccia vicino al tuo letto: il cucciolo si sente meno solo, i risvegli notturni per i bisogni sono gestibili. E la soluzione piu rispettosa dei suoi bisogni emotivi.\nOpzione 2 - Cuccia in un'altra stanza: il cucciolo impara l'indipendenza, ma i pianti possono essere intensi le prime notti. Usare un orologio che ticchetta e una borsa dell'acqua calda avvolta in un asciugamano (simula il calore dei fratelli) puo aiutare.\n\nIndipendentemente dalla scelta, la coerenza e fondamentale: non cambiare le regole dalla seconda notte.\n\nI bisogni: come fare in fretta\n\nL'educazione ai bisogni e la priorita assoluta delle prime settimane. I cuccioli hanno una vescica molto piccola e scarso controllo: non aspettarti miracoli, ma con il metodo giusto si velocizzano molto i tempi.\n\nRegola d'oro: porta il cucciolo fuori (o nel posto designato) nelle seguenti situazioni:\n- Appena si sveglia (dalla notte o da un sonnellino)\n- 15-20 minuti dopo aver mangiato\n- Dopo ogni sessione di gioco intensa\n- Ogni 1-2 ore durante il giorno\n- Appena mostri segnali (annusa il pavimento in modo intenso, gira in cerchio)\n\nQuando fa i bisogni nel posto giusto: premialo immediatamente con un premio e un tono di voce entusiasta. Questo rinforzo deve arrivare entro 2-3 secondi per essere efficace.\n\nQuando sbaglia in casa: niente punizioni, niente urla. Pulisci con un detergente enzimatico (elimina l'odore e riduce le recidive). Le punizioni a posteriori non servono: il cucciolo non collega la punizione all'azione.\n\nLa socializzazione: finestra critica aperta\n\nTra le 3 e le 14 settimane il cucciolo e nella finestra di socializzazione piu importante della sua vita. In questo periodo, ogni nuova esperienza vissuta positivamente costruisce un cane adulto equilibrato.\n\nCosa socializzare:\n- Persone diverse: bambini, anziani, persone con cappello, barba, uniforme\n- Suoni: aspirapolvere, traffico, temporali (a volume basso), motociclette\n- Superfici: erba, asfalto, piastrelle, sabbia, ghiaia\n- Oggetti: biciclette, carrozzine, ombrelli\n- Animali: altri cani vaccinati e equilibrati, gatti, se possibile\n\nCome farlo: sempre in modo positivo e senza forzare. Se il cucciolo si spaventa, non lo trascinare verso la cosa spaventosa. Aspetta, lascia che si avvicini da solo, premia la curiosita.\n\nNota importante: anche se il cucciolo non ha ancora tutte le vaccinazioni, la socializzazione non puo aspettare. Scegli ambienti sicuri (case di amici con cani vaccinati, classi cuccioli), ma non rimandare. Il rischio comportamentale di una socializzazione mancata e spesso maggiore del rischio sanitario.\n\nPrimissima educazione: cosa iniziare subito\n\nNon devi aspettare che il cucciolo cresca per iniziare. Dai 8 settimane puoi iniziare:\n- Il proprio nome (dillo in tono positivo e premialo quando ti guarda)\n- Seduto (facile, brevi sessioni da 3-5 minuti)\n- Venire quando chiamato (dentro casa, con premi grandi)\n- Stare in cuccia/posto\n\nSessioni brevissime (3-5 minuti) e sempre positive. I cuccioli si stancano e annoiano rapidamente. Meglio 5 sessioni brevi al giorno che una lunga.\n\nCosa aspettarsi alla fine del primo mese\n\n- I bisogni in casa diminuiscono ma non sono ancora eliminati\n- Il cucciolo conosce il suo nome e risponde spesso\n- Ha iniziato a capire le regole di base della casa\n- Ha avuto molte esperienze positive di socializzazione\n- Il sonno notturno migliora progressivamente\n\nE normale sentirsi esausti dopo il primo mese. E normale avere dubbi. L'importante e la coerenza: regole chiare, applicate allo stesso modo da tutti i membri della famiglia, costruiscono un cane sicuro e equilibrato.",
+    "title_en": "First 30 Days of a Puppy at Home: What to Do and Avoid",
+    "content_en": "The first 30 days with a puppy are intense, wonderful, and disorienting. They are also the most important: the habits and boundaries you build will shape your life together for years. Create a safe space and establish a routine immediately. Begin basic training from day one. Use positive reinforcement.",
+    "image": "puppy-play.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il cucciolo e appena arrivato a casa? Guida completa ai primi 30 giorni: arrivo, notte, bisogni, socializzazione e primissima educazione.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": null,
+    "created_at": "2026-04-16T18:39:19.794Z",
+    "updated_at": "2026-04-19T14:42:50.151Z",
+    "category": 2,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 20,
+  "fields": {
+    "title": "Sterilizzazione del Cane: Quando Farla e Perche",
+    "slug": "sterilizzazione-cane-quando-perche",
+    "content": "La sterilizzazione del cane e una delle decisioni piu importanti che un proprietario affronta. Spesso circondata da miti e informazioni contrastanti, merita una trattazione chiara, onesta e basata sulle evidenze scientifiche attuali.\n\nCosa significa sterilizzare un cane?\n\nNei maschi si parla di castrazione (rimozione dei testicoli, orchiectomia). Nelle femmine di sterilizzazione (rimozione delle ovaie, ovariectomia, o di ovaie + utero, ovariosterectomia). Esistono anche alternative non chirurgiche (impianti ormonali temporanei), utili per valutare gli effetti prima di procedere definitivamente.\n\nPerche considerarla: i benefici concreti\n\nPer le femmine:\n- Elimina il rischio di piometra (infezione dell'utero), condizione potenzialmente fatale molto comune nelle femmine anziane non sterilizzate\n- Riduce significativamente il rischio di tumori mammari se eseguita prima del secondo calore\n- Elimina i calori (ogni 6 mesi circa) e le relative perdite ematiche e cambiamenti di umore\n- Previene le gravidanze indesiderate\n\nPer i maschi:\n- Elimina il rischio di tumori testicolari\n- Riduce il rischio di iperplasia prostatica benigna e prostatiti\n- Puo ridurre comportamenti legati agli ormoni: marcatura con urina in casa, fughe per cercare femmine, alcuni tipi di aggressivita verso altri maschi (non tutti)\n- Riduce il rischio di wandering (fuga alla ricerca di femmine in calore)\n\nI rischi reali: quello che dicono le ricerche\n\nLe ricerche piu recenti, specialmente su razze grandi e giganti, mostrano che la sterilizzazione precoce (prima della maturita sessuale) puo aumentare il rischio di:\n- Alcune forme di cancro (osteosarcoma, emangiosarcoma) nelle razze grandi\n- Problemi ortopedici (displasia dell'anca, rottura del legamento crociato) nelle razze vulnerabili\n- Obesita (il metabolismo rallenta dopo la sterilizzazione)\n- Incontinenza urinaria nelle femmine (in percentuale variabile)\n\nQuesto non significa che non vada fatta: significa che il timing e l'approccio vanno valutati caso per caso con il veterinario.\n\nQuando e il momento giusto?\n\nLa risposta dipende da razza, sesso e contesto:\n\nFemmine di taglia piccola e media: tradizionalmente si consiglia dopo il primo o secondo calore (8-12 mesi). Alcune ricerche supportano la sterilizzazione ancora prima senza rischi significativi per queste taglie.\n\nFemmine di taglia grande e gigante: molti veterinari aggiornati consigliano di attendere la maturita sessuale completa (12-18 mesi o oltre per razze giganti) per ridurre i rischi ortopedici.\n\nMaschi di taglia piccola e media: tra i 6 e i 12 mesi e generalmente sicuro.\n\nMaschi di taglia grande e gigante: le linee guida piu recenti suggeriscono di valutare la maturita fisica completa (18-24 mesi) prima di procedere.\n\nCosa cambia dopo la sterilizzazione?\n\nComportamento: la sterilizzazione riduce alcuni comportamenti ormonali (marcatura, fuga per cercare partner, certe aggressivita sessuali) ma non cambia il carattere di base del cane. Un cane aggressivo sterilizzato e ancora un cane aggressivo: la sterilizzazione non e un trattamento comportamentale.\n\nPeso: il metabolismo rallenta. Riduci la porzione di cibo del 10-20% dopo la sterilizzazione e monitora il peso regolarmente.\n\nPelo: in alcuni cani (specialmente alcune razze nordiche) puo comparire un cambiamento della texture del mantello.\n\nEnergia: non cambia significativamente. Il cane non diventa pigro per definizione: dipende dall'esercizio fisico che fai con lui.\n\nIl recupero post-operatorio\n\nL'intervento e routinario e il recupero e generalmente rapido: 10-14 giorni con il collare elisabettiano per evitare che il cane lecca la ferita. Attivita fisica limitata per le prime due settimane. Controllo dei punti (o riassorbimento automatico se il chirurgo usa suture biodegradabili).\n\nLa decisione finale\n\nNon esiste una risposta universale. La sterilizzazione e quasi sempre la scelta giusta per cani che vivono in casa senza programmi di riproduzione. Il timing va discusso con il tuo veterinario tenendo conto di razza, taglia, sesso e salute individuale del cane.",
+    "title_en": "Dog Spaying and Neutering: When and Why",
+    "content_en": "Spaying or neutering your dog is one of the most important decisions a dog owner faces. Often surrounded by myths and conflicting information, it deserves a clear, honest treatment based on evidence rather than beliefs. The medical benefits are significant. In females, spaying eliminates the risk of pyometra and greatly reduces the risk of mammary tumors, especially if done before the first heat cycle. In males, neutering eliminates the risk of testicular tumors and significantly reduces the risk of prostate problems. Behavioral benefits are equally important. Neutered males are less likely to run away looking for females in heat, less aggressive toward other males, and less prone to marking territory inside the house.",
+    "image": "dog-vet.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Sterilizzare il cane: quando e il momento giusto, i benefici reali, i rischi e cosa cambia nel comportamento. Guida completa basata su evidenze.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": null,
+    "created_at": "2026-04-16T18:39:19.805Z",
+    "updated_at": "2026-04-19T14:37:18.959Z",
+    "category": 5,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 21,
+  "fields": {
+    "title": "Cane Salta Addosso: Come Insegnargli a Salutare Correttamente",
+    "slug": "cane-salta-addosso-come-insegnare",
+    "content": "Un cane che salta addosso ai visitatori puo sembrare simpatico quando pesa 5 kg. Diventa un problema serio quando ne pesa 30 e il destinatario del salto e un bambino, un anziano o qualcuno che semplicemente non ama essere assalito. Ma la buona notizia e che questo comportamento si risolve in modo abbastanza rapido con il metodo giusto.\n\nPerche il cane salta addosso?\n\nCapire il perche e fondamentale per risolvere il problema nel modo corretto:\n\n1. Eccitazione per il saluto. Per il cane, salutare le persone e un evento ad alto carico emotivo. Il salto e un modo per avvicinarsi al viso dell'umano (cosa che farebbe con un altro cane) e per esprimere l'entusiasmo. Non e aggressivita: e gioia non gestita.\n\n2. Comportamento rinforzato. Ogni volta che il cane salta e ottiene attenzione (anche se negativa: urli, spingere via, parlare), impara che saltare funziona. Anche spingerlo via fisicamente e attenzione per lui.\n\n3. Non ha mai imparato un'alternativa. Il cane non sa cosa DOVREBBE fare al posto di saltare. Nessuno glielo ha mai insegnato. Non e stupidita: e mancanza di educazione.\n\nIl metodo che funziona: ignora + insegna l'alternativa\n\nL'errore piu comune e concentrarsi solo sul punire il salto (dire no, spingere, inginocchiarsi). Questo non funziona perche non insegna al cane cosa fare al suo posto.\n\nIl metodo corretto ha due componenti:\n\nPARTE 1 - Rimuovi la ricompensa dal salto\nQuando il cane salta:\n- Girati dall'altra parte immediatamente (non guardarlo, non parlargli, non toccarlo)\n- Se continua a saltare girandoti intorno, esci dalla stanza per 10-15 secondi\n- Rientra calmamente. Se salta di nuovo, ripeti.\n- Il messaggio che passano: saltare = tu sparisci. Non funziona.\n\nPARTE 2 - Insegna il seduto di saluto\nIl cane non puo saltare se e seduto. Insegna attivamente questa alternativa:\n- Approccia il cane con calma\n- Chiedi seduto PRIMA che salti (anticipa il momento)\n- Quando si siede, daglielo immediatamente con un premio e tante carezze\n- Se non si siede e salta, torna alla parte 1\n\nCon il tempo, il cane capisce: zampe a terra = ottengo cio che voglio. Zampe su = non ottengo nulla.\n\nLa coerenza e il punto critico\n\nQuesto metodo funziona SOLO se e applicato in modo coerente da tutti. Se un membro della famiglia permette il salto, il cane non capisce le regole e continua. Istruisci i visitatori: appena entrano, girate la schiena se il cane salta.\n\nLe prime volte con i visitatori saranno caotiche: porta il cane al guinzaglio quando arrivano ospiti in modo da avere controllo sulla situazione. Chiedi seduto, dai il premio, poi lascialo interagire.\n\nQuanto tempo ci vuole?\n\nCon coerenza totale (tutti applicano lo stesso metodo), la maggior parte dei cani mostra un miglioramento netto in 2-3 settimane. Cani molto eccitabili o con anni di abitudine consolidata possono richiedere un po' piu tempo.\n\nIl cane che salta solo con alcune persone\n\nA volte il cane salta solo con certe persone (spesso quelle piu eccitate o che lo incentivano). In questo caso, il lavoro va fatto proprio con quelle persone specifiche: spiega il metodo, chiedi collaborazione e fai le prove pratiche insieme.\n\nUn saluto calmo e qualcosa che si impara, non che si impone con la forza. Con pazienza e coerenza, il cane impara che le quattro zampe a terra aprono le porte all'attenzione che vuole.",
+    "title_en": "Dog Jumping on People: How to Teach Them to Greet",
+    "content_en": "A dog that jumps on visitors may seem cute when it weighs 5 kg. It becomes a serious problem when it weighs 30 kg and the target of the jump is a child, an elderly person, or someone who is afraid of dogs. Why do dogs jump? The answer is simple: they do it because it works. When we bend down to pet a jumping puppy, we reinforce the behavior. The dog learns that jumping gets attention and results in interaction with humans. To correct this behavior, we need consistency. Everyone in the family must follow the same rules: no attention when the dog jumps, complete ignore until all four paws are on the ground. The training technique is simple but requires patience. When the dog jumps, turn your back and ignore him completely.",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "Il cane salta addosso a tutti quando li saluta? Scopri perche lo fa e il metodo piu efficace per insegnargli a salutare con le quattro zampe a terra.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": null,
+    "created_at": "2026-04-16T18:39:19.816Z",
+    "updated_at": "2026-04-19T14:37:18.940Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 22,
+  "fields": {
+    "title": "Come Leggere il Linguaggio del Corpo del Cane",
+    "slug": "leggere-linguaggio-corpo-cane",
+    "content": "Il cane comunica continuamente attraverso il corpo. Coda, orecchie, postura, movimenti degli occhi, posizione della bocca: ogni elemento dice qualcosa. Imparare a leggere questo linguaggio non e un lusso per esperti: e uno strumento fondamentale per chiunque viva con un cane.\n\nPerche e importante capire il linguaggio del cane?\n\nUn proprietario che sa leggere il proprio cane:\n- Previene situazioni di stress o pericolo prima che degenerino\n- Costruisce un rapporto basato sulla comprensione reciproca\n- Intercetta i segnali di disagio prima che il cane arrivi a ringhiare o mordere\n- Rispetta i momenti in cui il cane non vuole interagire\n\nLa maggior parte dei morsi avviene dopo una serie di segnali ignorati. I cani non mordono senza avvertire: semplicemente, spesso non siamo stati in grado di ascoltarli.\n\nI segnali calmanti: il linguaggio della pace\n\nTurid Rugaas, etologa norvegese, ha identificato e catalogato quello che chiama segnali calmanti: comportamenti che il cane usa per comunicare stress, disagio o la volontà di de-escalare una situazione.\n\nI piu comuni:\n- Sbadiglio: non sempre indica sonno. Un cane che sbadigliamo quando lo avviciniamo o quando c'e tensione sta dicendo che e a disagio.\n- Leccarsi il muso (una leccata rapida): segnale di leggero stress o anticipazione di qualcosa di stressante.\n- Girare la testa dall'altra parte: il cane evita il contatto diretto per segnalare che non e una minaccia o che non vuole conflitti.\n- Annusare il suolo: interrompere il contatto visivo annusando il terreno e spesso un tentativo di calmare se stesso o l'altro.\n- Muoversi a curva: i cani socialmente abili non si avvicinano mai frontalmente a un altro cane (o a una persona) in modo diretto. Si curvano.\n- Sedersi o sdraiarsi: abbassarsi e un segnale di non-minaccia.\n- Splittare: inserirsi tra due individui in tensione per dividere la situazione.\n\nCome appare la tensione nel corpo\n\nUn cane teso o spaventato mostra:\n- Corpo rigido, movimenti lenti e controllati\n- Orecchie appiattite o tirate indietro\n- Coda bassa o tra le gambe\n- Pelo sul dorso rizzato (piloerezione)\n- Bocca chiusa, muscoli della mascella contratti\n- Pupille dilatate, sclera visibile (occhio di balena)\n- Respirazione rapida\n\nUn cane che mostra questi segnali ha bisogno di spazio, non di avvicinamento.\n\nCosa comunicano la coda e le orecchie?\n\nLa coda:\n- Alta e rigida = alta arousal, attenzione, possibile dominanza o minaccia\n- Alta e che scodinzola velocemente e rigida = eccitazione ad alta intensita, non necessariamente amichevole\n- Larga che fa movimenti ampi (tutto il sedere si muove) = gioia genuina e intenzione amichevole\n- Bassa e rigida = paura o sottomissione\n- Tra le gambe = paura intensa\n\nMAI valutare la coda da sola: va letta insieme al resto del corpo.\n\nLe orecchie:\n- Erette e orientate in avanti = attenzione, interesse, eventuale allerta\n- Appiattite dietro la testa = paura, sottomissione, disagio\n- Rilassate nella posizione naturale della razza = stato emotivo tranquillo\n\nLa bocca e gli occhi:\n- Bocca aperta e rilassata = generalmente calmo\n- Bocca chiusa e mascella contratta = tensione\n- Contatto visivo diretto e prolungato = minaccia o sfida\n- Evitare lo sguardo = disagio o sottomissione\n- Mostrare i denti (grin) senza contrarre i muscoli = a volte un segnale di sottomissione in razze predisposte\n\nGioco o aggressivita? Come distinguerli\n\nUn cane che gioca mostra:\n- Play bow (inchino: zampe anteriori a terra, posteriore in alto)\n- Movimenti esagerati, rimbalzanti, non fluidi\n- Vocalizzazioni alte (latrati brevi, grugniti alti)\n- Scambi reciproci: si rincorrono alternativamente\n\nUn cane in conflitto mostra:\n- Corpo rigido, movimenti deliberati\n- Ringhio basso e prolungato\n- Sguardo fisso\n- Scatti monodirezionali\n\nNon tutto il ringhio e aggressivita: esiste il ringhio da gioco, che e piu alto, intermittente e accompagnato da postura rilassata.\n\nCome usare questa conoscenza nella vita quotidiana\n\n- Prima di accarezzare un cane sconosciuto: guarda il corpo. Se e rigido, se gira la testa, se si allontana: non accarezzarlo.\n- Durante le interazioni del tuo cane con altri cani: impara a intervenire prima che la situazione degeneri leggendo i segnali.\n- Con i bambini: insegna loro i segnali di stop del cane. Un bambino che sa leggere il cane e un bambino piu sicuro.\n- Con il tuo cane in nuove situazioni: se sbadiglio, si lecca il muso o si allontana, sta dicendo che ha bisogno di piu distanza o piu tempo.\n\nIl linguaggio del cane non richiede anni di studio per essere compreso nelle basi. Con un po' di attenzione e pratica, diventa un dialogo naturale che trasforma radicalmente la qualita del vostro rapporto.",
+    "title_en": "How to Read Your Dog Body Language",
+    "content_en": "The dog communicates continuously through its body. Tail, ears, posture, eye movements, mouth position: every element says something. Learning to read this language is not a luxury for dog lovers - it is essential to understanding what your dog is trying to tell you. Dogs use their entire body to communicate: from the tip of the wagging tail to the position of the ears, from the tension in the body to the way they look at you. A slight change in posture can indicate fear, excitement, stress or happiness. The tail is often misunderstood. A wagging tail does not always mean happiness - the speed, direction and stiffness of the wag communicate different emotions. A high, stiff wag can indicate alertness or even aggression, while a low, loose wag usually indicates relaxation. The ears are extremely expressive. Forward ears indicate curiosity or attention, while pulled back ears can signal fear or submission.",
+    "image": "dog-sleeping.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Impara a capire cosa sta comunicando il tuo cane attraverso coda, orecchie, postura e segnali calmanti. Guida completa al linguaggio canino.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": null,
+    "created_at": "2026-04-16T18:39:19.827Z",
+    "updated_at": "2026-04-19T14:37:18.918Z",
+    "category": 6,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 24,
+  "fields": {
+    "title": "Conclusione: un cane non è economico, ma è prezioso",
+    "slug": "conclusione-cane-non-economico-ma-precioso",
+    "content": "Avere un cane comporta spese reali ma restituisce benefici per la salute e la qualità della vita che spesso valgono molto più del denaro speso. Mediamente in Italia il costo annuo si aggira intorno a 1.000-1.300 euro, mentre l'interazione con il cane può ridurre lo stress e influenzare ormoni come ossitocina e cortisolo.\n\nAvere un cane significa fare i conti con voci concrete: l'alimentazione, le visite veterinarie, i trattamenti antiparassitari, gli accessori e gli imprevisti che possono far salire la spesa. In Italia la spesa media annua per un cane è stimata intorno a 1.200-1.300 euro, con variazioni importanti a seconda della taglia, dell'età e dello stile di vita del proprietario.\n\nQuesto non è un dettaglio da sottovalutare: ci sono costi iniziali come microchip e sterilizzazione o l'acquisto da allevamento, spese ricorrenti come cibo di qualità e antiparassitari, e la possibilità di spese veterinarie impreviste che richiedono un fondo di emergenza.\n\nEppure, se si guarda solo al portafoglio si perde il quadro più grande: il cane impone una routine fatta di passeggiate, gioco e cura che si traduce in più movimento quotidiano, in una riduzione della sedentarietà e in un miglioramento del benessere psicofisico. Studi sul legame cane-proprietario mostrano che le interazioni affettuose possono aumentare i livelli di ossitocina e contribuire a ridurre il cortisolo, l'ormone dello stress, con effetti misurabili sul tono dell'umore e sulla regolazione dello stress.\n\nQuesto non significa che il cane sia una cura miracolosa, ma che la sua presenza favorisce comportamenti salutari e offre supporto emotivo costante: compagnia nelle giornate difficili, motivazione a uscire anche quando non si ha voglia, e occasioni di socialità che spesso migliorano la qualità della vita.\n\nIl bilancio personale che ciascuno farà dipende dalle priorità: se si vuole contenere la spesa si possono scegliere soluzioni come l'adozione da rifugio, piani alimentari equilibrati ma non eccessivamente costosi, e una cassa per imprevisti. Se invece si valuta il ritorno in termini di salute mentale e fisica, la presenza di un cane è spesso un investimento che ripaga con giorni più attivi, meno stress e più sorrisi.\n\nIn sintesi, il costo economico è reale e va pianificato, ma i benefici per la salute e la qualità della vita sono altrettanto concreti e spesso superiori al valore monetario speso. Non è un acquisto, non è un hobby, non è un costo. È un compagno di vita che ti cambia la salute, la mente e il cuore. E alla fine, quando fai davvero i conti, ti accorgi che spendi soldi ma guadagni vita.",
+    "title_en": "Conclusion: a dog is not cheap, but it is precious",
+    "content_en": "Having a dog involves real expenses but returns health and quality of life benefits that are often worth much more than the money spent. On average in Italy the annual cost is around 1,000-1,300 euros, while interaction with the dog can reduce stress and influence hormones like oxytocin and cortisol.\n\nHaving a dog means dealing with concrete expenses: food, veterinary visits, anti-parasitic treatments, accessories and unforeseen events that can increase the spending. In Italy the average annual cost for a dog is estimated at around 1,200-1,300 euros, with significant variations depending on the size, age and lifestyle of the owner.\n\nThis is not a detail to underestimate: there are initial costs like microchipping and neutering or purchasing from a breeder, recurring expenses like quality food and anti-parasitics, and the possibility of unexpected veterinary expenses that require an emergency fund.\n\nHowever, if you only look at your wallet you miss the bigger picture: the dog imposes a routine of walks, play and care that translates into more daily movement, a reduction in sedentary behavior and an improvement in psychophysical well-being. Studies on the dog-owner bond show that affectionate interactions can increase oxytocin levels and help reduce cortisol, the stress hormone, with measurable effects on mood and stress regulation.\n\nThis does not mean the dog is a miracle cure, but that its presence promotes healthy behaviors and offers constant emotional support: companionship on difficult days, motivation to go out even when you don't feel like it, and opportunities for socialization that often improve quality of life.\n\nThe personal budget each person will make depends on priorities: if you want to contain spending you can choose solutions like shelter adoption, balanced but not overly expensive food plans, and an emergency fund. If instead you evaluate the return in terms of mental and physical health, having a dog is often an investment that pays off with more active days, less stress and more smiles.\n\nIn summary, the economic cost is real and must be planned, but the benefits for health and quality of life are equally concrete and often greater than the monetary value spent. It is not a purchase, it is not a hobby, it is not a cost. It is a life companion that changes your health, mind and heart. And in the end, when you really do the math, you realize you spend money but gain life.",
+    "image": "",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Avere un cane costa, ma i benefici per salute e qualità della vita valgono molto di più del denaro speso.",
+    "length": "long",
+    "source": "translated",
+    "publish_date": null,
+    "created_at": "2026-04-20T11:00:59.286Z",
+    "updated_at": "2026-04-20T11:00:59.286Z",
+    "category": 9,
+    "published": true,
+    "votes_count": 0
+  }
+}
+]
