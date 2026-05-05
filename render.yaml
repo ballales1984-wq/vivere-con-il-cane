@@ -15,3 +15,4 @@ services:
     healthCheckPath: /
     healthCheckTimeout: 30
     healthCheckInterval: 10
+    postDeployCommand: python manage.py loaddata blog/fixtures/blog_data.json blog/fixtures/initial_data.json knowledge/fixtures/knowledge_data.json
