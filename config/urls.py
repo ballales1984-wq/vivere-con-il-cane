@@ -23,32 +23,39 @@ sitemaps = {
     "static": StaticViewSitemap(),
 }
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("i18n/", include("django.conf.urls.i18n")),
-    path(
-        "manifest.json",
-        TemplateView.as_view(
-            template_name="pwa/manifest.json", content_type="application/json"
-        ),
-        name="manifest",
-    ),
-    path(
-        "service-worker.js",
-        TemplateView.as_view(
-            template_name="pwa/service-worker.js", content_type="application/javascript"
-        ),
-        name="service_worker",
-    ),
-    path("ping/", blog_views.ping, name="ping"),
-    path("health/", blog_views.health, name="health"),
-    path(
-        "sitemap.xml",
-        sitemap,
-        {"sitemaps": sitemaps},
-        name="django.contrib.sitemaps.views.sitemap",
-    ),
-]
+ urlpatterns = [
+     path("admin/", admin.site.urls),
+     path("i18n/", include("django.conf.urls.i18n")),
+     path(
+         "manifest.json",
+         TemplateView.as_view(
+             template_name="pwa/manifest.json", content_type="application/json"
+         ),
+         name="manifest",
+     ),
+     path(
+         "service-worker.js",
+         TemplateView.as_view(
+             template_name="pwa/service-worker.js", content_type="application/javascript"
+         ),
+         name="service_worker",
+     ),
+     path(
+         "ads.txt",
+         TemplateView.as_view(
+             template_name="ads.txt", content_type="text/plain"
+         ),
+         name="ads_txt",
+     ),
+     path("ping/", blog_views.ping, name="ping"),
+     path("health/", blog_views.health, name="health"),
+     path(
+         "sitemap.xml",
+         sitemap,
+         {"sitemaps": sitemaps},
+         name="django.contrib.sitemaps.views.sitemap",
+     ),
+ ]
 
 urlpatterns += i18n_patterns(
      path("", blog_views.home_page, name="home"),
