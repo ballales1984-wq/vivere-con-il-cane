@@ -262,7 +262,7 @@ class VeterinaryRequestViewsTest(DogProfileBaseTestCase):
         VeterinaryRequest.objects.create(
             dog=self.dog, problem_description="Test2", status="ready"
         )
-        response = self.client.get(reverse("vet_request_list"))
+        response = self.client.get(reverse("dog_profile:vet_request_list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test1")
         self.assertContains(response, "Test2")
