@@ -24,12 +24,12 @@
 
             <div style="margin-bottom: 1.5rem;">
                 <label for="id_username" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary);">Username</label>
-                <input type="text" name="username" id="id_username" required style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; transition: var(--transition);">
+                <input type="text" name="username" id="id_username" autocomplete="username" required style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; transition: var(--transition);">
             </div>
 
             <div style="margin-bottom: 2.5rem;">
                 <label for="id_password" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--secondary);">Password</label>
-                <input type="password" name="password" id="id_password" required style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; transition: var(--transition);">
+                <input type="password" name="password" id="id_password" autocomplete="current-password" required style="width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; transition: var(--transition);">
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.15rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);">{% trans "Accedi" %}</button>
