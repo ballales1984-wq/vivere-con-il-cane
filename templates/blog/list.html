@@ -34,7 +34,7 @@
                 <a href="{% url 'blog:blog_detail' post.slug %}" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.9rem;">
                     {% trans "Leggi tutto" %} &rarr;
                 </a>
-                <button class="vote-btn" data-post-id="{{ post.id }}" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 10px; border-radius: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                <button class="vote-btn" data-post-id="{{ post.id }}" data-vote-url="{% url 'blog:vote_post' 0 %}" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 10px; border-radius: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
                     ❤️ <span class="vote-count">{{ post.votes_count }}</span>
                 </button>
             </div>
@@ -69,8 +69,9 @@ document.querySelectorAll('.post-img').forEach(img => {
 </script>
 
 <script>
-function votePost(postId, btn) {
-    const voteUrl = `{% url 'blog:vote_post' 0 %}`.replace('0', postId);
+function votePost(btn) {
+    const postId = btn.dataset.postId;
+    const voteUrl = btn.dataset.voteUrl.replace('0', postId);
     fetch(voteUrl)
         .then(r => r.json())
         .then(data => {
@@ -82,8 +83,7 @@ function votePost(postId, btn) {
 
 document.querySelectorAll('.vote-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        const postId = this.dataset.postId;
-        votePost(postId, this);
+        votePost(this);
     });
 });
 </script>

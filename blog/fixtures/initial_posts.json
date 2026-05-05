@@ -1,0 +1,383 @@
+[
+{
+  "model": "blog.category",
+  "pk": 1,
+  "fields": {
+    "name": "Educazione di Base",
+    "name_en": "",
+    "slug": "educazione-di-base",
+    "description": "Fondamenti dell'educazione cinofila gentile con rinforzo positivo. Comandi base, guinzaglio e buone abitudini quotidiane.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Cuccioli",
+    "name_en": "",
+    "slug": "cuccioli",
+    "description": "Tutto per i primi mesi di vita: socializzazione, dentizione, bisogni all'aperto e primi esercizi.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Problemi Comportamentali",
+    "name_en": "",
+    "slug": "problemi-comportamentali",
+    "description": "Soluzioni gentili e pratiche per tiro al guinzaglio, ansia da separazione, abbaio eccessivo e altri problemi comuni.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 4,
+  "fields": {
+    "name": "Attivazione Mentale e Giochi",
+    "name_en": "",
+    "slug": "attivazione-mentale",
+    "description": "Giochi fai-da-te e attività per stimolare la mente del cane e ridurre noia e stress.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 5,
+  "fields": {
+    "name": "Salute e Precauzioni",
+    "name_en": "",
+    "slug": "salute-e-precauzioni",
+    "description": "Attenzioni sanitarie base, sterilizzazione, antiparassitari, vaccinazioni e prevenzione.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 6,
+  "fields": {
+    "name": "Linguaggio del Cane",
+    "name_en": "",
+    "slug": "linguaggio-del-cane",
+    "description": "Segnali calmanti, linguaggio corporeo e come migliorare la comunicazione con il tuo cane.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 7,
+  "fields": {
+    "name": "Vita Quotidiana",
+    "name_en": "",
+    "slug": "vita-quotidiana",
+    "description": "Routine, passeggiate di qualità, convivenza in casa e benessere giornaliero.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 8,
+  "fields": {
+    "name": "Relazioni e Convivenza",
+    "name_en": "",
+    "slug": "relazioni-e-convivenza",
+    "description": "Convivenza con bambini, gatti, altri animali e membri della famiglia.",
+    "created_at": "2026-04-12T10:00:00Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 9,
+  "fields": {
+    "name": "Consigli",
+    "name_en": "Advice",
+    "slug": "consigli",
+    "description": "",
+    "created_at": "2026-04-20T10:49:14.015Z"
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 1,
+  "fields": {
+    "title": "Come Insegnare il Richiamo al Cane",
+    "slug": "come-insegnare-il-richiamo-al-cane",
+    "content": "Il richiamo è uno dei comandi più importanti per la sicurezza del tuo cane. Inizia in un ambiente senza distrazioni, usa un tono di voce allegro e premia sempre quando il cane arriva. Non richiamare mai per punire. Practica prima in casa, poi in giardino, infine in luoghi con più distrazioni. La chiave è la consistenza e la pazienza.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-training.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-12T10:00:00Z",
+    "created_at": "2026-04-12T10:00:00Z",
+    "updated_at": "2026-04-12T10:00:00Z",
+    "category": 1,
+    "published": true,
+    "votes_count": 5
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 2,
+  "fields": {
+    "title": "Socializzazione del Cucciolo: la Finestra Critica",
+    "slug": "socializzazione-del-cucciolo-finestra-critica",
+    "content": "Tra le 3 e le 14 settimane il cucciolo è più recettivo alle nuove esperienze. Esporlo gradualmente a persone, animali, ambienti e suoni diversi in modo positivo. Non forzare mai le interazioni. Limita le esperienze negative che potrebbero traumatizzarlo. Un cucciolo ben socializzato diventa un adulto equilibrato.",
+    "title_en": "",
+    "content_en": "",
+    "image": "puppy-play.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-11T10:00:00Z",
+    "created_at": "2026-04-11T10:00:00Z",
+    "updated_at": "2026-04-11T10:00:00Z",
+    "category": 2,
+    "published": true,
+    "votes_count": 8
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 3,
+  "fields": {
+    "title": "Risolvere il Tiro al Guinzaglio",
+    "slug": "risolvere-il-tiro-al-guinzaglio",
+    "content": "Il cane tira perché è eccitato o perché ha imparato che farlo lo porta dove vuole. Smetti di camminare quando tira e riprendi solo quando il guinzaglio è lento. Usa ricompense frequenti quando il cane cammina vicino a te. Un cambio di direzione improvviso interrompe anche il comportamento di tiro.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-walking.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "short",
+    "source": "manual",
+    "publish_date": "2026-04-10T10:00:00Z",
+    "created_at": "2026-04-10T10:00:00Z",
+    "updated_at": "2026-04-10T10:00:00Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 12
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 4,
+  "fields": {
+    "title": "Giochi di Attivazione Mentale per il Cane",
+    "slug": "giochi-di-attivazione-mentale-per-il-cane",
+    "content": "I cani hanno bisogno di stimolo mentale oltre che fisico. Nascondere crocchette in casa, usare puzzle feeders, insegnare nuovi trick o giocare a 'trova il oggetto' sono ottime attività. Un cane mentalmente stimolato è più calmo in casa e meno propenso a comportamenti problematici.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-09T10:00:00Z",
+    "created_at": "2026-04-09T10:00:00Z",
+    "updated_at": "2026-04-09T10:00:00Z",
+    "category": 4,
+    "published": true,
+    "votes_count": 6
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 5,
+  "fields": {
+    "title": "Vaccinazioni del Cane: il Calendario Essenziale",
+    "slug": "vaccinazioni-del-cane-calendario-essenziale",
+    "content": "Il cucciolo inizia i vaccini a 6-8 settimane con richiami ogni 3-4 settimane fino a 16 settimane. I vaccini core includono cimurro, parvovirosi, epatite e rabbia. La sterilizzazione è consigliata intorno ai 6-12 mesi. Consulta sempre il veterinario per un piano personalizzato.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-vet.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-08T10:00:00Z",
+    "created_at": "2026-04-08T10:00:00Z",
+    "updated_at": "2026-04-08T10:00:00Z",
+    "category": 5,
+    "published": true,
+    "votes_count": 3
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 6,
+  "fields": {
+    "title": "I Segnali Calmanti del Cane",
+    "slug": "i-segnali-calmanti-del-cane",
+    "content": "I cani usano linguaggio corporeo per comunicare stress o disagio. Sbadigli, leccarsi il muso, voltare la testa, girarsi dall'altra parte sono segnali calmanti. Riconoscerli ti aiuta a capire quando il tuo cane sta male o ha bisogno di spazio. Rispetta questi segnali per costruire fiducia.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-sleeping.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-07T10:00:00Z",
+    "created_at": "2026-04-07T10:00:00Z",
+    "updated_at": "2026-04-07T10:00:00Z",
+    "category": 6,
+    "published": true,
+    "votes_count": 9
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 7,
+  "fields": {
+    "title": "Passeggiate di Qualità: non Solo Distanza",
+    "slug": "passeggiate-di-qualita-non-solo-distanza",
+    "content": "Una buona passeggiata non si misura in km ma in qualità. Lascia che il cane annusi, esplori e interagisca con l'ambiente. Le passeggiate con guinzaglio lasco sono più rilassanti. Variate i percorsi per stimolare la curiosità. L'odore è il senso principale del cane.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-walking.jpg",
+    "status": "published",
+    "importance": "medium",
+    "meta_description": "",
+    "length": "short",
+    "source": "manual",
+    "publish_date": "2026-04-06T10:00:00Z",
+    "created_at": "2026-04-06T10:00:00Z",
+    "updated_at": "2026-04-06T10:00:00Z",
+    "category": 7,
+    "published": true,
+    "votes_count": 4
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 8,
+  "fields": {
+    "title": "Cane e Bambini: Convivenza Sicura",
+    "slug": "cane-e-bambini-convivenza-sicura",
+    "content": "La presenza di bambini richiede attenzione e supervisione costante. Insegna ai bambini a rispettare il cane e i suoi spazi. Mai lasciare soli cane e bambini. Segnali di fastido nel cane devono essere presi sul serio. Una corretta introduzione e abitudine reciproca crea un legame speciale.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-happy.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "medium",
+    "source": "manual",
+    "publish_date": "2026-04-05T10:00:00Z",
+    "created_at": "2026-04-05T10:00:00Z",
+    "updated_at": "2026-04-05T10:00:00Z",
+    "category": 8,
+    "published": true,
+    "votes_count": 7
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 9,
+  "fields": {
+    "title": "Cane Abbaia Sempre: Cause e Soluzioni Efficaci",
+    "slug": "cane-abbaia-sempre-cause-soluzioni",
+    "content": "Se il tuo cane abbaia continuamente, soprattutto di notte o quando resta solo, la prima cosa da capire e che il cane non abbaia mai senza motivo. Ogni abbaio e un segnale.\n\nPerche il cane abbaia sempre?\n\n1. Noia ed energia accumulata: Se il cane non si muove abbastanza, accumula energia e sfoga tutto abbaiando. Molto comune in razze attive come Labrador, Border Collie e Jack Russell.\n\n2. Ansia da separazione: Il cane abbaia quando esci di casa o resta solo. E un segnale di stress, non di dispetto.\n\n3. Territorialita: Abbaia a persone che passano, altri cani o rumori. Sta proteggendo il territorio.\n\n4. Richiesta di attenzione: Se ogni volta che abbaia tu reagisci, il cane impara che funziona. Anche sgridarlo e attenzione.\n\n5. Stimoli esterni: Rumori, luci, movimenti possono attivarlo continuamente.\n\nQuando diventa un problema? E normale che un cane abbai. Diventa un problema quando abbaia per ore, disturba di notte, non riesci a fermarlo e peggiora nel tempo.\n\nSoluzioni efficaci:\n\n- Aumenta attivita fisica: Passeggiate piu lunghe e gioco quotidiano. Un cane stanco abbaia meno.\n- Crea una routine: I cani amano la prevedibilita. Orari fissi e abitudini stabili.\n- Ignora l'abbaio strategico: Se abbaia per attenzione, non reagire subito. Premialo quando smette.\n- Riduci stimoli esterni: Chiudi finestre e limita la visione della strada.\n- Addestramento base: Insegna il comando silenzio e premia quando smette.\n\nErrori da evitare: Non urlare al cane, non punire senza capire, non ignorare il problema a lungo. Peggiorano la situazione.\n\nOgni cane e diverso. Un Chihuahua e un Labrador non sono uguali: stessa situazione, cause diverse. Descrivi il problema del tuo cane e ottieni una soluzione personalizzata con la nostra analisi AI.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-barking.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-13T10:00:00Z",
+    "created_at": "2026-04-13T10:00:00Z",
+    "updated_at": "2026-04-13T10:00:00Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 10,
+  "fields": {
+    "title": "Cane Tira al Guinzaglio: Come Risolvere Definitivamente",
+    "slug": "cane-tira-al-guinzaglio-come-risolvere",
+    "content": "Le passeggiate dovrebbero essere un momento piacevole, ma se il tuo cane tira costantemente diventano stressanti e faticose. Il cane non tira per dispetto: ha semplicemente imparato che funziona.\n\nPerche il cane tira al guinzaglio?\n\n1. Eccitazione: L'ambiente esterno e pieno di stimoli (odori, altri cani, persone). Il cane vuole esplorare tutto subito.\n\n2. Abitudine rinforzata: Se il cane tira e tu lo segui, lui impara che tirare lo porta dove vuole. Il comportamento si rinforza da solo.\n\n3. Mancanza di educazione: Il cane non ha mai imparato a camminare senza tirare. Nessuno glielo ha insegnato.\n\nIl metodo corretto (passo per passo):\n\n1. Fermati quando tira: Appena il guinzaglio si tende, fermati completamente. Non tirare indietro. Aspetta che il cane allenti la tensione, poi riprendi. Il cane capisce che tirare non funziona.\n\n2. Premia la camminata corretta: Ogni volta che il cane cammina vicino a te con il guinzaglio lento, premialo con cibo o lode. Usa premi di alto valore (formaggio, wurstel) soprattutto all'inizio.\n\n3. Cambio di direzione: Quando il cane tira, cambia direzione senza preavviso. Il cane impara a seguirti e prestare attenzione ai tuoi movimenti.\n\nEsercizi pratici:\n- Inizia in un ambiente tranquillo (corridoio di casa, giardino)\n- Sessioni brevi (5-10 minuti)\n- Aumenta gradualmente le distrazioni\n- Premia spesso, anche ogni 3-4 passi all'inizio\n\nErrori comuni:\n- Usare il guinzaglio avvolgibile (il cane impara che tirare allunga il guinzaglio)\n- Strattonare il cane (causa stress e dolore)\n- Perdere la pazienza (serve costanza, i risultati arrivano in 2-4 settimane)\n\nOgni cane e diverso. Se vuoi un consiglio specifico per il tuo cane, prova la nostra analisi AI personalizzata.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-walking.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-13T09:00:00Z",
+    "created_at": "2026-04-13T09:00:00Z",
+    "updated_at": "2026-04-13T09:00:00Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 11,
+  "fields": {
+    "title": "Cane Morde: Perche Succede e Come Fermarlo Subito",
+    "slug": "cane-morde-perche-succede-come-fermarlo",
+    "content": "Se il tuo cane morde mani, oggetti o persone, la prima cosa da capire e che non tutti i morsi significano aggressivita. Molto spesso si tratta di comportamento normale, soprattutto nei cuccioli.\n\nPerche il cane morde?\n\n1. Gioco (cuccioli): I cuccioli esplorano il mondo con la bocca e non controllano ancora la forza del morso. E una fase normale di crescita.\n\n2. Dentizione: Quando cambiano i denti (3-6 mesi), mordono per alleviare il fastidio alle gengive.\n\n3. Eccitazione durante il gioco: Si eccitano troppo e perdono il controllo del morso. Frequente nei giovani adulti.\n\n4. Paura o difesa: Se il cane si sente minacciato, puo mordere per protezione. In questo caso serve attenzione massima.\n\n5. Mancanza di educazione: Non ha mai imparato i limiti di cosa e troppo.\n\nQuando e un problema serio? Devi preoccuparti se il cane morde forte e senza controllo, ringhia prima di mordere, o morde persone senza contesto di gioco. In questi casi serve un educatore cinofilo.\n\nCome fermare il comportamento:\n\n1. Interrompi subito il gioco quando morde: Fermati, non continuare a giocare. Il cane capisce che il morso chiude il gioco.\n\n2. Dai alternative: Offri giochi da mordere, Kong, ossi per cani. Il cane deve sfogarsi in modo corretto.\n\n3. Ignora il comportamento sbagliato: Non urlare, non reagire forte. Togli attenzione.\n\n4. Premia il comportamento corretto: Quando gioca senza mordere, premialo subito.\n\n5. Coerenza totale: Tutti in casa devono seguire le stesse regole.\n\nErrori da evitare: Giocare con le mani, punire fisicamente, urlare. Peggiorano il comportamento.\n\nCuccioli vs adulti: Nei cuccioli il morso e quasi sempre gioco. Negli adulti attenzione a paura o aggressivita: cambia completamente l'interpretazione.\n\nOgni cane e diverso. Scopri perche il tuo cane morde e come risolvere con la nostra analisi AI personalizzata.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-training-2.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-13T08:00:00Z",
+    "created_at": "2026-04-13T08:00:00Z",
+    "updated_at": "2026-04-13T08:00:00Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 12,
+  "fields": {
+    "title": "Ansia da Separazione nel Cane: Guida Completa per Aiutarlo",
+    "slug": "ansia-da-separazione-guida-completa",
+    "content": "L'ansia da separazione e uno dei problemi comportamentali piu comuni e dolorosi che un cane possa vivere. Non si tratta di capricci o dispetti: il cane sta soffrendo davvero, e quella sofferenza si manifesta in modi che spesso mettono a dura prova anche i proprietari piu pazienti.\n\nCos'e l'ansia da separazione?\n\nE uno stato di stress acuto che il cane vive quando si trova solo o separato dalla persona a cui e piu legato. Non basta definirla come 'abbaiare un po' dopo che esci': puo durare ore, intensificarsi nel tempo e diventare un circolo vizioso che danneggia sia il benessere del cane che la qualita della vita in casa.\n\nCome riconoscerla: i segnali tipici\n\nNon tutti i cani che abbaia quando restano soli hanno ansia da separazione vera. I segnali che indicano un problema reale sono:\n- Abbaia, ulula o piange nei primi 30-60 minuti dopo la tua uscita (o per tutta la tua assenza)\n- Distrugge oggetti, porte, infissi o arredi\n- Fa i bisogni in casa nonostante sia educato\n- Si agita gia prima che tu esca: reagisce alle chiavi, alle scarpe, alla borsa\n- Ti segue in ogni stanza quando sei a casa, non si allontana mai\n- Al tuo rientro e eccessivamente eccitato per 10-15 minuti o piu\n\nPerche succede: le cause principali\n\n1. Iperattaccamento. Il cane ha costruito una dipendenza emotiva intensa da una persona. Spesso accade quando il cucciolo e sempre stato accanto a qualcuno e poi improvvisamente si trova solo molte ore al giorno.\n\n2. Cambiamenti di routine. Un trasloco, un nuovo lavoro, il rientro a scuola dopo le vacanze estive o anche un semplice cambio di orari puo scatenare l'ansia. I cani sono animali abitudinari e molto sensibili alle variazioni dell'ambiente.\n\n3. Esperienze traumatiche passate. I cani adottati dopo un abbandono, un lungo periodo in canile o cambi frequenti di famiglia sono spesso piu predisposti a sviluppare ansia da separazione.\n\n4. Mancanza di indipendenza. Un cane che non ha mai imparato a stare solo, neanche per brevi periodi, sviluppa piu facilmente questo problema quando si presenta la necessita.\n\nIl protocollo di trattamento: passo per passo\n\nNon esistono soluzioni rapide per l'ansia da separazione. I risultati arrivano con un lavoro graduale, costante e rispettoso dei tempi del cane.\n\nPasso 1 - Insegna l'indipendenza quando sei in casa\nInizia a casa tua, con te presente. Chiudi il cane in un'altra stanza per 2-3 minuti, poi aumenta gradualmente. Usa un Kong riempito con crema di arachidi o pastellino per rendere il momento piacevole. L'obiettivo e che il cane impari che stare da solo non e una catastrofe, e che tu torni sempre.\n\nPasso 2 - Desensibilizza i segnali che anticipano l'uscita\nIl cane inizia ad agitarsi prima ancora che tu esca: quando prendi le chiavi, metti le scarpe o indossi il cappotto. Pratica questi gesti senza uscire. Prendi le chiavi, siediti sul divano. Metti le scarpe, guarda la TV. Ripeti piu volta al giorno finche il cane smette di reagire al gesto.\n\nPasso 3 - Uscite brevissime e progressive\nEsci per 30 secondi. Rientra calmamente. Non fare scene drammatiche ne all'uscita ne al rientro: ignora il cane per i primi 5 minuti. Se va bene, porta il tempo a 1 minuto, poi 2, poi 5, poi 15... sempre molto gradualmente. Se il cane si agita, fai un passo indietro e riparto da un tempo piu breve.\n\nPasso 4 - Non rientrare mai mentre abbaia\nSe rientri mentre il cane abbaia, gli insegni che abbaiare funziona. Aspetta un momento di silenzio, anche brevissimo, prima di aprire la porta.\n\nPasso 5 - Arricchisci l'ambiente\nLascia musica o la TV accesa a volume basso. Dagli un Kong o un osso prima di uscire. Un cane impegnato a masticare e un cane che non abbaia.\n\nCose da NON fare assolutamente\n- Non punire il cane per i danni trovati al rientro: non capisce il collegamento tra il danno e la punizione ora\n- Non fare rientri festosi ed euforici: aumenta il contrasto con la tua assenza\n- Non progredire troppo in fretta: ogni step va consolidato\n- Non lasciare un cane con ansia severa solo per ore senza aver fatto il lavoro graduale\n\nQuando serve l'aiuto di un professionista?\n\nSe dopo 6-8 settimane di lavoro regolare non vedi progressi, se il cane si autolesiona (lecca ossessivamente, si graffia), o se i comportamenti sono molto intensi e immediati, e il momento di coinvolgere un educatore cinofilo certificato o un veterinario comportamentalista.\n\nIn alcuni casi gravi, soprattutto quando l'ansia e di lunga data, si valuta anche un supporto farmacologico temporaneo in combinazione con l'educazione. Non e una sconfitta: e una scelta responsabile per il benessere del cane.\n\nRicorda: ogni cane e un individuo. Un Cocker con ansia lieve risponde diversamente da un Border Collie con iperattaccamento severo. La soluzione giusta dipende dalla storia, dalla razza e dalla personalita del tuo cane specifico.",
+    "title_en": "",
+    "content_en": "",
+    "image": "dog-sleeping.jpg",
+    "status": "published",
+    "importance": "high",
+    "meta_description": "Il tuo cane abbaia o distrugge quando resti solo? Scopri le cause dell'ansia da separazione e un protocollo pratico passo per passo per risolverla.",
+    "length": "long",
+    "source": "manual",
+    "publish_date": "2026-04-14T10:00:00Z",
+    "created_at": "2026-04-14T10:00:00Z",
+    "updated_at": "2026-04-14T10:00:00Z",
+    "category": 3,
+    "published": true,
+    "votes_count": 0
+  }
+},
+{
+  "model": "blog.blogpost",
+  "pk": 13,
+  "fields": {
+    "title": "Cane Distrugge Casa: Perche Succede e Come Fermarlo",
+    "slug": "cane-distrugge-casa-cause-soluzioni",
+    "content": 
