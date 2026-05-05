@@ -6,6 +6,13 @@ const ASSETS_TO_CACHE = [
   '/static/images/hero_dog.png'
 ];
 
+const SKIP_CACHE_PATHS = [
+  '/login/',
+  '/accounts/',
+  '/admin/',
+  '/api/',
+];
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -25,6 +32,13 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  
+  // Skip caching for auth and admin pages - always go to network
+  if (SKIP_CACHE_PATHS.some(path => url.pathname.startsWith(path))) {
+    return;
+  }
+
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => {
@@ -36,8 +50,14 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request).catch(() => {
-        return new Response('', { status: 504, statusText: 'Gateway Timeout' });
+      if (response) {
+        return response;
+      }
+      return fetch(event.request).catch(() => {
+        if (event.request.destination === 'image') {
+          return new Response('', { status: 200, statusText: 'OK' });
+        }
+        return new Response('', { status: 200, statusText: 'OK' });
       });
     })
   );
