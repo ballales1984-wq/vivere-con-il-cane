@@ -232,9 +232,11 @@ RATELIMIT_WINDOW = int(os.environ.get("RATELIMIT_WINDOW", "60"))  # per minute
 ANALYZE_RATE_LIMIT = int(os.environ.get("ANALYZE_RATE_LIMIT", 10))  # max 10
 ANALYZE_RATE_WINDOW = int(os.environ.get("ANALYZE_RATE_WINDOW", 3600))  # per hour
 
-# WordPress Integration (Marketing site) - DISABLED for Render deployment
-# WP_BASE_URL = os.environ.get("WP_BASE_URL", "https://www.vivereconilcane.com")
-# WP_API_URL = os.environ.get("WP_API_URL", "https://www.vivereconilcane.com/api")
+# WordPress Integration (Marketing site) - DISABLED by default
+# Set USE_WORDPRESS_BLOG=True to redirect blog list to WordPress in production
+USE_WORDPRESS_BLOG_REDIRECT = os.environ.get("USE_WORDPRESS_BLOG_REDIRECT", "False").lower() == "true"
+WP_BASE_URL = os.environ.get("WP_BASE_URL", "")
+WP_API_URL = os.environ.get("WP_API_URL", "")
 
 # WordPress ↔ Django CORS - DISABLED
 # CORS_ALLOWED_ORIGINS = [

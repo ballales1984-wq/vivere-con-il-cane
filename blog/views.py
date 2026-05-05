@@ -19,11 +19,12 @@ def blog_list(request):
     Lista articoli - redirect a WordPress (marketing) se configurato.
     Mantenuto Django per dettagli e funzionalità blog.
     """
-    # Solo in produzione: redirect a WordPress per marketing
-    wp_base = getattr(settings, 'WP_BASE_URL', None)
-    if wp_base and not settings.DEBUG:
-        from django.http import HttpResponsePermanentRedirect
-        return HttpResponsePermanentRedirect(wp_base + '/blog/')
+    # Redirect a WordPress solo se esplicitamente abilitato
+    if getattr(settings, 'USE_WORDPRESS_BLOG_REDIRECT', False):
+        wp_base = getattr(settings, 'WP_BASE_URL', None)
+        if wp_base and not settings.DEBUG:
+            from django.http import HttpResponsePermanentRedirect
+            return HttpResponsePermanentRedirect(wp_base + '/blog/')
     
     posts = []
     try:

@@ -83,11 +83,12 @@ class WordPressRedirectMiddleware(MiddlewareMixin):
             if wp_base and 'vivereconilcane.com' in wp_base:
                 return HttpResponsePermanentRedirect(wp_base)
         
-        # 5. Blog LIST → WordPress (ma DETAIL resta su Django)
-        if path == '/blog/' or path.startswith('/blog?'):
-            wp_base = getattr(settings, 'WP_BASE_URL', '')
-            if wp_base:
-                return HttpResponsePermanentRedirect(wp_base + '/blog/')
+        # 5. Blog LIST → WordPress (ma DETAIL resta su Django) - solo se abilitato esplicitamente
+        if getattr(settings, 'USE_WORDPRESS_BLOG_REDIRECT', False):
+            if path == '/blog/' or path.startswith('/blog?'):
+                wp_base = getattr(settings, 'WP_BASE_URL', '')
+                if wp_base:
+                    return HttpResponsePermanentRedirect(wp_base + '/blog/')
         
         # 6. Pagina "Termini" vecchia → nuova WP
         if path == '/termini/' or path == '/termini-servizio/':
