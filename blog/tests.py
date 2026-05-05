@@ -42,11 +42,11 @@ class BlogPostViewTest(TestCase):
         )
 
     def test_blog_list_view(self):
-        response = self.client.get(reverse("blog_list"))
+        response = self.client.get(reverse("blog:blog_list"))
         self.assertEqual(response.status_code, 200)
 
     def test_blog_post_detail_view(self):
-        response = self.client.get(reverse("blog_detail", kwargs={"slug": self.post.slug}))
+        response = self.client.get(reverse("blog:blog_detail", kwargs={"slug": self.post.slug}))
         self.assertEqual(response.status_code, 200)
 
     def test_home_page_view(self):
@@ -69,7 +69,7 @@ class BlogVoteTest(TestCase):
 
     def test_vote_view(self):
         response = self.client.post(
-            reverse("vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
+            reverse("blog:vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
         )
         self.assertEqual(response.status_code, 200)
         self.post.refresh_from_db()
@@ -77,10 +77,10 @@ class BlogVoteTest(TestCase):
 
     def test_duplicate_vote_blocked(self):
         self.client.post(
-            reverse("vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
+            reverse("blog:vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
         )
         self.client.post(
-            reverse("vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
+            reverse("blog:vote_post", kwargs={"post_id": self.post.id}), HTTP_X_FORWARDED_FOR="192.168.1.1"
         )
         self.post.refresh_from_db()
         self.assertEqual(self.post.votes_count, 1)
