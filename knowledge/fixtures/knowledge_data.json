@@ -9,7 +9,8 @@
       "social_level": "very_high",
       "common_problems": "ansia da separazione, obesita, displasia, iperattivita",
       "traits": "Affettuoso, giocherellone, buon appetito, ama l'acqua, molto socievole",
-      "care_tips": "Molto esercizio fisico e mentale, controllare il cibo, spazzolare regolarmente"
+      "care_tips": "Molto esercizio fisico e mentale, controllare il cibo, spazzolare regolarmente",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -22,7 +23,8 @@
       "social_level": "very_high",
       "common_problems": "ansia, cancro, displasia anca, sovrappeso",
       "traits": "Dolce, paziente, intelligente, ottimo con bambini, ama riportare oggetti",
-      "care_tips": "Spazzolare spesso, esercizio quotidiano, controllo peso, stimolazione mentale"
+      "care_tips": "Spazzolare spesso, esercizio quotidiano, controllo peso, stimolazione mentale",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -35,7 +37,8 @@
       "social_level": "medium",
       "common_problems": "displasia, ansia, territorialita, reattivita al guinzaglio",
       "traits": "Leale, coraggioso, territoriale, facile da addestrare, protettivo",
-      "care_tips": "Esercizio mentale e fisico quotidiano, socializzazione precoce, educazione coerente"
+      "care_tips": "Esercizio mentale e fisico quotidiano, socializzazione precoce, educazione coerente",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -48,7 +51,8 @@
       "social_level": "low",
       "common_problems": "abbaio eccessivo, ansia, aggressivita da paura, problemi dentali",
       "traits": "Vivace, coraggioso per la sua taglia, molto legato al proprietario, diffidente con estranei",
-      "care_tips": "Socializzazione importante, non viziare troppo, proteggere dal freddo, cure dentali"
+      "care_tips": "Socializzazione importante, non viziare troppo, proteggere dal freddo, cure dentali",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -61,7 +65,8 @@
       "social_level": "high",
       "common_problems": "problemi respiratori, allergie cutanee, sovrappeso, colpo di calore",
       "traits": "Giocoso, affettuoso, adatto all'appartamento, socievole, un po' testardo",
-      "care_tips": "Evitare caldo eccessivo, porzioni controllate, pulizia pieghe cutanee, passeggiate brevi"
+      "care_tips": "Evitare caldo eccessivo, porzioni controllate, pulizia pieghe cutanee, passeggiate brevi",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -74,7 +79,8 @@
       "social_level": "medium",
       "common_problems": "distruzione da noia, comportamenti compulsivi, ansia, reattivita",
       "traits": "Estremamente intelligente, instinto al lavoro, atletico, sensibile, rapido nell'apprendimento",
-      "care_tips": "Moltissimo esercizio fisico e mentale, attivita di problem-solving, non lasciare solo a lungo"
+      "care_tips": "Moltissimo esercizio fisico e mentale, attivita di problem-solving, non lasciare solo a lungo",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -87,7 +93,8 @@
       "social_level": "high",
       "common_problems": "abbaio e ululato, fuga seguendo odori, sovrappeso, testardaggine",
       "traits": "Segugio, naso eccezionale, allegro, socievole, ama esplorare",
-      "care_tips": "Passeggiate olfattive, guinzaglio sicuro, controllare alimentazione, attivita di fiuto"
+      "care_tips": "Passeggiate olfattive, guinzaglio sicuro, controllare alimentazione, attivita di fiuto",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -100,7 +107,8 @@
       "social_level": "medium",
       "common_problems": "eccitazione eccessiva, scavo, abbaio, distruzione, inseguimento piccoli animali",
       "traits": "Energetico, coraggioso, intelligente, testardo, instinto da caccia forte",
-      "care_tips": "Molto esercizio e gioco, educazione ferma e coerente, attivita di scavo controllate"
+      "care_tips": "Molto esercizio e gioco, educazione ferma e coerente, attivita di scavo controllate",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -113,7 +121,8 @@
       "social_level": "medium",
       "common_problems": "territorialita, tira al guinzaglio, reattivita verso altri cani, displasia",
       "traits": "Forte, leale, protettivo, sicuro di se, buon guardiano, affettuoso con la famiglia",
-      "care_tips": "Socializzazione precoce fondamentale, educazione coerente, esercizio regolare"
+      "care_tips": "Socializzazione precoce fondamentale, educazione coerente, esercizio regolare",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -126,10 +135,10 @@
       "social_level": "high",
       "common_problems": "ansia da separazione, otiti, sovrappeso, possessivita sul cibo",
       "traits": "Affettuoso, allegro, adattabile, buono con bambini, sensibile",
-      "care_tips": "Pulizia orecchie regolare, esercizio moderato, non viziare col cibo, compagnia"
+      "care_tips": "Pulizia orecchie regolare, esercizio moderato, non viziare col cibo, compagnia",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 1,
@@ -139,7 +148,8 @@
       "category": "behavior",
       "description": "Il cane abbaia in modo eccessivo: di notte, quando resta solo, ai passanti o senza motivo apparente. L'abbaio e un comportamento normale ma diventa problematico quando e continuo e incontrollabile.",
       "severity": "medium",
-      "common_breeds": "Chihuahua, Yorkshire Terrier, Pastore Tedesco, Beagle, Jack Russell"
+      "common_breeds": "Chihuahua, Yorkshire Terrier, Pastore Tedesco, Beagle, Jack Russell",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -151,7 +161,8 @@
       "category": "training",
       "description": "Il cane tira costantemente durante le passeggiate, rendendo le uscite stressanti e faticose. E un problema molto comune che peggiora se non affrontato correttamente.",
       "severity": "medium",
-      "common_breeds": "Tutte le razze, specialmente Labrador, Husky, Pastore Tedesco, Rottweiler"
+      "common_breeds": "Tutte le razze, specialmente Labrador, Husky, Pastore Tedesco, Rottweiler",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -163,7 +174,8 @@
       "category": "behavior",
       "description": "Il cane si agita, abbaia, piange o distrugge quando resta solo. Puo anche fare i bisogni in casa. Non e dispetto ma vera ansia e sofferenza.",
       "severity": "high",
-      "common_breeds": "Labrador, Golden Retriever, Border Collie, Cocker Spaniel, Chihuahua"
+      "common_breeds": "Labrador, Golden Retriever, Border Collie, Cocker Spaniel, Chihuahua",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -175,7 +187,8 @@
       "category": "behavior",
       "description": "Il cane morde mani, piedi, oggetti o persone. Nei cuccioli e spesso gioco o dentizione, negli adulti puo indicare paura, stress o mancanza di educazione.",
       "severity": "high",
-      "common_breeds": "Cuccioli di tutte le razze, Jack Russell, Pastore Tedesco, Border Collie"
+      "common_breeds": "Cuccioli di tutte le razze, Jack Russell, Pastore Tedesco, Border Collie",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -187,7 +200,8 @@
       "category": "health",
       "description": "Il cane rifiuta il cibo o mangia molto meno del solito. Le cause possono essere fisiche (malattia, dolore) o comportamentali (stress, cambio ambiente, cibo non gradito).",
       "severity": "medium",
-      "common_breeds": "Tutte le razze, comune nei cani piccoli e nei cuccioli durante il cambio alimentazione"
+      "common_breeds": "Tutte le razze, comune nei cani piccoli e nei cuccioli durante il cambio alimentazione",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -199,7 +213,8 @@
       "category": "behavior",
       "description": "Il cane ha paura intensa di rumori forti: temporali, fuochi d'artificio, petardi, aspirapolvere. Reagisce con tremore, fuga, nascondendosi o cercando il proprietario.",
       "severity": "medium",
-      "common_breeds": "Border Collie, Pastore Tedesco, Labrador, Cocker Spaniel, meticci"
+      "common_breeds": "Border Collie, Pastore Tedesco, Labrador, Cocker Spaniel, meticci",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -211,7 +226,8 @@
       "category": "behavior",
       "description": "Il cane salta addosso alle persone quando le incontra, sia in casa che fuori. E un comportamento di eccitazione e saluto, ma puo essere pericoloso con bambini e anziani.",
       "severity": "low",
-      "common_breeds": "Labrador, Golden Retriever, Boxer, Jack Russell, Beagle"
+      "common_breeds": "Labrador, Golden Retriever, Boxer, Jack Russell, Beagle",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -223,7 +239,8 @@
       "category": "training",
       "description": "Il cane ignora il richiamo quando e libero, specialmente in presenza di distrazioni. Questo rende pericoloso liberarlo e limita la sua qualita di vita.",
       "severity": "medium",
-      "common_breeds": "Beagle, Husky, Jack Russell, razze da caccia, meticci"
+      "common_breeds": "Beagle, Husky, Jack Russell, razze da caccia, meticci",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -235,7 +252,8 @@
       "category": "behavior",
       "description": "Il cane mastica e distrugge mobili, scarpe, cuscini o altri oggetti. Puo succedere quando e solo o anche in presenza del proprietario. Le cause vanno dalla noia all'ansia.",
       "severity": "medium",
-      "common_breeds": "Border Collie, Labrador, Jack Russell, Husky, cuccioli di tutte le razze"
+      "common_breeds": "Border Collie, Labrador, Jack Russell, Husky, cuccioli di tutte le razze",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -247,10 +265,10 @@
       "category": "behavior",
       "description": "Il cane si eccita troppo facilmente: durante il gioco, all'arrivo di persone, alla vista di altri cani. L'eccitazione eccessiva porta a perdita di controllo, morsi da gioco e tiro al guinzaglio.",
       "severity": "low",
-      "common_breeds": "Jack Russell, Labrador, Border Collie, Beagle, cuccioli in generale"
+      "common_breeds": "Jack Russell, Labrador, Border Collie, Beagle, cuccioli in generale",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 1,
@@ -291,7 +309,6 @@
       "notes": "Spesso collegato ad ansia da separazione"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 5,
@@ -322,7 +339,6 @@
       "notes": "Fondamentale iniziare l'educazione da cucciolo"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 8,
@@ -353,7 +369,6 @@
       "notes": "Cani adottati sono piu soggetti"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 11,
@@ -394,7 +409,6 @@
       "notes": "Frequente nei giovani adulti non educati alla calma"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 15,
@@ -435,7 +449,6 @@
       "notes": "Ridurre snack e contarli nel fabbisogno giornaliero"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 19,
@@ -466,7 +479,6 @@
       "notes": "Un solo episodio puo creare una fobia duratura"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 22,
@@ -487,7 +499,6 @@
       "notes": "Anche toccare il cane per spingerlo giu e attenzione"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 24,
@@ -518,7 +529,6 @@
       "notes": "Serve allenamento graduale: casa > giardino > parco vuoto > parco affollato"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 27,
@@ -549,7 +559,6 @@
       "notes": "Fornire alternative appropriate: kong, ossi, giochi da masticare"
     }
   },
-
   {
     "model": "knowledge.cause",
     "pk": 30,
@@ -570,7 +579,6 @@
       "notes": "Si puo insegnare con esercizi di calma e protocollo di rilassamento"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 1,
@@ -613,7 +621,6 @@
       "warnings": "Questa e una soluzione temporanea, va combinata con l'addestramento"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 4,
@@ -656,7 +663,6 @@
       "warnings": "Non strattonare il guinzaglio: gira con calma e il cane seguira"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 7,
@@ -699,7 +705,6 @@
       "warnings": "Questo richiede coerenza da parte di tutti i familiari"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 10,
@@ -742,7 +747,6 @@
       "warnings": "Non punire mai il morso da gioco con la forza. Peggiora la situazione"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 13,
@@ -785,7 +789,6 @@
       "warnings": "Non eliminare i premi completamente, servono per l'educazione"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 16,
@@ -828,7 +831,6 @@
       "warnings": "Consolare troppo puo rinforzare la paura. Comportati normalmente"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 19,
@@ -857,7 +859,6 @@
       "warnings": "Il cane deve gia conoscere il comando 'seduto' in contesti calmi prima di usarlo qui"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 21,
@@ -886,7 +887,6 @@
       "warnings": "Non tirare mai la longhina con forza. Usala solo come sicurezza"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 23,
@@ -929,7 +929,6 @@
       "warnings": "Non chiudere il cane in spazi troppo piccoli, provoca ansia"
     }
   },
-
   {
     "model": "knowledge.solution",
     "pk": 26,
@@ -958,7 +957,6 @@
       "warnings": "Non eliminare le fonti di gioia del cane. L'obiettivo e gestire, non sopprimere"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 11,
@@ -968,7 +966,8 @@
       "category": "behavior",
       "description": "Il cane reagisce in modo esagerato ad altri cani, persone o biciclette durante le passeggiate: abbaia, tira, ringhia o salta. Non è aggressività vera ma un'emozione incontrollata amplificata dal guinzaglio.",
       "severity": "high",
-      "common_breeds": "Pastore Tedesco, Malinois, Border Collie, Levriero, Husky, Rottweiler, Pit Bull"
+      "common_breeds": "Pastore Tedesco, Malinois, Border Collie, Levriero, Husky, Rottweiler, Pit Bull",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1019,7 +1018,6 @@
       "warnings": "La gestione non risolve il problema ma previene il peggioramento"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 12,
@@ -1029,7 +1027,8 @@
       "category": "health",
       "description": "Il cane raccoglie e inghiotte oggetti da terra: sassi, fazzoletti, rifiuti, cibo altrui. Si chiama pica e può essere pericolosa per ostruzioni intestinali.",
       "severity": "high",
-      "common_breeds": "Labrador, Beagle, Bulldog, Border Collie, cuccioli in generale"
+      "common_breeds": "Labrador, Beagle, Bulldog, Border Collie, cuccioli in generale",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1080,7 +1079,6 @@
       "warnings": "La museruola non risolve il problema, gestiscilo in parallelo con il training"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 13,
@@ -1090,7 +1088,8 @@
       "category": "behavior",
       "description": "Il cane ha paura delle persone che non conosce: si nasconde, ringhia, abbaia o fugge. Nei casi gravi può mordere per autodifesa. Non è cattiveria ma paura.",
       "severity": "high",
-      "common_breeds": "Chihuahua, Pastore Tedesco, Pastore Belga, meticci con traumi, razze nordiche"
+      "common_breeds": "Chihuahua, Pastore Tedesco, Pastore Belga, meticci con traumi, razze nordiche",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1127,7 +1126,6 @@
       "warnings": "Non forzare mai il contatto. La forza peggiora la paura e aumenta il rischio di morso"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 14,
@@ -1137,7 +1135,8 @@
       "category": "behavior",
       "description": "Il cane attacca o aggredisce altri cani: ringhia, abbaia in modo minaccioso, si lancia. Può succedere al guinzaglio o quando libero. È un problema serio che richiede attenzione immediata.",
       "severity": "high",
-      "common_breeds": "Pastore Tedesco, Malinois, Chow Chow, Akita, Rottweiler, Pit Bull, meticci di grossa taglia"
+      "common_breeds": "Pastore Tedesco, Malinois, Chow Chow, Akita, Rottweiler, Pit Bull, meticci di grossa taglia",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1188,7 +1187,6 @@
       "warnings": "La gestione è fondamentale per la sicurezza, non è una soluzione a lungo termine"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 15,
@@ -1198,7 +1196,8 @@
       "category": "health",
       "description": "Il cane mangia le proprie feci o quelle di altri animali. Un comportamento disgustoso ma comune. Può avere cause nutrizionali, comportamentali o semplicemente istintive.",
       "severity": "medium",
-      "common_breeds": "Labrador, Beagle, Yorkshire Terrier, cuccioli in generale"
+      "common_breeds": "Labrador, Beagle, Yorkshire Terrier, cuccioli in generale",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1249,7 +1248,6 @@
       "warnings": "Consulta sempre il veterinario prima di cambiare dieta o aggiungere integratori"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 16,
@@ -1259,7 +1257,8 @@
       "category": "behavior",
       "description": "Il cane scava buche nel giardino, distrugge aiuole e sradica piante. Può essere istinto, noia o un modo per cercare frescura o odori interessanti.",
       "severity": "low",
-      "common_breeds": "Terrier, Dachshund, Husky, Border Collie, Beagle, Labrador"
+      "common_breeds": "Terrier, Dachshund, Husky, Border Collie, Beagle, Labrador",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1296,7 +1295,6 @@
       "warnings": "Non punire lo scavo ma reindirizzalo: è un bisogno naturale"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 17,
@@ -1306,7 +1304,8 @@
       "category": "behavior",
       "description": "Il cane si agita, trema, cerca di scappare o aggredisce durante le visite veterinarie. Questo rende le visite stressanti per tutti e può portare a rinunciare a cure necessarie.",
       "severity": "medium",
-      "common_breeds": "Tutte le razze, particolarmente comune in cani con esperienze negative pregresse"
+      "common_breeds": "Tutte le razze, particolarmente comune in cani con esperienze negative pregresse",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1357,7 +1356,6 @@
       "warnings": "Inizia dalle zone dove il cane è meno sensibile, passa alle più delicate gradualmente"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 18,
@@ -1367,7 +1365,8 @@
       "category": "health",
       "description": "Il cane sbava, vomita, si agita o ansima eccessivamente in macchina. Può essere nausea da movimento o ansia associata ai viaggi.",
       "severity": "low",
-      "common_breeds": "Tutte le razze, più comune nei cuccioli e in cani con poca esperienza di viaggio"
+      "common_breeds": "Tutte le razze, più comune nei cuccioli e in cani con poca esperienza di viaggio",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1418,7 +1417,6 @@
       "warnings": "Non dare cibo 2-3 ore prima del viaggio per ridurre la nausea"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 19,
@@ -1428,7 +1426,8 @@
       "category": "health",
       "description": "Il cane si lecca continuamente le zampe, spesso fino a causare rossore, perdita di pelo o piaghe. Può essere allergia, dolore, noia o comportamento compulsivo.",
       "severity": "medium",
-      "common_breeds": "Golden Retriever, Labrador, Bulldog Francese, West Highland Terrier, Pastore Tedesco"
+      "common_breeds": "Golden Retriever, Labrador, Bulldog Francese, West Highland Terrier, Pastore Tedesco",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {
@@ -1465,7 +1464,6 @@
       "warnings": "Non mettere il collare elisabettiano senza capire la causa: risolve il sintomo non il problema"
     }
   },
-
   {
     "model": "knowledge.problem",
     "pk": 20,
@@ -1475,7 +1473,8 @@
       "category": "training",
       "description": "Il cane si distrae facilmente durante il training o le passeggiate, ignora i comandi anche se li conosce, non riesce a mantenere il contatto visivo. Spesso scambiato per disobbedienza.",
       "severity": "low",
-      "common_breeds": "Beagle, Husky, Bassotto, Border Collie molto giovane, razze nordiche"
+      "common_breeds": "Beagle, Husky, Bassotto, Border Collie molto giovane, razze nordiche",
+      "created_at": "2024-01-01T00:00:00Z"
     }
   },
   {

@@ -125,10 +125,6 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_ADAPTER = "config.allauth_adapter.CustomAccountAdapter"
 
 # Application definition
@@ -327,6 +323,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# Default primary key type for migrations
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Database
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
