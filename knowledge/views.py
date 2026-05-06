@@ -757,4 +757,4 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
 
 def learning_hub(request):
     """Visualizza l'Hub Didattico con risorse accademiche e scientifiche."""
-    return render(request, "know
+    return render(request, "knowledge/learning_hub.html")
