@@ -110,27 +110,50 @@ vivere-con-il-cane/
    SECRET_KEY=your-secret-key-here
    ```
 
-5. **Apply migrations**
+5. **Initialize database and create admin user**
+   This is REQUIRED for the application to work:
+   ```bash
+   python manage.py migrate --noinput
+   python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
+   python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent
+   ```
+
+   Then create an admin user:
+   ```bash
+   python manage.py createsuperuser
+   ```
+   
+   Or use the default credentials:
+   - Admin: `admin@vivereconilcane.com` / `Admin123!`
+   - Test: `test@vivereconilcane.com` / `Test123!`
+
+6. **Apply migrations**
    ```bash
    python manage.py migrate
    ```
 
-6. **Create superuser (admin)**
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-7. **Load initial data (optional)**
-   ```bash
-   python manage.py loaddata knowledge/fixtures/knowledge_data.json
-   ```
-
-8. **Run development server**
+7. **Run development server**
    ```bash
    python manage.py runserver
    ```
 
    Visit http://127.0.0.1:8000
+
+### Database Setup
+
+The application uses SQLite by default. The database file (`db.sqlite3`) is created in the project root.
+
+**For mobile/session-based access**, ensure:
+- The database file is on persistent storage
+- File permissions allow read/write access
+- Use `DATABASE_URL=sqlite:///db.sqlite3` in `.env` for explicit path
+
+**Database initialization script:**
+```bash
+./init_db.sh
+```
+
+See [DATABASE_TROUBLESHOOTING.md](DATABASE_TROUBLESHOOTING.md) for detailed database setup and troubleshooting guide.
 
 ## 🔧 Configuration
 
