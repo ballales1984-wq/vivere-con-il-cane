@@ -183,7 +183,7 @@ CACHES = {
     }
 }
 
-# Fallback to local memory if Redis unavailable (development)
+# Fallback to local memory if Redis unavailable
 try:
     import redis
     r = redis.from_url(REDIS_URL, socket_connect_timeout=2, socket_timeout=2)
