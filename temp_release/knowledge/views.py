@@ -504,13 +504,13 @@ Rispondi in italiano in modo chiaro e pratico."""
     if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
         try:
             response = requests.post(
-                "https://api.x.ai/v1/chat/completions",
+                "https://api.groq.com/openai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "grok-3-mini",
+                    "model": "llama-3.3-70b-versatile",
                     "messages": [
                         {
                             "role": "system",
@@ -701,7 +701,7 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
                     "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "grok-3",
+                    "model": "llama-3.3-70b-versatile",
                     "messages": [
                         {"role": "system", "content": system_msg},
                         {"role": "user", "content": prompt},
@@ -717,21 +717,21 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
                     html_report.replace("```html", "").replace("```", "").strip()
                 )
             else:
-                html_report += f"<p>Errore API xAI: {response.status_code} - {response.text[:200]}</p>"
+                html_report += f"<p>Errore API Groq: {response.status_code} - {response.text[:200]}</p>"
         except Exception as e:
-            html_report += f"<p>Eccezione xAI: {str(e)}</p>"
+            html_report += f"<p>Eccezione Groq: {str(e)}</p>"
 
     # Fallback to OpenAI - also check for placeholder
     if openai_key and len(openai_key) > 20 and "<" not in openai_key and "rimuovi" not in openai_key.lower() and "Impossibile contattare" in html_report:
         try:
             response = requests.post(
-                "https://api.openai.com/v1/chat/completions",
+                "https://api.groq.com/openai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {openai_key}",
+                    "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "gpt-4o-mini",
+                    "model": "llama-3.3-70b-versatile",
                     "messages": [
                         {"role": "system", "content": system_msg},
                         {"role": "user", "content": prompt},

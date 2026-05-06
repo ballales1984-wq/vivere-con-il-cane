@@ -381,7 +381,7 @@ Max 150 parole, italiano chiaro."""
         if grok_key and len(grok_key) > 20:
             try:
                 resp = requests.post(
-                    "https://api.x.ai/v1/chat/completions",
+                    "https://api.groq.com/openai/v1/chat/completions",
                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {grok_key}"},
                     json={"model": "llama-3.3-70b-versatile", "messages": [
                         {"role": "system", "content": "Sei un veterinario cardio esperto. Rispondi in italiano, conciso, max 150 parole."},
