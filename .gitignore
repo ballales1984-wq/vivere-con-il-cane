@@ -81,5 +81,8 @@ logs/
 # Kilo
 .kilo/
 
+# Release temp dir
+temp_release/
+
 # Vscode workspace
 *.code-workspace
