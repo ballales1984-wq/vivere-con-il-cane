@@ -655,7 +655,6 @@ def generate_lifetime_macro_analysis(profile):
     e genera un referto macrostrutturato permanente.
     """
     import json
-    import markdown
 
     stats = profile.get_lifetime_stats()
 
