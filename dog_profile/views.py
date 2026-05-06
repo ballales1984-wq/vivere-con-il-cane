@@ -254,7 +254,7 @@ def get_daily_coach_tips(profile):
     system_msg = "Sei un 'AI Daily Coach' per cani. Fornisci 2 consigli BREVI (max 15 parole l'uno) e molto pratici per la giornata di oggi, basati sui trend degli ultimi giorni E sugli eventuali problemi medici recenti segnalati. Sii incoraggiante."
     prompt = f'Analizza lo storico e gli eventi medici recenti e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: ["consiglio 1", "consiglio 2"]. Niente altro.'
 
-    api_key = os.environ.get("GROK_API_KEY", "")
+    api_key = os.environ.get("GROQ_API_KEY", "")
     if not api_key or len(api_key) < 20 or "<" in api_key or "rimuovi" in api_key.lower():
         return [
             "Monitora sempre il riposo di Fido dopo l'attività fisica.",
@@ -263,7 +263,7 @@ def get_daily_coach_tips(profile):
 
     try:
         response = requests.post(
-            "https://api.x.ai/v1/chat/completions",
+            "https://api.groq.com/openai/v1/chat/completions",
             headers={
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {api_key}",

@@ -393,9 +393,9 @@ def query_external_vet_db(description, breed=None):
 
 
 def generate_ai_response(problem, description, dog, breed_info, lang="it"):
-    """Generate AI response using Grok or OpenAI, in the specified language."""
+    """Generate AI response using Groq or OpenAI, in the specified language."""
 
-    grok_key = os.environ.get("GROK_API_KEY", "")
+    groq_key = os.environ.get("GROQ_API_KEY", "")
     openai_key = os.environ.get("OPENAI_API_KEY", "")
 
     # Retrieve internal veterinary knowledge base for context
@@ -501,13 +501,13 @@ Fornisci:
 Rispondi in italiano in modo chiaro e pratico."""
 
     # Try Groq first - skip if key looks like placeholder
-    if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
+    if groq_key and len(groq_key) > 20 and "<" not in groq_key and "rimuovi" not in groq_key.lower():
         try:
             response = requests.post(
                 "https://api.groq.com/openai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {grok_key}",
+                    "Authorization": f"Bearer {groq_key}",
                 },
                 json={
                     "model": "llama-3.3-70b-versatile",
@@ -686,18 +686,18 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
 
     prompt = f"Analizza questo Gemello Digitale (Dati di Vita):\n{json.dumps(context_data, indent=2, default=str)}"
 
-    grok_key = os.environ.get("GROK_API_KEY", "")
+    groq_key = os.environ.get("GROQ_API_KEY", "")
     openai_key = os.environ.get("OPENAI_API_KEY", "")
     html_report = "<p>Impossibile contattare l'Intelligenza Artificiale al momento.</p>"
 
     # Try Groq first - skip if key looks like placeholder
-    if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
+    if groq_key and len(groq_key) > 20 and "<" not in groq_key and "rimuovi" not in groq_key.lower():
         try:
             response = requests.post(
                 "https://api.groq.com/openai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {grok_key}",
+                    "Authorization": f"Bearer {groq_key}",
                 },
                 json={
                     "model": "llama-3.3-70b-versatile",
@@ -720,14 +720,14 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
         except Exception as e:
             html_report += f"<p>Eccezione Groq: {str(e)}</p>"
 
-    # Fallback to OpenAI
+    # Fallback to OpenAI - also check for placeholder
     if openai_key and len(openai_key) > 20 and "<" not in openai_key and "rimuovi" not in openai_key.lower() and "Impossibile contattare" in html_report:
         try:
             response = requests.post(
-                "https://api.groq.com/openai/v1/chat/completions",
+                "https://api.openai.com/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {grok_key}",
+                    "Authorization": f"Bearer {openai_key}",
                 },
                 json={
                     "model": "llama-3.3-70b-versatile",
@@ -757,4 +757,4 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
 
 def learning_hub(request):
     """Visualizza l'Hub Didattico con risorse accademiche e scientifiche."""
-    return render(request, "knowledge/learning_hub.html")
+    return render(request, "know
