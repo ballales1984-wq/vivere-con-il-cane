@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.http import HttpResponse
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -817,4 +816,4 @@ def generate_whatsapp_url(vet_request):
 
     import urllib.parse
 
-    return "https://wa.me/?text=" + urllib.parse.quote(message) 
+    return "https://wa.me/?text=" + urllib.parse.quote(message)
