@@ -393,10 +393,9 @@ def query_external_vet_db(description, breed=None):
 
 
 def generate_ai_response(problem, description, dog, breed_info, lang="it"):
-    """Generate AI response using Groq or OpenAI, in the specified language."""
-
+    """Generate AI response using Groq."""
+    
     groq_key = os.environ.get("GROQ_API_KEY", "")
-    openai_key = os.environ.get("OPENAI_API_KEY", "")
 
     # Retrieve internal veterinary knowledge base for context
     vet_docs = VeterinaryDocument.objects.filter(is_active=True)
@@ -534,29 +533,6 @@ Rispondi in italiano in modo chiaro e pratico."""
 
             logging.warning(f"[AI] Groq exception: {err}")
 
-    # Fallback to OpenAI - also check for placeholder
-    if openai_key and len(openai_key) > 20 and "<" not in openai_key and "rimuovi" not in openai_key.lower():
-        try:
-            response = requests.post(
-                "https://api.openai.com/v1/chat/completions",
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {openai_key}",
-                },
-                json={
-                    "model": "gpt-4o-mini",
-                    "messages": [
-                        {"role": "system", "content": system_msg},
-                        {"role": "user", "content": prompt},
-                    ],
-                },
-                timeout=30,
-            )
-            if response.status_code == 200:
-                return response.json()["choices"][0]["message"]["content"]
-        except Exception:
-            pass
-
     # No API key - return generic response
     if lang == "en":
         return f"""Based on the information provided:
@@ -687,7 +663,11 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
     prompt = f"Analizza questo Gemello Digitale (Dati di Vita):\n{json.dumps(context_data, indent=2, default=str)}"
 
     groq_key = os.environ.get("GROQ_API_KEY", "")
-    openai_key = os.environ.get("OPENAI_API_KEY", "")
+    
+    # Debug logging (safe - only logs key prefix)
+    import logging
+    logging.info(f"[MacroAnalysis] GROQ_API_KEY present: {bool(groq_key)}, len={len(groq_key)}, prefix={groq_key[:8] if groq_key else 'None'}")
+    
     html_report = "<p>Impossibile contattare l'Intelligenza Artificiale al momento.</p>"
 
     # Try Groq first - skip if key looks like placeholder
@@ -719,34 +699,6 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
                 html_report += f"<p>Errore API Groq: {response.status_code} - {response.text[:200]}</p>"
         except Exception as e:
             html_report += f"<p>Eccezione Groq: {str(e)}</p>"
-
-    # Fallback to OpenAI - also check for placeholder
-    if openai_key and len(openai_key) > 20 and "<" not in openai_key and "rimuovi" not in openai_key.lower() and "Impossibile contattare" in html_report:
-        try:
-            response = requests.post(
-                "https://api.openai.com/v1/chat/completions",
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {openai_key}",
-                },
-                json={
-                    "model": "llama-3.3-70b-versatile",
-                    "messages": [
-                        {"role": "system", "content": system_msg},
-                        {"role": "user", "content": prompt},
-                    ],
-                },
-                timeout=45,
-            )
-            if response.status_code == 200:
-                html_report = response.json()["choices"][0]["message"]["content"]
-                html_report = (
-                    html_report.replace("```html", "").replace("```", "").strip()
-                )
-            else:
-                html_report += f"<p>Errore API OpenAI: {response.status_code}</p>"
-        except Exception as e:
-            html_report += f"<p>Eccezione OpenAI: {str(e)}</p>"
 
     # Save the permanent macro analysis
     macro = LifetimeMacroAnalysis.objects.create(

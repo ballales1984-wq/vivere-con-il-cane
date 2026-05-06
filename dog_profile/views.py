@@ -255,6 +255,11 @@ def get_daily_coach_tips(profile):
     prompt = f'Analizza lo storico e gli eventi medici recenti e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: ["consiglio 1", "consiglio 2"]. Niente altro.'
 
     api_key = os.environ.get("GROQ_API_KEY", "")
+    
+    # Debug logging
+    import logging
+    logging.info(f"[DailyCoach] GROQ_API_KEY present: {bool(api_key)}, len={len(api_key)}, prefix={api_key[:8] if api_key else 'None'}")
+    
     if not api_key or len(api_key) < 20 or "<" in api_key or "rimuovi" in api_key.lower():
         return [
             "Monitora sempre il riposo di Fido dopo l'attività fisica.",
