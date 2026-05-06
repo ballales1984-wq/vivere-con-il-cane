@@ -270,7 +270,7 @@ def get_daily_coach_tips(profile):
                 "Authorization": f"Bearer {api_key}",
             },
                 json={
-                    "model": "grok-3-mini",
+                    "model": "llama-3.3-70b-versatile",
                     "messages": [
                     {"role": "system", "content": system_msg},
                     {"role": "user", "content": prompt},

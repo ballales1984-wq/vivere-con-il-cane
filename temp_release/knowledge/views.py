@@ -691,11 +691,11 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
     openai_key = os.environ.get("OPENAI_API_KEY", "")
     html_report = "<p>Impossibile contattare l'Intelligenza Artificiale al momento.</p>"
 
-    # Try xAI (Grok) first - skip if key looks like placeholder
+    # Try Groq first - skip if key looks like placeholder
     if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
         try:
             response = requests.post(
-                "https://api.x.ai/v1/chat/completions",
+                "https://api.groq.com/openai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {grok_key}",

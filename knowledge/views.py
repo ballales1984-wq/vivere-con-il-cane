@@ -700,7 +700,7 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
                     "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "grok-3",
+                    "model": "llama-3.3-70b-versatile",
                     "messages": [
                         {"role": "system", "content": system_msg},
                         {"role": "user", "content": prompt},

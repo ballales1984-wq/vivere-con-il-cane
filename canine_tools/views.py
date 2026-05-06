@@ -383,7 +383,7 @@ Max 150 parole, italiano chiaro."""
                 resp = requests.post(
                     "https://api.x.ai/v1/chat/completions",
                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {grok_key}"},
-                    json={"model": "grok-3-mini", "messages": [
+                    json={"model": "llama-3.3-70b-versatile", "messages": [
                         {"role": "system", "content": "Sei un veterinario cardio esperto. Rispondi in italiano, conciso, max 150 parole."},
                         {"role": "user", "content": prompt}
                     ], "temperature": 0.7, "max_tokens": 400},
