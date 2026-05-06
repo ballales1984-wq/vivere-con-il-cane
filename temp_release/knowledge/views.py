@@ -504,13 +504,13 @@ Rispondi in italiano in modo chiaro e pratico."""
     if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
         try:
             response = requests.post(
-                "https://api.groq.com/openai/v1/chat/completions",
+                "https://api.x.ai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "llama-3.3-70b-versatile",
+                    "model": "grok-3-mini",
                     "messages": [
                         {
                             "role": "system",
@@ -695,13 +695,13 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
     if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
         try:
             response = requests.post(
-                "https://api.groq.com/openai/v1/chat/completions",
+                "https://api.x.ai/v1/chat/completions",
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "llama-3.3-70b-versatile",
+                    "model": "grok-3-mini",
                     "messages": [
                         {"role": "system", "content": system_msg},
                         {"role": "user", "content": prompt},

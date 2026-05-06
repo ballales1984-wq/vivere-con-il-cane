@@ -264,14 +264,14 @@ def get_daily_coach_tips(profile):
 
     try:
         response = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
+            "https://api.x.ai/v1/chat/completions",
             headers={
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {api_key}",
             },
-            json={
-                "model": "llama-3.3-70b-versatile",
-                "messages": [
+                json={
+                    "model": "grok-3-mini",
+                    "messages": [
                     {"role": "system", "content": system_msg},
                     {"role": "user", "content": prompt},
                 ],

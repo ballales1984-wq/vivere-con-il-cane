@@ -156,7 +156,7 @@ GOOGLE_OAUTH_CLIENT_SECRET=tuo_client_secret
    ```env
    DEBUG=True
    SECRET_KEY=inserisci_una_chiave_segreta_sicura
-   GROK_API_KEY=la_tua_chiave_api_groq_qui
+    GROK_API_KEY=la_tua_chiave_api_grok_xai_qui
    ```
 
 5. **Migrazione Database e Inizializzazione Dati (Fixtures)**

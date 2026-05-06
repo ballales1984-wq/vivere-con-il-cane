@@ -32,6 +32,8 @@ services:
         value: ""
       - key: GOOGLE_OAUTH_CLIENT_SECRET
         value: ""
+      - key: GROK_API_KEY
+        value: ""
       - key: EMAIL_HOST
         value: ""
       - key: EMAIL_HOST_USER
