@@ -655,6 +655,7 @@ def generate_lifetime_macro_analysis(profile):
     e genera un referto macrostrutturato permanente.
     """
     import json
+    import markdown
 
     stats = profile.get_lifetime_stats()
 
@@ -718,7 +719,7 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
         except Exception as e:
             html_report += f"<p>Eccezione Groq: {str(e)}</p>"
 
-    # Fallback to OpenAI
+    # Fallback to OpenAI - also check for placeholder
     if openai_key and len(openai_key) > 20 and "<" not in openai_key and "rimuovi" not in openai_key.lower() and "Impossibile contattare" in html_report:
         try:
             response = requests.post(
