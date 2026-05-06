@@ -691,7 +691,7 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
     openai_key = os.environ.get("OPENAI_API_KEY", "")
     html_report = "<p>Impossibile contattare l'Intelligenza Artificiale al momento.</p>"
 
-    # Try Groq first - skip if key looks like placeholder
+    # Try xAI (Grok) first - skip if key looks like placeholder
     if grok_key and len(grok_key) > 20 and "<" not in grok_key and "rimuovi" not in grok_key.lower():
         try:
             response = requests.post(
@@ -701,11 +701,13 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
                     "Authorization": f"Bearer {grok_key}",
                 },
                 json={
-                    "model": "grok-3-mini",
+                    "model": "grok-3",
                     "messages": [
                         {"role": "system", "content": system_msg},
                         {"role": "user", "content": prompt},
                     ],
+                    "temperature": 0.7,
+                    "max_tokens": 2000,
                 },
                 timeout=45,
             )
@@ -715,9 +717,9 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
                     html_report.replace("```html", "").replace("```", "").strip()
                 )
             else:
-                html_report += f"<p>Errore API Groq: {response.status_code}</p>"
+                html_report += f"<p>Errore API xAI: {response.status_code} - {response.text[:200]}</p>"
         except Exception as e:
-            html_report += f"<p>Eccezione Groq: {str(e)}</p>"
+            html_report += f"<p>Eccezione xAI: {str(e)}</p>"
 
     # Fallback to OpenAI - also check for placeholder
     if openai_key and len(openai_key) > 20 and "<" not in openai_key and "rimuovi" not in openai_key.lower() and "Impossibile contattare" in html_report:
