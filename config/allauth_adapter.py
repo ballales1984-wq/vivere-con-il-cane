@@ -3,8 +3,8 @@ Custom Allauth Adapter for Vivere con il Cane
 Ensures email is used as username and properly populated in the email field
 """
 from allauth.account.adapter import DefaultAccountAdapter
-from allauth.account import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 
 class CustomAccountAdapter(DefaultAccountAdapter):
@@ -39,8 +39,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         email = super().clean_email(email)
         if email and '@' in email:
             User = get_user_model()
-            if User.objects.filter(email=email).exclude(pk=getattr(self, 'user', None).pk if hasattr(self, 'user') else None).exists():
-                raise forms.ValidationError(
+            user_pk = getattr(getattr(self, 'user', None), 'pk', None)
+            if User.objects.filter(email=email).exclude(pk=user_pk).exists():
+                raise ValidationError(
                     "A user is already registered with this email address."
                 )
         return email
