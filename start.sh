@@ -1,6 +1,8 @@
 #!/bin/sh
 echo "==> Running database migrations..."
 python manage.py migrate --noinput
+echo "==> Collecting static files..."
+python manage.py collectstatic --noinput
 echo "==> Loading knowledge data fixtures..."
 python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
 echo "==> Loading blog data fixtures..."
