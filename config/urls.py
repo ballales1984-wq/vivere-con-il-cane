@@ -47,6 +47,13 @@ urlpatterns = [
          ),
          name="ads_txt",
      ),
+     path(
+         "robots.txt",
+         TemplateView.as_view(
+             template_name="robots.txt", content_type="text/plain"
+         ),
+         name="robots_txt",
+     ),
      path("ping/", blog_views.ping, name="ping"),
      path("health/", blog_views.health, name="health"),
      path(
@@ -87,4 +94,5 @@ path("community/", include("community.urls", namespace="community")),
 urlpatterns += [
     path("landing/", marketing_views.landing_page, name="landing_page"),
     path("analizza/", knowledge_views.analyze_problem, name="analyze_problem_public"),
+    path("knowledge/", knowledge_views.problem_list, name="problem_list_root"),
 ]

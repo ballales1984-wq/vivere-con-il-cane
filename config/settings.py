@@ -398,3 +398,4 @@ LOGIN_REDIRECT_URL = "dog_profile:dashboard"
 LOGOUT_REDIRECT_URL = "home"
 
 
+
