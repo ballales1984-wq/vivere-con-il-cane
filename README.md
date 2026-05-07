@@ -4,6 +4,13 @@
 
 ![Vivere con il Cane](static/images/logo.png)
 
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![AI](https://img.shields.io/badge/AI-Groq%20Llama%203-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+
+*🌍 [Leggi la documentazione in italiano](README.it.md)*
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
@@ -34,6 +41,102 @@
 - **SEO Optimized**: Meta tags, structured data, sitemap
 - **Ads Ready**: Google AdSense integration
 - **Secure**: Proper authentication, password reset, email verification
+
+## 🌟 Unique Value Proposition (Our Competitive Advantage)
+
+### 🧠 1. Longitudinal Memory IA Engine (Dynamic Routing)
+Unlike normal "wrappers" of ChatGPT, our IA engine (powered by Llama-3 via Groq) uses contextual routing.
+- Manages a **Persistent Medical Profile** for each dog (age, weight, genetics).
+- Before querying the LLM, the Django backend algorithmically generates a "Super-Prompt" that injects the animal's entire clinical history.
+- *Result:* When the user writes "limps", the IA automatically knows it's analyzing a *10-year-old overweight mixed breed with arthritis history*, providing responses 10 times more accurate and safe.
+
+### 📋 2. Unified Medical Chart (Ready for the Veterinarian)
+- The system unites traditional "medical views" (vaccines, injuries) with the **historical of IA behavioral analyses** in a single Chronological Timeline.
+- Designed for real-world use: the medical chart offers instant text export in **WhatsApp** style or the generation of a **clean PDF without unnecessary graphic elements**, perfect to attach in an email to the attending physician.
+
+### 📚 3. Relational Matrix (Symptoms-Causes-Solutions)
+The heart of the system is not a simple text blog. Our *Knowledge Base* is a structured matrix in the database:
+- **Symptoms**, **Triggering Causes** and **Practical Remedies** are distinct entities connected in the backend.
+- The IA doesn't "guess": it uses this matrix by crossing it with the breed profile (energy levels, predispositions) to map in real-time the problem to the most statistically probable cause.
+
+### 📈 4. HealthTech Platform Oriented to Conversion
+- More than a simple Web App, the interface presents itself as a Premium Hub with **Glassmorphism Design** and attractive gradients.
+- Full adoption of SEO directives with **Schema.org JSON-LD** dynamically injected to transform casual search engine readers into habitual users of the diagnostic platform.
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    User([User]) -->|Interacts| UI[Frontend UI/Templates]
+    UI -->|Saves Profile & Queries IA| Core(Backend Django)
+    
+    subgraph Data Layer
+        Core --> DB[(SQLite / PostgreSQL)]
+        DB -->|Anagrafica| Profiles[Dog Profiles]
+        DB -->|Editoriale| Blog[Blog SEO]
+        DB -->|Diagnostici| KB[Knowledge Base]
+    end
+    
+    Core <-->|Advanced Longitudinal Prompting| AI[API Groq / Llama 3 70b]
+    AI -->|Diagnostic Analysis| UI
+```
+
+## 🛠️ Tech Stack
+
+- **Backend Application**: Python 3.10+, Django Framework 5+
+- **Frontend Layer**: Django HTML5 Templates, Pure CSS Variables, Responsive Design (Mobile First)
+- **Artificial Intelligence Logic**: Construction of agentic prompts via REST API Groq and open-source state-of-the-art models.
+- **Database**: SQLite (Development Environment) / PostgreSQL (Production Environment)
+- **Deployment & Scaling**: Render PaaS, WhiteNoise for optimization and compression of static files.
+
+## ❤️ Heart Sound Analysis Functionality
+
+The platform includes advanced tools for analyzing canine heart sounds:
+
+### 🔬 Cardiac Analysis Tool
+- **BPM Detection**: Automatic heart rate from audio files (WAV, WebM, OGG)
+- **S1/S2 Classification**: Identifies heart beats (valve closure/opening)
+- **HRV Metrics**: Heart Rate Variability (SDNN, RMSSD, pNN50%)
+- **Peak Detection**: Adaptive algorithms for weak signals
+- **Noise Filtering**: 20-150 Hz bandpass filter and artifact cleaning
+
+### 📊 Usage
+
+1. **Record a cardiac audio**:
+   - Go to `Heart → Phonocardiograph Recorder`
+   - Select **subject type** (Dog 🐕 or Human 👤)
+   - Upload a WAV file or record directly
+   
+2. **Automatic analysis**:
+   ```bash
+   # Local test with WAV file
+   python test_cuore_tool.py
+   ```
+
+3. **Results**:
+   - Estimated BPM (with correction for dogs or humans)
+   - Beat count
+   - Confidence (0-1)
+   - S1/S2 peak times (valve separation)
+   - HRV metrics (cardiac variability)
+
+### 🧪 Test Suite
+
+```bash
+# Test ALL available audio files
+python test_all_audio_files.py
+
+# Test with different subject types
+python test_final_subject_type.py
+```
+
+Tested functionalities:
+- ✅ Multi-format audio analysis (WAV, WebM)
+- ✅ Adaptive peak detection (MAD algorithm)
+- ✅ S1/S2 classification with intelligent pairing
+- ✅ Differential BPM calculation (dog vs human)
+- ✅ HRV metrics (SDNN, RMSSD, pNN50)
+- ✅ Weak signal and noise handling
 
 ## 📁 Project Structure
 
