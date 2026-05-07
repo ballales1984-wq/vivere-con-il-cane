@@ -96,3 +96,5 @@ urlpatterns += [
     path("analizza/", knowledge_views.analyze_problem, name="analyze_problem_public"),
     path("knowledge/", knowledge_views.problem_list, name="problem_list_root"),
 ]
+from . import views as config_views
+
