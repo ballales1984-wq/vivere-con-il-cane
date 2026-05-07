@@ -95,6 +95,12 @@ urlpatterns += [
     path("landing/", marketing_views.landing_page, name="landing_page"),
     path("analizza/", knowledge_views.analyze_problem, name="analyze_problem_public"),
     path("knowledge/", knowledge_views.problem_list, name="problem_list_root"),
+    # Temporary test account endpoint - REMOVE AFTER DEBUGGING
+    path("__create-test-account__/", config_views.create_test_account, name="create_test_account"),
 ]
 from . import views as config_views
+
+
+# Language change view
+path("change-language/", config_views.change_language, name="change_language"),
 
