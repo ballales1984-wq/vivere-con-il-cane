@@ -21,47 +21,28 @@ else
     python manage.py migrate --noinput
 fi
 
-# Check if admin user exists
-ADMIN_COUNT=$(python -c "
+# Create admin if ADMIN_PASSWORD env var is provided (production use)
+if [ -n "$ADMIN_PASSWORD" ]; then
+  echo "[INFO] Creating admin user..."
+  python -c "
 import os, django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 from django.contrib.auth import get_user_model
 User = get_user_model()
-count = User.objects.filter(email='admin@vivereconilcane.com').count()
-print(count)
-")
-
-if [ "$ADMIN_COUNT" -eq 0 ]; then
-    echo "[INFO] Creating admin user..."
-    python -c "
-import os, django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-django.setup()
-from django.contrib.auth import get_user_model
-User = get_user_model()
-admin = User.objects.create_user(
+admin, created = User.objects.get_or_create(
     username='admin@vivereconilcane.com',
-    email='admin@vivereconilcane.com',
-    password='Admin123!'
+    defaults={'email': 'admin@vivereconilcane.com', 'is_staff': True, 'is_superuser': True}
 )
-admin.is_staff = True
-admin.is_superuser = True
-admin.save()
-print('Admin user created')
+if created:
+    admin.set_password(os.environ.get('ADMIN_PASSWORD'))
+    admin.save()
+    print('Admin user created')
 "
-else
-    echo "[INFO] Admin user exists."
 fi
-
-echo ""
 echo "===================================================================="
 echo "Starting Gunicorn..."
 echo "===================================================================="
-echo "Default credentials:"
-echo "  Admin: admin@vivereconilcane.com / Admin123!"
-echo "  Test:  test@vivereconilcane.com / Test123!"
-echo "===================================================================="
 echo ""
 
-exec gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120
+exec gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120 --preload

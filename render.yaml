@@ -46,7 +46,9 @@ services:
         value: "vivere-con-il-cane.onrender.com"
       - key: CSRF_TRUSTED_ORIGINS
         value: "https://vivere-con-il-cane.onrender.com"
-    healthCheckPath: /
+      - key: ADMIN_PASSWORD
+        generateValue: true
+    healthCheckPath: /health
     healthCheckTimeout: 30
     healthCheckInterval: 10
     postDeployCommand: python manage.py migrate --noinput && python manage.py loaddata blog/fixtures/blog_data.json knowledge/fixtures/knowledge_data.json --ignorenonexistent && python manage.py collectstatic --noinput
