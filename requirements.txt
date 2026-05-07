@@ -19,3 +19,6 @@ google-api-python-client>=2.0.0
 
 # Pin svglib to avoid Cairo build failures on minimal environments
 svglib<1.6
+
+# Rate limiting
+django-ratelimit>=0.1

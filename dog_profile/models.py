@@ -199,8 +199,7 @@ class DogProfile(models.Model):
         total_km = round(total_walk_min / 15, 1) # Stima ~4km/h
         
         # Behavioral problems
-        # We need to count unique problem types analyzed
-        analyses = self.analyses.all() if hasattr(self, 'analyses') else []
+        analyses = self.analyses.all()
         problem_counts = {}
         for a in analyses:
             if a.problem:

@@ -2,7 +2,7 @@ const CACHE_NAME = 'vivere-cane-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/static/css/style.css',
-  '/static/manifest.json',
+  '/manifest.json',
   '/static/images/hero_dog.png'
 ];
 

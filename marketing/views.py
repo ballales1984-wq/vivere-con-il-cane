@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django_ratelimit.decorators import ratelimit
+from django.conf import settings
 
 
 def landing_page(request):
@@ -13,9 +15,15 @@ def landing_page(request):
     return render(request, "marketing/landing_page.html")
 
 
+@ratelimit(key='ip', rate=f"{settings.RATELIMIT_REQUESTS}/{settings.RATELIMIT_WINDOW}", block=False)
 def subscribe_newsletter(request):
     """Handles newsletter subscription via HTMX."""
     if request.method == "POST":
+        if getattr(request, 'limited', False):
+            return HttpResponse(
+                '<p style="color: #ef4444; font-size: 0.9rem; margin-top: 10px;">Hai raggiunto il limite di richieste. Riprova tra poco.</p>',
+                status=429
+            )
         email = request.POST.get("email", "").strip()
 
         # Validation

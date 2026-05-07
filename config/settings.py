@@ -161,6 +161,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django_ratelimit.middleware.RateLimitMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "allauth.account.middleware.AccountMiddleware",
@@ -212,7 +213,7 @@ CELERY_TASK_DEFAULT_QUEUE = "default"
 CELERY_BEAT_SCHEDULE = {
     "send-newsletter-followups": {
         "task": "marketing.tasks.send_followup_emails",
-        "schedule": 3600,
+        "schedule": 86400,
     },
     "expire-old-sessions": {
         "task": "community.tasks.cleanup_expired_sessions",

@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
+from django_ratelimit.decorators import ratelimit
 from .models import (
     Problem,
     Solution,
@@ -94,19 +95,12 @@ def breed_detail(request, slug):
     )
 
 
+@ratelimit(key='ip', rate=f"{settings.ANALYZE_RATE_LIMIT}/{settings.ANALYZE_RATE_WINDOW}", block=False)
 def analyze_problem(request):
     """AI-powered problem analysis with IP-based rate limiting."""
     if request.method == "POST":
-        # --- Rate Limiting ---
-        ip = request.META.get(
-            "HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR", "unknown")
-        )
-        ip = ip.split(",")[0].strip()
-        rate_key = f"analyze_rate:{ip}"
-        rate_limit = getattr(settings, "ANALYZE_RATE_LIMIT", 10)
-        rate_window = getattr(settings, "ANALYZE_RATE_WINDOW", 3600)
-        current_count = cache.get(rate_key, 0)
-        if current_count >= rate_limit:
+        # Rate limiting via django-ratelimit decorator
+        if getattr(request, 'limited', False):
             dogs = (
                 DogProfile.objects.filter(owner=request.user)
                 if request.user.is_authenticated
@@ -122,8 +116,6 @@ def analyze_problem(request):
                     "error": "Hai raggiunto il limite di analisi orarie. Riprova tra poco.",
                 },
             )
-        cache.set(rate_key, current_count + 1, rate_window)
-        # --- End Rate Limiting ---
 
         dog_id = request.POST.get("dog_id")
         problem_id = request.POST.get("problem_id")
