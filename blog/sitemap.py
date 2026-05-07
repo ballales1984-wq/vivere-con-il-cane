@@ -8,6 +8,7 @@ class BlogPostSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.9
     protocol = "https"
+    i18n = True
 
     def items(self):
         return BlogPost.objects.filter(published=True).order_by("-updated_at")
@@ -16,13 +17,14 @@ class BlogPostSitemap(Sitemap):
         return obj.updated_at
 
     def location(self, obj):
-        return reverse("blog_detail", args=[obj.slug])
+        return reverse("blog:blog_detail", args=[obj.slug])
 
 
 class ProblemSitemap(Sitemap):
     changefreq = "monthly"
     priority = 0.8
     protocol = "https"
+    i18n = True
 
     def items(self):
         return Problem.objects.all()
@@ -47,12 +49,13 @@ class StaticViewSitemap(Sitemap):
     priority = 0.6
     changefreq = "monthly"
     protocol = "https"
+    i18n = True
 
     def items(self):
         return [
             "home",
-            "blog_list",
-            "tools_index",
+            "blog:blog_list",
+            "canine_tools:tools_index",
             "knowledge:problem_list",
             "knowledge:breed_list",
             "about",
