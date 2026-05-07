@@ -15,6 +15,7 @@ from blog.sitemap import (
 )
 from django.contrib.sitemaps.views import sitemap
 from marketing import views as marketing_views
+from . import views as config_views
 
 sitemaps = {
     "blog": BlogPostSitemap(),
@@ -62,7 +63,7 @@ urlpatterns = [
          {"sitemaps": sitemaps},
          name="django.contrib.sitemaps.views.sitemap",
      ),
- ]
+  ]
 
 urlpatterns += i18n_patterns(
      path("", blog_views.home_page, name="home"),
@@ -74,7 +75,7 @@ urlpatterns += i18n_patterns(
      path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
      path("cane/", include("dog_profile.urls", namespace="dog_profile")),
       path("knowledge/", include("knowledge.urls", namespace="knowledge")),
-path("community/", include("community.urls", namespace="community")),
+ path("community/", include("community.urls", namespace="community")),
       path("accounts/", include("allauth.urls")),
       path("accounts/", include("django.contrib.auth.urls")),
       path("signup/", tools_views.signup, name="signup"),
@@ -98,7 +99,6 @@ urlpatterns += [
     # Temporary test account endpoint - REMOVE AFTER DEBUGGING
     path("__create-test-account__/", config_views.create_test_account, name="create_test_account"),
 ]
-from . import views as config_views
 
 
 # Language change view
