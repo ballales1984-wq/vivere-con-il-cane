@@ -1,199 +1,229 @@
-# 🐕 Vivere con il Cane - Database Troubleshooting Guide
+# Database Troubleshooting Guide
 
-## Problem: Database Credentials Not Found on Mobile
+This guide covers common database issues and their solutions for Vivere con il Cane.
 
-### Root Cause
-When accessing the application from a mobile device, the SQLite database file may not be accessible or may not exist, and the application doesn't have proper default credentials configured.
+## Table of Contents
 
-### Solution
+- [SQLite Issues (Development)](#sqlite-issues-development)
+- [PostgreSQL Setup (Production)](#postgresql-setup-production)
+- [Render Database Issues](#render-database-issues)
+- [Migration Problems](#migration-problems)
+- [Permission Issues](#permission-issues)
 
-#### 1. Initialize the Database (Run Once)
+## SQLite Issues (Development)
 
-The application requires database initialization to create tables and set up default users. Run this command:
+### Database file not created
 
+**Problem:** `db.sqlite3` is not being created after running migrations.
+
+**Solution:**
 ```bash
-cd /vivere-con-il-cane
-python manage.py migrate --noinput
-python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
-python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent
-```
+# Ensure you're in the project root directory
+ls -la db.sqlite3
 
-#### 2. Create Admin User (If Not Exists)
+# Run migrations explicitly
+python manage.py migrate
 
-```bash
-cd /vivere-con-il-cane
-python -c "
-import os, django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-django.setup()
-
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
-# Create admin user
-if not User.objects.filter(email='admin@vivereconilcane.com').exists():
-    admin = User.objects.create_user(
-        username='admin@vivereconilcane.com',
-        email='admin@vivereconilcane.com',
-        password='Admin123!'
-    )
-    admin.is_staff = True
-    admin.is_superuser = True
-    admin.save()
-    print('Admin created: admin@vivereconilcane.com / Admin123!')
-else:
-    print('Admin exists')
-"
-```
-
-#### 3. Verify Database File Exists
-
-```bash
-cd /vivere-con-il-cane
+# Check database exists
 ls -la db.sqlite3
 ```
 
-Expected output: Database file should exist
+### "Database is locked" error
 
-#### 4. Test Authentication
+**Problem:** `django.db.utils.OperationalError: database is locked`
 
+**Solution:**
 ```bash
-cd /vivere-con-il-cane
-python -c "
-import os, django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-django.setup()
+# Close any Django shell or management commands
+# Check for running Python processes
+taskkill //F //IM python.exe  # Windows
+killall python  # Unix/MacOS
 
-from django.contrib.auth import authenticate
-
-# Test credentials
-credentials = [
-    ('admin@vivereconilcane.com', 'Admin123!', 'Admin'),
-    ('test@vivereconilcane.com', 'Test123!', 'Test User'),
-    ('ballales1984@gmail.com', 'Ballales123!', 'Ballales')
-]
-
-for username, password, name in credentials:
-    user = authenticate(username=username, password=password)
-    if user:
-        print(f'[OK] {name}: {username}')
-    else:
-        print(f'[FAIL] {name}: {username}')
-"
+# If using IDE, ensure no database connections are open
+# Restart your development server
 ```
 
-### Default Credentials
+### Permission denied on database file
 
-| User Type | Email | Password | Access Level |
-|-----------|-------|----------|--------------|
-| Admin | `admin@vivereconilcane.com` | `Admin123!` | Full admin access |
-| Test User | `test@vivereconilcane.com` | `Test123!` | Standard user |
-| Existing User | `ballales1984@gmail.com` | `Ballales123!` | Standard user |
+**Problem:** `PermissionError: [Errno 13] Permission denied`
 
-### Manual Database Reset
-
-If the database is corrupted, you can reset it:
-
+**Solution:**
 ```bash
-cd /vivere-con-il-cane
+# Fix permissions on database file
+chmod 644 db.sqlite3
 
-# Remove old database
-rm db.sqlite3
-
-# Recreate with migrations
-python manage.py migrate --noinput
-
-# Load fixtures
-python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
-python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent
-
-# Create admin user
-python manage.py shell -c "
-from django.contrib.auth import get_user_model
-User = get_user_model()
-admin = User.objects.create_superuser(
-    username='admin@vivereconilcane.com',
-    email='admin@vivereconilcane.com',
-    password='Admin123!'
-)
-print('Admin user created')
-"
+# On Windows, ensure file is not read-only
+attrib -R db.sqlite3
 ```
 
-### Configuration Checks
+## PostgreSQL Setup (Production)
 
-#### Check .env File
+### Connection refused
 
-Ensure `.env` file contains:
+**Problem:** `psycopg2.OperationalError: connection to server refused`
 
+**Solution:**
+1. Ensure PostgreSQL is running:
+   ```bash
+   sudo systemctl status postgresql
+   ```
+2. Check `DATABASE_URL` or individual DB settings in `.env`:
+   ```
+   DB_NAME=vivere_con_cane
+   DB_USER=postgres
+   DB_PASSWORD=your_password
+   DB_HOST=localhost
+   DB_PORT=5432
+   ```
+3. Verify PostgreSQL accepts local connections in `pg_hba.conf`
+
+### Authentication failed
+
+**Problem:** `FATAL: password authentication failed`
+
+**Solution:**
 ```bash
-DEBUG=True
-SECRET_KEY=your-secret-key
-DATABASE_URL=sqlite:///db.sqlite3
+# Reset PostgreSQL user password
+sudo -u postgres psql
+\password postgres
+# Enter new password and update .env accordingly
 ```
 
-#### Check settings.py
+### Migrations not applying
 
-Verify database configuration in `config/settings.py`:
+**Problem:** Migrations fail on PostgreSQL
 
-```python
-DATABASE_URL = os.environ.get("DATABASE_URL", "")
-if DATABASE_URL:
-    DATABASES = {
-        "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, conn_health_checks=True)
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-```
-
-### Mobile-Specific Considerations
-
-1. **File Persistence**: SQLite database file must be on persistent storage, not in temp directories
-2. **File Permissions**: Ensure the web server process can read/write the database file
-3. **Deployment**: When deploying to platforms like Heroku or Render, use PostgreSQL instead of SQLite
-4. **Session Consistency**: Mobile browsers may have different session handling; ensure cookies are configured correctly
-
-### Common Errors and Fixes
-
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `no such table` | Migrations not run | Run `python manage.py migrate` |
-| `unable to open database file` | Wrong permissions or path | Check file permissions and path |
-| `OperationalError` | Database locked | Restart application server |
-| `Authentication failed` | Wrong password or user exists | Reset password or recreate user |
-| `404 on mobile` | URL configuration issue | Check ALLOWED_HOSTS and CSRF settings |
-
-### Production Deployment
-
-For production, consider using PostgreSQL:
-
+**Solution:**
 ```bash
-# Update .env
-DATABASE_URL=postgresql://user:password@localhost/dbname
+# Ensure PostgreSQL extensions are enabled
+sudo -u postgres psql -d vivere_con_cane -c "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 
 # Run migrations
-python manage.py migrate --noinput
+python manage.py migrate --run-syncdb
 ```
 
-### Database Backup
+## Render Database Issues
+
+### DATABASE_URL not working
+
+**Problem:** Render provides `DATABASE_URL` but app fails to connect.
+
+**Solution:**
+1. Ensure `dj-database-url` is in requirements.txt:
+   ```
+   dj-database-url>=1.4.0
+   ```
+2. Check settings.py uses:
+   ```python
+   DATABASES = {
+       'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+   }
+   ```
+3. Verify the DATABASE_URL format in Render dashboard is correct
+
+### Migrations fail on Render deploy
+
+**Problem:** Build succeeds but migrations fail.
+
+**Solution:**
+1. Add explicit migrate command in build script:
+   ```bash
+   python manage.py migrate --noinput
+   ```
+2. Check Render logs for specific error messages
+3. Ensure `ALLOWED_HOSTS` includes your Render domain
+
+## Migration Problems
+
+### "No migrations to apply" but models missing
+
+**Problem:** Models exist but no tables in database.
+
+**Solution:**
+```bash
+# Create migrations for existing models
+python manage.py makemigrations
+
+# Apply migrations
+python manage.py migrate
+
+# Verify tables created
+python manage.py dbshell
+.tables  # SQLite
+\dt  # PostgreSQL
+```
+
+### Migration conflicts
+
+**Problem:** Conflicting migrations between branches.
+
+**Solution:**
+```bash
+# Reset migrations (DEVELOPMENT ONLY - never in production)
+python manage.py migrate <app> zero
+rm <app>/migrations/0*.py
+
+# Recreate migrations
+python manage.py makemigrations <app>
+python manage.py migrate
+```
+
+### Fixture loading fails
+
+**Problem:** `loaddata` fails with foreign key errors.
+
+**Solution:**
+```bash
+# Load in correct order (knowledge before blog)
+python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
+python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent
+```
+
+## Permission Issues
+
+### Database file not writable
+
+**Problem:** Cannot write to database file.
+
+**Solution:**
+```bash
+# For SQLite, ensure file is writable
+chmod 664 db.sqlite3
+chown $USER db.sqlite3
+
+# For PostgreSQL, verify user has permissions
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE vivere_con_cane TO postgres;"
+```
+
+### Media upload permission denied
+
+**Problem:** User uploads fail with permission errors.
+
+**Solution:**
+```bash
+# Ensure media directory exists and is writable
+mkdir -p media
+chmod 755 media
+chmod -R 775 media/
+```
+
+## Quick Recovery Commands
 
 ```bash
-# Backup SQLite database
-cp db.sqlite3 db.sqlite3.backup.$(date +%Y%m%d)
+# Reset database completely (DEVELOPMENT ONLY)
+rm db.sqlite3
+python manage.py migrate --run-syncdb
+python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
 
-# Restore database
-cp db.sqlite3.backup.20260506 db.sqlite3
+# Check database status
+python manage.py dbshell "PRAGMA database_list;"  # SQLite
+python manage.py dbshell "\l"  # PostgreSQL
 ```
 
-### Support
+## Getting Help
 
 If issues persist:
-1. Check Django logs: `python manage.py check --deploy`
-2. Verify migrations: `python manage.py showmigrations`
-3. Test database connection: `python manage.py dbshell`
-4. Review settings: `python manage.py diffsettings`
+1. Check the error message in Django logs
+2. Verify your `.env` file has correct database configuration
+3. Check Render dashboard for database connection details
+4. Open an issue on GitHub with the full error message

@@ -70,10 +70,21 @@ vivere-con-il-cane/
 
 ### Prerequisites
 
-- Python 3.8+
-- pip
-- Git
-- (Optional) Docker for containerized deployment
+- **Python 3.9+** (recommended: 3.10 or 3.11)
+- **pip** (Python package manager)
+- **Git**
+- **(Optional) Docker** for containerized deployment
+- **(Optional) PostgreSQL** for production (SQLite used by default in development)
+
+### Key Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| Django | 4.2+ | Web framework |
+| gunicorn | 21.0+ | WSGI server for production |
+| xAI SDK/OpenAI | latest | AI behavior analysis |
+| django-allauth | 65.0+ | Social authentication |
+| dj-database-url | 2.0+ | Database URL configuration |
 
 ### Local Development
 
@@ -94,7 +105,7 @@ vivere-con-il-cane/
 
 3. **Install dependencies**
     ```bash
-    pip install -e ".[dev]"
+    pip install -r requirements.txt
     ```
 
 4. **Set up environment variables**
@@ -168,6 +179,20 @@ See [DATABASE_TROUBLESHOOTING.md](DATABASE_TROUBLESHOOTING.md) for detailed data
 | `GOOGLE_OAUTH_CLIENT_ID` | Google OAuth client ID | `your-client-id` |
 | `GOOGLE_OAUTH_CLIENT_SECRET` | Google OAuth client secret | `your-secret` |
 | `GOOGLE_OAUTH_REDIRECT_URI` | OAuth redirect URI | `http://localhost:8000/auth/google/callback` |
+| `GROK_API_KEY` | xAI API key for AI analysis | `xai-your-key` |
+| `OPENAI_API_KEY` | OpenAI API key (fallback) | `sk-your-key` |
+
+### AI Configuration
+
+The AI behavior analysis uses either xAI (Grok) or OpenAI:
+
+```bash
+# Primary: xAI Grok API
+GROK_API_KEY=xai-your-api-key-from-console-x-ai
+
+# Fallback: OpenAI (optional, used if Grok unavailable)
+OPENAI_API_KEY=sk-your-openai-key
+```
 
 ### Email Configuration
 
@@ -263,7 +288,7 @@ python manage.py test blog -v 2
 2. Create new Web Service on Render
 3. Connect your GitHub repository
 4. Set build command: `pip install -r requirements.txt`
-5. Set start command: `python manage.py gunicorn config.wsgi:application`
+5. Set start command: `gunicorn config.wsgi:application`
 6. Add environment variables in Render dashboard
 7. Enable auto-deploy on push
 
@@ -350,6 +375,21 @@ Key models include:
 - Images: `static/images/` (logos, photos, illustrations)
 - JavaScript: Minimal vanilla JS, HTMX for AJAX
 
+### PWA (Progressive Web App)
+
+The application is PWA-ready with offline support:
+
+- **Service Worker**: Automatically registered via `sw.js`
+- **Manifest**: `static/manifest.json` for installability
+- **Offline Support**: Core pages cached for offline access
+- **Mobile Install**: Can be installed as native app on mobile devices
+
+To test PWA features:
+1. Build the project (service worker auto-generated)
+2. Serve over HTTPS (required for service workers)
+3. Open Chrome DevTools → Application → Service Workers
+4. Test offline mode in Network tab
+
 ## 🤝 Contributing
 
 We welcome contributions! Please follow these steps:
@@ -386,8 +426,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Made with ❤️ for dogs and their humans**
-
-Last updated: May 2026# Last updated: 
-# Last updated: 2026-05-01 19:20:59Z
 
 
