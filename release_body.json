@@ -1,0 +1,8 @@
+{
+  "tag_name": "v0.1.0",
+  "target_commitish": "main",
+  "name": "v0.1.0 - Initial Production Release",
+  "body": "# Vivere con il Cane - v0.1.0 Release\n\n**Release Date:** 2026-05-07\n**Version:** 0.1.0 (Initial Production Release)\n**Status:** Stable - Production Ready\n**Test Results:** 138/144 passed (95.8%)\n\n## Features\n\n- AI Behavior Analysis (Groq API)\n- Free Canine Tools (calculator, quiz, heart recorder)\n- Knowledge Base (50+ problems, breed insights)\n- Community Forum with reputation & badges\n- Dog Profile & Health Tracking\n- Newsletter Automation\n- AI-Generated Blog\n- Progressive Web App (PWA)\n\nSee README.md, CHANGELOG.md, TEST_REPORT.md for full details.\n\n🚀 Production release",
+  "draft": false,
+  "prerelease": false
+}

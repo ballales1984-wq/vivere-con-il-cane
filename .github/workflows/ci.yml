@@ -1,0 +1,188 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, fix/*, feature/*]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    env:
+      DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+      DEBUG: "True"
+      SECRET_KEY: test-secret-key-for-ci-only
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      ALLOWED_HOSTS: localhost,127.0.0.1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc \
+            libpq-dev \
+            python3-dev \
+            build-essential \
+            libffi-dev \
+            libssl-dev \
+            portaudio19-dev \
+            libportaudio2 \
+            libportaudiocpp0 \
+            ffmpeg \
+            libsndfile1-dev
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-django pytest-cov
+
+      - name: Check code style with black
+        run: |
+          if command -v black &> /dev/null; then
+            black --check .
+          else
+            echo "black not installed, skipping style check"
+          fi
+
+      - name: Lint with ruff
+        run: |
+          if command -v ruff &> /dev/null; then
+            ruff check .
+          else
+            echo "ruff not installed, skipping lint"
+          fi
+
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..30}; do
+            if pg_isready -h localhost -p 5432 -U test_user; then
+              echo "PostgreSQL is ready"
+              break
+            fi
+            echo "Waiting for PostgreSQL... ($i)"
+            sleep 2
+          done
+
+      - name: Run migrations
+        run: |
+          python manage.py migrate --noinput
+
+      - name: Load fixtures
+        run: |
+          python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent || true
+          python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent || true
+
+      - name: Run tests with coverage
+        run: |
+          python -m pytest --ds=config.settings -v --cov=. --cov-report=xml --cov-report=term
+
+      - name: Upload coverage to Codecov (optional)
+        uses: codecov/codecov-action@v4
+        if: matrix.python-version == '3.11' && github.event_name != 'pull_request'
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.python-version }}
+          path: |
+            .coverage
+            coverage.xml
+            htmlcov/
+            test_*.log
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run safety check (vulnerabilities)
+        run: |
+          pip install safety
+          safety check --full-report || true
+
+      - name: Check for secrets
+        run: |
+          if git diff --cached --name-only | grep -E '\.(env|pem|key|json|yaml|yml)$' > /dev/null; then
+            echo "⚠️  Warning: Potential sensitive files detected in git diff"
+          fi
+
+  lint:
+    name: Lint (Ruff)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install ruff
+
+      - name: Run ruff linter
+        run: |
+          ruff check .
+
+      - name: Run ruff formatter check
+        run: |
+          ruff format --check .

@@ -1,0 +1,121 @@
+# Ruff Configuration for Vivere con il Cane
+# https://docs.astral.sh/ruff/
+
+[lint]
+# Enable all rules by default, then selectively ignore
+select = ["ALL"]
+ignore = [
+    # Documentation
+    "D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107",  # Missing docstrings
+    "D200", "D203", "D212",  # Docstring formatting (let Black handle)
+    "D401",  # Imperative mood (for docstrings)
+
+    # Testing
+    "S101",  # Use of `assert` (pytest uses assert)
+
+    # Compatibility
+    "TRY003",  # Too broad exception class (custom exceptions not needed)
+
+    # Complexity
+    "PLR0912", "PLR0913", "PLR0915",  # Too many args/branches/statements (acceptable for Django views)
+    "PLR5501",  # Unnecessary `else` after `return` (style choice)
+
+    # Django-specific
+    "DJ001",  # Model without `__str__` (some models may not need it)
+    "DJ007",  # Use `NullBooleanField` instead of `BooleanField(null=True)` (legacy)
+    "DJ008",  # Model without `Meta.ordering` (not always needed)
+
+    # Import organization
+    "I001",  # Unsorted imports (handled by ruff format or separate tool)
+]
+
+# Allow autofix for all enabled rules (when running `ruff fix`)
+fixable = ["ALL"]
+
+[lint.isort]
+# Settings for import sorting (if using ruff for isort)
+known-first-party = ["blog", "canine_tools", "community", "config", "dog_profile", "knowledge", "marketing"]
+known-third-party = ["django", "rest_framework"]
+section-order = ["future", "standard-library", "third-party", "django", "first-party", "local-folder"]
+
+[lint.pydocstyle]
+convention = "google"  # Enforce Google-style docstrings
+
+[lint.per-file-ignores]
+# Tests can have longer lines, more complexity, and more returns
+"test_*.py" = [
+    "E501",  # Line too long
+    "PLR2004",  # Magic value comparison
+    "S311",  # Random generator for tests
+]
+"*/tests/*" = [
+    "E501",
+    "PLR2004",
+    "S311",
+]
+
+# Admin files often have complex model registration
+"*/admin.py" = [
+    "D401",  # Imperative mood
+]
+
+# Management commands are entry points; less strict docstrings
+"management/commands/*.py" = [
+    "D100", "D103",
+]
+
+# Settings file is configuration; less strict
+"config/settings.py" = [
+    "D100",
+]
+
+# Views may have more complexity
+"views.py" = [
+    "PLR0912", "PLR0913",  # Many branches/args
+]
+
+# URL patterns are simple; less checks
+"urls.py" = [
+    "D100",
+]
+
+# __init__.py doesn't need much
+"__init__.py" = [
+    "D104",
+]
+
+[lint.flake8-builtins]
+# Allow shadowing of builtins (common in Django: `id`, `file`, etc.)
+builtins-ignorelist = ["id", "file", "property"]
+
+[lint.mccabe]
+max-complexity = 15  # Default 10; allow more for complex Django views
+
+[lint.pylint]
+max-args = 8  # Default 5; Django views accept more
+max-locals = 20
+max-returns = 8
+max-branches = 20
+max-statements = 60
+max-module-lines = 500
+
+[lint.pyupgrade]
+# Keep version-agnostic code unless explicitly set
+keep-runtime-typing = true
+
+[format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, not tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[lint.pep8-naming]
+# Allow mixed case variable names (common in Django: `db`, `id`, `pk`)
+classmethod-decorators = ["classmethod"]
