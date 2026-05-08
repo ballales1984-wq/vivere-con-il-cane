@@ -54,15 +54,15 @@
                 {% if user.is_authenticated %}
 <li class="nav-user">
                          <span style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">{% trans "Ciao" %}, <strong style="color: var(--secondary);">{{ user.username }}</strong></span>
-                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                             {% csrf_token %}
-                             <button type="submit" style="background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 700; padding: 0 10px;">{% trans "Esci" %}</button>
-                         </form>
+                      <form action="{% url 'account_logout' %}" method="post" style="display: inline;">
+                              {% csrf_token %}
+                              <button type="submit" style="background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 700; padding: 0 10px;">{% trans "Esci" %}</button>
+                          </form>
                      </li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">{% trans "Accedi" %}</a></li>
-                    <li><a href="{% url 'signup' %}" class="btn btn-primary btn-sm" style="color: white !important;">{% trans "Registrati" %}</a></li>
-                {% endif %}
+                 {% else %}
+                     <li><a href="{% url 'account_login' %}">{% trans "Accedi" %}</a></li>
+                     <li><a href="{% url 'signup' %}" class="btn btn-primary btn-sm" style="color: white !important;">{% trans "Registrati" %}</a></li>
+                 {% endif %}
                 
                 <!-- Native Language Switcher -->
                 <li class="lang-selector" style="margin-left: 10px; padding: 4px 8px; background: rgba(0,0,0,0.05); border-radius: 20px;">

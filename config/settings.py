@@ -78,7 +78,7 @@ GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
 GOOGLE_OAUTH_REDIRECT_URI = os.environ.get(
     "GOOGLE_OAUTH_REDIRECT_URI", 
-    "http://localhost:8000/auth/google/callback"
+    "http://localhost:8000/accounts/google/login/callback/"
 )
 
 # Google Health / Fitness API Scopes
@@ -126,8 +126,10 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_ADAPTER = "config.allauth_adapter.CustomAccountAdapter"
+
+# Assicurati che le view di base siano disponibili (non duplicate)
+# Allauth fornisce già: account_login, account_logout, account_signup, account_reset_password, ecc.
 
 # Application definition
 
