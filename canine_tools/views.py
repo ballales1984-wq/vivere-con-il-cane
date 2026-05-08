@@ -913,11 +913,25 @@ def analyze_heart_sound(filepath, context='', subject_type='dog'):
                 y = samples
                 sr = audio.frame_rate
             except ImportError:
-                raise ImportError("pydub non installato. pip install pydub (e installa ffmpeg nel sistema)")
+                raise ImportError("pydub non installato. pip install pydub")
             except Exception as e:
-                # Se pydub fallisce, prova con librosa come fallback (ma probabilmente fallirà)
-                import librosa
-                y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
+                # Se pydub fallisce, potrebbe essere ffmpeg mancante o file corrotto
+                error_msg = str(e).lower()
+                if "ffmpeg" in error_msg or "avconv" in error_msg or "file could not be identified" in error_msg:
+                    raise RuntimeError(
+                        "Impossibile processare il file audio. "
+                        "Assicurati che FFmpeg sia installato e nel PATH. "
+                        "Download: https://ffmpeg.org/download.html"
+                    )
+                # Altri errori: prova con librosa come fallback
+                try:
+                    import librosa
+                    y, sr = librosa.load(filepath, sr=None, mono=True, dtype=np.float32)
+                except Exception as librosa_error:
+                    raise RuntimeError(
+                        f"Errore lettura file audio con pydub: {e}. "
+                        f"Fallback librosa fallito: {librosa_error}"
+                    )
         else:
             # WAV o altri formati supportati da librosa/soundfile
             import librosa

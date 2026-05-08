@@ -243,6 +243,9 @@ class AnalyzeProblemViewTest(TestCase):
         self.dog = DogProfile.objects.create(
             owner=self.user, name="Marco", dog_name="Fido"
         )
+        # Clear cache to avoid rate limiting issues between tests
+        from django.core.cache import cache
+        cache.clear()
 
     def test_analyze_problem_get(self):
         response = self.client.get(reverse("knowledge:analyze_problem"))
