@@ -1,310 +1,245 @@
-# Vivere con il Cane
+# 🐕 Vivere con il Cane
 
-> Piattaforma completa per l'analisi del comportamento del cane con intelligenza artificiale, risorse gratuite, community e strumenti per proprietari di cani.
+> **Piattaforma educativa per l'analisi del comportamento canino con AI avanzata**  
+> Blog di educazione cinofila con strumenti gratuiti, community e analisi intelligente del comportamento
 
-![Vivere con il Cane](static/images/logo.png)
+[![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.10+-FFD43B?style=for-the-badge&logo=python&logoColor=blue)](https://www.python.org/)
+[![AI](https://img.shields.io/badge/AI-Groq%20Llama%203-orange?style=for-the-badge)](https://groq.com/)
+[![License MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-vivere--con--il--cane.onrender.com-brightgreen?style=for-the-badge)](https://vivere-con-il-cane.onrender.com)
 
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
-![AI](https://img.shields.io/badge/AI-Groq%20Llama%203-orange?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+🌍 [**Leggi la documentazione in italiano →**](README.it.md)
 
-*🌍 [Leggi la documentazione in italiano](README.it.md)*
+---
 
-## 📋 Table of Contents
+## 📚 Indice
 
-- [Features](#-features)
-- [Project Structure](#-project-structure)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-- [Testing](#-testing)
-- [Deployment](#-deployment)
-- [API Endpoints](#-api-endpoints)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [✨ Caratteristiche Principali](#-caratteristiche-principali)
+- [🎯 Proposta di Valore](#-proposta-di-valore-unica)
+- [🏗️ Architettura di Sistema](#️-architettura-di-sistema)
+- [🛠️ Stack Tecnologico](#️-stack-tecnologico)
+- [📦 Installazione](#-installazione)
+- [🔧 Configurazione](#-configurazione)
+- [🚀 Utilizzo](#-utilizzo)
+- [🧪 Testing](#-testing)
+- [☁️ Deployment](#️-deployment)
+- [📡 Endpoint API](#-endpoint-api)
+- [❤️ Analisi dei Suoni Cardiaci](#️-analisi-dei-suoni-cardiaci)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-## ✨ Features
+---
 
-- **AI Behavior Analysis**: Describe your dog's behavior and get personalized advice using AI
-- **Free Tools**: 
-  - Food Calculator - Calculate proper portions
-  - Age Converter - Dog years to human years
-  - Language Quiz - Test your knowledge of dog communication
-  - Heart Recorder - Monitor your dog's heart rate
-- **Learning Hub**: Articles, guides, and resources on dog education, health, nutrition
-- **Community**: Forum for dog owners to share experiences and get support
-- **Newsletter**: Automated onboarding sequence with welcome and follow-up emails
-- **Dashboard**: Personal area to track your dog's profile and analysis history
-- **Multi-language**: Italian and English support
-- **PWA Ready**: Offline support, installable as mobile app
-- **SEO Optimized**: Meta tags, structured data, sitemap
-- **Ads Ready**: Google AdSense integration
-- **Secure**: Proper authentication, password reset, email verification
+## ✨ Caratteristiche Principali
 
-## 🌟 Unique Value Proposition (Our Competitive Advantage)
+### 🧠 AI & Analisi Comportamentale
+- **Analisi del Comportamento con IA**: Descrivi il comportamento del tuo cane e ricevi consigli personalizzati  
+- **Memoria Longitudinale**: L'IA mantiene la cronologia medica del cane per analisi più accurate
 
-### 🧠 1. Longitudinal Memory IA Engine (Dynamic Routing)
-Unlike normal "wrappers" of ChatGPT, our IA engine (powered by Llama-3 via Groq) uses contextual routing.
-- Manages a **Persistent Medical Profile** for each dog (age, weight, genetics).
-- Before querying the LLM, the Django backend algorithmically generates a "Super-Prompt" that injects the animal's entire clinical history.
-- *Result:* When the user writes "limps", the IA automatically knows it's analyzing a *10-year-old overweight mixed breed with arthritis history*, providing responses 10 times more accurate and safe.
+### 🛠️ Strumenti Gratuiti Interattivi
+- **Calcolatore del Cibo** - Porzioni giuste per il tuo cane
+- **Convertitore di Età** - Anni del cane a anni umani
+- **Quiz sulla Comunicazione Canina** - Testa la tua conoscenza
+- **Registratore Cardiaco** - Monitora il battito del tuo cane
 
-### 📋 2. Unified Medical Chart (Ready for the Veterinarian)
-- The system unites traditional "medical views" (vaccines, injuries) with the **historical of IA behavioral analyses** in a single Chronological Timeline.
-- Designed for real-world use: the medical chart offers instant text export in **WhatsApp** style or the generation of a **clean PDF without unnecessary graphic elements**, perfect to attach in an email to the attending physician.
+### 📚 Risorse Educative
+- **Hub di Apprendimento**: Articoli, guide e risorse su educazione, salute e nutrizione
+- **Base di Conoscenza Strutturata**: Matrice relazionale sintomi-cause-soluzioni
+- **Blog SEO Ottimizzato**: Contenuti per proprietari di cani
 
-### 📚 3. Relational Matrix (Symptoms-Causes-Solutions)
-The heart of the system is not a simple text blog. Our *Knowledge Base* is a structured matrix in the database:
-- **Symptoms**, **Triggering Causes** and **Practical Remedies** are distinct entities connected in the backend.
-- The IA doesn't "guess": it uses this matrix by crossing it with the breed profile (energy levels, predispositions) to map in real-time the problem to the most statistically probable cause.
+### 👥 Community e Social
+- **Forum Comunità**: Condividi esperienze e ricevi supporto da altri proprietari
+- **Newsletter Automatizzata**: Sequenza di onboarding con email personalizzate
+- **Dashboard Personale**: Traccia il profilo del tuo cane e la cronologia delle analisi
 
-### 📈 4. HealthTech Platform Oriented to Conversion
-- More than a simple Web App, the interface presents itself as a Premium Hub with **Glassmorphism Design** and attractive gradients.
-- Full adoption of SEO directives with **Schema.org JSON-LD** dynamically injected to transform casual search engine readers into habitual users of the diagnostic platform.
+### 🌐 Esperienza Utente Moderna
+- **Multi-lingua**: Supporto italiano e inglese
+- **PWA Ready**: Funziona offline, installabile come app mobile
+- **Design Moderno**: Glassmorphism design con gradienti accattivanti
+- **SEO Ottimizzato**: Meta tag, structured data (JSON-LD), sitemap
+- **Ready per Pubblicità**: Integrazione Google AdSense
 
-## 🏗️ System Architecture
+### 🔒 Sicurezza
+- **Autenticazione Robusta**: Password reset, verifica email, OAuth
+- **Social Login**: Accesso con Google e altri provider
+- **Privacy First**: Rispetto della privacy degli utenti
 
-```mermaid
-graph TD
-    User([User]) -->|Interacts| UI[Frontend UI/Templates]
-    UI -->|Saves Profile & Queries IA| Core(Backend Django)
-    
-    subgraph Data Layer
-        Core --> DB[(SQLite / PostgreSQL)]
-        DB -->|Anagrafica| Profiles[Dog Profiles]
-        DB -->|Editoriale| Blog[Blog SEO]
-        DB -->|Diagnostici| KB[Knowledge Base]
-    end
-    
-    Core <-->|Advanced Longitudinal Prompting| AI[API Groq / Llama 3 70b]
-    AI -->|Diagnostic Analysis| UI
+---
+
+## 🎯 Proposta di Valore Unica
+
+### 1️⃣ **Motore IA con Memoria Longitudinale (Dynamic Routing)**
+A differenza dei semplici wrapper di ChatGPT, il nostro motore IA (powered by Llama-3 via Groq) utilizza routing contestuale:
+- ✅ Gestisce un **Profilo Medico Persistente** per ogni cane (età, peso, genetica)
+- ✅ Prima di interrogare l'LLM, il backend genera algoritmicamente un "Super-Prompt" che inietta l'intera cronologia clinica
+- ✅ **Risultato**: Quando l'utente scrive "zoppica", l'IA sa automaticamente che analizza un *meticcio di 10 anni in sovrappeso con storia di artrite*, fornendo risposte **10x più accurate**
+
+### 2️⃣ **Cartella Medica Unificata (Pronta per il Veterinario)**
+- Unisce le "viste mediche" tradizionali (vaccini, infortuni) con la **cronologia delle analisi comportamentali IA** in un'unica Timeline
+- Export in stile **WhatsApp** o generazione di **PDF puliti** perfetti da allegare al veterinario
+- Preparazione per integrazione future con portali veterinari
+
+### 3️⃣ **Matrice Relazionale (Sintomi-Cause-Soluzioni)**
+Il cuore del sistema non è un semplice blog testuale. La nostra *Knowledge Base* è una matrice strutturata nel database:
+- Sintomi, Cause Scatenanti e Rimedi Pratici sono entità distinte collegate nel backend
+- L'IA non "azzarda": usa questa matrice incrociandola con il profilo della razza per mappare in tempo reale il problema alla causa più probabile
+
+### 4️⃣ **HealthTech Platform Orientata alla Conversione**
+- L'interfaccia si presenta come un **Premium Hub** con design Glassmorphism
+- Adozione completa delle direttive SEO con **Schema.org JSON-LD** per trasformare i lettori occasionali dei motori di ricerca in utenti abituali della piattaforma diagnostica
+
+---
+
+## 🏗️ Architettura di Sistema
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      VIVERE CON IL CANE                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌──────────────────┐         ┌────────────────────────┐   │
+│  │   Frontend       │◄────────│   Django Backend       │   │
+│  │  (HTML/CSS/JS)   │         │  (Python 3.10+)        │   │
+│  └──────────────────┘         └────────────────────────┘   │
+│                                          │                   │
+│                        ┌─────────────────┼─────────────────┐ │
+│                        ▼                 ▼                 ▼ │
+│                  ┌──────────┐     ┌──────────┐     ┌─────────┐ │
+│                  │ SQLite   │     │PostgreSQL│     │Groq LLM │ │
+│                  │(Dev)     │     │(Prod)    │     │(IA)     │ │
+│                  └──────────┘     └──────────┘     └─────────┘ │
+│                                                               │
+│                         DATA LAYER                           │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## 🛠️ Tech Stack
+---
 
-- **Backend Application**: Python 3.10+, Django Framework 5+
-- **Frontend Layer**: Django HTML5 Templates, Pure CSS Variables, Responsive Design (Mobile First)
-- **Artificial Intelligence Logic**: Construction of agentic prompts via REST API Groq and open-source state-of-the-art models.
-- **Database**: SQLite (Development Environment) / PostgreSQL (Production Environment)
-- **Deployment & Scaling**: Render PaaS, WhiteNoise for optimization and compression of static files.
+## 🛠️ Stack Tecnologico
 
-## ❤️ Heart Sound Analysis Functionality
+| Componente | Tecnologia | Versione |
+|-----------|-----------|----------|
+| **Backend** | Django | 4.2+ |
+| **Linguaggio** | Python | 3.10+ |
+| **Frontend** | HTML5 + CSS3 + HTMX | Latest |
+| **Database (Dev)** | SQLite | 3.x |
+| **Database (Prod)** | PostgreSQL | 12+ |
+| **AI/ML** | Groq API + Llama 3 | Latest |
+| **Server (Prod)** | Gunicorn | 21.0+ |
+| **Static Files** | WhiteNoise | Latest |
+| **Container** | Docker | Latest |
+| **Autenticazione** | django-allauth | 65.0+ |
+| **Email** | SMTP / Console | - |
 
-The platform includes advanced tools for analyzing canine heart sounds:
+**Dipendenze Principali:**
+- `Django`: Framework web principale
+- `django-allauth`: Autenticazione social (Google, etc.)
+- `groq`: SDK per API AI
+- `gunicorn`: Server WSGI per produzione
+- `dj-database-url`: Gestione URL database
 
-### 🔬 Cardiac Analysis Tool
-- **BPM Detection**: Automatic heart rate from audio files (WAV, WebM, OGG)
-- **S1/S2 Classification**: Identifies heart beats (valve closure/opening)
-- **HRV Metrics**: Heart Rate Variability (SDNN, RMSSD, pNN50%)
-- **Peak Detection**: Adaptive algorithms for weak signals
-- **Noise Filtering**: 20-150 Hz bandpass filter and artifact cleaning
+---
 
-### 📊 Usage
+## 📦 Installazione
 
-1. **Record a cardiac audio**:
-   - Go to `Heart → Phonocardiograph Recorder`
-   - Select **subject type** (Dog 🐕 or Human 👤)
-   - Upload a WAV file or record directly
-   
-2. **Automatic analysis**:
-   ```bash
-   # Local test with WAV file
-   python test_cuore_tool.py
-   ```
-
-3. **Results**:
-   - Estimated BPM (with correction for dogs or humans)
-   - Beat count
-   - Confidence (0-1)
-   - S1/S2 peak times (valve separation)
-   - HRV metrics (cardiac variability)
-
-### 🧪 Test Suite
+### Prerequisiti
 
 ```bash
-# Test ALL available audio files
-python test_all_audio_files.py
-
-# Test with different subject types
-python test_final_subject_type.py
+✓ Python 3.10+ (recommended 3.10 or 3.11)
+✓ pip (Package Manager)
+✓ Git
+✓ Docker (opzionale)
+✓ PostgreSQL (opzionale, per produzione)
 ```
 
-Tested functionalities:
-- ✅ Multi-format audio analysis (WAV, WebM)
-- ✅ Adaptive peak detection (MAD algorithm)
-- ✅ S1/S2 classification with intelligent pairing
-- ✅ Differential BPM calculation (dog vs human)
-- ✅ HRV metrics (SDNN, RMSSD, pNN50)
-- ✅ Weak signal and noise handling
+### Guida Rapida
 
-## 📁 Project Structure
-
-```
-vivere-con-il-cane/
-├── .github/                    # GitHub Actions and issue templates
-├── .kilo/                      # Kilo CLI configuration (commands, agents, skills)
-├── blog/                       # Main app: home, about, blog posts
-├── canine_tools/               # Free tools: calculators, quizzes, heart recorder
-├── community/                  # Forum and discussion features
-├── config/                     # Django settings, URLs, WSGI
-├── dog_profile/                # User dog profiles and analytics
-├── knowledge/                  # Learning hub: articles, problems, solutions
-├── marketing/                  # Newsletter, landing page, follow-up emails
-├── requirements.txt            # Python dependencies
-├── manage.py                   # Django management script
-├── static/                     # Static files: CSS, JS, images
-├── templates/                  # HTML templates
-└── media/                      # User uploaded files (not in repo)
-```
-
-### Key Applications
-
-| App | Description |
-|-----|-------------|
-| **blog** | Home page, about, blog posts, AI analysis |
-| **canine_tools** | Free interactive tools for dog owners |
-| **community** | Forum for discussions and support |
-| **dog_profile** | Manage your dog's information and health |
-| **knowledge** | Educational content: articles, problems, solutions |
-| **marketing** | Newsletter system, landing page, email automation |
-
-## ⚙️ Installation
-
-### Prerequisites
-
-- **Python 3.9+** (recommended: 3.10 or 3.11)
-- **pip** (Python package manager)
-- **Git**
-- **(Optional) Docker** for containerized deployment
-- **(Optional) PostgreSQL** for production (SQLite used by default in development)
-
-### Key Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| Django | 4.2+ | Web framework |
-| gunicorn | 21.0+ | WSGI server for production |
-| xAI SDK/OpenAI | latest | AI behavior analysis |
-| django-allauth | 65.0+ | Social authentication |
-| dj-database-url | 2.0+ | Database URL configuration |
-
-### Local Development
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ballales1984-wq/vivere-con-il-cane.git
-   cd vivere-con-il-cane
-   ```
-
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   # On Windows:
-   venv\Scripts\activate
-   # On Unix/MacOS:
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. **Set up environment variables**
-   Create a `.env` file in the root directory:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your settings
-   ```
-
-   Minimum required variables:
-   ```
-   DEBUG=True
-   SECRET_KEY=your-secret-key-here
-   ```
-
-5. **Initialize database and create admin user**
-   This is REQUIRED for the application to work:
-   ```bash
-   python manage.py migrate --noinput
-   python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
-   python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent
-   ```
-
-   Then create an admin user:
-   ```bash
-   python manage.py createsuperuser
-   ```
-   
-   Or use the default credentials:
-   - Admin: `admin@vivereconilcane.com` / `Admin123!`
-   - Test: `test@vivereconilcane.com` / `Test123!`
-
-6. **Apply migrations**
-   ```bash
-   python manage.py migrate
-   ```
-
-7. **Run development server**
-   ```bash
-   python manage.py runserver
-   ```
-
-   Visit http://127.0.0.1:8000
-
-### Database Setup
-
-The application uses SQLite by default. The database file (`db.sqlite3`) is created in the project root.
-
-**For mobile/session-based access**, ensure:
-- The database file is on persistent storage
-- File permissions allow read/write access
-- Use `DATABASE_URL=sqlite:///db.sqlite3` in `.env` for explicit path
-
-**Database initialization script:**
+#### 1️⃣ Clone del Repository
 ```bash
-./init_db.sh
+git clone https://github.com/ballales1984-wq/vivere-con-il-cane.git
+cd vivere-con-il-cane
 ```
 
-See [DATABASE_TROUBLESHOOTING.md](DATABASE_TROUBLESHOOTING.md) for detailed database setup and troubleshooting guide.
-
-## 🔧 Configuration
-
-### Environment Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DEBUG` | Enable debug mode | `True` |
-| `SECRET_KEY` | Django secret key | `django-insecure-...` |
-| `ALLOWED_HOSTS` | Allowed hosts | `localhost,127.0.0.1` |
-| `EMAIL_BACKEND` | Email backend | `django.core.mail.backends.console.EmailBackend` |
-| `GOOGLE_OAUTH_CLIENT_ID` | Google OAuth client ID | `your-client-id` |
-| `GOOGLE_OAUTH_CLIENT_SECRET` | Google OAuth client secret | `your-secret` |
-| `GOOGLE_OAUTH_REDIRECT_URI` | OAuth redirect URI | `http://localhost:8000/auth/google/callback` |
-| `GROK_API_KEY` | xAI API key for AI analysis | `xai-your-key` |
-| `OPENAI_API_KEY` | OpenAI API key (fallback) | `sk-your-key` |
-
-### AI Configuration
-
-The AI behavior analysis uses either xAI (Grok) or OpenAI:
-
+#### 2️⃣ Virtual Environment
 ```bash
-# Primary: xAI Grok API
-GROK_API_KEY=xai-your-api-key-from-console-x-ai
+# Windows
+python -m venv venv
+venv\Scripts\activate
 
-# Fallback: OpenAI (optional, used if Grok unavailable)
-OPENAI_API_KEY=sk-your-openai-key
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-### Email Configuration
+#### 3️⃣ Installa Dipendenze
+```bash
+pip install -r requirements.txt
+```
 
-For development, you can use the console backend:
+#### 4️⃣ Configurazione Environment
+```bash
+# Crea file .env
+cp .env.example .env
+
+# Modifica .env con le tue impostazioni
+# Variabili minime:
+DEBUG=True
+SECRET_KEY=your-secret-key-here
+ALLOWED_HOSTS=localhost,127.0.0.1
+```
+
+#### 5️⃣ Inizializza Database
+```bash
+# Crea le tabelle
+python manage.py migrate
+
+# Carica dati di esempio (opzionale)
+python manage.py loaddata knowledge/fixtures/knowledge_data.json --ignorenonexistent
+python manage.py loaddata blog/fixtures/blog_data.json --ignorenonexistent
+
+# Crea superuser
+python manage.py createsuperuser
+
+# Oppure usa credenziali di default:
+# Admin: admin@vivereconilcane.com / Admin123!
+# Test: test@vivereconilcane.com / Test123!
+```
+
+#### 6️⃣ Avvia Development Server
+```bash
+python manage.py runserver
+```
+
+✅ Visita: http://127.0.0.1:8000
+
+---
+
+## 🔧 Configurazione
+
+### Variabili di Ambiente
+
+| Variabile | Descrizione | Esempio |
+|-----------|-----------|---------|
+| `DEBUG` | Modalità debug | `True` / `False` |
+| `SECRET_KEY` | Chiave segreta Django | `django-insecure-...` |
+| `ALLOWED_HOSTS` | Host consentiti | `localhost,127.0.0.1` |
+| `DATABASE_URL` | URL database | `sqlite:///db.sqlite3` |
+| `EMAIL_BACKEND` | Backend email | `django.core.mail.backends.console.EmailBackend` |
+| `GROQ_API_KEY` | API Key Groq/Llama | `gsk_...` |
+| `OPENAI_API_KEY` | API Key OpenAI (fallback) | `sk-...` |
+| `GOOGLE_OAUTH_CLIENT_ID` | Google OAuth ID | `...googleusercontent.com` |
+| `GOOGLE_OAUTH_CLIENT_SECRET` | Google OAuth Secret | `GOCSPX-...` |
+
+### Configurazione Email
+
+**Development (Console Backend):**
 ```bash
 EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
 ```
 
-For production, configure SMTP:
+**Production (SMTP):**
 ```bash
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST=smtp.gmail.com
@@ -314,94 +249,211 @@ EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
 ```
 
-### Google APIs
+### Configurazione IA (Groq/Llama)
 
-To enable Google OAuth and Health/Fitness APIs:
+```bash
+# API Key Groq (primaria)
+GROQ_API_KEY=gsk_your-api-key-from-groq
 
-1. Create a project in [Google Cloud Console](https://console.cloud.google.com/)
-2. Enable:
-   - Google+ API (for sign-in)
-   - Fitness API
-   - People API
-3. Create OAuth 2.0 credentials
-4. Set redirect URI to `http://localhost:8000/auth/google/callback`
+# API Key OpenAI (fallback)
+OPENAI_API_KEY=sk-your-openai-key
+```
 
-## 🚀 Usage
+---
 
-### Admin Panel
+## 🚀 Utilizzo
 
-Access the Django admin at `/admin/` with your superuser credentials.
+### Dashboard Admin
 
-### Main Features
+Accedi a: `/admin/` con le credenziali di superuser
 
-1. **Home Page**: `/` - AI behavior analysis form
-2. **About**: `/it/chi-sono/` - About Alessio and the project
-3. **Blog**: `/it/blog/` - Articles and guides
-4. **Tools**: `/it/tool/` - Free calculators and quizzes
-5. **Knowledge**: `/it/knowledge/` - Educational content
-6. **Community**: `/it/community/` - Forum discussions
-7. **My Dog**: `/it/cane/` - Your dog's profile and analytics
-8. **Newsletter**: `/landing/` - Marketing landing page
-9. **Analysis Results**: `/analizza/` - Submit behavior for AI analysis
+### URL Principali
 
-### Newsletter System
+| URL | Descrizione |
+|-----|-----------|
+| `/` | Home - Modulo analisi IA |
+| `/it/blog/` | Blog e articoli |
+| `/it/tool/` | Strumenti gratuiti |
+| `/it/knowledge/` | Hub educativo |
+| `/it/community/` | Forum comunità |
+| `/it/cane/` | Profilo del tuo cane (login richiesto) |
+| `/it/newsletter/subscribe/` | Iscrizione newsletter |
+| `/unsubscribe/<token>/` | Disiscriviti newsletter |
 
-- Subscription: `/it/newsletter/subscribe/` (HTMX form)
-- Unsubscription: `/unsubscribe/<token>/`
-- Welcome email sent immediately
-- Follow-up sequence:
-  - Day 2: How to use AI for your dog
-  - Day 5: Monitor your dog's health
+### Funzionalità Principali
 
-### AI Analysis
+#### 📊 Analisi Comportamentale IA
+1. Visita la homepage
+2. Descrivi il comportamento del tuo cane
+3. Ricevi analisi personalizzata basata su:
+   - Razza
+   - Età
+   - Conoscenza veterinaria
+   - Best practice educative
 
-Submit a description of your dog's behavior to get personalized advice based on:
-- Breed characteristics
-- Age-specific behaviors
-- Veterinary knowledge
-- Training best practices
+#### 📧 Newsletter
+- Iscrizione automatica al `/landing/`
+- Email di benvenuto immediata
+- Sequenza follow-up:
+  - Day 2: Come usare l'IA per il tuo cane
+  - Day 5: Monitora la salute del tuo cane
+
+#### 🧪 Strumenti Gratuiti
+- Calcolatore cibo
+- Convertitore età
+- Quiz comunicazione
+- Registratore cardiaco
+
+---
+
+## ❤️ Analisi dei Suoni Cardiaci
+
+### Funzionalità Avanzate
+
+Il sistema include strumenti avanzati per analizzare i suoni cardiaci del cane:
+
+#### 🔬 Cardiac Analysis Tool
+- **BPM Detection**: Rilevamento automatico del battito cardiaco da file audio
+- **S1/S2 Classification**: Identificazione dei battiti (apertura/chiusura valvole)
+- **HRV Metrics**: Heart Rate Variability (SDNN, RMSSD, pNN50%)
+- **Peak Detection**: Algoritmi adattivi per segnali deboli
+- **Noise Filtering**: Filtro bandpass 20-150 Hz + pulizia artefatti
+
+#### 📊 Come Usare
+
+1. **Registra audio cardiaco**:
+   ```
+   Vai a: Heart → Phonocardiograph Recorder
+   Seleziona tipo (🐕 Cane o 👤 Umano)
+   Upload file WAV o registra direttamente
+   ```
+
+2. **Analisi automatica**:
+   ```bash
+   python test_cuore_tool.py
+   ```
+
+3. **Risultati**:
+   - BPM stimato (con correzione cane/umano)
+   - Conteggio battiti
+   - Confidence (0-1)
+   - Tempi picchi S1/S2
+   - Metriche HRV (variabilità cardiaca)
+
+#### 🧪 Suite di Test
+
+```bash
+# Test TUTTI i file audio
+python test_all_audio_files.py
+
+# Test con diversi tipi di soggetto
+python test_final_subject_type.py
+```
+
+**Funzionalità Testate:**
+- ✅ Analisi multi-formato (WAV, WebM, OGG)
+- ✅ Rilevamento picchi adattivo (algoritmo MAD)
+- ✅ Classificazione S1/S2 intelligente
+- ✅ Calcolo BPM differenziale (cane vs umano)
+- ✅ Metriche HRV (SDNN, RMSSD, pNN50)
+- ✅ Gestione segnali deboli e rumore
+
+---
+
+## 📁 Struttura Progetto
+
+```
+vivere-con-il-cane/
+├── .github/                    # GitHub Actions, issue templates
+├── .kilo/                      # Kilo CLI config (commands, agents)
+├── blog/                       # App principale: home, about, blog
+│   ├── models.py              # BlogPost, BlogCategory
+│   ├── views.py               # Home, articoli, analisi IA
+│   └── templates/             # Template HTML
+├── canine_tools/              # Strumenti: calcolatori, quiz, cardio
+│   ├── models.py              # HeartSoundRecording
+│   └── views.py               # Tool views
+├── community/                 # Forum e discussioni
+├── dog_profile/               # Profili cane e analytics
+├── knowledge/                 # Learning hub: articoli, problemi
+├── marketing/                 # Newsletter e email automation
+├── config/                    # Django settings, URLs, WSGI
+├── static/                    # CSS, JS, immagini
+│   ├── css/                   # Stylesheet principale
+│   ├── js/                    # JavaScript vanilla + HTMX
+│   └── images/                # Logo, foto, icone
+├── templates/                 # Template base HTML
+├── media/                     # File utenti (non in repo)
+├── manage.py                  # Django management
+├── requirements.txt           # Dipendenze Python
+├── Dockerfile                 # Config Docker
+├── .env.example               # Template variabili ambiente
+└── README.md                  # Questo file
+```
+
+### Applicazioni Principali
+
+| App | Descrizione | Modelli Chiave |
+|-----|-----------|----------------|
+| **blog** | Home, about, post blog, analisi IA | BlogPost, BlogCategory |
+| **canine_tools** | Strumenti interattivi gratuiti | HeartSoundRecording, Tool |
+| **community** | Forum discussioni | Discussion, Comment |
+| **dog_profile** | Profilo cane e cronologia | DogProfile, DogAnalysis |
+| **knowledge** | Contenuto educativo | KnowledgeProblem, Solution |
+| **marketing** | Newsletter e automazione email | NewsletterSubscriber, Email |
+
+---
 
 ## 🧪 Testing
 
-Run the test suite:
+### Esegui Test Suite
 
 ```bash
-# Run all tests
+# Tutti i test
 python manage.py test --debug-mode
 
-# Run specific app tests
+# Test app specifiche
 python manage.py test blog knowledge marketing --debug-mode
 
-# Run with verbose output
+# Output verboso
 python manage.py test blog -v 2
 ```
 
-### Test Coverage
+### Coverage Test
 
-- Models: Validation, methods, relationships
-- Views: Status codes, templates, context
-- Forms: Validation, processing
-- Utils: Helper functions, AI integration (mocked)
+- ✅ Models: Validazione, metodi, relazioni
+- ✅ Views: Status code, template, contesto
+- ✅ Forms: Validazione, elaborazione
+- ✅ Utils: Funzioni helper, integrazione IA (mock)
+
+---
 
 ## ☁️ Deployment
 
-### Render.com (Recommended)
+### 🔥 Render.com (Consigliato)
 
-1. Fork the repository
-2. Create new Web Service on Render
-3. Connect your GitHub repository
-4. Set build command: `pip install -r requirements.txt`
-5. Set start command: `gunicorn config.wsgi:application`
-6. Add environment variables in Render dashboard
-7. Enable auto-deploy on push
+1. **Fork repository**
+2. **Crea Web Service su Render**
+3. **Collega repository GitHub**
+4. **Build command**:
+   ```bash
+   pip install -r requirements.txt
+   python manage.py migrate
+   ```
+5. **Start command**:
+   ```bash
+   gunicorn config.wsgi:application
+   ```
+6. **Variabili ambiente** nel dashboard Render
+7. **Auto-deploy** al push
 
-### Docker
+### 🐳 Docker
 
 ```bash
-# Build image
+# Build immagine
 docker build -t vivere-con-il-cane .
 
-# Run container
+# Esegui container
 docker run -p 8000:8000 \
   -e DEBUG=False \
   -e SECRET_KEY=your-secret-key \
@@ -409,125 +461,131 @@ docker run -p 8000:8000 \
   vivere-con-il-cane
 ```
 
-### Traditional Server
+### 🖥️ Server Tradizionale
 
-1. Install Python 3.8+, pip, virtualenv
-2. Follow installation steps above
-3. Set `DEBUG=False` in production
-4. Configure a WSGI server (Gunicorn, uWSGI)
-5. Set up reverse proxy (Nginx, Apache)
-6. Enable SSL (Let's Encrypt recommended)
-
-## 🔌 API Endpoints
-
-### Public Endpoints
-
-| Method | URL | Description |
-|--------|-----|-------------|
-| GET | `/` | Home page with AI analysis form |
-| GET | `/analizza/` | Submit behavior for AI analysis |
-| GET | `/landing/` | Marketing landing page |
-| GET | `/it/tool/` | Free tools index |
-| GET | `/it/knowledge/` | Learning hub index |
-| GET | `/it/community/` | Community forum |
-| POST | `/it/newsletter/subscribe/` | Newsletter subscription (HTMX) |
-| GET | `/unsubscribe/<uuid:token>/` | Unsubscribe from newsletter |
-
-### Protected Endpoints (require authentication)
-
-| Method | URL | Description |
-|--------|-----|-------------|
-| GET | `/it/cane/` | Dog profile dashboard |
-| GET | `/it/accounts/profile/` | User profile |
-| GET | `/it/accounts/logout/` | Logout |
-| GET | `/it/dashboard/` | User dashboard |
-
-### Admin Endpoints
-
-| Method | URL | Description |
-|--------|-----|-------------|
-| GET | `/admin/` | Django admin login |
-| GET | `/admin/blog/` | Blog post management |
-| GET | `/admin/marketing/` | Newsletter subscribers |
-| GET | `/admin/dog_profile/` | Dog profiles |
-
-## 📚 Documentation
-
-### Architecture Decisions
-
-- **Modular Apps**: Separated concerns with Django apps
-- **HTMX**: Used for dynamic forms without full page reloads
-- **PWA**: Service worker and manifest for offline capability
-- **i18n**: Built-in Django internationalization
-- **Storage**: Local file storage for development, cloud storage (AWS S3) for production
-- **Caching**: Redis recommended for production
-
-### Database Models
-
-Key models include:
-- `BlogPost`: Articles and guides
-- `KnowledgeProblem`: Behavioral problems with solutions
-- `DogAnalysis`: AI analysis results
-- `NewsletterSubscriber`: Email marketing list
-- `DogProfile`: User's dog information
-- `HeartSoundRecording`: Audio recordings for analysis
-
-### Static Files
-
-- CSS: `static/css/style.css` (main stylesheet)
-- Images: `static/images/` (logos, photos, illustrations)
-- JavaScript: Minimal vanilla JS, HTMX for AJAX
-
-### PWA (Progressive Web App)
-
-The application is PWA-ready with offline support:
-
-- **Service Worker**: Automatically registered via `sw.js`
-- **Manifest**: `static/manifest.json` for installability
-- **Offline Support**: Core pages cached for offline access
-- **Mobile Install**: Can be installed as native app on mobile devices
-
-To test PWA features:
-1. Build the project (service worker auto-generated)
-2. Serve over HTTPS (required for service workers)
-3. Open Chrome DevTools → Application → Service Workers
-4. Test offline mode in Network tab
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 for Python code
-- Write tests for new features
-- Keep commits atomic and descriptive
-- Update documentation when changing functionality
-- Respect the existing code style
-
-### Reporting Issues
-
-Please use the GitHub Issues tracker to report bugs or request features.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgements
-
-- Alessio - Founder and canine behavior expert
-- The open-source Django community
-- Contributors and testers
-- Dog owners everywhere who make this work meaningful
+1. Installa Python 3.10+, pip, virtualenv
+2. Segui passi installazione sopra
+3. Imposta `DEBUG=False` in produzione
+4. Configura server WSGI (Gunicorn, uWSGI)
+5. Setup reverse proxy (Nginx, Apache)
+6. Abilita SSL (Let's Encrypt)
 
 ---
 
+## 📡 Endpoint API
+
+### Endpoint Pubblici
+
+| Metodo | URL | Descrizione |
+|--------|-----|-----------|
+| GET | `/` | Home con form analisi IA |
+| GET | `/analizza/` | Submit comportamento per analisi |
+| GET | `/it/blog/` | Blog articoli |
+| GET | `/it/tool/` | Index strumenti gratuiti |
+| GET | `/it/knowledge/` | Index learning hub |
+| GET | `/it/community/` | Forum comunità |
+| POST | `/it/newsletter/subscribe/` | Iscrizione newsletter (HTMX) |
+| GET | `/unsubscribe/<token>/` | Disiscriviti newsletter |
+
+### Endpoint Protetti (Autenticazione Richiesta)
+
+| Metodo | URL | Descrizione |
+|--------|-----|-----------|
+| GET | `/it/cane/` | Dashboard profilo cane |
+| GET | `/it/accounts/profile/` | Profilo utente |
+| GET | `/it/accounts/logout/` | Logout |
+| GET | `/it/dashboard/` | Dashboard utente |
+
+### Endpoint Admin
+
+| Metodo | URL | Descrizione |
+|--------|-----|-----------|
+| GET | `/admin/` | Admin panel |
+| GET | `/admin/blog/` | Gestione blog post |
+| GET | `/admin/marketing/` | Gestione subscriber |
+| GET | `/admin/dog_profile/` | Gestione profili cane |
+
+---
+
+## 🤝 Contributing
+
+Contributi sono benvenuti! Segui questi passi:
+
+### 1️⃣ Fork Repository
+```bash
+# Su GitHub: clicca "Fork"
+```
+
+### 2️⃣ Clone e Branch
+```bash
+git clone https://github.com/YOUR-USERNAME/vivere-con-il-cane.git
+cd vivere-con-il-cane
+git checkout -b feature/amazing-feature
+```
+
+### 3️⃣ Fai Modifiche
+- Segui PEP 8 per Python
+- Scrivi test per nuove feature
+- Aggiorna documentazione se necessario
+
+### 4️⃣ Commit e Push
+```bash
+git add .
+git commit -m "Add amazing feature"
+git push origin feature/amazing-feature
+```
+
+### 5️⃣ Pull Request
+- Apri PR su GitHub
+- Descrivi i cambiamenti
+- Aspetta review
+
+### Linee Guida Sviluppo
+
+- ✅ Segui PEP 8 per Python
+- ✅ Scrivi test per nuove funzionalità
+- ✅ Commit atomici e descrittivi
+- ✅ Aggiorna documentazione
+- ✅ Rispetta lo stile di codice
+
+### Segnala Bug
+
+Usa GitHub Issues per:
+- 🐛 Bug reports
+- ✨ Feature requests
+- 📚 Miglioramenti documentazione
+
+---
+
+## 📄 License
+
+Progetto distribuito sotto **MIT License** - vedi [LICENSE](LICENSE) per dettagli.
+
+---
+
+## 🙏 Acknowledgements
+
+- **Alessio** - Founder e esperto comportamento canino
+- **Django Community** - Framework e supporto open-source
+- **Groq/Meta** - Llama 3 e infrastruttura AI
+- **Contributors** - Sviluppatori e tester
+- **Dog Owners Everywhere** - La comunità che rende questo progetto significativo
+
+---
+
+## 📱 Links Utili
+
+- 🌐 **Live Demo**: https://vivere-con-il-cane.onrender.com
+- 📖 **Documentazione**: [README.it.md](README.it.md)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/ballales1984-wq/vivere-con-il-cane/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/ballales1984-wq/vivere-con-il-cane/discussions)
+
+---
+
+<div align="center">
+
 **Made with ❤️ for dogs and their humans**
 
+*Educazione cinofila moderna con Intelligenza Artificiale*
 
+</div>
