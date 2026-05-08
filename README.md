@@ -13,6 +13,16 @@
 
 ---
 
+## 📸 Anteprima dell'Applicazione
+
+### 🏠 Homepage - Analisi IA del Comportamento
+![Homepage - Vivere con il Cane](https://raw.githubusercontent.com/ballales1984-wq/vivere-con-il-cane/main/docs/screenshots/homepage.png)
+
+### 📚 Blog Hub
+![Blog Section](https://raw.githubusercontent.com/ballales1984-wq/vivere-con-il-cane/main/docs/screenshots/blog-section.png)
+
+---
+
 ## 📚 Indice
 
 - [✨ Caratteristiche Principali](#-caratteristiche-principali)
@@ -384,6 +394,7 @@ vivere-con-il-cane/
 │   └── images/                # Logo, foto, icone
 ├── templates/                 # Template base HTML
 ├── media/                     # File utenti (non in repo)
+├── docs/                      # Documentazione e screenshot
 ├── manage.py                  # Django management
 ├── requirements.txt           # Dipendenze Python
 ├── Dockerfile                 # Config Docker
