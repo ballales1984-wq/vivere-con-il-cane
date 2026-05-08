@@ -821,7 +821,7 @@ def heart_analyze(request):
     import os
 
     temp_dir = tempfile.mkdtemp()
-    temp_path = os.path.join(temp_dir, "recording.webm")
+    temp_path = os.path.join(temp_dir, "recording.wav")
     
     with open(temp_path, "wb") as f:
         for chunk in audio_file.chunks():
@@ -833,7 +833,7 @@ def heart_analyze(request):
         
         # Sposta file in permanente
         from django.utils import timezone
-        filename = f"{request.user.id}_{timezone.now().strftime('%Y%m%d_%H%M%S')}.webm"
+        filename = f"{request.user.id}_{timezone.now().strftime('%Y%m%d_%H%M%S')}.wav"
         permanent_path = os.path.join("heart_recordings", filename)
         saved_path = default_storage.save(permanent_path, ContentFile(open(temp_path, "rb").read()))
         
