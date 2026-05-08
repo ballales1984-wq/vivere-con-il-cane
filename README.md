@@ -572,6 +572,14 @@ Usa GitHub Issues per:
 
 Progetto distribuito sotto **MIT License** - vedi [LICENSE](LICENSE) per dettagli.
 
+## 📸 Application Preview
+
+### 🏠 Homepage - AI Behavior Analysis
+![Homepage - Vivere con il Cane](https://raw.githubusercontent.com/ballales1984-wq/vivere-con-il-cane/main/docs/screenshots/homepage.png)
+
+### 📚 Blog Hub
+![Blog Section](https://raw.githubusercontent.com/ballales1984-wq/vivere-con-il-cane/main/docs/screenshots/blog-section.png)
+
 ---
 
 ## 🙏 Acknowledgements
