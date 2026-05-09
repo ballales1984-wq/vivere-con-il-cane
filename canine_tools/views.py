@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
@@ -29,7 +27,8 @@ except ImportError:
 
 
 def signup(request):
-    return redirect('account_signup')
+    """Legacy signup endpoint: delegate to allauth signup flow."""
+    return redirect("account_signup")
 
 
 def food_calculator(request):
