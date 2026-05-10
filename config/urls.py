@@ -15,7 +15,7 @@ from blog.sitemap import (
 )
 from django.contrib.sitemaps.views import sitemap
 from marketing import views as marketing_views
-from .views import create_test_account, change_language, emergency_reset_account
+from .views import create_test_account, change_language
 
 sitemaps = {
     "blog": BlogPostSitemap(),
@@ -94,11 +94,6 @@ urlpatterns += [
     path("knowledge/", knowledge_views.problem_list, name="problem_list_root"),
     # Temporary test account endpoint - REMOVE AFTER DEBUGGING
     path("__create-test-account__/", create_test_account, name="create_test_account"),
-    path(
-        "__emergency-reset-account__/",
-        emergency_reset_account,
-        name="emergency_reset_account",
-    ),
     path("change-language/", change_language, name="change_language"),
 ]
 
