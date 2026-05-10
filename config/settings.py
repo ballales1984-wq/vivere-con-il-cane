@@ -127,6 +127,7 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_ADAPTER = "config.allauth_adapter.CustomAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "config.allauth_adapter.CustomSocialAccountAdapter"
 
 # Assicurati che le view di base siano disponibili (non duplicate)
 # Allauth fornisce già: account_login, account_logout, account_signup, account_reset_password, ecc.
