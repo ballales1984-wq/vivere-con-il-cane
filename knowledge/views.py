@@ -15,10 +15,10 @@ from .models import (
 from dog_profile.models import DogProfile
 from blog.models import BlogPost
 import requests
-import os
 from datetime import date
 from xhtml2pdf import pisa
 from django.template.loader import get_template
+from canine_tools.services.ai_client import get_groq_api_key
 
 
 def problem_list(request):
@@ -387,7 +387,7 @@ def query_external_vet_db(description, breed=None):
 def generate_ai_response(problem, description, dog, breed_info, lang="it"):
     """Generate AI response using Groq."""
     
-    groq_key = os.environ.get("GROQ_API_KEY", "")
+    groq_key = get_groq_api_key()
 
     # Retrieve internal veterinary knowledge base for context
     vet_docs = VeterinaryDocument.objects.filter(is_active=True)
@@ -654,7 +654,7 @@ Devi restituire SOLO codice HTML puro (senza markdown ```html), formattato elega
 
     prompt = f"Analizza questo Gemello Digitale (Dati di Vita):\n{json.dumps(context_data, indent=2, default=str)}"
 
-    groq_key = os.environ.get("GROQ_API_KEY", "")
+    groq_key = get_groq_api_key()
     
     # Debug logging (safe - only logs key prefix)
     import logging

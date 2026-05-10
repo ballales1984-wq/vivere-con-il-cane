@@ -15,8 +15,8 @@ from knowledge.models import DogAnalysis, LifetimeMacroAnalysis
 from knowledge.views import generate_lifetime_macro_analysis
 from datetime import date
 import json
-import os
 import requests
+from canine_tools.services.ai_client import get_groq_api_key
 from django.core.cache import cache
 from xhtml2pdf import pisa
 from django.template.loader import get_template
@@ -254,7 +254,7 @@ def get_daily_coach_tips(profile):
     system_msg = "Sei un 'AI Daily Coach' per cani. Fornisci 2 consigli BREVI (max 15 parole l'uno) e molto pratici per la giornata di oggi, basati sui trend degli ultimi giorni E sugli eventuali problemi medici recenti segnalati. Sii incoraggiante."
     prompt = f'Analizza lo storico e gli eventi medici recenti e dammi 2 consigli per oggi.\n{history_text}\n\nRispondi ESATTAMENTE con un array JSON di stringhe, es: ["consiglio 1", "consiglio 2"]. Niente altro.'
 
-    api_key = os.environ.get("GROQ_API_KEY", "")
+    api_key = get_groq_api_key()
     
     # Debug logging
     import logging

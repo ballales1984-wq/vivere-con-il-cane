@@ -77,7 +77,7 @@ class DogNewsAggregatorTest(TestCase):
 class GenerateArticleTest(TestCase):
     """Tests for generate_article function."""
 
-    @patch("blog.ai_generator.OPENAI_API_KEY", "")
+    @patch("blog.ai_generator.GROQ_API_KEY", "")
     def test_generate_article_without_api_key_returns_sample(self):
         content, importance, length, source = generate_article("alimentazione cane")
         self.assertIn("alimentazione", content.lower())
@@ -85,7 +85,7 @@ class GenerateArticleTest(TestCase):
         self.assertIn(importance, ["high", "medium", "low"])
         self.assertIn(length, ["short", "medium", "long", "extended"])
 
-    @patch.dict(os.environ, {"OPENAI_API_KEY": ""})
+    @patch.dict(os.environ, {"GROQ_API_KEY": ""})
     def test_generate_article_classification(self):
         content, importance, length, source = generate_article(
             "guida completa salute cane"
@@ -93,13 +93,13 @@ class GenerateArticleTest(TestCase):
         self.assertEqual(importance, "high")
         self.assertEqual(length, "long")
 
-    @patch("blog.ai_generator.OPENAI_API_KEY", "test-key-123")
+    @patch("blog.ai_generator.GROQ_API_KEY", "test-key-123")
     @patch("blog.ai_generator.requests.post")
-    def test_generate_article_with_openai_success(self, mock_post):
+    def test_generate_article_with_groq_success(self, mock_post):
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
-            "choices": [{"message": {"content": "Articolo generato da GPT"}}]
+            "choices": [{"message": {"content": "Articolo generato da Groq"}}]
         }
         mock_post.return_value = mock_response
 
@@ -107,14 +107,14 @@ class GenerateArticleTest(TestCase):
             "passeggiate cane", importance="medium", length="short"
         )
 
-        self.assertEqual(content, "Articolo generato da GPT")
+        self.assertEqual(content, "Articolo generato da Groq")
         self.assertEqual(source, "ai")
         self.assertEqual(importance, "medium")
         self.assertEqual(length, "short")
 
-    @patch("blog.ai_generator.OPENAI_API_KEY", "test-key-123")
+    @patch("blog.ai_generator.GROQ_API_KEY", "test-key-123")
     @patch("blog.ai_generator.requests.post")
-    def test_generate_article_openai_error(self, mock_post):
+    def test_generate_article_groq_error(self, mock_post):
         mock_response = MagicMock()
         mock_response.status_code = 500
         mock_response.text = "Internal Server Error"
@@ -122,12 +122,12 @@ class GenerateArticleTest(TestCase):
 
         content, importance, length, source = generate_article("test topic")
 
-        self.assertIn("Error API", content)
+        self.assertIn("Error Groq API", content)
         self.assertEqual(source, "error")
 
-    @patch("blog.ai_generator.OPENAI_API_KEY", "test-key-123")
+    @patch("blog.ai_generator.GROQ_API_KEY", "test-key-123")
     @patch("blog.ai_generator.requests.post", side_effect=Exception("Network error"))
-    def test_generate_article_openai_exception(self, mock_post):
+    def test_generate_article_groq_exception(self, mock_post):
         content, importance, length, source = generate_article("test topic")
 
         self.assertIn("Error:", content)

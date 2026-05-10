@@ -1,27 +1,28 @@
 """
 AI Client Service
-Gestisce le chiamate a LLM (Groq, OpenAI) con fallback automatico.
+Gestisce le chiamate a LLM Groq e fornisce fallback generico.
 Fornisce prompt engineering standardizzato per i vari use-case.
 """
 
 import os
 import requests
-import json
 import logging
 from typing import Optional, Dict, Any
-
 
 logger = logging.getLogger(__name__)
 
 
+def get_groq_api_key() -> str:
+    """Return the configured Groq API key, supporting GROQ_API_KEY or GROK_API_KEY."""
+    return os.environ.get("GROQ_API_KEY", "") or os.environ.get("GROK_API_KEY", "")
+
+
 class AIClient:
-    """Client per interagire con LLM (Groq/OpenAI)."""
+    """Client per interagire con LLM Groq."""
     
-    def __init__(self, groq_key: Optional[str] = None, openai_key: Optional[str] = None):
-        self.groq_key = groq_key or os.environ.get("GROQ_API_KEY", "")
-        self.openai_key = openai_key or os.environ.get("OPENAI_API_KEY", "")
+    def __init__(self, groq_key: Optional[str] = None):
+        self.groq_key = groq_key or get_groq_api_key()
         self.groq_url = "https://api.groq.com/openai/v1/chat/completions"
-        self.openai_url = "https://api.openai.com/v1/chat/completions"
         
     def _is_valid_key(self, key: str) -> bool:
         """Verifica se la chiave API è valida (non placeholder)."""
@@ -83,77 +84,18 @@ class AIClient:
             
         return None
     
-    def call_openai(self, messages: list, model: str = "gpt-4o-mini",
-                    temperature: float = 0.7, max_tokens: int = 1000) -> Optional[str]:
+    def generate(self, messages: list, **kwargs) -> str:
         """
-        Chiama OpenAI API (fallback).
-        
-        Args:
-            messages: Lista di dict {role, content}
-            model: Modello da utilizzare
-            temperature: Creatività (0-1)
-            max_tokens: Token massimi risposta
-            
-        Returns:
-            Testo della risposta o None se errore
-        """
-        if not self._is_valid_key(self.openai_key):
-            logger.warning("[AI] OpenAI API key non valida o mancante")
-            return None
-            
-        try:
-            response = requests.post(
-                self.openai_url,
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {self.openai_key}",
-                },
-                json={
-                    "model": model,
-                    "messages": messages,
-                    "temperature": temperature,
-                    "max_tokens": max_tokens,
-                },
-                timeout=30,
-            )
-            if response.status_code == 200:
-                return response.json()["choices"][0]["message"]["content"]
-            else:
-                logger.warning(
-                    f"[AI] OpenAI error {response.status_code}: {response.text[:200]}"
-                )
-        except Exception as e:
-            logger.warning(f"[AI] OpenAI exception: {e}")
-            
-        return None
-    
-    def generate(self, messages: list, 
-                 prefer_provider: str = "groq",
-                 **kwargs) -> str:
-        """
-        Genera risposta con fallback automatico.
-        
-        Ordine: Groq (preferito) → OpenAI (fallback) → Risposta generica
+        Genera risposta con Groq.
         
         Args:
             messages: Lista messaggi per chat completion
-            prefer_provider: 'groq' o 'openai' per tentare prima
-            **kwargs: Parametri aggiuntivi per API (temperature, max_tokens, etc.)
+            **kwargs: Parametri aggiuntivi per API (temperature, max_tokens, response_format, etc.)
             
         Returns:
             Testo della risposta (stringa)
         """
-        response_text = None
-        
-        if prefer_provider == "groq":
-            response_text = self.call_groq(messages, **kwargs)
-            if not response_text:
-                response_text = self.call_openai(messages, **kwargs)
-        else:
-            response_text = self.call_openai(messages, **kwargs)
-            if not response_text:
-                response_text = self.call_groq(messages, **kwargs)
-        
+        response_text = self.call_groq(messages, **kwargs)
         if response_text:
             return response_text
         

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.conf import settings
 from .models import HeartSoundRecording, HealthConnectToken, HealthDataPoint
 from dog_profile.models import DogProfile
+from canine_tools.services.ai_client import get_groq_api_key
 import json
 import math
 import tempfile
@@ -314,7 +315,7 @@ def heart_recording_export_csv(request, recording_id):
 
 @login_required
 def heart_analyze_ai(request, recording_id):
-    """Analizza una registrazione cardiaca con LLM (Groq/OpenAI)."""
+    """Analizza una registrazione cardiaca con LLM Groq."""
     import tempfile, os, requests
     from django.http import JsonResponse
     from django.shortcuts import get_object_or_404
@@ -373,8 +374,7 @@ Fornisci 4 punti:
 Max 150 parole, italiano chiaro."""
         
         # Chiama LLM
-        groq_key = os.environ.get("GROQ_API_KEY", "")
-        openai_key = os.environ.get("OPENAI_API_KEY", "")
+        groq_key = get_groq_api_key()
         analysis_text = None
         
         if groq_key and len(groq_key) > 20:
@@ -383,22 +383,6 @@ Max 150 parole, italiano chiaro."""
                     "https://api.groq.com/openai/v1/chat/completions",
                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {groq_key}"},
                     json={"model": "llama-3.3-70b-versatile", "messages": [
-                        {"role": "system", "content": "Sei un veterinario cardio esperto. Rispondi in italiano, conciso, max 150 parole."},
-                        {"role": "user", "content": prompt}
-                    ], "temperature": 0.7, "max_tokens": 400},
-                    timeout=25,
-                )
-                if resp.status_code == 200:
-                    analysis_text = resp.json()["choices"][0]["message"]["content"]
-            except Exception:
-                pass
-        
-        if not analysis_text and openai_key and len(openai_key) > 20:
-            try:
-                resp = requests.post(
-                    "https://api.openai.com/v1/chat/completions",
-                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {openai_key}"},
-                    json={"model": "gpt-4o-mini", "messages": [
                         {"role": "system", "content": "Sei un veterinario cardio esperto. Rispondi in italiano, conciso, max 150 parole."},
                         {"role": "user", "content": prompt}
                     ], "temperature": 0.7, "max_tokens": 400},

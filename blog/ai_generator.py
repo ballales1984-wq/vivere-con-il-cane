@@ -11,7 +11,6 @@ Usage:
     python manage.py fetch_news
 """
 
-import os
 import re
 import json
 import requests
@@ -22,8 +21,11 @@ from django.db import models
 from blog.models import BlogPost, Category
 
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-OPENAI_MODEL = "gpt-4o-mini"
+from canine_tools.services.ai_client import get_groq_api_key
+
+GROQ_API_KEY = get_groq_api_key()
+GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
 class ArticleClassification:
@@ -127,8 +129,8 @@ class DogNewsAggregator:
 def generate_article(
     topic, category_name=None, importance=None, length=None, api_key=None
 ):
-    """Generate an article using OpenAI API."""
-    key = api_key or OPENAI_API_KEY
+    """Generate an article using the Groq API."""
+    groq_key = GROQ_API_KEY
 
     if not importance or not length:
         imp, lng = ArticleClassification.classify(topic)
@@ -160,7 +162,7 @@ Importanza: {importance}
 Lunghezza: {length}
 """
 
-    if not key:
+    if not groq_key:
         sample_content = f"""# {topic.title()}
 
 Introduzione sul tema del {topic}. I cani sono compagni fedeli che arricchiscono la nostra quotidianità.
@@ -186,38 +188,58 @@ Un cane ben curato è un companions felice. Dedicate tempo e attenzione al vostr
 Articolo generato automaticamente il {datetime.now().strftime("%d/%m/%Y")}"""
         return sample_content, importance, length, "sample"
 
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
+    if groq_key:
+        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {groq_key}"}
+        data = {
+            "model": GROQ_MODEL,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Sei un esperto di educazione cinofila italiana. Scrivi articoli utili e pratici per proprietari di cani.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0.7,
+        }
 
-    data = {
-        "model": OPENAI_MODEL,
-        "messages": [
-            {
-                "role": "system",
-                "content": "Sei un esperto di educazione cinofila italiana. Scrivi articoli utili e pratici per proprietari di cani.",
-            },
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 0.7,
-    }
+        try:
+            response = requests.post(
+                GROQ_URL,
+                headers=headers,
+                json=data,
+                timeout=60,
+            )
+            if response.status_code == 200:
+                content = response.json()["choices"][0]["message"]["content"]
+                return content, importance, length, "ai"
+            return f"Error Groq API: {response.status_code}", importance, length, "error"
+        except Exception as e:
+            return f"Error: {str(e)}", importance, length, "error"
 
-    try:
-        response = requests.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers=headers,
-            json=data,
-            timeout=60,
-        )
+    sample_content = f"""# {topic.title()}
 
-        if response.status_code != 200:
-            return f"Error API: {response.status_code}", importance, length, "error"
+Introduzione sul tema del {topic}. I cani sono compagni fedeli che arricchiscono la nostra quotidianità.
 
-        result = response.json()
-        content = result["choices"][0]["message"]["content"]
+## Benefici della convivenza
 
-        return content, importance, length, "ai"
+Avere un cane porta numerosi benefici:
+- Companionship e affetto
+- Attività fisica quotidiana
+- Riduzione dello stress
 
-    except Exception as e:
-        return f"Error: {str(e)}", importance, length, "error"
+## Cura e attenzioni
+
+Prendersi cura di un cane richiede:
+- Alimentazione equilibrata
+- Visite veterinarie regolari
+- Attività fisica adeguata
+
+## Conclusione
+
+Un cane ben curato è un companions felice. Dedicate tempo e attenzione al vostro amico a quattro zampe.
+
+Articolo generato automaticamente il {datetime.now().strftime("%d/%m/%Y")}"""
+    return sample_content, importance, length, "sample"
 
 
 class Command(BaseCommand):

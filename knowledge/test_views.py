@@ -184,9 +184,12 @@ class GenerateAIResponseTest(TestCase):
             description="Desc",
         )
 
-    @patch("requests.post")
-    @patch.dict("os.environ", {"OPENAI_API_KEY": "a" * 40, "GROK_API_KEY": ""})
-    def test_generate_ai_response_uses_openai(self, mock_post):
+    @patch("knowledge.views.requests.post")
+    @patch.dict(
+        "os.environ",
+        {"OPENAI_API_KEY": "a" * 40, "GROQ_API_KEY": "", "GROK_API_KEY": ""},
+    )
+    def test_generate_ai_response_with_only_openai_key_returns_default(self, mock_post):
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
@@ -195,8 +198,8 @@ class GenerateAIResponseTest(TestCase):
         mock_post.return_value = mock_response
 
         result = generate_ai_response(self.problem, "description", self.dog, None, "it")
-        self.assertEqual(result, "Risposta AI")
-        mock_post.assert_called_once()  # Called for OpenAI
+        self.assertIn("Basandomi", result)
+        mock_post.assert_not_called()
 
     @patch("requests.post")
     @patch.dict("os.environ", {"GROK_API_KEY": "a" * 40, "OPENAI_API_KEY": ""})
