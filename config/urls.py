@@ -25,70 +25,67 @@ sitemaps = {
 }
 
 urlpatterns = [
-     path("admin/", admin.site.urls),
-     path("i18n/", include("django.conf.urls.i18n")),
-     path(
-         "manifest.json",
-         TemplateView.as_view(
-             template_name="pwa/manifest.json", content_type="application/json"
-         ),
-         name="manifest",
-     ),
-     path(
-         "service-worker.js",
-         TemplateView.as_view(
-             template_name="pwa/service-worker.js", content_type="application/javascript"
-         ),
-         name="service_worker",
-     ),
-     path(
-         "ads.txt",
-         TemplateView.as_view(
-             template_name="ads.txt", content_type="text/plain"
-         ),
-         name="ads_txt",
-     ),
-     path(
-         "robots.txt",
-         TemplateView.as_view(
-             template_name="robots.txt", content_type="text/plain"
-         ),
-         name="robots_txt",
-     ),
-     path("ping/", blog_views.ping, name="ping"),
-     path("health/", blog_views.health, name="health"),
-     path(
-         "sitemap.xml",
-         sitemap,
-         {"sitemaps": sitemaps},
-         name="django.contrib.sitemaps.views.sitemap",
-     ),
-  ]
+    path("admin/", admin.site.urls),
+    path("i18n/", include("django.conf.urls.i18n")),
+    path(
+        "manifest.json",
+        TemplateView.as_view(
+            template_name="pwa/manifest.json", content_type="application/json"
+        ),
+        name="manifest",
+    ),
+    path(
+        "service-worker.js",
+        TemplateView.as_view(
+            template_name="pwa/service-worker.js", content_type="application/javascript"
+        ),
+        name="service_worker",
+    ),
+    path(
+        "ads.txt",
+        TemplateView.as_view(template_name="ads.txt", content_type="text/plain"),
+        name="ads_txt",
+    ),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        name="robots_txt",
+    ),
+    path("ping/", blog_views.ping, name="ping"),
+    path("health/", blog_views.health, name="health"),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+]
 
 urlpatterns += i18n_patterns(
-     path("", blog_views.home_page, name="home"),
-     path("chi-sono/", blog_views.about_page, name="about"),
-     path("blog/", include("blog.urls", namespace="blog")),
-     path("tool/", include("canine_tools.urls", namespace="canine_tools")),
-     path("privacy/", tools_views.privacy_policy, name="privacy_policy"),
-     path("terms/", tools_views.terms_of_service, name="terms_of_service"),
-     path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
-      path("cane/", include("dog_profile.urls", namespace="dog_profile")),
-       path("knowledge/", include("knowledge.urls", namespace="knowledge")),
+    path("", blog_views.home_page, name="home"),
+    path("chi-sono/", blog_views.about_page, name="about"),
+    path("blog/", include("blog.urls", namespace="blog")),
+    path("tool/", include("canine_tools.urls", namespace="canine_tools")),
+    path("privacy/", tools_views.privacy_policy, name="privacy_policy"),
+    path("terms/", tools_views.terms_of_service, name="terms_of_service"),
+    path("cookie/", tools_views.cookie_policy, name="cookie_policy"),
+    path("cane/", include("dog_profile.urls", namespace="dog_profile")),
+    path("knowledge/", include("knowledge.urls", namespace="knowledge")),
     path("community/", include("community.urls", namespace="community")),
     path("accounts/", include("allauth.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("signup/", tools_views.signup, name="signup"),
-     path(
-         "newsletter/subscribe/",
-         marketing_views.subscribe_newsletter,
-         name="subscribe_newsletter",
-     ),
-     path(
-         "unsubscribe/<uuid:token>/",
-         marketing_views.unsubscribe_newsletter,
-         name="unsubscribe_newsletter",
-     ),
- )
+    path(
+        "newsletter/subscribe/",
+        marketing_views.subscribe_newsletter,
+        name="subscribe_newsletter",
+    ),
+    path(
+        "unsubscribe/<uuid:token>/",
+        marketing_views.unsubscribe_newsletter,
+        name="unsubscribe_newsletter",
+    ),
+)
 
 # URL non localizzati per landing page e pagine chiave
 urlpatterns += [
@@ -100,3 +97,5 @@ urlpatterns += [
     path("change-language/", change_language, name="change_language"),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
