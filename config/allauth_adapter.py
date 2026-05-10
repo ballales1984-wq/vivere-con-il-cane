@@ -47,7 +47,6 @@ class CustomAccountAdapter(DefaultAccountAdapter, DefaultSocialAccountAdapter):
         """Ensure username is set to email for consistency"""
         if user.email and not user.username:
             user.username = user.email
-            user.save(update_fields=['username'])
 
     def is_open_for_signup(self, request):
         """Always allow signups"""
