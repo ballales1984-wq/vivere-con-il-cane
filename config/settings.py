@@ -402,6 +402,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 LOGIN_REDIRECT_URL = "dog_profile:dashboard"
 LOGOUT_REDIRECT_URL = "home"
+LOGIN_URL = "account_login"
 
 
 
